@@ -28,7 +28,8 @@
 
 - `.env`, `lib/config.py`, `lib/llm.py`, `lib/key_usage.py`, `lib/jsonutil.py`를 Forge 내부로 복사했다.
 - 기존 정본 원장, 10권 시리즈 설계, 압축 원고는 `reference/legacy`에 복사했다.
-- 10권 설계와 압축 원고는 참고자료일 뿐 새 구조 검증이나 생성 입력에 자동 포함되지 않는다.
+- 10권 설계의 권 배치는 새 정본으로 승계하지 않는다.
+- `canon_bible.json`의 C1-C21과 `compressed_manuscript.md`의 기존 세계관·사건·결말은 새 5권 구조의 필수 생성 입력이다.
 - 기존 Gemma 모델 ID의 암묵적 폴백을 제거했다.
 - `GENERATOR_MODEL`과 `CRITIC_MODEL`이 명시되지 않으면 API 호출 준비 단계에서 실패한다.
 - 첫 구조 검증기는 5권 고정, 계층 참조, 순번, 상태 연속성, 이전 장면 연결, 요소 단일 소유권, 복선 선행을 검사한다.
@@ -87,8 +88,8 @@
 
 ## 2026-06-20 구조 후보 생성기
 
-- 기존 `reference/legacy/series_bible_10v.json`은 10권 참고자료이므로 새 5권 후보의 자동 입력으로 사용하지 않는다.
-- 생성 입력은 사용자가 제공하는 기획 브리프 문자열로 제한한다.
+- 기존 `reference/legacy/series_bible_10v.json`은 확장 아이디어 참고자료이며 10권 권 배치는 새 5권 후보에 자동 승계하지 않는다.
+- 생성 입력은 `canon_bible.json`, `compressed_manuscript.md`와 선택적 사용자 지시를 결합한다.
 - 모델은 `series`, `volumes`, `events`, `scenes`를 담은 단일 JSON 객체를 반환한다.
 - 생성기는 응답을 정본 경로가 아닌 임시 후보 디렉터리에 분해하고 기존 `validate_project`로 전체 구조를 검사한다.
 - JSON 파싱 실패, 중복 문서 ID, 안전하지 않은 ID, 구조 검증 실패 시 기존 후보 출력은 변경하지 않는다.
@@ -101,4 +102,15 @@
 - `python -m compileall -q lib pipeline tests` 통과.
 - `python -m pip check` 통과.
 - `python pipeline\generate_candidate.py --help` 직접 실행 통과.
-- 현재 `.env`에는 `GENERATOR_MODEL`이 없어 실제 모델 호출은 실행하지 않았다.
+- 최초 구현 시점에는 `GENERATOR_MODEL`이 없어 실제 모델 호출을 실행하지 않았다.
+
+## 2026-06-20 기존 세계관 입력 정정
+
+- “기존 10권 설계를 승계하지 않는다”를 “기존 세계관을 사용하지 않는다”로 잘못 해석한 결정을 폐기한다.
+- 새 작품은 카엘, 리아, 발타자르, 에테르노, 영혼의 조각 5개와 C1-C21의 확정 사건을 유지한다.
+- `compressed_manuscript.md`는 기존 사건의 장면 맥락과 인물 표현을 제공하는 필수 참고 입력이다.
+- `series_bible_10v.json`의 인물 성장, 세력, 장기 복선 아이디어는 참고할 수 있지만 10권 구조와 추가 설정은 C1-C21보다 우선할 수 없다.
+- 5권별 사건 배치나 작품 브리프를 사람이 먼저 작성하지 않는다. Forge 생성 모델이 정본 자료를 읽고 구조 후보를 제안한다.
+- 생성 명령은 별도 브리프 없이 실행할 수 있고, 추가 지시는 선택 사항이다.
+- `python -m unittest discover -s tests -v` 통과. 테스트 19개.
+- `python -m compileall -q -f lib pipeline tests` 통과.

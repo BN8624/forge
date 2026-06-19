@@ -33,7 +33,7 @@ GitHub 원격 저장소는 `https://github.com/BN8624/forge`다.
 
 ```powershell
 python -m unittest discover -s tests -v
-python pipeline\generate_candidate.py brief.md
+python pipeline\generate_candidate.py
 python pipeline\validate_structure.py
 python pipeline\promote_candidate.py C:\path\to\candidate
 python pipeline\rebuild_state.py

@@ -1,4 +1,4 @@
-# 사용자 기획 브리프에서 검증 가능한 구조 문서 후보를 생성하는 도구
+# 기존 정본 자료에서 검증 가능한 5권 구조 문서 후보를 생성하는 도구
 from __future__ import annotations
 
 import argparse
@@ -25,6 +25,8 @@ DOCUMENT_IDS = {
     "events": re.compile(r"^V[1-5]-E\d{2}$"),
     "scenes": re.compile(r"^V[1-5]-E\d{2}-S\d{2}$"),
 }
+CANON_PATH = PROJECT_ROOT / "reference" / "legacy" / "canon_bible.json"
+MANUSCRIPT_PATH = PROJECT_ROOT / "reference" / "legacy" / "compressed_manuscript.md"
 
 
 class LLM(Protocol):
@@ -47,7 +49,21 @@ def load_schema_text(schema_name: str) -> str:
     return path.read_text(encoding="utf-8")
 
 
-def build_prompt(brief: str) -> str:
+def load_source_material() -> tuple[dict[str, Any], str]:
+    try:
+        canon = json.loads(CANON_PATH.read_text(encoding="utf-8"))
+        manuscript = MANUSCRIPT_PATH.read_text(encoding="utf-8")
+    except (OSError, json.JSONDecodeError) as exc:
+        raise CandidateGenerationError(f"기존 세계관 자료 로드 실패: {exc}") from exc
+    if not isinstance(canon, dict) or not isinstance(canon.get("canon"), list):
+        raise CandidateGenerationError("canon_bible.json 형식이 올바르지 않음")
+    if not manuscript.strip():
+        raise CandidateGenerationError("compressed_manuscript.md가 비어 있음")
+    return canon, manuscript
+
+
+def build_prompt(instruction: str = "") -> str:
+    canon, manuscript = load_source_material()
     schemas = {
         name: json.loads(load_schema_text(name))
         for name in (
@@ -57,10 +73,17 @@ def build_prompt(brief: str) -> str:
             "scene.schema.json",
         )
     }
-    return f"""다음 기획 브리프로 정확히 5권인 장편소설 구조 후보를 작성하라.
+    optional_instruction = instruction.strip() or "추가 지시 없음"
+    return f"""아래 기존 작품을 정확히 5권인 장편소설 구조로 재설계하라.
 
-기획 브리프:
-{brief}
+정본 설정과 확정 사건:
+{json.dumps(canon, ensure_ascii=False, indent=2)}
+
+기존 압축 원고:
+{manuscript}
+
+추가 사용자 지시:
+{optional_instruction}
 
 반환 형식은 설명이나 코드펜스 없는 JSON 객체 하나다.
 최상위 키는 series, volumes, events, scenes만 사용한다.
@@ -69,6 +92,9 @@ series는 객체이며 나머지는 객체 배열이다.
 각 이야기 요소는 정확히 한 장면의 owns가 소유해야 한다.
 복선 setup은 이를 회수하는 payoff보다 앞선 장면에 배치한다.
 모든 start_state와 end_state를 계층과 장면 순서에 맞게 연결한다.
+canon_bible.json의 C1-C21은 모두 유지하며 충돌하는 설정을 만들지 않는다.
+compressed_manuscript.md의 기존 인물, 세계관, 사건, 결말을 유지한다.
+기존 10권 설계는 입력이 아니며 5권별 사건 배치는 스스로 새로 결정한다.
 
 문서 스키마:
 {json.dumps(schemas, ensure_ascii=False, indent=2)}
@@ -149,13 +175,10 @@ def publish_candidate(staged_candidate: Path, output: Path) -> None:
 
 
 def generate_candidate(
-    brief: str,
+    instruction: str,
     output: Path,
     llm: LLM,
 ) -> Path:
-    if not brief.strip():
-        raise CandidateGenerationError("기획 브리프가 비어 있음")
-
     output = output.resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
     staging_root = Path(tempfile.mkdtemp(prefix=".candidate-", dir=output.parent))
@@ -163,7 +186,11 @@ def generate_candidate(
     preserve_staging = False
 
     try:
-        response = llm.generate("generator", build_prompt(brief), temperature=0.7)
+        response = llm.generate(
+            "generator",
+            build_prompt(instruction),
+            temperature=0.7,
+        )
         bundle = extract_json(response)
         if not bundle:
             raise CandidateGenerationError("모델 응답에서 JSON 객체를 추출하지 못함")
@@ -194,9 +221,13 @@ def create_llm_client() -> LLM:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="기획 브리프에서 검증된 구조 문서 후보를 생성한다."
+        description="기존 정본 자료에서 검증된 5권 구조 문서 후보를 생성한다."
     )
-    parser.add_argument("brief_file", type=Path)
+    parser.add_argument(
+        "--instruction-file",
+        type=Path,
+        help="정본 자료 외에 추가할 선택적 지시 파일",
+    )
     parser.add_argument(
         "--output",
         type=Path,
@@ -205,8 +236,12 @@ def main() -> int:
     args = parser.parse_args()
 
     try:
-        brief = args.brief_file.read_text(encoding="utf-8")
-        generate_candidate(brief, args.output, create_llm_client())
+        instruction = (
+            args.instruction_file.read_text(encoding="utf-8")
+            if args.instruction_file
+            else ""
+        )
+        generate_candidate(instruction, args.output, create_llm_client())
     except (OSError, CandidateGenerationError, RuntimeError) as exc:
         print(f"[FAIL] {exc}")
         return 1

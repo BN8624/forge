@@ -60,6 +60,24 @@ class GenerateCandidateTests(unittest.TestCase):
             self.assertEqual(1, len(llm.calls))
             self.assertEqual("generator", llm.calls[0][0])
             self.assertIn("다섯 권으로 완결되는 성장 서사", llm.calls[0][1])
+            self.assertIn('"id": "C1"', llm.calls[0][1])
+            self.assertIn("카엘은 왼쪽 팔이 없다.", llm.calls[0][1])
+            self.assertIn("# 에테르노의 그림자", llm.calls[0][1])
+
+    def test_empty_instruction_still_uses_existing_world(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            workspace = Path(directory)
+            fixture = workspace / "fixture"
+            output = workspace / "candidate"
+            build_project(fixture)
+            llm = FakeLLM(json.dumps(project_bundle(fixture), ensure_ascii=False))
+
+            generate_candidate("", output, llm)
+
+            prompt = llm.calls[0][1]
+            self.assertIn('"id": "C21"', prompt)
+            self.assertIn("기존 압축 원고", prompt)
+            self.assertIn("추가 지시 없음", prompt)
 
     def test_invalid_json_preserves_existing_output(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
