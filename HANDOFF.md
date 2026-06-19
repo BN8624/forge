@@ -28,9 +28,9 @@ GitHub 원격 저장소는 `https://github.com/BN8624/forge`다.
 
 ## 다음 구현 순서
 
-1. Forge가 정본 장면 계약을 바탕으로 산문 생성 후보를 만든다.
-2. critic이 산문 후보의 장면 계약, 상태 연속성, 정본 설정 준수를 독립 검증한다.
-3. 통과한 산문만 정본으로 승격하고 실패 범위는 프롬프트나 하네스를 조정해 재생성한다.
+1. Forge가 현재 5권 정본을 권별 최소 8만 자 규모의 사건·장면 구조로 확장한다.
+2. critic이 확장 구조의 C1-C21 추적성, 상태 연속성, 장편 규모를 독립 검증한다.
+3. 확장 구조 승격 뒤 장면별 산문 배치 생성을 시작한다.
 
 ## 실행 명령
 
@@ -39,8 +39,10 @@ python -m unittest discover -s tests -v
 python pipeline\generate_candidate.py
 python pipeline\validate_canon.py runs\candidate
 python pipeline\validate_structure.py
+python pipeline\validate_scale.py
 python pipeline\promote_candidate.py C:\path\to\candidate
 python pipeline\rebuild_state.py
+python pipeline\generate_prose.py
 ```
 
 실제 생성과 검증 전에 `.env`에 `GENERATOR_MODEL`과 `CRITIC_MODEL`을 명시해야 한다.
