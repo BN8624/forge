@@ -34,6 +34,9 @@ python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
 python pipeline\validate_structure.py
 python pipeline\promote_candidate.py C:\path\to\candidate
+python pipeline\rebuild_state.py
 ```
 
 승격 후보 경로에는 완전한 `story` 디렉터리가 있어야 한다. 후보는 임시 스냅샷에서 독립 검증되며 검증 실패 시 현재 정본은 변경되지 않는다.
+
+후보 승격 뒤에는 상태 원장을 재구성한다. 같은 구조에서 재구성한 `state/current.json`은 항상 같은 바이트를 생성한다.

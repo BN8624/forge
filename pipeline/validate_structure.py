@@ -90,7 +90,7 @@ def require_fields(
     return True
 
 
-def validate_project(root: Path) -> list[str]:
+def validate_project(root: Path, check_ledger: bool = True) -> list[str]:
     story = root / "story"
     errors: list[str] = []
     series = load_document(
@@ -137,6 +137,7 @@ def validate_project(root: Path) -> list[str]:
                 errors.append(f"회수 요소의 resolves가 유효한 setup이 아님: {element_id}")
 
     owners: dict[str, list[str]] = defaultdict(list)
+    applied_element_ids: list[str] = []
     scene_order: dict[str, int] = {}
     ordered_scenes: list[dict[str, Any]] = []
     previous_volume_end: Any = None
@@ -275,6 +276,7 @@ def validate_project(root: Path) -> list[str]:
                     if len(owned_ids) != len(set(owned_ids)):
                         errors.append(f"한 장면 안에서 소유권 중복: {scene_id}.owns.{owner_key}")
                     for element_id in owned_ids:
+                        applied_element_ids.append(element_id)
                         owners[element_id].append(scene_id)
                         actual_kind = elements.get(element_id, {}).get("kind")
                         if actual_kind != kind:
@@ -317,7 +319,7 @@ def validate_project(root: Path) -> list[str]:
                 errors.append(f"복선 설치 전에 참조함: {scene['id']} -> {setup_id}")
 
     ledger_path = root / "state" / "current.json"
-    if ledger_path.exists():
+    if check_ledger and ledger_path.exists():
         ledger = load_document(
             ledger_path,
             "state_ledger.schema.json",
@@ -330,6 +332,10 @@ def validate_project(root: Path) -> list[str]:
                 errors.append("상태 원장의 last_scene_id가 마지막 구조 장면과 다름")
             if ledger.get("state") != last_scene["end_state"]:
                 errors.append("상태 원장의 state가 마지막 구조 장면의 end_state와 다름")
+            if ledger.get("applied_element_ids") != applied_element_ids:
+                errors.append(
+                    "상태 원장의 applied_element_ids가 장면 순서의 소유 요소와 다름"
+                )
 
     return errors
 

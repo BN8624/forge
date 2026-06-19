@@ -70,3 +70,17 @@
 - 상태 원장은 이번 승격 대상에 포함하지 않는다. 승격된 구조에서 상태 원장을 재구성하고 재실행 결과를 비교하는 작업은 다음 체크리스트 항목에서 구현한다.
 - `python -m unittest discover -s tests -v` 통과. 테스트 8개.
 - `python -m compileall -q lib pipeline tests` 통과.
+
+## 2026-06-20 상태 원장 재구성
+
+- 상태 원장은 독립 데이터 입력이 아니라 검증된 구조 문서에서 파생되는 산출물이다.
+- `last_scene_id`와 `state`는 마지막 장면의 `id`와 `end_state`를 사용한다.
+- `applied_element_ids`는 장면 순서로 수집한다. 같은 장면 안에서는 `changes`, `setups`, `payoffs` 순서를 고정한다.
+- 기존 상태 원장은 구조 검증의 입력으로 사용하지 않고, 구조 자체가 유효한지 먼저 검사한 뒤 새 원장을 계산한다.
+- JSON 직렬화 형식을 고정하고 임시 파일을 같은 디렉터리에서 `os.replace`해 저장한다.
+- 구조 검증 실패 또는 파일 교체 실패 시 기존 `state/current.json`을 보존한다.
+- 구조 검증기는 기존 원장의 `last_scene_id`, `state`, `applied_element_ids`를 모두 파생값과 비교한다.
+- 변화, 복선, 회수가 섞인 장면 순서와 장면 내 종류 순서를 테스트했다.
+- `python -m unittest discover -s tests -v` 통과. 테스트 13개.
+- `python -m compileall -q lib pipeline tests` 통과.
+- `python pipeline\rebuild_state.py --help` 직접 실행 통과.
