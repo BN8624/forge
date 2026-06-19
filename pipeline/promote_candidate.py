@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import shutil
 import sys
@@ -12,6 +13,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
+from pipeline.validate_canon import validate_review
 from pipeline.validate_structure import validate_project
 
 
@@ -67,6 +69,25 @@ def promote_candidate(root: Path, candidate: Path) -> None:
         errors = validate_project(staging_root)
         if errors:
             raise CandidateValidationError(errors)
+
+        review_path = candidate / "canon-review.json"
+        try:
+            review = json.loads(review_path.read_text(encoding="utf-8"))
+        except FileNotFoundError:
+            raise CandidateValidationError(
+                [f"승인된 정본 검토 파일 없음: {review_path}"]
+            )
+        except json.JSONDecodeError as exc:
+            raise CandidateValidationError(
+                [
+                    f"정본 검토 JSON 오류: "
+                    f"{review_path}:{exc.lineno}:{exc.colno} {exc.msg}"
+                ]
+            )
+        review_errors = validate_review(candidate, review)
+        if review_errors:
+            raise CandidateValidationError(review_errors)
+        shutil.copy2(review_path, staged_story / "canon-review.json")
 
         had_canonical = canonical_story.exists()
         if had_canonical:

@@ -10,8 +10,9 @@
 2. `story/volumes/V1.json`
 3. `story/events/V1-E01.json`
 4. `story/scenes/V1-E01-S01.json`
-5. `state/current.json`
-6. 검증을 통과한 산문
+5. `story/canon-review.json`
+6. `state/current.json`
+7. 검증을 통과한 산문
 
 상위 문서는 하위 문서의 계약을 정의한다. 하위 문서는 상위 계약을 임의로 변경할 수 없다.
 
@@ -33,13 +34,14 @@
 python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
 python pipeline\generate_candidate.py
+python pipeline\validate_canon.py runs\candidate
 python pipeline\validate_structure.py
 python pipeline\promote_candidate.py C:\path\to\candidate
 python pipeline\rebuild_state.py
 ```
 
-후보 생성에는 `.env`의 `GOOGLE_API_KEY` 계열과 `GENERATOR_MODEL` 설정이 필요하다. Forge는 `reference/legacy/canon_bible.json`과 `compressed_manuscript.md`를 자동 입력으로 사용하며 기본 출력은 `runs/candidate`다.
+후보 생성과 독립 검증에는 `.env`의 `GOOGLE_API_KEY` 계열, `GENERATOR_MODEL`, `CRITIC_MODEL` 설정이 필요하다. Forge는 `reference/legacy/canon_bible.json`과 `compressed_manuscript.md`를 자동 입력으로 사용하며 기본 출력은 `runs/candidate`다.
 
-승격 후보 경로에는 완전한 `story` 디렉터리가 있어야 한다. 후보는 임시 스냅샷에서 독립 검증되며 검증 실패 시 현재 정본은 변경되지 않는다.
+승격 후보 경로에는 완전한 `story` 디렉터리와 최신 `canon-review.json` 승인이 있어야 한다. 구조 또는 정본 검증 실패 시 현재 정본은 변경되지 않는다.
 
 후보 승격 뒤에는 상태 원장을 재구성한다. 같은 구조에서 재구성한 `state/current.json`은 항상 같은 바이트를 생성한다.
