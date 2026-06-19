@@ -26,3 +26,11 @@
 7. 승격된 장면의 효과만 상태 원장에 반영한다.
 
 `reference/legacy`는 Atelier에서 가져온 참고자료이며 Forge의 정본이 아니다.
+
+## 실행 명령
+
+```powershell
+python -m pip install -r requirements.txt
+python -m unittest discover -s tests -v
+python pipeline\validate_structure.py
+```

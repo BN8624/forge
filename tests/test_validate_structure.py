@@ -102,6 +102,41 @@ class ValidateStructureTests(unittest.TestCase):
             errors = validate_project(root)
             self.assertTrue(any("CHG-1 (현재 2개)" in error for error in errors), errors)
 
+    def test_series_additional_property_fails_schema_validation(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            build_project(root)
+            path = root / "story" / "series.json"
+            series = json.loads(path.read_text(encoding="utf-8"))
+            series["unexpected"] = True
+            write_json(path, series)
+
+            errors = validate_project(root)
+
+            self.assertTrue(
+                any("series.schema.json" in error and "unexpected" in error for error in errors),
+                errors,
+            )
+
+    def test_scene_wrong_type_fails_schema_validation(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            build_project(root)
+            path = root / "story" / "scenes" / "V1-E01-S01.json"
+            scene = json.loads(path.read_text(encoding="utf-8"))
+            scene["target_chars"] = "2000"
+            write_json(path, scene)
+
+            errors = validate_project(root)
+
+            self.assertTrue(
+                any(
+                    "scene.schema.json" in error and "target_chars" in error
+                    for error in errors
+                ),
+                errors,
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

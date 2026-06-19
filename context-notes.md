@@ -47,3 +47,15 @@
 - GitHub 저장소는 사용자 요청에 따라 공개 저장소로 생성한다.
 - `.env`는 로컬에만 유지하고 Git 추적과 GitHub 업로드에서 제외한다.
 - 공개 저장소 `https://github.com/BN8624/forge`를 생성하고 `main` 브랜치를 연결했다.
+
+## 2026-06-19 JSON Schema 검증 연결
+
+- 현재 구조 검증기는 필수 필드 일부와 의미 규칙을 직접 검사하지만 `schemas/*.schema.json`을 실행하지 않는다.
+- 속성 타입, 문자열 최소 길이, 허용되지 않은 추가 필드 같은 계약 위반을 놓치지 않도록 Draft 2020-12 검증을 구조 검증의 첫 단계에 연결한다.
+- 축약 스키마 구현을 별도로 만들지 않고 표준 `jsonschema` 패키지를 명시적 의존성으로 사용한다.
+- 문서가 스키마 검증에 실패하면 해당 문서의 의미 검증은 건너뛰어 잘못된 타입으로 인한 검증기 예외를 막는다.
+- `series`, `volume`, `event`, `scene`, `state ledger` 문서 모두 각 Draft 2020-12 스키마를 먼저 통과해야 한다.
+- 추가 속성과 잘못된 필드 타입을 거부하는 회귀 테스트를 추가했다.
+- `python -m unittest discover -s tests -v` 통과. 테스트 4개.
+- `python -m compileall -q lib pipeline tests` 통과.
+- 전체 스키마 JSON 파싱과 `Draft202012Validator.check_schema` 검사를 통과했다.

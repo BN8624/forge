@@ -6,14 +6,18 @@ import json
 import re
 import sys
 from collections import defaultdict
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
+
+from jsonschema import Draft202012Validator
 
 
 VOLUME_ID = re.compile(r"^V([1-5])$")
 EVENT_ID = re.compile(r"^(V[1-5])-E(\d{2})$")
 SCENE_ID = re.compile(r"^(V[1-5]-E\d{2})-S(\d{2})$")
 OWNER_KEYS = {"changes": "change", "setups": "setup", "payoffs": "payoff"}
+SCHEMA_ROOT = Path(__file__).resolve().parent.parent / "schemas"
 
 
 def load_json(path: Path, errors: list[str]) -> dict[str, Any] | None:
@@ -29,6 +33,48 @@ def load_json(path: Path, errors: list[str]) -> dict[str, Any] | None:
         errors.append(f"최상위 값은 객체여야 함: {path}")
         return None
     return value
+
+
+@lru_cache(maxsize=None)
+def load_schema(schema_name: str) -> dict[str, Any]:
+    schema = json.loads((SCHEMA_ROOT / schema_name).read_text(encoding="utf-8"))
+    Draft202012Validator.check_schema(schema)
+    return schema
+
+
+def validate_schema(
+    document: dict[str, Any],
+    schema_name: str,
+    label: str,
+    errors: list[str],
+) -> bool:
+    validator = Draft202012Validator(load_schema(schema_name))
+    violations = sorted(
+        validator.iter_errors(document),
+        key=lambda violation: tuple(str(part) for part in violation.absolute_path),
+    )
+    for violation in violations:
+        location = ".".join(str(part) for part in violation.absolute_path)
+        location = f"$.{location}" if location else "$"
+        errors.append(
+            f"JSON Schema 위반: {label} ({schema_name}) {location}: "
+            f"{violation.message}"
+        )
+    return not violations
+
+
+def load_document(
+    path: Path,
+    schema_name: str,
+    label: str,
+    errors: list[str],
+) -> dict[str, Any] | None:
+    document = load_json(path, errors)
+    if document is None:
+        return None
+    if not validate_schema(document, schema_name, label, errors):
+        return None
+    return document
 
 
 def require_fields(
@@ -47,7 +93,12 @@ def require_fields(
 def validate_project(root: Path) -> list[str]:
     story = root / "story"
     errors: list[str] = []
-    series = load_json(story / "series.json", errors)
+    series = load_document(
+        story / "series.json",
+        "series.schema.json",
+        "series",
+        errors,
+    )
     if series is None:
         return errors
     if not require_fields(
@@ -92,7 +143,12 @@ def validate_project(root: Path) -> list[str]:
     previous_scene_id: str | None = None
 
     for volume_index, volume_id in enumerate(expected_volumes, start=1):
-        volume = load_json(story / "volumes" / f"{volume_id}.json", errors)
+        volume = load_document(
+            story / "volumes" / f"{volume_id}.json",
+            "volume.schema.json",
+            volume_id,
+            errors,
+        )
         if volume is None:
             continue
         if not require_fields(
@@ -129,7 +185,12 @@ def validate_project(root: Path) -> list[str]:
             if not match or match.group(1) != volume_id:
                 errors.append(f"사건 ID가 권과 맞지 않음: {event_id}")
                 continue
-            event = load_json(story / "events" / f"{event_id}.json", errors)
+            event = load_document(
+                story / "events" / f"{event_id}.json",
+                "event.schema.json",
+                event_id,
+                errors,
+            )
             if event is None:
                 continue
             if not require_fields(
@@ -160,7 +221,12 @@ def validate_project(root: Path) -> list[str]:
                 if not match or match.group(1) != event_id:
                     errors.append(f"장면 ID가 사건과 맞지 않음: {scene_id}")
                     continue
-                scene = load_json(story / "scenes" / f"{scene_id}.json", errors)
+                scene = load_document(
+                    story / "scenes" / f"{scene_id}.json",
+                    "scene.schema.json",
+                    scene_id,
+                    errors,
+                )
                 if scene is None:
                     continue
                 if not require_fields(
@@ -252,7 +318,12 @@ def validate_project(root: Path) -> list[str]:
 
     ledger_path = root / "state" / "current.json"
     if ledger_path.exists():
-        ledger = load_json(ledger_path, errors)
+        ledger = load_document(
+            ledger_path,
+            "state_ledger.schema.json",
+            "state/current.json",
+            errors,
+        )
         if ledger and ordered_scenes:
             last_scene = ordered_scenes[-1]
             if ledger.get("last_scene_id") != last_scene["id"]:
