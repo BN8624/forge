@@ -32,10 +32,13 @@
 ```powershell
 python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
+python pipeline\generate_candidate.py brief.md
 python pipeline\validate_structure.py
 python pipeline\promote_candidate.py C:\path\to\candidate
 python pipeline\rebuild_state.py
 ```
+
+후보 생성에는 `.env`의 `GOOGLE_API_KEY` 계열과 `GENERATOR_MODEL` 설정이 필요하다. 기본 출력은 `runs/candidate`다.
 
 승격 후보 경로에는 완전한 `story` 디렉터리가 있어야 한다. 후보는 임시 스냅샷에서 독립 검증되며 검증 실패 시 현재 정본은 변경되지 않는다.
 

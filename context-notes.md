@@ -84,3 +84,21 @@
 - `python -m unittest discover -s tests -v` 통과. 테스트 13개.
 - `python -m compileall -q lib pipeline tests` 통과.
 - `python pipeline\rebuild_state.py --help` 직접 실행 통과.
+
+## 2026-06-20 구조 후보 생성기
+
+- 기존 `reference/legacy/series_bible_10v.json`은 10권 참고자료이므로 새 5권 후보의 자동 입력으로 사용하지 않는다.
+- 생성 입력은 사용자가 제공하는 기획 브리프 문자열로 제한한다.
+- 모델은 `series`, `volumes`, `events`, `scenes`를 담은 단일 JSON 객체를 반환한다.
+- 생성기는 응답을 정본 경로가 아닌 임시 후보 디렉터리에 분해하고 기존 `validate_project`로 전체 구조를 검사한다.
+- JSON 파싱 실패, 중복 문서 ID, 안전하지 않은 ID, 구조 검증 실패 시 기존 후보 출력은 변경하지 않는다.
+- 검증된 임시 후보만 지정 출력 경로로 교체한다. 생성과 정본 승격은 별도 명령으로 유지한다.
+- LLM 클라이언트는 함수 인자로 주입할 수 있게 해 실제 API 호출 없이 성공과 실패를 재현한다.
+- 실제 CLI는 `brief_file`을 읽고 기본적으로 `runs/candidate`에 후보를 게시한다.
+- `google-genai`를 명시적 런타임 의존성으로 추가했다.
+- 정상 생성, JSON 파싱 실패, 구조 검증 실패, 중복 ID, 게시 실패 복구를 테스트했다.
+- `python -m unittest discover -s tests -v` 통과. 테스트 18개.
+- `python -m compileall -q lib pipeline tests` 통과.
+- `python -m pip check` 통과.
+- `python pipeline\generate_candidate.py --help` 직접 실행 통과.
+- 현재 `.env`에는 `GENERATOR_MODEL`이 없어 실제 모델 호출은 실행하지 않았다.
