@@ -12,8 +12,8 @@ from tests.test_validate_structure import build_project
 
 
 class FakeLLM:
-    def __init__(self, response: str):
-        self.response = response
+    def __init__(self, response: str | list[str]):
+        self.responses = response if isinstance(response, list) else [response]
         self.calls: list[tuple[str, str, float | None]] = []
 
     def generate(
@@ -23,7 +23,9 @@ class FakeLLM:
         temperature: float | None = None,
     ) -> str:
         self.calls.append((role, prompt, temperature))
-        return self.response
+        if not self.responses:
+            raise AssertionError("준비된 모델 응답이 없음")
+        return self.responses.pop(0)
 
 
 def project_bundle(root: Path) -> dict:
@@ -87,7 +89,11 @@ class GenerateCandidateTests(unittest.TestCase):
             sentinel.write_text("기존 후보", encoding="utf-8")
 
             with self.assertRaises(CandidateGenerationError):
-                generate_candidate("기획", output, FakeLLM("JSON이 아님"))
+                generate_candidate(
+                    "기획",
+                    output,
+                    FakeLLM(["JSON이 아님"] * 3),
+                )
 
             self.assertEqual("기존 후보", sentinel.read_text(encoding="utf-8"))
 
@@ -100,7 +106,8 @@ class GenerateCandidateTests(unittest.TestCase):
             output.mkdir()
             sentinel = output / "preserved.txt"
             sentinel.write_text("기존 후보", encoding="utf-8")
-            llm = FakeLLM(json.dumps(project_bundle(fixture), ensure_ascii=False))
+            response = json.dumps(project_bundle(fixture), ensure_ascii=False)
+            llm = FakeLLM([response] * 3)
 
             with self.assertRaises(CandidateGenerationError):
                 generate_candidate("기획", output, llm)
@@ -115,7 +122,8 @@ class GenerateCandidateTests(unittest.TestCase):
             build_project(fixture)
             bundle = project_bundle(fixture)
             bundle["volumes"].append(bundle["volumes"][0])
-            llm = FakeLLM(json.dumps(bundle, ensure_ascii=False))
+            response = json.dumps(bundle, ensure_ascii=False)
+            llm = FakeLLM([response] * 3)
 
             with self.assertRaisesRegex(CandidateGenerationError, "중복"):
                 generate_candidate("기획", output, llm)
@@ -150,6 +158,106 @@ class GenerateCandidateTests(unittest.TestCase):
                     generate_candidate("기획", output, llm)
 
             self.assertEqual("기존 후보", sentinel.read_text(encoding="utf-8"))
+
+    def test_validation_errors_are_sent_back_for_regeneration(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            workspace = Path(directory)
+            invalid = workspace / "invalid"
+            valid = workspace / "valid"
+            output = workspace / "candidate"
+            build_project(invalid, duplicate_owner=True)
+            build_project(valid)
+            llm = FakeLLM(
+                [
+                    json.dumps(project_bundle(invalid), ensure_ascii=False),
+                    json.dumps(project_bundle(valid), ensure_ascii=False),
+                ]
+            )
+
+            generate_candidate("추가 지시 없음", output, llm)
+
+            self.assertEqual([], validate_project(output))
+            self.assertEqual(2, len(llm.calls))
+            self.assertIn("구조 검증 오류", llm.calls[1][1])
+            self.assertIn("CHG-1", llm.calls[1][1])
+
+    def test_retry_exhaustion_preserves_existing_output(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            workspace = Path(directory)
+            invalid = workspace / "invalid"
+            output = workspace / "candidate"
+            build_project(invalid, duplicate_owner=True)
+            response = json.dumps(project_bundle(invalid), ensure_ascii=False)
+            output.mkdir()
+            sentinel = output / "preserved.txt"
+            sentinel.write_text("기존 후보", encoding="utf-8")
+
+            with self.assertRaisesRegex(CandidateGenerationError, "3회"):
+                generate_candidate(
+                    "",
+                    output,
+                    FakeLLM([response, response, response]),
+                )
+
+            self.assertEqual("기존 후보", sentinel.read_text(encoding="utf-8"))
+
+    def test_state_continuity_is_normalized_before_validation(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            workspace = Path(directory)
+            fixture = workspace / "fixture"
+            output = workspace / "candidate"
+            build_project(fixture)
+            bundle = project_bundle(fixture)
+            for volume in bundle["volumes"]:
+                volume["start_state"] = {"wrong": volume["id"]}
+                volume["end_state"] = {"wrong": volume["id"]}
+            for event in bundle["events"]:
+                event["start_state"] = {"wrong": event["id"]}
+                event["end_state"] = {"wrong": event["id"]}
+            for scene in bundle["scenes"][1:]:
+                scene["start_state"] = {"wrong": scene["id"]}
+            llm = FakeLLM(json.dumps(bundle, ensure_ascii=False))
+
+            generate_candidate("", output, llm)
+
+            self.assertEqual([], validate_project(output))
+            self.assertEqual(1, len(llm.calls))
+
+    def test_late_setup_owner_is_moved_before_payoff(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            workspace = Path(directory)
+            fixture = workspace / "fixture"
+            output = workspace / "candidate"
+            build_project(fixture)
+            bundle = project_bundle(fixture)
+            bundle["series"]["elements"].extend(
+                [
+                    {"id": "SET-1", "kind": "setup", "description": "복선"},
+                    {
+                        "id": "PAY-1",
+                        "kind": "payoff",
+                        "description": "회수",
+                        "resolves": "SET-1",
+                    },
+                ]
+            )
+            bundle["scenes"][1]["owns"]["payoffs"] = ["PAY-1"]
+            bundle["scenes"][1]["consumes_setups"] = ["SET-1"]
+            bundle["scenes"][4]["owns"]["setups"] = ["SET-1"]
+            llm = FakeLLM(json.dumps(bundle, ensure_ascii=False))
+
+            generate_candidate("", output, llm)
+
+            self.assertEqual([], validate_project(output))
+            first_scene = json.loads(
+                (
+                    output
+                    / "story"
+                    / "scenes"
+                    / f"{bundle['scenes'][0]['id']}.json"
+                ).read_text(encoding="utf-8")
+            )
+            self.assertEqual(["SET-1"], first_scene["owns"]["setups"])
 
 
 if __name__ == "__main__":

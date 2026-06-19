@@ -27,6 +27,7 @@ DOCUMENT_IDS = {
 }
 CANON_PATH = PROJECT_ROOT / "reference" / "legacy" / "canon_bible.json"
 MANUSCRIPT_PATH = PROJECT_ROOT / "reference" / "legacy" / "compressed_manuscript.md"
+MAX_GENERATION_ATTEMPTS = 3
 
 
 class LLM(Protocol):
@@ -101,6 +102,25 @@ compressed_manuscript.md의 기존 인물, 세계관, 사건, 결말을 유지�
 """
 
 
+def build_retry_prompt(
+    original_prompt: str,
+    previous_response: str,
+    errors: list[str],
+) -> str:
+    return f"""{original_prompt}
+
+직전 응답은 구조 검증에 실패했다.
+아래 오류를 모두 해결한 완전한 JSON 번들을 처음부터 다시 반환하라.
+부분 수정, 패치, 설명은 반환하지 않는다.
+
+구조 검증 오류:
+{json.dumps(errors, ensure_ascii=False, indent=2)}
+
+직전 응답:
+{previous_response}
+"""
+
+
 def require_bundle(value: Any) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise CandidateGenerationError("모델 응답의 최상위 값은 객체여야 함")
@@ -156,6 +176,119 @@ def materialize_bundle(bundle: dict[str, Any], root: Path) -> None:
             )
 
 
+def documents_by_id(documents: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    return {
+        document["id"]: document
+        for document in documents
+        if isinstance(document, dict) and isinstance(document.get("id"), str)
+    }
+
+
+def normalize_state_continuity(bundle: dict[str, Any]) -> None:
+    volumes = documents_by_id(bundle["volumes"])
+    events = documents_by_id(bundle["events"])
+    scenes = documents_by_id(bundle["scenes"])
+    previous_state: Any = None
+
+    for volume_index, volume_id in enumerate(bundle["series"].get("volume_ids", [])):
+        volume = volumes.get(volume_id)
+        if volume is None:
+            continue
+        first_event_state: Any = None
+        last_event_state: Any = None
+
+        for event_id in volume.get("event_ids", []):
+            event = events.get(event_id)
+            if event is None:
+                continue
+            first_scene_state: Any = None
+            last_scene_state: Any = None
+
+            for scene_id in event.get("scene_ids", []):
+                scene = scenes.get(scene_id)
+                if scene is None:
+                    continue
+                if previous_state is None:
+                    previous_state = scene.get(
+                        "start_state",
+                        volume.get("start_state", {}),
+                    )
+                scene["start_state"] = previous_state
+                first_scene_state = (
+                    scene["start_state"]
+                    if first_scene_state is None
+                    else first_scene_state
+                )
+                last_scene_state = scene.get("end_state", {})
+                previous_state = last_scene_state
+
+            if first_scene_state is not None:
+                event["start_state"] = first_scene_state
+                event["end_state"] = last_scene_state
+                first_event_state = (
+                    first_scene_state
+                    if first_event_state is None
+                    else first_event_state
+                )
+                last_event_state = last_scene_state
+
+        if first_event_state is not None:
+            volume["start_state"] = first_event_state
+            volume["end_state"] = last_event_state
+
+
+def ordered_scenes(bundle: dict[str, Any]) -> list[dict[str, Any]]:
+    volumes = documents_by_id(bundle["volumes"])
+    events = documents_by_id(bundle["events"])
+    scenes = documents_by_id(bundle["scenes"])
+    result: list[dict[str, Any]] = []
+    for volume_id in bundle["series"].get("volume_ids", []):
+        volume = volumes.get(volume_id, {})
+        for event_id in volume.get("event_ids", []):
+            event = events.get(event_id, {})
+            for scene_id in event.get("scene_ids", []):
+                scene = scenes.get(scene_id)
+                if scene is not None:
+                    result.append(scene)
+    return result
+
+
+def normalize_setup_order(bundle: dict[str, Any]) -> None:
+    scenes = ordered_scenes(bundle)
+    scene_order = {scene["id"]: index for index, scene in enumerate(scenes)}
+    setup_owners: dict[str, dict[str, Any]] = {}
+    payoff_requirements: dict[str, list[int]] = {}
+
+    for scene in scenes:
+        for setup_id in scene.get("owns", {}).get("setups", []):
+            setup_owners[setup_id] = scene
+        for setup_id in scene.get("consumes_setups", []):
+            payoff_requirements.setdefault(setup_id, []).append(
+                scene_order[scene["id"]]
+            )
+
+    for element in bundle["series"].get("elements", []):
+        if not isinstance(element, dict) or element.get("kind") != "payoff":
+            continue
+        setup_id = element.get("resolves")
+        payoff_id = element.get("id")
+        for scene in scenes:
+            if payoff_id in scene.get("owns", {}).get("payoffs", []):
+                payoff_requirements.setdefault(setup_id, []).append(
+                    scene_order[scene["id"]]
+                )
+
+    for setup_id, requirement_indexes in payoff_requirements.items():
+        owner = setup_owners.get(setup_id)
+        if owner is None or not requirement_indexes:
+            continue
+        first_requirement = min(requirement_indexes)
+        if scene_order[owner["id"]] < first_requirement or first_requirement == 0:
+            continue
+        owner["owns"]["setups"].remove(setup_id)
+        scenes[first_requirement - 1]["owns"]["setups"].append(setup_id)
+
+
 def publish_candidate(staged_candidate: Path, output: Path) -> None:
     backup = staged_candidate.parent / "candidate.previous"
     had_output = output.exists()
@@ -186,18 +319,45 @@ def generate_candidate(
     preserve_staging = False
 
     try:
-        response = llm.generate(
-            "generator",
-            build_prompt(instruction),
-            temperature=0.7,
-        )
-        bundle = extract_json(response)
-        if not bundle:
-            raise CandidateGenerationError("모델 응답에서 JSON 객체를 추출하지 못함")
-        materialize_bundle(require_bundle(bundle), staged_candidate)
-        errors = validate_project(staged_candidate, check_ledger=False)
-        if errors:
-            raise CandidateGenerationError(errors)
+        original_prompt = build_prompt(instruction)
+        prompt = original_prompt
+        last_errors: list[str] = []
+        for attempt in range(1, MAX_GENERATION_ATTEMPTS + 1):
+            response = llm.generate("generator", prompt, temperature=0.7)
+            shutil.rmtree(staged_candidate, ignore_errors=True)
+            try:
+                bundle = extract_json(response)
+                if not bundle:
+                    raise CandidateGenerationError(
+                        "모델 응답에서 JSON 객체를 추출하지 못함"
+                    )
+                bundle = require_bundle(bundle)
+                normalize_state_continuity(bundle)
+                normalize_setup_order(bundle)
+                materialize_bundle(bundle, staged_candidate)
+                last_errors = validate_project(
+                    staged_candidate,
+                    check_ledger=False,
+                )
+                if last_errors:
+                    raise CandidateGenerationError(last_errors)
+            except CandidateGenerationError as exc:
+                last_errors = exc.errors
+                if attempt == MAX_GENERATION_ATTEMPTS:
+                    raise CandidateGenerationError(
+                        [
+                            f"구조 후보 생성 {MAX_GENERATION_ATTEMPTS}회 실패",
+                            *last_errors,
+                        ]
+                    ) from exc
+                prompt = build_retry_prompt(
+                    original_prompt,
+                    response,
+                    last_errors,
+                )
+                continue
+            break
+
         try:
             publish_candidate(staged_candidate, output)
         except CandidateGenerationError as exc:
