@@ -1,0 +1,17 @@
+{
+  "id": "V4",
+  "index": 4,
+  "series_id": "SERIES",
+  "title": "불균형의 완성",
+  "objective": "네 번째 조각을 얻고 자신만의 변칙 검술을 완성한다.",
+  "start_state": {
+    "status": "환상통 극복"
+  },
+  "end_state": {
+    "status": "네 번째 조각 획득"
+  },
+  "event_ids": [
+    "V4-E01",
+    "V4-E02"
+  ]
+}

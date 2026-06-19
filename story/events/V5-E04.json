@@ -1,0 +1,16 @@
+{
+  "id": "V5-E04",
+  "volume_id": "V5",
+  "sequence": 4,
+  "objective": "발타자르를 처단하고 제국을 복원한다.",
+  "start_state": {
+    "status": "성소 문 앞 도착"
+  },
+  "end_state": {
+    "status": "새로운 여명"
+  },
+  "scene_ids": [
+    "V5-E04-S01",
+    "V5-E04-S02"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "V5",
+  "index": 5,
+  "series_id": "SERIES",
+  "title": "여명의 제국",
+  "objective": "마지막 조각을 모아 발타자르를 몰락시키고 제국을 되찾는다.",
+  "start_state": {
+    "status": "네 번째 조각 획득"
+  },
+  "end_state": {
+    "status": "새로운 여명"
+  },
+  "event_ids": [
+    "V5-E01",
+    "V5-E02",
+    "V5-E03",
+    "V5-E04"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "V2-E02-S02",
+  "event_id": "V2-E02",
+  "sequence": 2,
+  "objective": "제국 정예병의 마력 방패에 가로막힌다.",
+  "previous_scene_id": "V2-E02-S01",
+  "start_state": {
+    "status": "조각 발견"
+  },
+  "end_state": {
+    "status": "전술적 패배/간신히 생존"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [
+      "EL-02"
+    ],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 1100
+}

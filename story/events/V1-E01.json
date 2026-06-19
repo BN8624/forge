@@ -1,0 +1,17 @@
+{
+  "id": "V1-E01",
+  "volume_id": "V1",
+  "sequence": 1,
+  "objective": "감시망을 뚫고 에테르노 지하로 잠입한다.",
+  "start_state": {
+    "mood": "압도적",
+    "danger": "높음"
+  },
+  "end_state": {
+    "status": "배수로 진입"
+  },
+  "scene_ids": [
+    "V1-E01-S01",
+    "V1-E01-S02"
+  ]
+}

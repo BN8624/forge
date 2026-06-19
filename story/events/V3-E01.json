@@ -1,0 +1,15 @@
+{
+  "id": "V3-E01",
+  "volume_id": "V3",
+  "sequence": 1,
+  "objective": "북부 무기고에 진입하여 조각을 확보한다.",
+  "start_state": {
+    "status": "증오와 결의"
+  },
+  "end_state": {
+    "status": "조각 획득"
+  },
+  "scene_ids": [
+    "V3-E01-S01"
+  ]
+}

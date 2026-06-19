@@ -1,0 +1,17 @@
+{
+  "id": "V2",
+  "index": 2,
+  "series_id": "SERIES",
+  "title": "피의 기억",
+  "objective": "두 번째 조각을 찾고 발타자르의 잔혹한 과거를 목격한다.",
+  "start_state": {
+    "status": "목표 설정"
+  },
+  "end_state": {
+    "status": "증오와 결의"
+  },
+  "event_ids": [
+    "V2-E01",
+    "V2-E02"
+  ]
+}

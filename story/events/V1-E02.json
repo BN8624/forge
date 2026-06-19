@@ -1,0 +1,17 @@
+{
+  "id": "V1-E02",
+  "volume_id": "V1",
+  "sequence": 2,
+  "objective": "첫 번째 조각을 활성화하여 정체성을 깨닫는다.",
+  "start_state": {
+    "status": "배수로 진입"
+  },
+  "end_state": {
+    "status": "목표 설정"
+  },
+  "scene_ids": [
+    "V1-E02-S01",
+    "V1-E02-S02",
+    "V1-E02-S03"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "V4-E02",
+  "volume_id": "V4",
+  "sequence": 2,
+  "objective": "불균형 검술을 사용하여 정예병을 격파한다.",
+  "start_state": {
+    "status": "최종 관문 도착"
+  },
+  "end_state": {
+    "status": "네 번째 조각 획득"
+  },
+  "scene_ids": [
+    "V4-E02-S01",
+    "V4-E02-S02"
+  ]
+}

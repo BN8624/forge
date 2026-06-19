@@ -1,0 +1,17 @@
+{
+  "id": "V3",
+  "index": 3,
+  "series_id": "SERIES",
+  "title": "배신의 흉터",
+  "objective": "세 번째 조각을 통해 팔을 잃은 진실과 마주한다.",
+  "start_state": {
+    "status": "증오와 결의"
+  },
+  "end_state": {
+    "status": "환상통 극복"
+  },
+  "event_ids": [
+    "V3-E01",
+    "V3-E02"
+  ]
+}

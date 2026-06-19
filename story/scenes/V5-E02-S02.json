@@ -1,0 +1,20 @@
+{
+  "id": "V5-E02-S02",
+  "event_id": "V5-E02",
+  "sequence": 2,
+  "objective": "개기일식 전까지 에테르노로 돌아갈 것을 결심한다.",
+  "previous_scene_id": "V5-E02-S01",
+  "start_state": {
+    "status": "정보 획득"
+  },
+  "end_state": {
+    "status": "수도로 출발"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 600
+}

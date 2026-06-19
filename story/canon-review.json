@@ -1,0 +1,175 @@
+{
+  "story_sha256": "b7e19eecd7682ce8e96f92fc3930bbfaaff3cb9bb62dd23698c70bb4f859028c",
+  "overall_pass": true,
+  "verdicts": [
+    {
+      "canon_id": "C1",
+      "status": "pass",
+      "scene_ids": [
+        "V1-E01-S01"
+      ],
+      "reason": "카엘의 왼쪽 소매가 비어있음과 왼팔의 부재가 명시됨."
+    },
+    {
+      "canon_id": "C2",
+      "status": "pass",
+      "scene_ids": [
+        "V1-E02-S03"
+      ],
+      "reason": "카엘과 리아가 왕가의 방계 혈통인 남매임이 확인됨."
+    },
+    {
+      "canon_id": "C3",
+      "status": "pass",
+      "scene_ids": [
+        "V1-E02-S02"
+      ],
+      "reason": "왕가의 피가 결정체(조각)에 닿았을 때 활성화되는 과정이 묘사됨."
+    },
+    {
+      "canon_id": "C4",
+      "status": "pass",
+      "scene_ids": [
+        "V1-E02-S03"
+      ],
+      "reason": "전대 왕의 사념을 통해 자신들이 숨겨진 왕가의 방계 혈통임을 깨달음."
+    },
+    {
+      "canon_id": "C5",
+      "status": "pass",
+      "scene_ids": [
+        "V5-E01-S01"
+      ],
+      "reason": "다섯 개의 조각이 모여 기록 체계를 완성한다는 설정이 등장함."
+    },
+    {
+      "canon_id": "C6",
+      "status": "pass",
+      "scene_ids": [
+        "V5-E01-S02"
+      ],
+      "reason": "발타자르가 왕가의 혈통이 아니며 타인의 피를 추출해 권능을 유지했음이 드러남."
+    },
+    {
+      "canon_id": "C7",
+      "status": "pass",
+      "scene_ids": [
+        "V1-E01-S01"
+      ],
+      "reason": "무장 이동이 반역죄라는 점과 카엘이 검을 숨겨 활동하는 모습이 묘사됨."
+    },
+    {
+      "canon_id": "C8",
+      "status": "pass",
+      "scene_ids": [
+        "V1-E01-S01"
+      ],
+      "reason": "제국 수도의 이름이 에테르노로 명시됨."
+    },
+    {
+      "canon_id": "C9",
+      "status": "pass",
+      "scene_ids": [
+        "V1-E01-S01"
+      ],
+      "reason": "에테르노 거리에 '제국의 눈' 감시 수정구가 설치되어 있음이 묘사됨."
+    },
+    {
+      "canon_id": "C10",
+      "status": "pass",
+      "scene_ids": [
+        "V1-E01-S02"
+      ],
+      "reason": "카엘이 위조 통행증을 사용하여 검문소를 통과함."
+    },
+    {
+      "canon_id": "C11",
+      "status": "pass",
+      "scene_ids": [
+        "V1-E01-S02"
+      ],
+      "reason": "기사 시절 익힌 심박 통제 호흡법을 사용하여 탐지를 피함."
+    },
+    {
+      "canon_id": "C12",
+      "status": "pass",
+      "scene_ids": [
+        "V1-E02-S01"
+      ],
+      "reason": "첫 번째 조각이 에테르노의 지하 제단에 놓여 있었음."
+    },
+    {
+      "canon_id": "C13",
+      "status": "pass",
+      "scene_ids": [
+        "V1-E02-S03"
+      ],
+      "reason": "조각에 깃든 전대 왕의 사념이 혈통의 정신에 목소리와 기억을 전달함."
+    },
+    {
+      "canon_id": "C14",
+      "status": "pass",
+      "scene_ids": [
+        "V2-E02-S01"
+      ],
+      "reason": "두 번째 조각이 습한 고대 유적의 심층부에 있었음."
+    },
+    {
+      "canon_id": "C15",
+      "status": "pass",
+      "scene_ids": [
+        "V2-E02-S02"
+      ],
+      "reason": "두 번째 조각 회수 과정에서 제국 정예병과 교전함."
+    },
+    {
+      "canon_id": "C16",
+      "status": "pass",
+      "scene_ids": [
+        "V3-E02-S02"
+      ],
+      "reason": "기사단 연무장에서 동료의 배신으로 왼팔을 잃은 기억이 묘사됨."
+    },
+    {
+      "canon_id": "C17",
+      "status": "pass",
+      "scene_ids": [
+        "V2-E02-S02"
+      ],
+      "reason": "정예병이 기하학적 문양의 마력 방패로 정석 검술 궤적을 읽어 방어함."
+    },
+    {
+      "canon_id": "C18",
+      "status": "pass",
+      "scene_ids": [
+        "V5-E01-S01"
+      ],
+      "reason": "다섯 개의 조각이 모두 모여 기록 체계가 완성됨."
+    },
+    {
+      "canon_id": "C19",
+      "status": "pass",
+      "scene_ids": [
+        "V5-E01-S02"
+      ],
+      "reason": "발타자르가 지하 감옥의 방계 혈족들에게서 추출관으로 혈액을 수취함."
+    },
+    {
+      "canon_id": "C20",
+      "status": "pass",
+      "scene_ids": [
+        "V5-E04-S02"
+      ],
+      "reason": "가짜 권능을 잃고 초라한 일반 인간이 된 발타자르의 모습이 묘사됨."
+    },
+    {
+      "canon_id": "C21",
+      "status": "pass",
+      "scene_ids": [
+        "V5-E03-S02",
+        "V5-E04-S02"
+      ],
+      "reason": "제국의 눈 수정구들이 파괴되어 내리는 모습이 묘사됨."
+    }
+  ]
+}

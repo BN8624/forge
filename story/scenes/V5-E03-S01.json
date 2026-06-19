@@ -1,0 +1,24 @@
+{
+  "id": "V5-E03-S01",
+  "event_id": "V5-E03",
+  "sequence": 1,
+  "objective": "호흡법을 이용해 궁전 외곽 방어선을 돌파한다.",
+  "previous_scene_id": "V5-E02-S02",
+  "start_state": {
+    "status": "수도로 출발"
+  },
+  "end_state": {
+    "status": "내성 진입"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": [
+      "EL-05"
+    ]
+  },
+  "consumes_setups": [
+    "EL-01"
+  ],
+  "target_chars": 1000
+}

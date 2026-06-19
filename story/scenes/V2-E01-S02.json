@@ -1,0 +1,20 @@
+{
+  "id": "V2-E01-S02",
+  "event_id": "V2-E01",
+  "sequence": 2,
+  "objective": "피의 제사에 관한 불길한 소문을 듣는다.",
+  "previous_scene_id": "V2-E01-S01",
+  "start_state": {
+    "status": "유적 인근 도착"
+  },
+  "end_state": {
+    "status": "위기감 고조"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 600
+}

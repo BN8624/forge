@@ -1,0 +1,16 @@
+{
+  "id": "V5-E01",
+  "volume_id": "V5",
+  "sequence": 1,
+  "objective": "마지막 조각을 모아 발타자르의 실체를 드러낸다.",
+  "start_state": {
+    "status": "네 번째 조각 획득"
+  },
+  "end_state": {
+    "status": "극심한 분노"
+  },
+  "scene_ids": [
+    "V5-E01-S01",
+    "V5-E01-S02"
+  ]
+}

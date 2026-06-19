@@ -1,0 +1,25 @@
+{
+  "id": "V5-E04-S01",
+  "event_id": "V5-E04",
+  "sequence": 1,
+  "objective": "발타자르의 마력 방패를 변칙 검술로 찢어발긴다.",
+  "previous_scene_id": "V5-E03-S02",
+  "start_state": {
+    "status": "성소 문 앞 도착"
+  },
+  "end_state": {
+    "status": "추출관 파괴"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": [
+      "EL-04"
+    ]
+  },
+  "consumes_setups": [
+    "EL-02",
+    "EL-03"
+  ],
+  "target_chars": 1300
+}

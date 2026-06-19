@@ -1,0 +1,20 @@
+{
+  "id": "V5-E01-S02",
+  "event_id": "V5-E01",
+  "sequence": 2,
+  "objective": "발타자르의 혈액 추출 만행을 목격한다.",
+  "previous_scene_id": "V5-E01-S01",
+  "start_state": {
+    "status": "기억의 통합"
+  },
+  "end_state": {
+    "status": "극심한 분노"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 900
+}

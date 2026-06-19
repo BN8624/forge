@@ -1,0 +1,22 @@
+{
+  "id": "V5-E04-S02",
+  "event_id": "V5-E04",
+  "sequence": 2,
+  "objective": "융합된 조각의 빛으로 발타자르를 무력화하고 제국을 복원한다.",
+  "previous_scene_id": "V5-E04-S01",
+  "start_state": {
+    "status": "추출관 파괴"
+  },
+  "end_state": {
+    "status": "새로운 여명"
+  },
+  "owns": {
+    "changes": [
+      "EL-06"
+    ],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 1100
+}

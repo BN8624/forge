@@ -1,0 +1,16 @@
+{
+  "id": "V5-E02",
+  "volume_id": "V5",
+  "sequence": 2,
+  "objective": "피의 제사 시간을 확인하고 에테르노로 회군한다.",
+  "start_state": {
+    "status": "극심한 분노"
+  },
+  "end_state": {
+    "status": "수도로 출발"
+  },
+  "scene_ids": [
+    "V5-E02-S01",
+    "V5-E02-S02"
+  ]
+}

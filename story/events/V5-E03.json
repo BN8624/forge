@@ -1,0 +1,16 @@
+{
+  "id": "V5-E03",
+  "volume_id": "V5",
+  "sequence": 3,
+  "objective": "에테르노에 잠입하여 궁전으로 진격한다.",
+  "start_state": {
+    "status": "수도로 출발"
+  },
+  "end_state": {
+    "status": "성소 문 앞 도착"
+  },
+  "scene_ids": [
+    "V5-E03-S01",
+    "V5-E03-S02"
+  ]
+}

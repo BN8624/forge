@@ -1,0 +1,16 @@
+{
+  "id": "V2-E01",
+  "volume_id": "V2",
+  "sequence": 1,
+  "objective": "고대 유적으로 향하며 제국의 위협을 인지한다.",
+  "start_state": {
+    "status": "목표 설정"
+  },
+  "end_state": {
+    "status": "위기감 고조"
+  },
+  "scene_ids": [
+    "V2-E01-S01",
+    "V2-E01-S02"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "V1-E02-S02",
+  "event_id": "V1-E02",
+  "sequence": 2,
+  "objective": "왕가의 피로 조각을 활성화한다.",
+  "previous_scene_id": "V1-E02-S01",
+  "start_state": {
+    "status": "조각 접촉"
+  },
+  "end_state": {
+    "status": "광휘 발생"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 600
+}

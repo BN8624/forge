@@ -1,0 +1,16 @@
+{
+  "id": "V3-E02",
+  "volume_id": "V3",
+  "sequence": 2,
+  "objective": "배신의 기억을 통해 상실을 수용한다.",
+  "start_state": {
+    "status": "조각 획득"
+  },
+  "end_state": {
+    "status": "환상통 극복"
+  },
+  "scene_ids": [
+    "V3-E02-S01",
+    "V3-E02-S02"
+  ]
+}

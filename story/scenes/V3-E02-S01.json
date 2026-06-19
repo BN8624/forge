@@ -1,0 +1,20 @@
+{
+  "id": "V3-E02-S01",
+  "event_id": "V3-E02",
+  "sequence": 1,
+  "objective": "세 번째 조각을 통해 과거의 연무장으로 돌아간다.",
+  "previous_scene_id": "V3-E01-S01",
+  "start_state": {
+    "status": "조각 획득"
+  },
+  "end_state": {
+    "status": "과거 재현"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 700
+}

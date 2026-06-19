@@ -1,0 +1,20 @@
+{
+  "id": "V3-E02-S02",
+  "event_id": "V3-E02",
+  "sequence": 2,
+  "objective": "동료의 배신과 팔을 잃은 고통을 마주한다.",
+  "previous_scene_id": "V3-E02-S01",
+  "start_state": {
+    "status": "과거 재현"
+  },
+  "end_state": {
+    "status": "환상통 극복"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 1000
+}

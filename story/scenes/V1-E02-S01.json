@@ -1,0 +1,20 @@
+{
+  "id": "V1-E02-S01",
+  "event_id": "V1-E02",
+  "sequence": 1,
+  "objective": "지하 제단에서 첫 번째 조각을 발견한다.",
+  "previous_scene_id": "V1-E01-S02",
+  "start_state": {
+    "status": "배수로 진입"
+  },
+  "end_state": {
+    "status": "조각 접촉"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 700
+}

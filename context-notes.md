@@ -146,3 +146,25 @@
 - `python -m unittest discover -s tests -v` 통과. 테스트 23개.
 - `python -m compileall -q -f lib pipeline tests` 통과.
 - `python -m pip check` 통과.
+
+## 2026-06-20 정본 의미 독립 검증
+
+- 의미 판정은 사람이 직접 수행하지 않고 Forge의 `critic` 역할이 수행한다.
+- critic은 C1-C21 각각에 `pass`, `fail`, `uncertain`, 근거 장면 ID 목록, 판정 이유를 반환한다.
+- 하네스는 21개 ID의 정확한 집합, 장면 ID 실재 여부, 전체 `pass`, 후보 `story` SHA-256 일치를 결정적으로 검사한다.
+- 검토 결과는 후보 루트의 `canon-review.json`에 저장한다.
+- 정본 승격기는 승인된 최신 검토 파일이 없는 후보를 거부한다.
+- 생성 모델과 critic 모델은 역할을 분리하지만 현재 로컬 설정에서는 모두 사용자가 지정한 Gemma 4 31B를 사용한다.
+
+## 2026-06-20 정본 의미 검증 및 승격 결과
+
+- Forge critic이 C1-C21을 각각 한 번씩 판정했고 21개 모두 `pass`였다.
+- 각 판정은 근거 장면 ID와 이유를 포함하며 후보 구조 해시와 일치한다.
+- 승인 파일은 정본 구조와 함께 `story/canon-review.json`에 원자적으로 승격된다.
+- 승인 뒤 후보를 정본 `story`로 승격하고 `state/current.json`을 재구성했다.
+- 최종 장면은 `V5-E04-S02`, 최종 상태는 `새로운 여명`이다.
+- `python -m unittest discover -s tests -v` 통과. 테스트 31개.
+- `python -m compileall -q -f lib pipeline tests` 통과.
+- `python -m pip check` 통과.
+- `python pipeline\validate_canon.py runs\candidate` 통과.
+- `python pipeline\validate_structure.py` 통과.
