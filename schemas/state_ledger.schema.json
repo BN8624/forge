@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "state_ledger.schema.json",
+  "title": "Forge canonical state ledger",
+  "type": "object",
+  "required": ["last_scene_id", "state", "applied_element_ids"],
+  "properties": {
+    "last_scene_id": {"type": ["string", "null"]},
+    "state": {"type": "object"},
+    "applied_element_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string"}
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "series.schema.json",
+  "title": "Forge series contract",
+  "type": "object",
+  "required": ["id", "title", "premise", "theme", "ending", "volume_ids", "elements"],
+  "properties": {
+    "id": {"const": "SERIES"},
+    "title": {"type": "string", "minLength": 1},
+    "premise": {"type": "string", "minLength": 1},
+    "theme": {"type": "string", "minLength": 1},
+    "ending": {"type": "string", "minLength": 1},
+    "volume_ids": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "V1"},
+        {"const": "V2"},
+        {"const": "V3"},
+        {"const": "V4"},
+        {"const": "V5"}
+      ],
+      "items": false,
+      "minItems": 5,
+      "maxItems": 5
+    },
+    "elements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "description"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "kind": {"enum": ["change", "setup", "payoff"]},
+          "description": {"type": "string", "minLength": 1},
+          "resolves": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
