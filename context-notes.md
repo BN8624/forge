@@ -59,3 +59,14 @@
 - `python -m unittest discover -s tests -v` 통과. 테스트 4개.
 - `python -m compileall -q lib pipeline tests` 통과.
 - 전체 스키마 JSON 파싱과 `Draft202012Validator.check_schema` 검사를 통과했다.
+
+## 2026-06-20 후보 정본 승격
+
+- 이번 범위는 모델 호출로 후보를 만드는 단계가 아니라 이미 준비된 후보 `story` 디렉터리를 검증하고 승격하는 결정적 파이프라인이다.
+- 후보는 현재 정본에 덮어쓴 뒤 검사하지 않는다. 프로젝트 내부 임시 디렉터리에 복사한 독립 스냅샷을 `validate_project`로 먼저 검사한다.
+- 후보 검증 실패 시 정본은 전혀 변경하지 않는다.
+- 정본 교체 중 실패하면 기존 `story` 디렉터리를 백업 위치에서 복구한다.
+- 프로세스가 디렉터리 교체 사이에서 중단된 경우 다음 승격 실행이 `.promotion-*` 백업을 탐지해 기존 정본을 복구한다.
+- 상태 원장은 이번 승격 대상에 포함하지 않는다. 승격된 구조에서 상태 원장을 재구성하고 재실행 결과를 비교하는 작업은 다음 체크리스트 항목에서 구현한다.
+- `python -m unittest discover -s tests -v` 통과. 테스트 8개.
+- `python -m compileall -q lib pipeline tests` 통과.

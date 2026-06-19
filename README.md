@@ -33,4 +33,7 @@
 python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
 python pipeline\validate_structure.py
+python pipeline\promote_candidate.py C:\path\to\candidate
 ```
+
+승격 후보 경로에는 완전한 `story` 디렉터리가 있어야 한다. 후보는 임시 스냅샷에서 독립 검증되며 검증 실패 시 현재 정본은 변경되지 않는다.
