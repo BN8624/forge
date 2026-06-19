@@ -2,6 +2,8 @@
 
 5권 장편소설을 구조 문서에서 산문까지 자동 생산하기 위한 독립 워크플로우다.
 
+공개 저장소는 <https://github.com/BN8624/forge>다.
+
 ## 정본 계층
 
 1. `story/series.json`

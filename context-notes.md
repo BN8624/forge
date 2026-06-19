@@ -46,3 +46,4 @@
 - 새 경로는 `C:\Users\USER\forge`다.
 - GitHub 저장소는 사용자 요청에 따라 공개 저장소로 생성한다.
 - `.env`는 로컬에만 유지하고 Git 추적과 GitHub 업로드에서 제외한다.
+- 공개 저장소 `https://github.com/BN8624/forge`를 생성하고 `main` 브랜치를 연결했다.
