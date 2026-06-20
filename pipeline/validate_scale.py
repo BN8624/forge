@@ -8,6 +8,7 @@ from pathlib import Path
 
 
 MIN_VOLUME_TARGET_CHARS = 80_000
+MIN_VOLUME_SCENES = 20
 
 
 def read_json(path: Path) -> dict:
@@ -17,6 +18,7 @@ def read_json(path: Path) -> dict:
 def validate_story_scale(
     root: Path,
     minimum_volume_chars: int = MIN_VOLUME_TARGET_CHARS,
+    minimum_volume_scenes: int = MIN_VOLUME_SCENES,
 ) -> list[str]:
     story = root / "story"
     series = read_json(story / "series.json")
@@ -35,6 +37,11 @@ def validate_story_scale(
             errors.append(
                 f"권 장편 분량 부족: {volume_id} "
                 f"{total_chars}자/{minimum_volume_chars}자, {scene_count}장면"
+            )
+        if scene_count < minimum_volume_scenes:
+            errors.append(
+                f"권 장면 수 부족: {volume_id} "
+                f"{scene_count}장면/{minimum_volume_scenes}장면"
             )
     return errors
 

@@ -237,6 +237,13 @@ def normalize_state_continuity(bundle: dict[str, Any]) -> None:
             volume["end_state"] = last_event_state
 
 
+def normalize_previous_scene_ids(bundle: dict[str, Any]) -> None:
+    previous_scene_id: str | None = None
+    for scene in ordered_scenes(bundle):
+        scene["previous_scene_id"] = previous_scene_id
+        previous_scene_id = scene["id"]
+
+
 def ordered_scenes(bundle: dict[str, Any]) -> list[dict[str, Any]]:
     volumes = documents_by_id(bundle["volumes"])
     events = documents_by_id(bundle["events"])
@@ -333,6 +340,7 @@ def generate_candidate(
                     )
                 bundle = require_bundle(bundle)
                 normalize_state_continuity(bundle)
+                normalize_previous_scene_ids(bundle)
                 normalize_setup_order(bundle)
                 materialize_bundle(bundle, staged_candidate)
                 last_errors = validate_project(
