@@ -47,13 +47,14 @@ class ServeProseTests(unittest.TestCase):
         )
 
     def test_render_volume_uses_canonical_scene_order(self) -> None:
-        page = render_volume(load_volume(self.root, "V1")).decode("utf-8")
+        page = render_volume(load_volume(self.root, "V1"), "V1.epub").decode("utf-8")
 
         self.assertIn("시험 시리즈", page)
         self.assertNotIn("도시에 진입한다.", page)
         self.assertLess(page.index("첫 장면 첫 문단."), page.index("둘째 장면."))
         self.assertIn("<p>첫 장면 둘째 문단.</p>", page)
         self.assertIn('name="viewport"', page)
+        self.assertIn('href="/V1.epub"', page)
 
     def test_missing_prose_is_rejected(self) -> None:
         (self.root / "prose" / "scenes" / "V1-E01-S02" / "prose.md").unlink()
@@ -62,7 +63,7 @@ class ServeProseTests(unittest.TestCase):
             load_volume(self.root, "V1")
 
     def test_handler_factory_returns_request_handler(self) -> None:
-        handler = make_handler(b"<html></html>")
+        handler = make_handler(b"<html></html>", b"epub", "V1.epub")
 
         self.assertTrue(hasattr(handler, "do_GET"))
 

@@ -2,12 +2,15 @@
 import argparse
 import html
 import json
+import sys
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
 
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 
 def read_json(path: Path) -> dict:
@@ -35,6 +38,7 @@ def load_volume(root: Path, volume_id: str) -> dict:
         events.append({"id": event_id, "scenes": scenes})
 
     return {
+        "series_id": series["id"],
         "series_title": series["title"],
         "id": volume["id"],
         "title": volume["title"],
@@ -47,7 +51,7 @@ def prose_html(prose: str) -> str:
     return "".join(f"<p>{html.escape(part)}</p>" for part in paragraphs)
 
 
-def render_volume(volume: dict) -> bytes:
+def render_volume(volume: dict, epub_filename: str | None = None) -> bytes:
     toc = []
     content = []
     scene_number = 0
@@ -72,6 +76,12 @@ def render_volume(volume: dict) -> bytes:
             )
 
     title = f'{volume["series_title"]} · {volume["id"]} {volume["title"]}'
+    download = (
+        f'<p><a class="download" href="/{html.escape(epub_filename)}" download>'
+        "EPUB 내려받기</a></p>"
+        if epub_filename
+        else ""
+    )
     page = f"""<!doctype html>
 <html lang="ko">
 <head>
@@ -113,6 +123,13 @@ details {{
 summary {{ cursor: pointer; font-weight: 700; }}
 ol {{ padding-left: 24px; }}
 a {{ color: inherit; text-underline-offset: 4px; }}
+.download {{
+  display: inline-block;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  text-decoration: none;
+}}
 .event {{ margin: 84px 0 40px; padding-top: 20px; border-top: 1px solid var(--line); }}
 .event h2 {{ margin-bottom: 4px; font-size: 1.75rem; }}
 .scene {{ margin: 0 0 72px; scroll-margin-top: 24px; }}
@@ -129,6 +146,7 @@ a {{ color: inherit; text-underline-offset: 4px; }}
     <p class="subtitle">{html.escape(volume["id"])}</p>
     <h1>{html.escape(volume["title"])}</h1>
     <p class="subtitle">{html.escape(volume["series_title"])}</p>
+    {download}
   </header>
   <details>
     <summary>목차</summary>
@@ -142,7 +160,7 @@ a {{ color: inherit; text-underline-offset: 4px; }}
     return page.encode("utf-8")
 
 
-def make_handler(page: bytes):
+def make_handler(page: bytes, epub: bytes | None = None, epub_filename: str = "book.epub"):
     class ProseHandler(BaseHTTPRequestHandler):
         def do_GET(self) -> None:
             path = urlparse(self.path).path
@@ -150,6 +168,8 @@ def make_handler(page: bytes):
                 body, content_type, status = b"ok", "text/plain; charset=utf-8", 200
             elif path == "/":
                 body, content_type, status = page, "text/html; charset=utf-8", 200
+            elif epub is not None and path == f"/{epub_filename}":
+                body, content_type, status = epub, "application/epub+zip", 200
             else:
                 body, content_type, status = b"not found", "text/plain; charset=utf-8", 404
 
@@ -157,6 +177,10 @@ def make_handler(page: bytes):
             self.send_header("Content-Type", content_type)
             self.send_header("Content-Length", str(len(body)))
             self.send_header("Cache-Control", "no-store")
+            if content_type == "application/epub+zip":
+                self.send_header(
+                    "Content-Disposition", f'attachment; filename="{epub_filename}"'
+                )
             self.end_headers()
             self.wfile.write(body)
 
@@ -173,8 +197,15 @@ def main() -> None:
     parser.add_argument("--port", type=int, default=8765)
     args = parser.parse_args()
 
-    page = render_volume(load_volume(ROOT, args.volume))
-    server = ThreadingHTTPServer((args.host, args.port), make_handler(page))
+    from pipeline.export_epub import epub_bytes
+
+    volume = load_volume(ROOT, args.volume)
+    epub_filename = f"{args.volume}.epub"
+    epub = epub_bytes(volume)
+    page = render_volume(volume, epub_filename)
+    server = ThreadingHTTPServer(
+        (args.host, args.port), make_handler(page, epub, epub_filename)
+    )
     print(f"http://{args.host}:{args.port} 에서 {args.volume} 산문을 제공합니다.")
     server.serve_forever()
 

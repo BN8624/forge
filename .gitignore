@@ -1,4 +1,5 @@
 .env
 __pycache__/
 runs/
+exports/
 .pytest_cache/
