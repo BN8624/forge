@@ -1,0 +1,17 @@
+{
+  "scene_id": "V1-E01-S03",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 제국병들의 잔혹한 통제와 시민들의 공포 묘사가 매우 구체적이고 효과적으로 수행되었습니다. 시작 상태(비장, 매우 높음)에서 종료 상태(공포, 극도로 높음)로의 심리적·상황적 전이가 매끄럽게 이루어졌으며, 가용 캐논(C1, C7, C8, C9)을 정확하게 활용하였습니다. 특히 미래 금지 사항인 위조 통행증(C10)이나 호흡법(C11), 마력 방패(C17) 등의 요소를 미리 드러내지 않아 reveal_order를 엄격히 준수하였으며, 직전 산문과의 연결성 또한 완벽합니다.",
+  "prose_sha256": "15375cede8f847f21510beb23d91409f12608954019fe16c5d4eb0c060acce8a",
+  "scene_contract_sha256": "e73d7ab33a9ac35a1763fc57b710b0f622edebab77f633d4c0e7ab9958a5bbe0"
+}

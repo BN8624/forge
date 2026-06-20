@@ -1,0 +1,17 @@
+{
+  "scene_id": "V1-E03-S04",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 고대 마법 함정 돌파 과정이 긴박하게 묘사되었으며, 시작 상태(비애/중간 위험)에서 종료 상태(긴박/매우 높음 위험)로의 전이가 명확합니다. available canon인 C1(왼팔 부재)과 C11(호흡법)을 적절히 활용하였으며, future_forbidden에 해당하는 요소의 기능적 활용이나 정보 유출 없이 계약을 엄격히 준수하였습니다.",
+  "prose_sha256": "de0eaadb7e8e95fccdbd6436ae0690800b8bf4b839010e580a47c92813ad0807",
+  "scene_contract_sha256": "381a7800cfbbe03a00f676bde4832a77628a7c884bf4036071214c5db316ce98"
+}

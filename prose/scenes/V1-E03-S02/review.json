@@ -1,0 +1,17 @@
+{
+  "scene_id": "V1-E03-S02",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '지도를 통한 갈림길의 선택과 혼란'이 충실하게 구현되었습니다. 시작 상태의 '경외'에서 종료 상태의 '초조'와 '높은 위험도'로의 심리적/상황적 전이가 명확하게 묘사되었습니다. 가용 설정인 카엘의 신체적 결손(C1)과 심박 통제 호흡법(C11, EL-01)을 적절히 활용하였으며, 미래 금지 설정(영혼의 조각 획득 및 정체성 자각 등)을 선취하지 않았습니다. 직전 산문의 엔딩(붉은 안광의 등장)에서 자연스럽게 이어지는 연속성 또한 완벽합니다.",
+  "prose_sha256": "ba5da7b7dc0f7d3d7d05e3c8f9d6f6ba0fc72ccae39f13f0b5ed462881d68651",
+  "scene_contract_sha256": "fcdd45d97a1933af923cbefe78a2c2da51aefe5bcb7f9f64a64f817e2d82c608"
+}

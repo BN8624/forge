@@ -1,0 +1,17 @@
+{
+  "scene_id": "V1-E02-S05",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 배수로 입구 통과 과정의 신체적 고충과 긴장감이 상세하게 묘사되었습니다. 시작 상태(결의)에서 종료 상태(긴장)로의 심리적 전이가 자연스럽게 이루어졌으며, 직전 산문의 끝부분과 매끄럽게 연결됩니다. C1(왼팔의 부재)과 C11(심박 통제 호흡법) 등 가용 캐논을 적절히 활용하였으며, 미래 금지 요소(EL-04의 변칙 검술이나 EL-05의 궁전 잠입 등)의 기능적 활용이나 인과 관계를 선취하지 않고 단순한 물리적 제약과 상태 관리로만 묘사하여 계약을 엄격히 준수하였습니다.",
+  "prose_sha256": "55d97fb48ebe23a2199f05e83302b1a77df6c87c9df5fc2ad84383fbc8a788ec",
+  "scene_contract_sha256": "04ed57fe24c31ca522253ab350cd233dda09b9f4087772e00fd530dd3411ec41"
+}

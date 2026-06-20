@@ -1,0 +1,17 @@
+{
+  "scene_id": "V1-E02-S01",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 에테르노 상층부와 슬럼가의 극명한 대비가 상세하게 묘사되었으며, 시작 상태에서 종료 상태(침울한 분위기와 중간 정도의 위험)로의 전이가 적절히 이루어졌습니다. 가용 설정인 심박 통제 호흡법(EL-01)만을 사용하였고, 미래 금지 설정(영혼의 조각, 왕가 혈통의 구체적 진실 등)을 누설하지 않았습니다. 직전 승인 산문과의 연속성 또한 완벽하게 유지되었습니다.",
+  "prose_sha256": "af308a85e1539761cd5d3fb093957cd46914488cee5ad5ab21486be670be49e3",
+  "scene_contract_sha256": "3f33f27c8f391b4bc598b88e41888be232f535156662af70b07567eca3156af7"
+}

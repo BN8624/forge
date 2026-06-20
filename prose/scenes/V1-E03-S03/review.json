@@ -1,0 +1,17 @@
+{
+  "scene_id": "V1-E03-S03",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 왕실 벽화를 통한 카엘의 상실감과 분노 묘사가 충실하게 수행되었습니다. 직전 산문의 추격전 상황에서 자연스럽게 이어지며, 시작 상태(초조/높음)에서 종료 상태(비애/중간)로의 심리적·상황적 전이가 명확합니다. '제국의 눈(C9)'과 '심박 통제 호흡법(C11/EL-01)' 등 사용 가능한 설정만을 적절히 활용하였으며, 미래 금지 설정(C12~C21 등)을 선취하거나 새로운 요소를 임의로 설치하지 않았습니다.",
+  "prose_sha256": "dff5ac5ede060d6a827aff395ec2e188942dfbd9693a343101524f15c89d7bc7",
+  "scene_contract_sha256": "97181bcd3a183daab3c18de5261fb6d7afc2ec77617df6f1e0e36bc28f807cbd"
+}

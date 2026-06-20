@@ -1,0 +1,17 @@
+{
+  "scene_id": "V1-E02-S04",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 리아의 상처 치료와 남매간의 정서적 교감 및 결의 다지기가 충실하게 묘사되었습니다. 직전 산문의 도약 시도에서 폐가 추락으로 이어지는 연결이 자연스러우며, '긴박/매우 높음'에서 '결의/중간'으로의 상태 전이가 적절히 이루어졌습니다. 가용 캐논(C1, C9, C11 등)을 적절히 활용하였으며, 미래 금지 요소(영혼의 조각, 왕가 혈통의 구체적 진실 등)를 선취하지 않았습니다.",
+  "prose_sha256": "120dfe5b1212850026621ab76bf740bacacb3e02b70090e74109bd752df50e1f",
+  "scene_contract_sha256": "0150460b8bdf080f331bcf50f7b9d291393eae07926c500b38a23fa082b26c77"
+}

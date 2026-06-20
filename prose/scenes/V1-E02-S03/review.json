@@ -1,0 +1,17 @@
+{
+  "scene_id": "V1-E02-S03",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '좁은 골목길에서의 추격전'을 충실히 묘사하였으며, 시작 상태(의심/높음)에서 종료 상태(긴박/매우 높음)로의 전이가 자연스럽게 이루어졌다. available canon인 C1(왼팔 부재), C9(제국의 눈), C11(심박 통제 호흡법)을 적절히 활용하였으며, 특히 EL-01(호흡법)의 사용은 허용된 범위 내에 있다. EL-03(신체적 불균형)에 대한 언급이 있으나, 이는 C1의 물리적 사실을 묘사한 수준이며, 이를 이용해 변칙 검술을 펼치는 EL-04의 기능적 활용이나 복선 부여로 이어지지 않았으므로 reveal_order 및 owned_elements 위반으로 보지 않는다.",
+  "prose_sha256": "b4ccd5caf920029fe044a4dc8d4157b348d5c9060a9cec3e90d6e058ff770fef",
+  "scene_contract_sha256": "c59209de0fac956d359139cf11fdec2970668a323b5fe54fb7e2828e905347fb"
+}

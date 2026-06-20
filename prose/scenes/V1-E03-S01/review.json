@@ -1,0 +1,17 @@
+{
+  "scene_id": "V1-E03-S01",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 배수로와 고대 왕궁 잔해의 기괴한 분위기 묘사가 탁월하게 수행되었으며, 시작 상태(배수로 진입)에서 종료 상태(경외감 및 중간 수준의 위험 감지)로의 전이가 자연스럽게 이루어졌습니다. available canon에 명시된 심박 통제 호흡법(C11)과 왼팔의 부재(C1)를 적절히 활용하였으며, future_forbidden에 해당하는 영혼의 조각이나 구체적인 적의 기술 등을 미리 드러내지 않아 계약을 엄격히 준수하였습니다. 직전 산문의 끝부분(나선형 계단 진입)과도 완벽한 연속성을 보입니다.",
+  "prose_sha256": "57573221be68cbfe27965f439d14a0153191dbcb30c4441ef07d67dc5e385900",
+  "scene_contract_sha256": "1334dd5d5544db5e828d033665c9ec9c2e2630956e1d720b4d2f63417cf6241d"
+}

@@ -1,0 +1,17 @@
+{
+  "scene_id": "V1-E02-S07",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 배수로 지형 탐색과 옛 왕궁 구조와의 연결성 조사가 충실하게 묘사되었습니다. 시작 상태의 '안도'에서 종료 상태의 '호기심'과 '중간 정도의 위험(긴장감)'으로의 상태 전이가 자연스럽게 이루어졌습니다. future_forbidden에 해당하는 영혼의 조각이나 구체적인 혈통의 비밀을 누설하지 않았으며, 가용 캐논(C1, C9 등)을 적절히 활용하여 이전 산문과의 연속성을 유지했습니다.",
+  "prose_sha256": "4774e1c3f7154493a41ee59f3d2c109353aca83b50748685b0bfad879d9720b9",
+  "scene_contract_sha256": "d44001fcc2944b95345271b99e0224fe1d980cfa048c54ddc22ec52ba097e9d8"
+}

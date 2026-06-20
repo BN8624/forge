@@ -1,0 +1,17 @@
+{
+  "scene_id": "V1-E01-S04",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 위조 통행증 제시 과정에서의 심리전과 긴장감이 세밀하게 묘사되었으며, 시작 상태(공포)에서 종료 상태(초조)로의 감정 전이가 자연스럽게 이루어졌습니다. 가용 캐논(C1, C8, C9, C10)을 정확하게 활용하였고, 미래 금지 사항(C11~C21, EL-01~EL-06)을 선취하지 않았습니다. 직전 산문의 상황에서 매끄럽게 이어지며 문체 또한 정교합니다.",
+  "prose_sha256": "c7ccc8aa0f86a4bf1f75bf8b8a9481198acf3a123b7ffef06b5214ec4fe55a71",
+  "scene_contract_sha256": "2a88acc879e9a70b562fdc63ad010cb6963ede5c838a5358c95d321789bf7049"
+}

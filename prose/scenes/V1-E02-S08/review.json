@@ -1,0 +1,17 @@
+{
+  "scene_id": "V1-E02-S08",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 지하 통로 발견 및 진입이 충실히 묘사되었으며, 시작 상태에서 종료 상태로의 전이가 자연스럽게 이루어졌다. available 요소인 '심박 통제 호흡법(EL-01)'을 적절히 활용하였고, future_forbidden에 해당하는 영혼의 조각이나 구체적인 혈통의 비밀, 과거의 사건(C16 등)을 미리 드러내지 않고 분위기 조성에 그쳤다. 직전 산문의 끝부분과 매끄럽게 연결되며 정본 설정과 충돌하는 지점이 없다.",
+  "prose_sha256": "1a79445f5c8a1889be19abe48bff5c6b85f3e89b259e7736d1ea18157c9745d1",
+  "scene_contract_sha256": "184e0b9ad6d657d713abe1cfa8865b4dcd1470477bbf4b7347cebb9810292f4e"
+}

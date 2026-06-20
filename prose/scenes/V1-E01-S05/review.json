@@ -1,0 +1,17 @@
+{
+  "scene_id": "V1-E01-S05",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '심박 통제 호흡법을 통한 수정구 탐지 회피'가 구체적이고 설득력 있게 묘사되었습니다. 시작 상태(초조, 극도로 높음)에서 종료 상태(안도, 중간)로의 심리적/상황적 전이가 명확하며, 직전 산문의 마지막 문장과 자연스럽게 이어지는 연속성을 보여줍니다. 계약된 설정(C1, C9, C10, C11)을 정확히 준수하였고, 미래 금지 설정(future_forbidden)이나 요소(EL-02~06)를 미리 드러내지 않았으며, 오직 허용된 요소(EL-01)만을 사용하여 서사를 전개했습니다.",
+  "prose_sha256": "e6d7d5ca8081891b7a9c8edc4dd72f0fffaa20dc2f9d39ee0da1d224fb272a3e",
+  "scene_contract_sha256": "f7c4207d56bc43377c99618957461153cc95539ea9b031a913427dba0dc9a21e"
+}
