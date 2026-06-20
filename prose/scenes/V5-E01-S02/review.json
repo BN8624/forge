@@ -1,0 +1,17 @@
+{
+  "scene_id": "V5-E01-S02",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 성소 내부의 함정과 시련 돌파를 충실히 묘사했으며, 시작 상태(성소 입구)에서 종료 상태(제단 앞)로의 전이가 정확하게 이루어졌다. available에 명시된 설정(심박 통제 호흡법, 신체적 불균형)을 활용했으나, 이는 단순한 물리적 사실의 활용일 뿐 future_forbidden에 정의된 구체적인 페이오프(변칙 검술, 궁전 잠입, 계승자 자각)의 기능이나 인과를 선취하지 않았다. 또한 다음 장면의 목표인 조각 확보 및 활성화를 미리 수행하지 않았으며, 정본 설정과 직전 산문과의 연속성 및 문체 역시 적절하다.",
+  "prose_sha256": "f3b0df241eed1d96907c28a81b0af06da467bda9971b2381efa312be6e84ae77",
+  "scene_contract_sha256": "748390ee0572e63fb3d02e7021e80402db0526c563d2330e5811aeeba61d63cf"
+}

@@ -1,0 +1,17 @@
+{
+  "scene_id": "V5-E01-S03",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 다섯 번째 조각의 확보와 리아의 피를 통한 활성화가 정확하게 묘사되었습니다. 시작 상태(제단 앞 도착)에서 종료 상태(조각 활성화)로의 전이가 매끄럽게 이루어졌으며, 정본 설정 C3(왕가의 피 필요)를 엄격히 준수했습니다. 다음 장면(V5-E01-S04)의 목표인 '기록의 통합' 단계로 진입하기 직전의 활성화 상태까지만 묘사하여 reveal_order를 준수하였고, future_forbidden에 해당하는 발타자르의 진실이나 계승자로서의 자각 등을 암시하지 않았습니다. 직전 산문의 엔딩과 자연스럽게 이어지며 문체 또한 적절합니다.",
+  "prose_sha256": "fe862bd9938ded8c3cb06f92a3bb2015026a3f06567e0ef42a7671a50487157b",
+  "scene_contract_sha256": "5177add179a68b4ba6c9563b9ed6b1df658f0f56f98c30db7c8da31a7f7ca42d"
+}

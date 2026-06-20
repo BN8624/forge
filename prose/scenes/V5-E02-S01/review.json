@@ -1,0 +1,17 @@
+{
+  "scene_id": "V5-E02-S01",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 제국군 추격대와의 교전 및 제압이 충실하게 묘사되었으며, 시작 상태(극심한 분노)에서 종료 상태(추격대 제압)로의 전이가 명확합니다. C17(기하학적 마력 방패)과 C1(왼팔의 부재) 등 가용 캐논을 적절히 활용하였으며, 특히 EL-04(불균형을 이용한 변칙 검술)를 직접적으로 구현하지 않고 리아의 마력 간섭이라는 외부 요인을 통해 방패의 빈틈을 공략함으로써 미래 요소 선취 금지 조항을 엄격히 준수하였습니다. 다음 장면의 목표인 지휘관 심문을 미리 수행하지 않았으며, 금지된 캐논(C20, C21)이나 요소(EL-05, EL-06)에 대한 암시 없이 계약을 완벽히 이행하였습니다.",
+  "prose_sha256": "6d0a947b8c33f3d3d84d0b3c519e95639bb9ea0b1ffd52c2f29a88a27450d605",
+  "scene_contract_sha256": "e47eeb7518cd5adef44204905009e71a17f05be77ad0046b98bec78c7079e6e7"
+}

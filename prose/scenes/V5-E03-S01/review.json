@@ -1,0 +1,17 @@
+{
+  "scene_id": "V5-E03-S01",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 빈민가 잠입과 제국민의 고통 목격 및 민심 확인이 충실하게 묘사되었습니다. 시작 상태(수도로 출발)에서 종료 상태(빈민가 잠입)로의 전이가 명확하며, 이전 산문의 끝 지점에서 자연스럽게 이어집니다. available canon에 명시된 '제국의 눈(C9)'과 '혈액 추출(C19)' 설정을 적절히 활용하였으며, future_forbidden에 해당하는 미래 사건이나 기능적 복선을 미리 드러내지 않았습니다. 또한 owns에 정의되지 않은 새로운 설정의 설치나 회수 없이 계약을 엄격히 준수하였습니다.",
+  "prose_sha256": "bae4fb0c4cde0e4635d2e7b546d6e3451404c8bf2007da153bfd6685c539f4c1",
+  "scene_contract_sha256": "2f33b5af776a575acd2cfff8e763e1762584e00545a8f28cfb3d4765e4392cf3"
+}

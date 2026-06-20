@@ -1,0 +1,17 @@
+{
+  "scene_id": "V5-E04-S04",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '신체적 불균형을 이용한 변칙 검술로 마력 방패 돌파'를 정확하게 구현하였으며, 시작 상태(전술적 한계)에서 종료 상태(방어막 돌파)로의 전이가 명확함. EL-04 페이오프를 적절히 회수하였고, 이후 장면(S05, S06)의 핵심 사건인 추출관 파괴나 권능 소멸을 미리 드러내지 않았으며, 금지된 설정(C20, EL-06)에 대한 암시 없이 계약을 엄격히 준수함.",
+  "prose_sha256": "aedea0bd816ffafbbf263aec4ca7c9da0438c347a27db76ab983d204504e8095",
+  "scene_contract_sha256": "ae2e739b1db8d3f3a8e24038ca17f8bee4b969349175579bf9d2775472e2ab4e"
+}

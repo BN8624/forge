@@ -1,0 +1,17 @@
+{
+  "scene_id": "V5-E04-S06",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "다섯 개의 조각이 융합하여 백색 광휘를 내뿜고, 이를 통해 발타자르의 가짜 권능이 소멸하여 일반 인간으로 전락하는 과정이 장면 목표와 정본 설정(C20)에 부합하게 묘사되었습니다. 직전 장면의 추출관 파괴 상태에서 시작하여 찬탈자의 몰락이라는 종료 상태로 자연스럽게 전이되었으며, 다음 장면의 핵심 요소인 '계승자로서의 자각(EL-06)'을 미리 드러내지 않고 권능의 상실이라는 물리적 결과에 집중하여 reveal_order 계약을 엄격히 준수하였습니다.",
+  "prose_sha256": "439d1df613609a9837a5cb3d3a7dc9ed74e16bba7d3a8f407e24378985326328",
+  "scene_contract_sha256": "c4ad544634a90c372ab22cdd811546bb2abcc8eab807eecfa9c878fe3e969ff0"
+}

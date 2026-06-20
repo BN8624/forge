@@ -1,0 +1,17 @@
+{
+  "scene_id": "V5-E03-S03",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '심박 통제 호흡법을 통한 궁전 마력 방어선 돌파'가 구체적으로 묘사되었으며, EL-05 페이오프가 적절히 수행되었습니다. 궁전 외곽에서 내성 진입으로 이어지는 상태 전이가 명확하며, 직전 산문의 끝 지점에서 자연스럽게 이어지는 연속성을 보여줍니다. 미래 금지 요소(C20, C21, EL-04, EL-06)나 후속 장면의 목표를 미리 달성하는 등의 설정 선취 없이 계약을 엄격히 준수하였습니다.",
+  "prose_sha256": "13497a55bfa8389ebf1f54b6d42c867e82b7bd1b6fe3bfea44d45c51bc6bf00c",
+  "scene_contract_sha256": "66a018c7dbb5365498d331033d9198ab9803e7137655ac76fc0e5cfeed22053c"
+}

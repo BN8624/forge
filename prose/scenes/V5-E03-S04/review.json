@@ -1,0 +1,17 @@
+{
+  "scene_id": "V5-E03-S04",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 내성 경비병과의 교전 및 리아 보호, 그리고 내부 통로 확보라는 상태 전이가 정확하게 이루어졌습니다. 이전 산문의 심박 통제 호흡법 반동과 내성 진입 상태를 자연스럽게 이어받았으며, C17(마력 방패의 특성)과 C1(왼팔의 부재) 등 가용 캐논을 적절히 활용했습니다. 특히 future_forbidden 요소인 EL-04(불균형을 이용한 변칙 검술)를 사용하지 않고, 지형적 특성을 이용한 저각 공격과 환경 요소(샹들리에)를 통해 상황을 해결함으로써 reveal_order 계약을 엄격히 준수했습니다.",
+  "prose_sha256": "f618c0aa878de8837024c9809a33d7b464d037b2def7a9b8af3a57979cf658c1",
+  "scene_contract_sha256": "54698d653bd6e1fd1fe388f63ee884614d414e0fe978c1b77ed5743cfac09e1d"
+}

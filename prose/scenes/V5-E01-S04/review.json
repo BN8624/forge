@@ -1,0 +1,17 @@
+{
+  "scene_id": "V5-E01-S04",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "다섯 개의 조각이 공명하여 전대 왕의 기록 체계가 남매의 정신 속에 통합되는 과정을 상세하고 밀도 있게 묘사하여 장면 목표를 완벽히 달성함. '조각 활성화'에서 '기억의 통합'으로의 상태 전이가 명확하며, 직전 산문의 빛기둥 묘사에서 자연스럽게 이어지는 연속성을 보여줌. 특히, 다음 장면(S05)에서 다뤄질 지하 감옥의 구체적인 참상이나 혈액 착취(C6, C19) 등의 금지된 세부 정보를 직접적으로 드러내지 않고, '추악한 기반'이라는 추상적 표현을 통해 진실을 인지했다는 상태만을 제시함으로써 reveal_order 계약을 엄격히 준수함.",
+  "prose_sha256": "91f0b0307b5efba4263faba08a9b4a5db14fd8264aa0e5ec16ad147487b8ecd2",
+  "scene_contract_sha256": "606fa1385d0ddb67ec7023101b11943c27d15c92160ce26d946a55ed4a88b935"
+}

@@ -1,0 +1,17 @@
+{
+  "scene_id": "V5-E03-S06",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '성소 문 앞 도달'과 '최후의 각오'가 충실히 묘사되었으며, 시작 상태(감시망 무력화)에서 종료 상태(성소 문 앞 도착)로의 전이가 명확합니다. available canon에 명시된 심박 통제 호흡법, 마력 방패, 왼팔의 부재 등의 설정을 적절히 활용하였으며, future_forbidden 요소인 EL-04(불균형을 이용한 변칙 검술)를 사용하지 않고 전술적 측면 공격으로 묘사하여 계약을 준수했습니다. 또한 EL-06(계승자로의 자각)을 정체성의 변화가 아닌 목표를 향한 '의지'와 '각오'의 차원에서 다루어 reveal_order 위반이 없으며, 다음 장면의 목표인 성소 진입 및 발타자르와의 대면을 미리 수행하지 않았습니다.",
+  "prose_sha256": "d2b882f95d56f39ce678a362799b0d3af2f8a6d18e7c653f968257a018ef4e24",
+  "scene_contract_sha256": "7496d3cb3fecf451b996101319b83588a498d19b4c946903427dfeeae9d58005"
+}

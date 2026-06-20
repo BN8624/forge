@@ -1,0 +1,17 @@
+{
+  "scene_id": "V5-E01-S06",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '복수를 넘어선 정의감의 확립'이 카엘의 내면 묘사를 통해 명확하게 달성되었습니다. 시작 상태(진실 자각)에서 종료 상태(극심한 분노)로의 전이가 자연스럽고 강렬하게 묘사되었으며, future_forbidden에 해당하는 발타자르의 권능 상실(C20)이나 감시망 파괴(C21), 혹은 정당한 계승자로의 자각(EL-06)과 같은 미래 요소를 선취하지 않고 오직 도덕적 책임감과 정의감에 집중하였습니다. 기존 정본 설정(C1, C6, C16, C19)과의 일관성 또한 완벽하게 유지되었습니다.",
+  "prose_sha256": "a25af314e7345c7db0eed60739444192da61aafefeff7316f20f76652d9d2829",
+  "scene_contract_sha256": "f30007c3c307561a5c8c9e5d281b88699c32a03872404773496decae32d2a05f"
+}

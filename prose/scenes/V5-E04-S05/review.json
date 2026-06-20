@@ -1,0 +1,17 @@
+{
+  "scene_id": "V5-E04-S05",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '혈액 추출관 파괴를 통한 마력 공급 차단'을 명확하게 달성하였으며, 시작 상태(방어막 돌파)에서 종료 상태(추출관 파괴)로의 전이가 자연스럽게 이루어졌습니다. 직전 산문의 변칙 검술 흐름을 이어받아 연속성을 유지했으며, C19(추출관)와 C6(가짜 권능) 등 가용 캐논을 적절히 활용했습니다. 특히 future_forbidden인 C20(일반 인간이 됨)의 최종 결과가 아니라, 현재 장면의 목표인 '공급 차단'에 따른 즉각적인 현상(오오라의 소멸)만을 묘사함으로써 reveal_order를 준수하였습니다.",
+  "prose_sha256": "1e41d29a4fce1885e0d0257faff58d95c747e3b1e11205a2b971a96be757feb7",
+  "scene_contract_sha256": "8af645c5f9c625ab2127c742f185e46e0bcc73793bc73fc392590590a7cbe320"
+}

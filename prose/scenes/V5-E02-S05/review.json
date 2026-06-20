@@ -1,0 +1,17 @@
+{
+  "scene_id": "V5-E02-S05",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 육체적, 정신적 소모 묘사가 매우 상세하게 이루어졌으며, 시작 상태(이동 경로 확정)에서 종료 상태(수도 외곽 도착)로의 전이가 명확합니다. 가용 캐논(C1, C8, C9, C11 등)을 적절히 활용하였고, 미래 금지 요소(future_forbidden)를 선취하거나 다음 장면의 목표를 미리 달성하는 오류가 없습니다. 직전 산문과의 연결성 또한 매끄럽습니다.",
+  "prose_sha256": "29f5463d41860fb7d1d8cc8176161eb67a81b501d5ad92380f26144322342294",
+  "scene_contract_sha256": "291155dc23e0180ba8856d82aafcf9103f086d620289a56974aa270822cb9e6e"
+}

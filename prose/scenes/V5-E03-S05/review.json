@@ -1,0 +1,17 @@
+{
+  "scene_id": "V5-E03-S05",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '제국의 눈' 중추 파괴와 그로 인한 감시망 무력화를 정확히 수행하였으며, 시작 상태(내부 통로 확보)에서 종료 상태(감시망 무력화)로의 전이가 매끄럽게 이루어졌다. 특히 future_forbidden 요소인 EL-04(불균형을 이용한 변칙 검술)를 사용하지 않고 지형지물(지지대 붕괴)을 이용해 마력 방패를 무력화함으로써 계약을 엄격히 준수했다. 또한 C20이나 EL-06과 같은 미래의 핵심 반전이나 성장을 암시하지 않았으며, 이전 산문과의 연결성 및 문체 품질 또한 적절하다.",
+  "prose_sha256": "22650ce2fb89c5b24acdd9727f10eb95ee1c6553bd4dd4fd4ad7e9511380f626",
+  "scene_contract_sha256": "fbad8223b37272ed7b6bd25b41a489e483b2531337a7ae4035403c9b97c9b106"
+}
