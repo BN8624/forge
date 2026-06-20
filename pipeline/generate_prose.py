@@ -63,6 +63,14 @@ def prose_scene_dir(root: Path, scene_id: str) -> Path:
     return root / "prose" / "scenes" / scene_id
 
 
+def prose_scene_complete(root: Path, scene_id: str) -> bool:
+    directory = prose_scene_dir(root, scene_id)
+    return (
+        (directory / "prose.md").is_file()
+        and (directory / "review.json").is_file()
+    )
+
+
 def contract_sha256(scene: dict[str, Any]) -> str:
     encoded = json.dumps(
         scene,
@@ -109,7 +117,7 @@ def select_scene(root: Path, requested_scene_id: str | None) -> str:
     scene_ids = ordered_scene_ids(root)
     if requested_scene_id is None:
         for scene_id in scene_ids:
-            if not prose_scene_dir(root, scene_id).exists():
+            if not prose_scene_complete(root, scene_id):
                 return scene_id
         raise ProseGenerationError("모든 장면의 정본 산문이 이미 존재함")
     if requested_scene_id not in scene_ids:
@@ -124,17 +132,96 @@ def load_scene_context(root: Path, scene_id: str) -> dict[str, Any]:
     volume = read_json(story / "volumes" / f"{event['volume_id']}.json")
     series = read_json(story / "series.json")
     canon_review = read_json(story / "canon-review.json")
+    canon, _ = load_source_material()
+    canon_by_id = {
+        item["id"]: item
+        for item in canon["canon"]
+    }
+    scene_ids = ordered_scene_ids(root)
+    scene_order = {
+        ordered_scene_id: index
+        for index, ordered_scene_id in enumerate(scene_ids)
+    }
+    current_index = scene_order[scene_id]
     relevant_canon = [
         verdict
         for verdict in canon_review["verdicts"]
         if scene_id in verdict["scene_ids"]
     ]
+    available_canon_ids: set[str] = set()
+    future_canon_ids: set[str] = set()
+    for verdict in canon_review["verdicts"]:
+        indexes = [
+            scene_order[verdict_scene_id]
+            for verdict_scene_id in verdict["scene_ids"]
+            if verdict_scene_id in scene_order
+        ]
+        if indexes and min(indexes) <= current_index:
+            available_canon_ids.add(verdict["canon_id"])
+        elif indexes:
+            future_canon_ids.add(verdict["canon_id"])
+
+    element_owner_index: dict[str, int] = {}
+    for ordered_scene_id in scene_ids:
+        ordered_scene = read_json(
+            story / "scenes" / f"{ordered_scene_id}.json"
+        )
+        for owner_key in ("changes", "setups", "payoffs"):
+            for element_id in ordered_scene["owns"][owner_key]:
+                element_owner_index[element_id] = scene_order[ordered_scene_id]
+    element_by_id = {
+        element["id"]: element
+        for element in series["elements"]
+    }
+    current_owned_ids = {
+        element_id
+        for owner_key in ("changes", "setups", "payoffs")
+        for element_id in scene["owns"][owner_key]
+    }
+    available_element_ids = {
+        element_id
+        for element_id, owner_index in element_owner_index.items()
+        if owner_index <= current_index
+    }
+    future_element_ids = {
+        element_id
+        for element_id, owner_index in element_owner_index.items()
+        if owner_index > current_index
+    }
     return {
         "series": series,
         "volume": volume,
         "event": event,
         "scene": scene,
         "relevant_canon": relevant_canon,
+        "canon_constraints": {
+            "current": [
+                canon_by_id[verdict["canon_id"]]
+                for verdict in relevant_canon
+            ],
+            "available": [
+                canon_by_id[canon_id]
+                for canon_id in sorted(available_canon_ids)
+            ],
+            "future_forbidden": [
+                canon_by_id[canon_id]
+                for canon_id in sorted(future_canon_ids)
+            ],
+        },
+        "element_constraints": {
+            "current_owned": [
+                element_by_id[element_id]
+                for element_id in sorted(current_owned_ids)
+            ],
+            "available": [
+                element_by_id[element_id]
+                for element_id in sorted(available_element_ids)
+            ],
+            "future_forbidden": [
+                element_by_id[element_id]
+                for element_id in sorted(future_element_ids)
+            ],
+        },
     }
 
 
@@ -152,6 +239,7 @@ def build_generator_prompt(
     context: dict[str, Any],
     previous_prose: str,
     feedback: list[str] | None = None,
+    previous_candidate: str = "",
 ) -> str:
     _, manuscript = load_source_material()
     scene = context["scene"]
@@ -175,12 +263,22 @@ def build_generator_prompt(
 직전 critic 피드백:
 {feedback_text}
 
+직전 산문 후보:
+{previous_candidate or "없음"}
+
 요구 사항:
 - 장면 목표, start_state에서 end_state로의 변화, owns 요소를 산문 안에서 달성한다.
+- canon_constraints.current만 이 장면에서 새로 드러낼 수 있다.
+- canon_constraints.future_forbidden과 element_constraints.future_forbidden의
+  사실·기술·회수·변화를 미리 공개하거나 실행하지 않는다.
+- element_constraints.current_owned가 비어 있으면 새 setup, payoff, change를
+  이 장면의 성과처럼 도입하지 않는다.
 - 이후 장면의 사건을 미리 완결하지 않는다.
 - 정본 설정과 직전 산문의 사실·시점·인물 상태를 유지한다.
 - 요약문이나 개요가 아니라 출판 가능한 한국어 소설 산문을 작성한다.
 - 목표 분량은 공백 포함 약 {scene['target_chars']}자다.
+- 직전 산문 후보가 있으면 버리지 말고 장면 목표와 상태 전이를 유지하면서
+  필요한 행동, 감각, 내면, 공간 반응을 추가해 전체 산문을 확장한다.
 - 설명이나 코드펜스 없이 JSON 객체 하나만 반환한다.
 - 반환 키는 scene_id와 prose만 사용한다.
 """
@@ -190,22 +288,38 @@ def parse_prose_response(
     response: str,
     scene_id: str,
     target_chars: int,
+    enforce_length: bool = True,
 ) -> str:
     value = extract_json(response)
-    if not isinstance(value, dict) or set(value) != {"scene_id", "prose"}:
+    if (
+        isinstance(value, dict)
+        and set(value) == {scene_id}
+        and isinstance(value[scene_id], str)
+    ):
+        prose = value[scene_id]
+    elif (
+        isinstance(value, dict)
+        and set(value) == {scene_id}
+        and isinstance(value[scene_id], dict)
+        and set(value[scene_id]) == {"prose"}
+    ):
+        prose = value[scene_id]["prose"]
+    elif isinstance(value, dict) and set(value) == {"scene_id", "prose"}:
+        if value["scene_id"] != scene_id:
+            raise ProseGenerationError(
+                f"산문 응답 장면 ID 불일치: {value['scene_id']!r}"
+            )
+        prose = value["prose"]
+    else:
         raise ProseGenerationError(
-            "산문 응답은 scene_id와 prose만 가진 JSON 객체여야 함"
+            "산문 응답은 scene_id와 prose 객체 또는 장면 ID 단일 키 "
+            "문자열·prose 객체여야 함"
         )
-    if value["scene_id"] != scene_id:
-        raise ProseGenerationError(
-            f"산문 응답 장면 ID 불일치: {value['scene_id']!r}"
-        )
-    prose = value["prose"]
     if not isinstance(prose, str) or not prose.strip():
         raise ProseGenerationError("산문 응답 prose가 비어 있음")
     minimum = int(target_chars * MIN_LENGTH_RATIO)
     maximum = int(target_chars * MAX_LENGTH_RATIO)
-    if not minimum <= len(prose) <= maximum:
+    if enforce_length and not minimum <= len(prose) <= maximum:
         raise ProseGenerationError(
             f"산문 길이 범위 위반: {len(prose)}자 "
             f"(허용 {minimum}-{maximum}자)"
@@ -237,11 +351,15 @@ def build_critic_prompt(
 설명이나 코드펜스 없이 JSON 객체 하나만 반환하라.
 키는 scene_id, status, checks, issues, reason이다.
 status는 pass, fail, uncertain 중 하나다.
-checks에는 objective, state_transition, owned_elements, canon, continuity,
-prose_quality 불리언을 모두 넣는다.
+checks에는 objective, state_transition, owned_elements, reveal_order, canon,
+continuity, prose_quality 불리언을 모두 넣는다.
 모든 checks가 true일 때만 pass다.
 설정 충돌, 장면 목표 누락, 상태 전이 누락, 미래 사건 선취, 요약문 문체,
 이전 산문 불연속이 있으면 fail 또는 uncertain으로 판정한다.
+특히 canon_constraints.future_forbidden 또는
+element_constraints.future_forbidden을 미리 드러내면 reveal_order를 false로
+판정한다. 현재 장면 owns에 없는 요소를 새로 설치·회수·변화시키면
+owned_elements를 false로 판정한다.
 """
 
 
@@ -278,6 +396,7 @@ def review_prose(
     context: dict[str, Any],
     previous_prose: str,
     prose: str,
+    failure_dir: Path | None = None,
 ) -> dict[str, Any]:
     original_prompt = build_critic_prompt(context, previous_prose, prose)
     prompt = original_prompt
@@ -288,6 +407,12 @@ def review_prose(
             return parse_review_response(response, context["scene"], prose)
         except ProseGenerationError as exc:
             last_errors = exc.errors
+            if failure_dir is not None:
+                failure_dir.mkdir(parents=True, exist_ok=True)
+                (failure_dir / f"critic-attempt-{attempt}.txt").write_text(
+                    response,
+                    encoding="utf-8",
+                )
             if attempt == MAX_REVIEW_ATTEMPTS:
                 raise
             prompt = f"""{original_prompt}
@@ -342,18 +467,74 @@ def generate_prose_scene(
         if scale_errors:
             raise ProseGenerationError(scale_errors)
     scene_id = select_scene(root, requested_scene_id)
-    if prose_scene_dir(root, scene_id).exists():
+    target_directory = prose_scene_dir(root, scene_id)
+    if prose_scene_complete(root, scene_id):
         raise ProseGenerationError(f"정본 산문이 이미 존재함: {scene_id}")
+    if target_directory.exists():
+        if any(target_directory.iterdir()):
+            raise ProseGenerationError(
+                f"불완전한 산문 디렉터리가 존재함: {scene_id}"
+            )
+        target_directory.rmdir()
     previous_prose = previous_prose_context(root, scene_id)
     context = load_scene_context(root, scene_id)
     scene = context["scene"]
     feedback: list[str] | None = None
+    previous_candidate = ""
     last_errors: list[str] = []
+    work_dir = (
+        root
+        / "runs"
+        / "prose-work"
+        / scene_id
+        / contract_sha256(scene)
+    )
+    if work_dir.exists():
+        recovery_paths = sorted(
+            work_dir.glob("generator-attempt-*.txt"),
+            reverse=True,
+        )
+        for recovery_path in recovery_paths:
+            try:
+                recovered_response = recovery_path.read_text(encoding="utf-8")
+                recovered_prose = parse_prose_response(
+                    recovered_response,
+                    scene_id,
+                    scene["target_chars"],
+                )
+                recovered_review = review_prose(
+                    llm,
+                    context,
+                    previous_prose,
+                    recovered_prose,
+                    failure_dir=work_dir,
+                )
+                if recovered_review["status"] == "pass":
+                    return promote_prose(
+                        root,
+                        scene_id,
+                        recovered_prose,
+                        recovered_review,
+                    )
+                previous_candidate = recovered_prose
+                last_errors = [
+                    *recovered_review["issues"],
+                    recovered_review["reason"],
+                ]
+                feedback = last_errors
+                break
+            except (OSError, ProseGenerationError):
+                continue
 
     for attempt in range(1, MAX_PROSE_ATTEMPTS + 1):
         response = llm.generate(
             "generator",
-            build_generator_prompt(context, previous_prose, feedback),
+            build_generator_prompt(
+                context,
+                previous_prose,
+                feedback,
+                previous_candidate,
+            ),
             temperature=0.8,
         )
         try:
@@ -364,12 +545,32 @@ def generate_prose_scene(
             )
         except ProseGenerationError as exc:
             last_errors = exc.errors
+            try:
+                previous_candidate = parse_prose_response(
+                    response,
+                    scene_id,
+                    scene["target_chars"],
+                    enforce_length=False,
+                )
+            except ProseGenerationError:
+                previous_candidate = ""
+            work_dir.mkdir(parents=True, exist_ok=True)
+            (work_dir / f"generator-attempt-{attempt}.txt").write_text(
+                response,
+                encoding="utf-8",
+            )
             feedback = last_errors
             if attempt == MAX_PROSE_ATTEMPTS:
                 break
             continue
 
-        review = review_prose(llm, context, previous_prose, prose)
+        review = review_prose(
+            llm,
+            context,
+            previous_prose,
+            prose,
+            failure_dir=work_dir,
+        )
         if review["status"] == "pass":
             return promote_prose(root, scene_id, prose, review)
         last_errors = [

@@ -1,0 +1,17 @@
+{
+  "scene_id": "V1-E01-S01",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 에테르노의 성벽과 '제국의 눈'이 주는 압도적인 감시 분위기를 성공적으로 묘사하였으며, 시작 상태(압도적/높음)에서 종료 상태(긴장/매우 높음)로의 심리적·상황적 전이가 명확하게 이루어졌습니다. future_forbidden에 명시된 카엘의 신체적 결함(C1), 호흡법(C11), 위조 통행증(C10) 등의 정보가 미리 노출되지 않았으며, 정본 설정(C8, C9)을 정확하게 준수하였습니다.",
+  "prose_sha256": "5f9c9be76e3c0ece20720e253b95d19f16ff286716112f6e38120f287a904ffa",
+  "scene_contract_sha256": "29a4f32cbc5ebab46d1a425020a69cac824007e4fa58fe4748a71b435160b6de"
+}

@@ -26,6 +26,7 @@
         "objective",
         "state_transition",
         "owned_elements",
+        "reveal_order",
         "canon",
         "continuity",
         "prose_quality"
@@ -34,6 +35,7 @@
         "objective": {"type": "boolean"},
         "state_transition": {"type": "boolean"},
         "owned_elements": {"type": "boolean"},
+        "reveal_order": {"type": "boolean"},
         "canon": {"type": "boolean"},
         "continuity": {"type": "boolean"},
         "prose_quality": {"type": "boolean"}

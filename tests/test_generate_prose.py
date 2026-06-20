@@ -7,6 +7,7 @@ from pathlib import Path
 
 from pipeline.generate_prose import (
     ProseGenerationError,
+    contract_sha256,
     generate_all_prose,
     generate_prose_scene,
 )
@@ -41,6 +42,7 @@ def review_response(scene_id: str, status: str = "pass") -> str:
                 "objective": passed,
                 "state_transition": passed,
                 "owned_elements": passed,
+                "reveal_order": passed,
                 "canon": passed,
                 "continuity": passed,
                 "prose_quality": passed,
@@ -131,7 +133,7 @@ class GenerateProseTests(unittest.TestCase):
             target.mkdir(parents=True)
             (target / "prose.md").write_text("기존 산문", encoding="utf-8")
 
-            with self.assertRaisesRegex(ProseGenerationError, "이미 존재"):
+            with self.assertRaisesRegex(ProseGenerationError, "불완전"):
                 generate_prose_scene(
                     root,
                     "V1-E01-S01",
@@ -143,6 +145,29 @@ class GenerateProseTests(unittest.TestCase):
                 "기존 산문",
                 (target / "prose.md").read_text(encoding="utf-8"),
             )
+
+    def test_empty_scene_directory_is_reused(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            build_project(root)
+            approve_story(root)
+            target = root / "prose" / "scenes" / "V1-E01-S01"
+            target.mkdir(parents=True)
+            llm = FakeLLM(
+                [
+                    prose_response("V1-E01-S01"),
+                    review_response("V1-E01-S01"),
+                ]
+            )
+
+            result = generate_prose_scene(
+                root,
+                None,
+                llm,
+                check_scale=False,
+            )
+
+            self.assertEqual("V1-E01-S01", result.name)
 
     def test_short_prose_is_rejected_before_critic(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -160,6 +185,96 @@ class GenerateProseTests(unittest.TestCase):
                 )
 
             self.assertEqual(["generator"] * 3, [call[0] for call in llm.calls])
+            self.assertIn(
+                "차가운 바람",
+                llm.calls[1][1],
+            )
+
+    def test_scene_id_single_key_response_is_accepted(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            build_project(root)
+            approve_story(root)
+            prose = ("차가운 바람이 거리를 훑었다. " * 120)[:1800]
+            llm = FakeLLM(
+                [
+                    json.dumps(
+                        {"V1-E01-S01": prose},
+                        ensure_ascii=False,
+                    ),
+                    review_response("V1-E01-S01"),
+                ]
+            )
+
+            result = generate_prose_scene(
+                root,
+                "V1-E01-S01",
+                llm,
+                check_scale=False,
+            )
+
+            self.assertEqual(prose, (result / "prose.md").read_text(encoding="utf-8"))
+
+    def test_nested_scene_id_prose_response_is_accepted(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            build_project(root)
+            approve_story(root)
+            prose = ("차가운 바람이 거리를 훑었다. " * 120)[:1800]
+            llm = FakeLLM(
+                [
+                    json.dumps(
+                        {"V1-E01-S01": {"prose": prose}},
+                        ensure_ascii=False,
+                    ),
+                    review_response("V1-E01-S01"),
+                ]
+            )
+
+            result = generate_prose_scene(
+                root,
+                "V1-E01-S01",
+                llm,
+                check_scale=False,
+            )
+
+            self.assertEqual(prose, (result / "prose.md").read_text(encoding="utf-8"))
+
+    def test_saved_valid_generator_response_is_reviewed_without_regeneration(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            build_project(root)
+            approve_story(root)
+            scene = json.loads(
+                (
+                    root
+                    / "story"
+                    / "scenes"
+                    / "V1-E01-S01.json"
+                ).read_text(encoding="utf-8")
+            )
+            work = (
+                root
+                / "runs"
+                / "prose-work"
+                / "V1-E01-S01"
+                / contract_sha256(scene)
+            )
+            work.mkdir(parents=True)
+            (work / "generator-attempt-2.txt").write_text(
+                prose_response("V1-E01-S01"),
+                encoding="utf-8",
+            )
+            llm = FakeLLM([review_response("V1-E01-S01")])
+
+            generate_prose_scene(
+                root,
+                "V1-E01-S01",
+                llm,
+                check_scale=False,
+            )
+
+            self.assertEqual(["critic"], [call[0] for call in llm.calls])
 
     def test_batch_generates_scenes_in_order_with_limit(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
