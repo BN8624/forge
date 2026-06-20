@@ -254,6 +254,23 @@ def previous_prose_context(root: Path, scene_id: str) -> str:
     return approved_prose(root, scene_ids[index - 1])
 
 
+def build_future_element_guard(context: dict[str, Any]) -> str:
+    future_ids = {
+        element["id"]
+        for element in context["element_constraints"]["future_forbidden"]
+    }
+    guards: list[str] = []
+    if "EL-04" in future_ids:
+        guards.append(
+            "- EL-04 특별 경계: 환상통이나 순간적인 변칙 움직임이 objective에 "
+            "있어도 왼팔 부재·신체 불균형을 무기, 검술 원리, 예측 불가 궤적, "
+            "성장 가능성으로 해석하지 않는다. 일회성 통증 반응은 가능하지만 "
+            "승리의 결정 원인은 리아의 도움, 환경, 상대의 실수에 둔다. "
+            "현재 장면에서 이를 깨달음이나 새 기술로 명명하지 않는다."
+        )
+    return "\n".join(guards) or "- 추가 특별 경계 없음."
+
+
 def build_generator_prompt(
     context: dict[str, Any],
     previous_prose: str,
@@ -285,6 +302,9 @@ def build_generator_prompt(
 직전 산문 후보:
 {previous_candidate or "없음"}
 
+현재 미래 요소 충돌 특별 경계:
+{build_future_element_guard(context)}
+
 요구 사항:
 - 장면 목표, start_state에서 end_state로의 변화, owns 요소를 산문 안에서 달성한다.
 - canon_constraints.current만 이 장면에서 새로 드러낼 수 있다.
@@ -315,6 +335,11 @@ def build_generator_prompt(
 - 특히 목표에 변칙적 움직임이나 빈틈 공략이 있어도, future_forbidden에
   신체 결함을 이용한 전투 기술이나 방패 돌파가 있으면 신체 불균형,
   비정상 궤적, 예측 불가 검술을 해결 원인으로 사용하지 않는다.
+- objective 자체가 future_forbidden의 일부 행동을 요구하면 가장 좁은
+  일회성 사건으로만 수행한다. 우발적 경련, 순간적 통증, 동료가 만든
+  빈틈처럼 현재 상황에 한정하고 이를 기술·각성·성장·재사용 가능한 원리로
+  명명하거나 일반화하지 않는다. 미래 요소의 다른 구성 요소나 대상까지
+  결합해 완성된 기능을 미리 구현하지 않는다.
 - future_forbidden의 설명은 정확한 문구뿐 아니라 동의어, 은유, 추측,
   예감, 상징적 복선으로도 암시하지 않는다.
 - current_owned가 비어 있으면 기존 결함이나 능력을 미래의 무기·가능성·
@@ -439,6 +464,9 @@ def build_extension_prompt(
 현재 산문 후보:
 {candidate}
 
+현재 미래 요소 충돌 특별 경계:
+{build_future_element_guard(context)}
+
 critic 또는 하네스 피드백:
 {json.dumps(feedback or [], ensure_ascii=False, indent=2)}
 
@@ -453,6 +481,8 @@ critic 또는 하네스 피드백:
   문장도 선취하지 않는다.
 - objective의 단어가 future_forbidden과 겹치면 미래 요소의 기능·인과·
   기술을 확장에 사용하지 않고, current_owned 범위의 다른 원인으로 푼다.
+- objective가 미래 요소의 일부 행동을 직접 요구해도 일회성 우발 사건으로
+  한정하며 기술, 성장, 각성, 재사용 가능한 원리로 해석하지 않는다.
 - 설명이나 코드펜스 없이 scene_id와 addition만 가진 JSON 객체를 반환한다.
 """
 

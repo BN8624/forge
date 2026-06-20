@@ -7,6 +7,7 @@ from pathlib import Path
 
 from pipeline.generate_prose import (
     ProseGenerationError,
+    build_future_element_guard,
     contract_sha256,
     generate_all_prose,
     generate_prose_scene,
@@ -250,6 +251,8 @@ class GenerateProseTests(unittest.TestCase):
             self.assertIn("addition", llm.calls[1][1])
             self.assertIn("end_state에 도달한 순간", llm.calls[1][1])
             self.assertIn("objective의 단어가 future_forbidden", llm.calls[1][1])
+            self.assertIn("일회성 우발 사건", llm.calls[1][1])
+            self.assertIn("현재 미래 요소 충돌 특별 경계", llm.calls[1][1])
 
     def test_scene_id_single_key_response_is_accepted(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -376,6 +379,26 @@ class GenerateProseTests(unittest.TestCase):
                 "동료의 도움, 환경 변화, 우연한 타이밍",
                 llm.calls[0][1],
             )
+            self.assertIn(
+                "가장 좁은",
+                llm.calls[0][1],
+            )
+            self.assertIn("현재 미래 요소 충돌 특별 경계", llm.calls[0][1])
+
+    def test_el04_future_guard_forbids_generalized_combat_growth(self) -> None:
+        guard = build_future_element_guard(
+            {
+                "element_constraints": {
+                    "future_forbidden": [
+                        {"id": "EL-04", "description": "미래 변칙 검술"}
+                    ]
+                }
+            }
+        )
+
+        self.assertIn("EL-04 특별 경계", guard)
+        self.assertIn("리아의 도움, 환경, 상대의 실수", guard)
+        self.assertIn("새 기술로 명명하지 않는다", guard)
 
     def test_batch_generates_scenes_in_order_with_limit(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
