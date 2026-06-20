@@ -248,6 +248,7 @@ class GenerateProseTests(unittest.TestCase):
             self.assertTrue(prose.startswith(short_prose.strip()))
             self.assertTrue(prose.endswith(addition.strip()))
             self.assertIn("addition", llm.calls[1][1])
+            self.assertIn("end_state에 도달한 순간", llm.calls[1][1])
 
     def test_scene_id_single_key_response_is_accepted(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -364,6 +365,10 @@ class GenerateProseTests(unittest.TestCase):
             )
             self.assertIn(
                 "의미 공개의 상한",
+                llm.calls[0][1],
+            )
+            self.assertIn(
+                "end_state에 도달한 바로",
                 llm.calls[0][1],
             )
 
