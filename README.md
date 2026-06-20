@@ -42,6 +42,7 @@ python pipeline\promote_candidate.py C:\path\to\candidate
 python pipeline\rebuild_state.py
 python pipeline\generate_prose.py
 python pipeline\generate_prose.py --all
+python pipeline\serve_prose.py --volume V1 --host 100.89.73.83 --port 8765
 ```
 
 후보 생성과 독립 검증에는 `.env`의 `GOOGLE_API_KEY` 계열, `GENERATOR_MODEL`, `CRITIC_MODEL` 설정이 필요하다. Forge는 `reference/legacy/canon_bible.json`과 `compressed_manuscript.md`를 자동 입력으로 사용하며 기본 출력은 `runs/candidate`다.
@@ -52,5 +53,6 @@ python pipeline\generate_prose.py --all
 
 산문 생성 명령은 아직 승인된 산문이 없는 첫 장면을 자동 선택한다. 특정 장면 ID를 인자로 줄 수 있지만 이전 장면들의 승인된 정본 산문이 모두 있어야 한다.
 `--all`은 남은 장면을 순서대로 계속 생성하며, `--limit N`으로 한 실행의 장면 수를 제한할 수 있다.
+산문 읽기 서버는 지정한 권의 승인된 산문만 정본 순서대로 제공한다. Tailscale IP에 바인딩하면 같은 tailnet 기기에서만 접근할 수 있다.
 산문 생성 전 각 권의 장면 목표 분량 합계가 최소 8만 자인지 검사한다.
 현재 정본이 규모 미달이면 `expand_structure.py`가 권별로 사건·장면을 확장해 `runs/expanded-candidate`에 게시한다. 이 후보도 critic 정본 검증을 다시 통과해야 승격할 수 있다.
