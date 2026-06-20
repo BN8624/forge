@@ -1,0 +1,17 @@
+{
+  "scene_id": "V1-E03-S05",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '왼팔의 부재로 인한 신체적 불균형과 고통'이 매우 구체적이고 밀도 있게 묘사되었습니다. 중력 함정과 험난한 지형 돌파 과정에서 무게 중심의 쏠림, 환상통, 오른팔에 가해지는 과부하 등이 설득력 있게 서술되었습니다. 시작 상태(긴박/매우 높음)에서 종료 상태(지침/높음)로의 전이가 자연스럽게 이루어졌으며, available에 포함된 호흡법(EL-01)의 활용 외에 future_forbidden에 해당하는 설정이나 요소의 선취가 발견되지 않았습니다. 직전 산문의 마지막 동작(마법 진으로 몸을 날림)에서 매끄럽게 이어지는 연속성 또한 완벽합니다.",
+  "prose_sha256": "c75d98f58fa3f6bcbb0f199932f0b6492cad8ac6e11396710cf0e4d5d4d02a7e",
+  "scene_contract_sha256": "6347c51c37cf136c86b7ee86203c71c8bf023368328208555decc3db37a005d7"
+}

@@ -1,0 +1,17 @@
+{
+  "scene_id": "V1-E04-S07",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "산문이 장면의 목표인 '마력 파동으로 인한 제국군의 접근과 긴박한 탈출'을 충실히 묘사하였으며, 시작 상태(결의/중간 위험)에서 종료 상태(목표 설정: 에테르노 탈출)로의 전이가 명확하게 이루어졌습니다. 가용 캐논(C1, C9, C11 등)을 적절히 활용하였고, 미래 금지 요소(future_forbidden)에 대한 선취나 암시 없이 계약된 범위 내에서 서술되었습니다. 직전 산문의 흐름을 이어받아 긴장감을 고조시킨 점과 문체적 완성도 또한 우수합니다.",
+  "prose_sha256": "aa6200b30dd8a75b722ecad98193e1a30ec3752023140f897d2ecafd12cd30ae",
+  "scene_contract_sha256": "9fc81e716297b6adbb43932ffc62a04d6e2a4a153f25b6e4ed9f27e78df22b76"
+}

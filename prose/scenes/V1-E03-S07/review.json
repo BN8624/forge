@@ -1,0 +1,17 @@
+{
+  "scene_id": "V1-E03-S07",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 지하 제단의 웅장한 전경 묘사와 도착 상태로의 전이가 완벽하게 수행되었습니다. available 상태인 심박 통제 호흡법(EL-01)과 신체적 불균형(EL-03)을 적절히 활용하였으며, future_forbidden에 해당하는 영혼의 조각의 구체적 기능(C13)이나 이후의 사건들을 선취하지 않고 시각적 묘사에 집중하여 계약을 엄격히 준수하였습니다.",
+  "prose_sha256": "1fac9a754f75e10692929654352069344dac5ebc6592f0fef61c182a7b10a91a",
+  "scene_contract_sha256": "6e375244d3c10bd48e4a2810b86ef7fd198a7ad75cad63ff2c91d869a153f18d"
+}

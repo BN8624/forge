@@ -1,0 +1,17 @@
+{
+  "scene_id": "V1-E04-S03",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 리아의 피가 겹쳐지며 조각이 완전히 활성화되는 폭발적인 광휘의 과정을 감각적으로 상세히 묘사함. 이전 산문의 마지막 지점에서 자연스럽게 이어지며, 가용 설정인 카엘의 신체적 결손(C1), 호흡법(C11), 왕가의 피를 통한 활성화(C3)를 정확하게 반영함. 특히 future_forbidden에 해당하는 조각 내부의 구체적인 기록/목소리(C13)나 명확한 혈통의 정체성(C4)을 직접적으로 드러내지 않고 '운명'과 '전율'이라는 추상적 감각으로 처리하여 reveal_order를 엄격히 준수함.",
+  "prose_sha256": "db2ddbac410400e265b1ea58e3e4372e15630829b18c37c351063914eb2d8b1c",
+  "scene_contract_sha256": "751479bcf9d72a44d9c81d8c324905f0510a308f7397abf4ac0964b21f5f681e"
+}

@@ -1,0 +1,17 @@
+{
+  "scene_id": "V1-E04-S04",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "전대 왕의 사념이 전달되는 초월적인 감각과 그로 인한 정신적 충격을 성공적으로 묘사하였으며, C13의 설정을 정확히 준수함. 다음 장면(S05)의 목표인 '왕가 혈통이라는 구체적 진실의 자각'을 미리 확정 짓지 않고 '운명적인 이끌림'과 '각인'의 형태로 묘사하여 reveal_order를 유지함. 상태 전이 또한 '광휘 발생'에서 '충격'으로 적절히 이행됨.",
+  "prose_sha256": "bb8fe29b7a9ba05021026312d12762deb948d59b99d60028630f0a5fa95d832b",
+  "scene_contract_sha256": "fb21677650b8caedd84a000bda124262aba5ad38992969aec7269daf0b22e245"
+}
