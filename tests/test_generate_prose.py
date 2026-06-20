@@ -109,6 +109,7 @@ class GenerateProseTests(unittest.TestCase):
 
             self.assertEqual(4, len(llm.calls))
             self.assertIn("장면 목표가 충분히", llm.calls[2][1])
+            self.assertIn("직전 산문 후보:\n없음", llm.calls[2][1])
 
     def test_second_scene_requires_previous_approved_prose(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -174,7 +175,26 @@ class GenerateProseTests(unittest.TestCase):
             root = Path(directory)
             build_project(root)
             approve_story(root)
-            llm = FakeLLM([prose_response("V1-E01-S01", 50)] * 3)
+            short = prose_response("V1-E01-S01", 50)
+            llm = FakeLLM(
+                [
+                    short,
+                    json.dumps(
+                        {
+                            "scene_id": "V1-E01-S01",
+                            "addition": "추가 산문",
+                        },
+                        ensure_ascii=False,
+                    ),
+                    json.dumps(
+                        {
+                            "scene_id": "V1-E01-S01",
+                            "addition": "추가 산문",
+                        },
+                        ensure_ascii=False,
+                    ),
+                ]
+            )
 
             with self.assertRaisesRegex(ProseGenerationError, "3회"):
                 generate_prose_scene(
@@ -186,9 +206,48 @@ class GenerateProseTests(unittest.TestCase):
 
             self.assertEqual(["generator"] * 3, [call[0] for call in llm.calls])
             self.assertIn(
-                "차가운 바람",
+                "현재 산문 후보",
                 llm.calls[1][1],
             )
+
+    def test_short_candidate_is_extended_instead_of_rewritten(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            build_project(root)
+            approve_story(root)
+            short_prose = ("차가운 바람이 거리를 훑었다. " * 90)[:1300]
+            addition = ("사람들은 고개를 숙인 채 걸음을 재촉했다. " * 40)[:500]
+            llm = FakeLLM(
+                [
+                    json.dumps(
+                        {
+                            "scene_id": "V1-E01-S01",
+                            "prose": short_prose,
+                        },
+                        ensure_ascii=False,
+                    ),
+                    json.dumps(
+                        {
+                            "scene_id": "V1-E01-S01",
+                            "addition": addition,
+                        },
+                        ensure_ascii=False,
+                    ),
+                    review_response("V1-E01-S01"),
+                ]
+            )
+
+            result = generate_prose_scene(
+                root,
+                "V1-E01-S01",
+                llm,
+                check_scale=False,
+            )
+
+            prose = (result / "prose.md").read_text(encoding="utf-8")
+            self.assertTrue(prose.startswith(short_prose.strip()))
+            self.assertTrue(prose.endswith(addition.strip()))
+            self.assertIn("addition", llm.calls[1][1])
 
     def test_scene_id_single_key_response_is_accepted(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -298,6 +357,14 @@ class GenerateProseTests(unittest.TestCase):
             self.assertIn(
                 "기존 사실을 단순히 다시 언급",
                 llm.calls[1][1],
+            )
+            self.assertIn(
+                "following_scene_contracts",
+                llm.calls[0][1],
+            )
+            self.assertIn(
+                "의미 공개의 상한",
+                llm.calls[0][1],
             )
 
     def test_batch_generates_scenes_in_order_with_limit(self) -> None:

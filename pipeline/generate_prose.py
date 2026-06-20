@@ -143,6 +143,19 @@ def load_scene_context(root: Path, scene_id: str) -> dict[str, Any]:
         for index, ordered_scene_id in enumerate(scene_ids)
     }
     current_index = scene_order[scene_id]
+    following_scene_contracts = []
+    for following_scene_id in scene_ids[current_index + 1:current_index + 3]:
+        following_scene = read_json(
+            story / "scenes" / f"{following_scene_id}.json"
+        )
+        following_scene_contracts.append(
+            {
+                "id": following_scene["id"],
+                "objective": following_scene["objective"],
+                "start_state": following_scene["start_state"],
+                "end_state": following_scene["end_state"],
+            }
+        )
     relevant_canon = [
         verdict
         for verdict in canon_review["verdicts"]
@@ -193,6 +206,7 @@ def load_scene_context(root: Path, scene_id: str) -> dict[str, Any]:
         "volume": volume,
         "event": event,
         "scene": scene,
+        "following_scene_contracts": following_scene_contracts,
         "relevant_canon": relevant_canon,
         "canon_constraints": {
             "current": [
@@ -283,6 +297,18 @@ def build_generator_prompt(
 - element_constraints.current_owned가 비어 있으면 새 setup, payoff, change를
   이 장면의 성과처럼 도입하지 않는다.
 - 이후 장면의 사건을 미리 완결하지 않는다.
+- following_scene_contracts의 objective에 예약된 정보·결단·행동은 현재
+  장면에서 명시적으로 공개하거나 달성하지 않는다.
+- 현재 scene.objective를 의미 공개의 상한으로 취급한다. 목표에 인물·장소·
+  적대자가 언급되어도 future_forbidden에 있는 정체, 환경 특징, 힘의 원천,
+  기술 원리, 성장 의미를 덧붙이지 않는다.
+- future_forbidden의 설명은 정확한 문구뿐 아니라 동의어, 은유, 추측,
+  예감, 상징적 복선으로도 암시하지 않는다.
+- current_owned가 비어 있으면 기존 결함이나 능력을 미래의 무기·가능성·
+  계승·성장 징후로 재해석하지 않는다.
+- 현재 장면이 계시·기억·사념의 감각만 담당하고 다음 장면이 그 의미를
+  해석한다면, 현재 장면에서는 목소리의 내용이 이해 불가능한 파편이나
+  감각으로만 전달되게 한다.
 - 정본 설정과 직전 산문의 사실·시점·인물 상태를 유지한다.
 - 요약문이나 개요가 아니라 출판 가능한 한국어 소설 산문을 작성한다.
 - 목표 분량은 공백 포함 약 {scene['target_chars']}자다.
@@ -365,6 +391,11 @@ continuity, prose_quality 불리언을 모두 넣는다.
 모든 checks가 true일 때만 pass다.
 설정 충돌, 장면 목표 누락, 상태 전이 누락, 미래 사건 선취, 요약문 문체,
 이전 산문 불연속이 있으면 fail 또는 uncertain으로 판정한다.
+following_scene_contracts의 목표를 현재 산문이 미리 달성하면
+reveal_order를 false로 판정한다.
+future_forbidden의 핵심 의미를 동의어, 은유, 추측, 예감으로 암시해도
+reveal_order를 false로 판정한다. scene.objective에 필요 없는 힘의 원천,
+장소 고유 특성, 미래 기술 가능성, 계승 의미를 덧붙이면 통과시키지 않는다.
 특히 canon_constraints.future_forbidden 또는
 element_constraints.future_forbidden을 미리 드러내면 reveal_order를 false로
 판정한다. 현재 장면 owns에 없는 요소를 새로 설치·회수·변화시키면
@@ -373,6 +404,54 @@ owned_elements를 false로 판정한다.
 미래 요소 선취로 판정하지 않는다. 미래 요소가 정의하는 새 기능·인과·기술·
 성장 의미를 부여했을 때만 reveal_order 또는 owned_elements를 false로 판정한다.
 """
+
+
+def build_extension_prompt(
+    context: dict[str, Any],
+    previous_prose: str,
+    candidate: str,
+    minimum_additional_chars: int,
+    feedback: list[str] | None = None,
+) -> str:
+    return f"""너는 Forge의 소설 산문 generator다.
+아래 산문 후보는 장면 계약을 따르지만 목표 분량보다 짧다.
+기존 문장을 다시 쓰지 말고 마지막 문장 직후에 자연스럽게 이어질 추가 산문만 작성하라.
+
+정본 구조 계약:
+{json.dumps(context, ensure_ascii=False, indent=2)}
+
+직전 승인 산문:
+{previous_prose or "첫 장면이므로 없음"}
+
+현재 산문 후보:
+{candidate}
+
+critic 또는 하네스 피드백:
+{json.dumps(feedback or [], ensure_ascii=False, indent=2)}
+
+요구 사항:
+- 최소 {minimum_additional_chars}자 이상의 추가 산문을 작성한다.
+- 기존 후보의 장면 목표와 상태 전이를 확장하되 반복 요약하지 않는다.
+- 미래 금지 정본과 요소를 미리 공개하지 않는다.
+- 장면을 다음 장면의 사건까지 진행시키지 않는다.
+- 설명이나 코드펜스 없이 scene_id와 addition만 가진 JSON 객체를 반환한다.
+"""
+
+
+def parse_extension_response(response: str, scene_id: str) -> str:
+    value = extract_json(response)
+    if not isinstance(value, dict) or set(value) != {"scene_id", "addition"}:
+        raise ProseGenerationError(
+            "산문 확장 응답은 scene_id와 addition만 가진 JSON 객체여야 함"
+        )
+    if value["scene_id"] != scene_id:
+        raise ProseGenerationError(
+            f"산문 확장 장면 ID 불일치: {value['scene_id']!r}"
+        )
+    addition = value["addition"]
+    if not isinstance(addition, str) or not addition.strip():
+        raise ProseGenerationError("산문 확장 addition이 비어 있음")
+    return addition.strip()
 
 
 def parse_review_response(
@@ -506,6 +585,7 @@ def generate_prose_scene(
             work_dir.glob("generator-attempt-*.txt"),
             reverse=True,
         )
+        recovered_candidates: list[str] = []
         for recovery_path in recovery_paths:
             try:
                 recovered_response = recovery_path.read_text(encoding="utf-8")
@@ -513,68 +593,119 @@ def generate_prose_scene(
                     recovered_response,
                     scene_id,
                     scene["target_chars"],
+                    enforce_length=False,
+                )
+                recovered_candidates.append(recovered_prose)
+            except (OSError, ProseGenerationError):
+                continue
+        if recovered_candidates:
+            previous_candidate = max(recovered_candidates, key=len)
+            try:
+                parse_prose_response(
+                    json.dumps(
+                        {"scene_id": scene_id, "prose": previous_candidate},
+                        ensure_ascii=False,
+                    ),
+                    scene_id,
+                    scene["target_chars"],
                 )
                 recovered_review = review_prose(
                     llm,
                     context,
                     previous_prose,
-                    recovered_prose,
+                    previous_candidate,
                     failure_dir=work_dir,
                 )
                 if recovered_review["status"] == "pass":
                     return promote_prose(
                         root,
                         scene_id,
-                        recovered_prose,
+                        previous_candidate,
                         recovered_review,
                     )
-                previous_candidate = recovered_prose
                 last_errors = [
                     *recovered_review["issues"],
                     recovered_review["reason"],
                 ]
                 feedback = last_errors
-                break
-            except (OSError, ProseGenerationError):
-                continue
+                previous_candidate = ""
+            except ProseGenerationError as exc:
+                last_errors = exc.errors
+                feedback = last_errors
 
     for attempt in range(1, MAX_PROSE_ATTEMPTS + 1):
-        response = llm.generate(
-            "generator",
-            build_generator_prompt(
-                context,
-                previous_prose,
-                feedback,
-                previous_candidate,
-            ),
-            temperature=0.8,
-        )
-        try:
-            prose = parse_prose_response(
-                response,
-                scene_id,
-                scene["target_chars"],
+        minimum = int(scene["target_chars"] * MIN_LENGTH_RATIO)
+        if previous_candidate and len(previous_candidate) < minimum:
+            response = llm.generate(
+                "generator",
+                build_extension_prompt(
+                    context,
+                    previous_prose,
+                    previous_candidate,
+                    minimum - len(previous_candidate) + 100,
+                    feedback,
+                ),
+                temperature=0.8,
             )
-        except ProseGenerationError as exc:
-            last_errors = exc.errors
             try:
-                previous_candidate = parse_prose_response(
+                addition = parse_extension_response(response, scene_id)
+                prose = f"{previous_candidate}\n\n{addition}"
+                parse_prose_response(
+                    json.dumps(
+                        {"scene_id": scene_id, "prose": prose},
+                        ensure_ascii=False,
+                    ),
+                    scene_id,
+                    scene["target_chars"],
+                )
+            except ProseGenerationError as exc:
+                last_errors = exc.errors
+                work_dir.mkdir(parents=True, exist_ok=True)
+                (work_dir / f"generator-attempt-{attempt}.txt").write_text(
+                    response,
+                    encoding="utf-8",
+                )
+                feedback = last_errors
+                if attempt == MAX_PROSE_ATTEMPTS:
+                    break
+                continue
+        else:
+            response = llm.generate(
+                "generator",
+                build_generator_prompt(
+                    context,
+                    previous_prose,
+                    feedback,
+                    previous_candidate,
+                ),
+                temperature=0.8,
+            )
+            try:
+                prose = parse_prose_response(
                     response,
                     scene_id,
                     scene["target_chars"],
-                    enforce_length=False,
                 )
-            except ProseGenerationError:
-                previous_candidate = ""
-            work_dir.mkdir(parents=True, exist_ok=True)
-            (work_dir / f"generator-attempt-{attempt}.txt").write_text(
-                response,
-                encoding="utf-8",
-            )
-            feedback = last_errors
-            if attempt == MAX_PROSE_ATTEMPTS:
-                break
-            continue
+            except ProseGenerationError as exc:
+                last_errors = exc.errors
+                try:
+                    previous_candidate = parse_prose_response(
+                        response,
+                        scene_id,
+                        scene["target_chars"],
+                        enforce_length=False,
+                    )
+                except ProseGenerationError:
+                    previous_candidate = ""
+                work_dir.mkdir(parents=True, exist_ok=True)
+                (work_dir / f"generator-attempt-{attempt}.txt").write_text(
+                    response,
+                    encoding="utf-8",
+                )
+                feedback = last_errors
+                if attempt == MAX_PROSE_ATTEMPTS:
+                    break
+                continue
 
         review = review_prose(
             llm,
@@ -585,11 +716,21 @@ def generate_prose_scene(
         )
         if review["status"] == "pass":
             return promote_prose(root, scene_id, prose, review)
+        work_dir.mkdir(parents=True, exist_ok=True)
+        (work_dir / f"critic-rejected-prose-{attempt}.md").write_text(
+            prose,
+            encoding="utf-8",
+        )
+        (work_dir / f"critic-rejected-review-{attempt}.json").write_text(
+            json.dumps(review, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
         last_errors = [
             *review["issues"],
             review["reason"],
         ]
         feedback = last_errors
+        previous_candidate = ""
 
     raise ProseGenerationError(
         [
