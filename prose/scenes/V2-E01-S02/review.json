@@ -1,0 +1,17 @@
+{
+  "scene_id": "V2-E01-S02",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 슬럼가 통과 과정과 '제국의 눈'을 피하는 은밀한 이동이 상세히 묘사되었으며, 시작 상태(탈출 시작)에서 종료 상태(슬럼가 통과)로의 전이가 명확합니다. 가용 캐논(C1, C9, C11)과 가용 요소(EL-01, EL-03)를 적절히 활용하였으며, 미래 금지 사항(future_forbidden)에 해당하는 정보나 다음 장면(S03, S04)의 핵심 목표를 미리 달성하지 않았습니다. 직전 산문과의 연결성 또한 매우 자연스럽습니다.",
+  "prose_sha256": "54f4c710461388e782f6e2af5f042e5303d1ea456b90bc9373004ba5c4918597",
+  "scene_contract_sha256": "b2ed6423773d3686018efe057450a91e30b2ff478dbfa5830e7e7beeda4b56db"
+}

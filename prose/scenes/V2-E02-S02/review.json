@@ -1,0 +1,17 @@
+{
+  "scene_id": "V2-E02-S02",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '피의 제사'와 '개기일식'에 관한 불길한 소문 수집을 충실히 수행하였으며, '피난민 접촉'에서 '정보 획득'으로의 상태 전이가 명확하게 이루어졌습니다. C1(왼팔 부재)과 C11(호흡법) 등 가용 캐논을 적절히 활용하였고, future_forbidden에 해당하는 C19(추출관, 지하 감옥)의 구체적인 메커니즘이나 C6(혈통 부재 및 권력 유지 방식)의 확정적 사실을 드러내지 않고 '소문'과 '징표'라는 모호한 형태로 처리하여 reveal_order를 준수했습니다. 직전 산문과의 연결성 및 문체 또한 매우 우수합니다.",
+  "prose_sha256": "db29ffbd282f545902fb0d168a7ec4c7098ebfa4d26f1b339f65d227f060d28b",
+  "scene_contract_sha256": "0572e1b33b44c080e1f0d10563cc12e056d34e8522d53051ed0d56fe5947eafb"
+}

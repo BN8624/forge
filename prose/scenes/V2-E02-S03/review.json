@@ -1,0 +1,17 @@
+{
+  "scene_id": "V2-E02-S03",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '혈통 사냥의 구체적 증거와 피해 사례 조사'를 충실히 수행하였습니다. 핏자국, 아이의 신발, 생존자의 증언을 통해 발타자르의 잔혹성을 드러내며 '정보 획득'에서 '잔혹성 인지'로의 상태 전이가 자연스럽게 이루어졌습니다. future_forbidden에 해당하는 구체적인 수취 방식(추출관)이나 장소(지하 감옥)를 직접적으로 드러내지 않고, 장면 목표에 필요한 '사냥'의 과정만을 묘사하여 reveal_order를 준수하였습니다. 이전 산문과의 연결성 및 정본 설정(C1, C11 등)과의 일관성 또한 완벽합니다.",
+  "prose_sha256": "d751e173c8bc7c3c0b65071c63dbc375c57634ee55fc8dda787614dfc15b8738",
+  "scene_contract_sha256": "40a993789e356e0db2d13436777228a59a7933a55e6a322d9510ac66a72757dd"
+}

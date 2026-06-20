@@ -1,0 +1,17 @@
+{
+  "scene_id": "V2-E01-S03",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 리아의 정체성 혼란과 카엘의 보호 본능 사이의 정서적 교감을 깊이 있게 묘사하였으며, '슬럼가 통과'에서 '정서적 유대 강화'로의 상태 전이가 명확하게 이루어졌습니다. available canon(C1, C2, C4, C11 등)의 범위 내에서 설정을 활용하였으며, future_forbidden에 해당하는 미래 사건이나 기술, 계승자로서의 자각(EL-06) 등의 요소를 선취하지 않았습니다. 직전 산문의 끝 지점에서 자연스럽게 이어지며 문체 또한 정교합니다.",
+  "prose_sha256": "e67c00b24421eb094ca532558d1ffba2df7db26b415b133f9f3978916c96f287",
+  "scene_contract_sha256": "89d6e0b516fbf70b31d3f51c92cd6532cc699cce748e6beb2e92bc51eafae476"
+}

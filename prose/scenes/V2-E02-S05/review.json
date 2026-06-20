@@ -1,0 +1,17 @@
+{
+  "scene_id": "V2-E02-S05",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '제사까지 남은 시간의 촉박함 인지'와 '유적으로의 여정을 서둘러야 한다는 결론'이 명확하게 묘사되었습니다. 시작 상태(내부 위협 제거)에서 종료 상태(위기감 고조)로의 전이가 자연스럽게 이루어졌으며, 직전 산문과의 연속성 또한 훌륭합니다. future_forbidden에 해당하는 구체적인 설정(유적의 심층부, 혈액 추출 방식 등)을 직접적으로 드러내지 않고, 이벤트 목표인 '피의 제사'에 대한 정보 수준에서 위기감을 조성함으로써 reveal_order를 준수하였습니다.",
+  "prose_sha256": "1637404e861d5298088469a0c8a0432f78afb9878926522c6b554c89f1b41906",
+  "scene_contract_sha256": "b039e5ec60e65f4074ea1c28a627e8ef9d1542187e8ecb3e11eac88c10831c11"
+}

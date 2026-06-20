@@ -1,0 +1,17 @@
+{
+  "scene_id": "V2-E02-S04",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 배신자와의 갈등 및 제압 과정이 상세하게 묘사되었으며, 시작 상태(잔혹성 인지)에서 종료 상태(내부 위협 제거)로의 전이가 매끄럽게 이루어졌습니다. 가용 설정인 심박 통제 호흡법(EL-01)과 왼팔의 부재(EL-03)를 적절히 활용하였으며, future_forbidden에 해당하는 미래 사건이나 설정(유적의 구체적 묘사, 마력 방패, 발타자르의 정체 등)을 선취하지 않았습니다. 직전 산문과의 연결성 또한 매우 뛰어납니다.",
+  "prose_sha256": "41a2190dc0d595eace3edde076792203a07096b2b87191385b52420631c0833f",
+  "scene_contract_sha256": "5fbe47f332dfa00d6891935931c5b07707ca74bfb0478fc6764953ed57772e57"
+}

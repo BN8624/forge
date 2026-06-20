@@ -1,0 +1,17 @@
+{
+  "scene_id": "V2-E01-S01",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 남매의 긴장감과 심리적 상태 묘사가 충실히 수행되었으며, '목표 설정'에서 '탈출 시작'으로의 상태 전이가 명확합니다. available canon(C1, C8, C9, C11, C12 등)과 element(EL-01, EL-03)를 적절히 활용하였으며, future_forbidden에 해당하는 미래 사건이나 설정(두 번째 조각의 위치, 배신으로 인한 팔 상실의 구체적 경위, 마력 방패의 특성 등)을 선취하지 않았습니다. 직전 승인 산문의 흐름을 유지하면서 묘사를 보강하여 연속성을 확보했습니다.",
+  "prose_sha256": "4a35aca1bbbc41ab9f652e887fcd640d6f963a6d19a333871faae32208c00725",
+  "scene_contract_sha256": "a13c9bfddef7acb41b992680f45dfc797acf14a3adc843bba51bce29e89aed7f"
+}
