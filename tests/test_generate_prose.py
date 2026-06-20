@@ -388,6 +388,7 @@ class GenerateProseTests(unittest.TestCase):
     def test_el04_future_guard_forbids_generalized_combat_growth(self) -> None:
         guard = build_future_element_guard(
             {
+                "scene": {"objective": "방패의 사각지대를 공격한다."},
                 "element_constraints": {
                     "future_forbidden": [
                         {"id": "EL-04", "description": "미래 변칙 검술"}
@@ -399,6 +400,8 @@ class GenerateProseTests(unittest.TestCase):
         self.assertIn("EL-04 특별 경계", guard)
         self.assertIn("리아의 도움, 환경, 상대의 실수", guard)
         self.assertIn("새 기술로 명명하지 않는다", guard)
+        self.assertIn("기존의 정석적 직선 공격", guard)
+        self.assertIn("방패의 틈을 만들거나 돌파하는 원인", guard)
 
     def test_batch_generates_scenes_in_order_with_limit(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
