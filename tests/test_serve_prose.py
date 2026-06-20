@@ -4,7 +4,13 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from pipeline.serve_prose import load_volume, make_handler, render_volume
+from pipeline.serve_prose import (
+    load_volume,
+    make_handler,
+    make_library_handler,
+    render_library,
+    render_volume,
+)
 
 
 class ServeProseTests(unittest.TestCase):
@@ -65,6 +71,16 @@ class ServeProseTests(unittest.TestCase):
     def test_handler_factory_returns_request_handler(self) -> None:
         handler = make_handler(b"<html></html>", b"epub", "V1.epub")
 
+        self.assertTrue(hasattr(handler, "do_GET"))
+
+    def test_library_lists_reading_and_epub_links(self) -> None:
+        volume = load_volume(self.root, "V1")
+        page = render_library([volume]).decode("utf-8")
+        handler = make_library_handler(b"index", {"V1": b"page"}, {"V1": b"epub"})
+
+        self.assertIn('href="/V1/"', page)
+        self.assertIn('href="/V1.epub"', page)
+        self.assertIn("2개 장면", page)
         self.assertTrue(hasattr(handler, "do_GET"))
 
 

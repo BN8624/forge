@@ -160,6 +160,85 @@ a {{ color: inherit; text-underline-offset: 4px; }}
     return page.encode("utf-8")
 
 
+def render_library(volumes: list[dict]) -> bytes:
+    cards = []
+    for volume in volumes:
+        scene_count = sum(len(event["scenes"]) for event in volume["events"])
+        cards.append(
+            '<article class="book">'
+            f'<p class="volume">{html.escape(volume["id"])}</p>'
+            f'<h2>{html.escape(volume["title"])}</h2>'
+            f"<p>{scene_count}개 장면</p>"
+            f'<p><a href="/{html.escape(volume["id"])}/">읽기</a>'
+            f' <a href="/{html.escape(volume["id"])}.epub" download>EPUB</a></p>'
+            "</article>"
+        )
+    series_title = volumes[0]["series_title"]
+    page = f"""<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>{html.escape(series_title)} 전권</title>
+<style>
+:root {{ color-scheme: light dark; --paper:#f7f2e8; --ink:#28241e; --line:#d8cdbd; }}
+* {{ box-sizing:border-box; }}
+body {{ margin:0; background:var(--paper); color:var(--ink); font-family:ui-serif,"Noto Serif KR","Apple SD Gothic Neo",serif; }}
+main {{ width:min(100% - 40px,720px); margin:0 auto; padding:max(48px,env(safe-area-inset-top)) 0 80px; }}
+h1 {{ font-size:clamp(2rem,8vw,3.2rem); margin:0 0 40px; }}
+.book {{ border-top:1px solid var(--line); padding:24px 0; }}
+.book h2 {{ margin:4px 0; font-size:1.55rem; }}
+.volume {{ opacity:.65; margin:0; }}
+a {{ display:inline-block; margin-right:8px; color:inherit; text-underline-offset:4px; }}
+@media (prefers-color-scheme:dark) {{ :root {{--paper:#181714;--ink:#e9e2d5;--line:#403b34;}} }}
+</style>
+</head>
+<body><main><h1>{html.escape(series_title)}</h1>{"".join(cards)}</main></body>
+</html>"""
+    return page.encode("utf-8")
+
+
+def make_library_handler(
+    index_page: bytes,
+    pages: dict[str, bytes],
+    epubs: dict[str, bytes],
+):
+    class LibraryHandler(BaseHTTPRequestHandler):
+        def do_GET(self) -> None:
+            path = urlparse(self.path).path
+            filename = None
+            if path == "/health":
+                body, content_type, status = b"ok", "text/plain; charset=utf-8", 200
+            elif path == "/":
+                body, content_type, status = index_page, "text/html; charset=utf-8", 200
+            elif path.rstrip("/").lstrip("/") in pages:
+                volume_id = path.rstrip("/").lstrip("/")
+                body, content_type, status = pages[volume_id], "text/html; charset=utf-8", 200
+            elif path.lstrip("/").removesuffix(".epub") in epubs:
+                volume_id = path.lstrip("/").removesuffix(".epub")
+                filename = f"{volume_id}.epub"
+                body, content_type, status = epubs[volume_id], "application/epub+zip", 200
+            else:
+                body, content_type, status = b"not found", "text/plain; charset=utf-8", 404
+
+            self.send_response(status)
+            self.send_header("Content-Type", content_type)
+            self.send_header("Content-Length", str(len(body)))
+            self.send_header("Cache-Control", "no-store")
+            if filename:
+                self.send_header(
+                    "Content-Disposition", f'attachment; filename="{filename}"'
+                )
+            self.end_headers()
+            self.wfile.write(body)
+
+        def log_message(self, format: str, *args) -> None:
+            return
+
+    return LibraryHandler
+
+
 def make_handler(page: bytes, epub: bytes | None = None, epub_filename: str = "book.epub"):
     class ProseHandler(BaseHTTPRequestHandler):
         def do_GET(self) -> None:
@@ -192,21 +271,32 @@ def make_handler(page: bytes, epub: bytes | None = None, epub_filename: str = "b
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="승인된 권별 산문 읽기 서버")
-    parser.add_argument("--volume", default="V1")
+    parser.add_argument("--volume", default="all")
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8765)
     args = parser.parse_args()
 
     from pipeline.export_epub import epub_bytes
 
-    volume = load_volume(ROOT, args.volume)
-    epub_filename = f"{args.volume}.epub"
-    epub = epub_bytes(volume)
-    page = render_volume(volume, epub_filename)
-    server = ThreadingHTTPServer(
-        (args.host, args.port), make_handler(page, epub, epub_filename)
-    )
-    print(f"http://{args.host}:{args.port} 에서 {args.volume} 산문을 제공합니다.")
+    if args.volume == "all":
+        series = read_json(ROOT / "story" / "series.json")
+        volumes = [load_volume(ROOT, volume_id) for volume_id in series["volume_ids"]]
+        pages = {
+            volume["id"]: render_volume(volume, f'{volume["id"]}.epub')
+            for volume in volumes
+        }
+        epubs = {volume["id"]: epub_bytes(volume) for volume in volumes}
+        handler = make_library_handler(render_library(volumes), pages, epubs)
+        label = "전권"
+    else:
+        volume = load_volume(ROOT, args.volume)
+        epub_filename = f"{args.volume}.epub"
+        epub = epub_bytes(volume)
+        page = render_volume(volume, epub_filename)
+        handler = make_handler(page, epub, epub_filename)
+        label = args.volume
+    server = ThreadingHTTPServer((args.host, args.port), handler)
+    print(f"http://{args.host}:{args.port} 에서 {label} 산문을 제공합니다.")
     server.serve_forever()
 
 
