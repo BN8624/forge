@@ -1,0 +1,20 @@
+{
+  "id": "V4-E02-S04",
+  "event_id": "V4-E02",
+  "sequence": 4,
+  "objective": "제국군의 포위망이 좁혀오는 상황에서 리아의 지혜로 탈출로 확보",
+  "previous_scene_id": "V4-E02-S03",
+  "start_state": {
+    "status": "소규모 교전 승리"
+  },
+  "end_state": {
+    "status": "포위망 탈출"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4000
+}

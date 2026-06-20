@@ -1,0 +1,20 @@
+{
+  "id": "V5-E01-S04",
+  "event_id": "V5-E01",
+  "sequence": 4,
+  "objective": "다섯 개의 조각이 공명하며 전대 왕의 모든 기록이 하나로 통합되는 과정을 묘사한다.",
+  "previous_scene_id": "V5-E01-S03",
+  "start_state": {
+    "status": "조각 활성화"
+  },
+  "end_state": {
+    "status": "기억의 통합"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3800
+}

@@ -1,0 +1,20 @@
+{
+  "id": "V4-E01-S05",
+  "event_id": "V4-E01",
+  "sequence": 5,
+  "objective": "고대 성소의 흔적을 발견하고 목적지에 대한 확신을 가짐",
+  "previous_scene_id": "V4-E01-S04",
+  "start_state": {
+    "status": "고지대 도달"
+  },
+  "end_state": {
+    "status": "성소 위치 파악"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4000
+}

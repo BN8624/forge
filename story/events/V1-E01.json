@@ -2,16 +2,21 @@
   "id": "V1-E01",
   "volume_id": "V1",
   "sequence": 1,
-  "objective": "감시망을 뚫고 에테르노 지하로 잠입한다.",
+  "objective": "제국의 삼엄한 감시망을 뚫고 에테르노 성문 내부로 진입한다.",
   "start_state": {
     "mood": "압도적",
     "danger": "높음"
   },
   "end_state": {
-    "status": "배수로 진입"
+    "status": "도시 진입 성공"
   },
   "scene_ids": [
     "V1-E01-S01",
-    "V1-E01-S02"
+    "V1-E01-S02",
+    "V1-E01-S03",
+    "V1-E01-S04",
+    "V1-E01-S05",
+    "V1-E01-S06",
+    "V1-E01-S07"
   ]
 }

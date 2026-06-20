@@ -1,0 +1,22 @@
+{
+  "id": "V2-E04-S03",
+  "event_id": "V2-E04",
+  "sequence": 3,
+  "objective": "제국 정예병의 기하학적 마력 방패에 가로막혀 카엘의 정석 검술이 무력화되는 과정을 상세히 묘사한다.",
+  "previous_scene_id": "V2-E04-S02",
+  "start_state": {
+    "status": "전투 개시"
+  },
+  "end_state": {
+    "status": "전술적 난관"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [
+      "EL-02"
+    ],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4500
+}

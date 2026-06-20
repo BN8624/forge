@@ -1,0 +1,20 @@
+{
+  "id": "V2-E01-S04",
+  "event_id": "V2-E01",
+  "sequence": 4,
+  "objective": "성문 외곽의 검문소에서 위조 통행증과 호흡법을 이용해 위기를 모면하는 과정을 긴박하게 묘사한다.",
+  "previous_scene_id": "V2-E01-S03",
+  "start_state": {
+    "status": "정서적 유대 강화"
+  },
+  "end_state": {
+    "status": "성문 통과"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4500
+}

@@ -2,15 +2,18 @@
   "id": "V2-E01",
   "volume_id": "V2",
   "sequence": 1,
-  "objective": "고대 유적으로 향하며 제국의 위협을 인지한다.",
+  "objective": "에테르노 외곽으로 탈출하며 제국의 감시망과 심리적 압박을 극복한다.",
   "start_state": {
     "status": "목표 설정"
   },
   "end_state": {
-    "status": "위기감 고조"
+    "status": "외곽 진입 성공"
   },
   "scene_ids": [
     "V2-E01-S01",
-    "V2-E01-S02"
+    "V2-E01-S02",
+    "V2-E01-S03",
+    "V2-E01-S04",
+    "V2-E01-S05"
   ]
 }

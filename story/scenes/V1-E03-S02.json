@@ -1,0 +1,22 @@
+{
+  "id": "V1-E03-S02",
+  "event_id": "V1-E03",
+  "sequence": 2,
+  "objective": "낡은 지도를 해석하며 제단으로 향하는 갈림길에서 겪는 혼란과 선택의 과정을 다룬다.",
+  "previous_scene_id": "V1-E03-S01",
+  "start_state": {
+    "mood": "경외",
+    "danger": "중간"
+  },
+  "end_state": {
+    "mood": "초조",
+    "danger": "높음"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3000
+}

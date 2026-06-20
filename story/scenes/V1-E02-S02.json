@@ -2,13 +2,15 @@
   "id": "V1-E02-S02",
   "event_id": "V1-E02",
   "sequence": 2,
-  "objective": "왕가의 피로 조각을 활성화한다.",
+  "objective": "배수로 입구에 대한 정보를 가진 은밀한 접선자와의 위험한 만남과 협상을 다룬다.",
   "previous_scene_id": "V1-E02-S01",
   "start_state": {
-    "status": "조각 접촉"
+    "mood": "침울",
+    "danger": "중간"
   },
   "end_state": {
-    "status": "광휘 발생"
+    "mood": "의심",
+    "danger": "높음"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 600
+  "target_chars": 3500
 }

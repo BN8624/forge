@@ -2,13 +2,13 @@
   "id": "V3-E01-S01",
   "event_id": "V3-E01",
   "sequence": 1,
-  "objective": "북부 무기고에서 세 번째 조각을 확보한다.",
-  "previous_scene_id": "V2-E02-S03",
+  "objective": "북부 고봉의 가혹한 환경과 카엘의 신체적 제약을 묘사한다.",
+  "previous_scene_id": "V2-E04-S08",
   "start_state": {
     "status": "증오와 결의"
   },
   "end_state": {
-    "status": "조각 획득"
+    "status": "여정 시작"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 800
+  "target_chars": 3500
 }

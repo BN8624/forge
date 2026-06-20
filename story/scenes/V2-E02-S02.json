@@ -2,21 +2,19 @@
   "id": "V2-E02-S02",
   "event_id": "V2-E02",
   "sequence": 2,
-  "objective": "제국 정예병의 마력 방패에 가로막힌다.",
+  "objective": "마을의 장로 혹은 생존자로부터 '피의 제사'와 개기일식에 관한 불길한 소문을 듣는다.",
   "previous_scene_id": "V2-E02-S01",
   "start_state": {
-    "status": "조각 발견"
+    "status": "피난민 접촉"
   },
   "end_state": {
-    "status": "전술적 패배/간신히 생존"
+    "status": "정보 획득"
   },
   "owns": {
     "changes": [],
-    "setups": [
-      "EL-02"
-    ],
+    "setups": [],
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 1100
+  "target_chars": 4000
 }

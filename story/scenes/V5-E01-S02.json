@@ -2,13 +2,13 @@
   "id": "V5-E01-S02",
   "event_id": "V5-E01",
   "sequence": 2,
-  "objective": "발타자르의 혈액 추출 만행을 목격한다.",
+  "objective": "고대 성소 내부의 복잡한 함정과 왕가의 시련을 돌파한다.",
   "previous_scene_id": "V5-E01-S01",
   "start_state": {
-    "status": "기억의 통합"
+    "status": "성소 입구 도착"
   },
   "end_state": {
-    "status": "극심한 분노"
+    "status": "제단 앞 도착"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 900
+  "target_chars": 3500
 }

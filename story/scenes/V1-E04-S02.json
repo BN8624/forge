@@ -1,0 +1,21 @@
+{
+  "id": "V1-E04-S02",
+  "event_id": "V1-E04",
+  "sequence": 2,
+  "objective": "조각을 회수하려다 발생하는 사고로 카엘의 피가 조각에 닿는 찰나의 순간을 세밀하게 묘사한다.",
+  "previous_scene_id": "V1-E04-S01",
+  "start_state": {
+    "mood": "경외",
+    "danger": "중간"
+  },
+  "end_state": {
+    "status": "조각 접촉"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3000
+}

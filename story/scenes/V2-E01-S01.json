@@ -2,13 +2,13 @@
   "id": "V2-E01-S01",
   "event_id": "V2-E01",
   "sequence": 1,
-  "objective": "고대 유적으로 향하는 험난한 여정을 묘사한다.",
-  "previous_scene_id": "V1-E02-S03",
+  "objective": "첫 번째 조각 획득 후 에테르노를 벗어나려는 남매의 긴장감과 심리적 상태를 묘사한다.",
+  "previous_scene_id": "V1-E04-S07",
   "start_state": {
     "status": "목표 설정"
   },
   "end_state": {
-    "status": "유적 인근 도착"
+    "status": "탈출 시작"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 700
+  "target_chars": 3500
 }

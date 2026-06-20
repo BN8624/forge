@@ -2,16 +2,18 @@
   "id": "V2-E02",
   "volume_id": "V2",
   "sequence": 2,
-  "objective": "두 번째 조각을 회수하고 학살의 기억을 본다.",
+  "objective": "피난민들과의 접촉을 통해 '피의 제사'에 대한 정보를 수집하고 위기감을 고조시킨다.",
   "start_state": {
-    "status": "위기감 고조"
+    "status": "외곽 진입 성공"
   },
   "end_state": {
-    "status": "증오와 결의"
+    "status": "위기감 고조"
   },
   "scene_ids": [
     "V2-E02-S01",
     "V2-E02-S02",
-    "V2-E02-S03"
+    "V2-E02-S03",
+    "V2-E02-S04",
+    "V2-E02-S05"
   ]
 }

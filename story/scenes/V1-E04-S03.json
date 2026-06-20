@@ -1,0 +1,20 @@
+{
+  "id": "V1-E04-S03",
+  "event_id": "V1-E04",
+  "sequence": 3,
+  "objective": "리아의 피가 겹쳐 떨어지며 조각이 완전히 활성화되는 폭발적인 광휘의 과정을 그린다.",
+  "previous_scene_id": "V1-E04-S02",
+  "start_state": {
+    "status": "조각 접촉"
+  },
+  "end_state": {
+    "status": "광휘 발생"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3500
+}

@@ -2,15 +2,19 @@
   "id": "V3-E02",
   "volume_id": "V3",
   "sequence": 2,
-  "objective": "배신의 기억을 통해 상실을 수용한다.",
+  "objective": "제국군의 잔존 병력을 돌파하여 세 번째 영혼의 조각을 확보한다.",
   "start_state": {
-    "status": "조각 획득"
+    "status": "무기고 도착"
   },
   "end_state": {
-    "status": "환상통 극복"
+    "status": "조각 획득"
   },
   "scene_ids": [
     "V3-E02-S01",
-    "V3-E02-S02"
+    "V3-E02-S02",
+    "V3-E02-S03",
+    "V3-E02-S04",
+    "V3-E02-S05",
+    "V3-E02-S06"
   ]
 }

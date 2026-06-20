@@ -1,0 +1,20 @@
+{
+  "id": "V3-E04-S01",
+  "event_id": "V3-E04",
+  "sequence": 1,
+  "objective": "현실로 돌아온 카엘이 기억의 충격으로 인해 극심한 환상통에 휩싸이는 과정을 묘사한다.",
+  "previous_scene_id": "V3-E03-S06",
+  "start_state": {
+    "status": "진실 확인"
+  },
+  "end_state": {
+    "status": "정신적 혼란"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3800
+}

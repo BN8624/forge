@@ -1,0 +1,22 @@
+{
+  "id": "V1-E01-S03",
+  "event_id": "V1-E01",
+  "sequence": 3,
+  "objective": "검문소로 향하는 길목에서 목격하는 제국병들의 잔혹한 통제와 시민들의 공포를 묘사한다.",
+  "previous_scene_id": "V1-E01-S02",
+  "start_state": {
+    "mood": "비장",
+    "danger": "매우 높음"
+  },
+  "end_state": {
+    "mood": "공포",
+    "danger": "극도로 높음"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3500
+}

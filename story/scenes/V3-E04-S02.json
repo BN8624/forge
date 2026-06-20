@@ -1,0 +1,20 @@
+{
+  "id": "V3-E04-S02",
+  "event_id": "V3-E04",
+  "sequence": 2,
+  "objective": "리아가 카엘을 진정시키며, 상실은 패배가 아닌 새로운 시작임을 역설한다.",
+  "previous_scene_id": "V3-E04-S01",
+  "start_state": {
+    "status": "정신적 혼란"
+  },
+  "end_state": {
+    "status": "안정 도모"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3400
+}

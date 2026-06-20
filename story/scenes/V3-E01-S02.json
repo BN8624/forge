@@ -1,0 +1,20 @@
+{
+  "id": "V3-E01-S02",
+  "event_id": "V3-E01",
+  "sequence": 2,
+  "objective": "북부 피난민들과의 접촉을 통해 무기고의 현재 상황과 경비 체계를 조사한다.",
+  "previous_scene_id": "V3-E01-S01",
+  "start_state": {
+    "status": "여정 시작"
+  },
+  "end_state": {
+    "status": "정보 수집"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4000
+}

@@ -1,0 +1,22 @@
+{
+  "id": "V1-E02-S05",
+  "event_id": "V1-E02",
+  "sequence": 5,
+  "objective": "배수로 입구의 좁고 험난한 틈새를 통과하며 겪는 신체적 고충과 긴장감을 묘사한다.",
+  "previous_scene_id": "V1-E02-S04",
+  "start_state": {
+    "mood": "결의",
+    "danger": "중간"
+  },
+  "end_state": {
+    "mood": "긴장",
+    "danger": "중간"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3000
+}

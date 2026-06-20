@@ -1,0 +1,20 @@
+{
+  "id": "V5-E02-S05",
+  "event_id": "V5-E02",
+  "sequence": 5,
+  "objective": "한계까지 몸을 밀어붙이며 수도로 회군하는 과정에서의 육체적, 정신적 소모를 묘사한다.",
+  "previous_scene_id": "V5-E02-S04",
+  "start_state": {
+    "status": "이동 경로 확정"
+  },
+  "end_state": {
+    "status": "수도 외곽 도착"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4000
+}

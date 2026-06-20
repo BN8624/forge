@@ -2,13 +2,14 @@
   "id": "V1-E02-S01",
   "event_id": "V1-E02",
   "sequence": 1,
-  "objective": "지하 제단에서 첫 번째 조각을 발견한다.",
-  "previous_scene_id": "V1-E01-S02",
+  "objective": "에테르노 상층부의 화려함과 극명하게 대비되는 슬럼가의 처참한 환경을 묘사한다.",
+  "previous_scene_id": "V1-E01-S07",
   "start_state": {
-    "status": "배수로 진입"
+    "status": "도시 진입 성공"
   },
   "end_state": {
-    "status": "조각 접촉"
+    "mood": "침울",
+    "danger": "중간"
   },
   "owns": {
     "changes": [],
@@ -16,5 +17,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 700
+  "target_chars": 3000
 }

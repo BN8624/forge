@@ -1,0 +1,20 @@
+{
+  "id": "V5-E02-S03",
+  "event_id": "V5-E02",
+  "sequence": 3,
+  "objective": "개기일식이라는 시간적 제약이 주는 압박감과 제국의 운명이 걸린 상황을 분석한다.",
+  "previous_scene_id": "V5-E02-S02",
+  "start_state": {
+    "status": "정보 획득"
+  },
+  "end_state": {
+    "status": "위기감 고조"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3000
+}

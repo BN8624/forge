@@ -1,0 +1,20 @@
+{
+  "id": "V5-E04-S03",
+  "event_id": "V5-E04",
+  "sequence": 3,
+  "objective": "정석적인 검술이 발타자르의 마력 방패에 막히는 절망적인 상황을 묘사한다.",
+  "previous_scene_id": "V5-E04-S02",
+  "start_state": {
+    "status": "전투 고조"
+  },
+  "end_state": {
+    "status": "전술적 한계"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4000
+}

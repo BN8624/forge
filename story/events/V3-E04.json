@@ -1,0 +1,21 @@
+{
+  "id": "V3-E04",
+  "volume_id": "V3",
+  "sequence": 4,
+  "objective": "과거의 트라우마가 불러온 환상통을 수용하고 정신적 각성을 이룬다.",
+  "start_state": {
+    "status": "진실 확인"
+  },
+  "end_state": {
+    "status": "환상통 극복"
+  },
+  "scene_ids": [
+    "V3-E04-S01",
+    "V3-E04-S02",
+    "V3-E04-S03",
+    "V3-E04-S04",
+    "V3-E04-S05",
+    "V3-E04-S06",
+    "V3-E04-S07"
+  ]
+}

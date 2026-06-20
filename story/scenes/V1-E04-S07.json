@@ -1,0 +1,21 @@
+{
+  "id": "V1-E04-S07",
+  "event_id": "V1-E04",
+  "sequence": 7,
+  "objective": "활성화된 조각의 빛이 유발한 마력 파동으로 제국군이 제단 근처까지 접근한 상황을 묘사하며 긴박하게 탈출한다.",
+  "previous_scene_id": "V1-E04-S06",
+  "start_state": {
+    "mood": "결의",
+    "danger": "중간"
+  },
+  "end_state": {
+    "status": "목표 설정"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3000
+}

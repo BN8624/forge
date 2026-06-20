@@ -1,0 +1,20 @@
+{
+  "id": "V2-E03-S03",
+  "event_id": "V2-E03",
+  "sequence": 3,
+  "objective": "벽면에 새겨진 왕가의 기록들을 보며 리아가 자신의 혈통에 대해 느끼는 경외감과 슬픔을 묘사한다.",
+  "previous_scene_id": "V2-E03-S02",
+  "start_state": {
+    "status": "1차 관문 돌파"
+  },
+  "end_state": {
+    "status": "혈통의 자각"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3000
+}

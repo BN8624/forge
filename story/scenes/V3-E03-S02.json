@@ -1,0 +1,20 @@
+{
+  "id": "V3-E03-S02",
+  "event_id": "V3-E03",
+  "sequence": 2,
+  "objective": "팔을 잃기 전, 제국 최고의 검사로 칭송받던 카엘의 찬란했던 일상을 재현한다.",
+  "previous_scene_id": "V3-E03-S01",
+  "start_state": {
+    "status": "기억 진입"
+  },
+  "end_state": {
+    "status": "정점의 기억"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4000
+}

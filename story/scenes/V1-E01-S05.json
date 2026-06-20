@@ -1,0 +1,24 @@
+{
+  "id": "V1-E01-S05",
+  "event_id": "V1-E01",
+  "sequence": 5,
+  "objective": "심박 통제 호흡법을 통해 수정구의 탐지를 회피하며 검문소를 무사히 통과한다.",
+  "previous_scene_id": "V1-E01-S04",
+  "start_state": {
+    "mood": "초조",
+    "danger": "극도로 높음"
+  },
+  "end_state": {
+    "mood": "안도",
+    "danger": "중간"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [
+      "EL-01"
+    ],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4000
+}

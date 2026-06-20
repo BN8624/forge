@@ -1,0 +1,20 @@
+{
+  "id": "V3-E03-S03",
+  "event_id": "V3-E03",
+  "sequence": 3,
+  "objective": "동료들과의 신뢰 속에 숨겨진 발타자르의 은밀한 포섭과 배신의 전조를 묘사한다.",
+  "previous_scene_id": "V3-E03-S02",
+  "start_state": {
+    "status": "정점의 기억"
+  },
+  "end_state": {
+    "status": "균열의 시작"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4200
+}

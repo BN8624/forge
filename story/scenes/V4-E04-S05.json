@@ -1,0 +1,20 @@
+{
+  "id": "V4-E04-S05",
+  "event_id": "V4-E04",
+  "sequence": 5,
+  "objective": "방패의 사각지대를 정확히 꿰뚫어 정예병 지휘관을 격파",
+  "previous_scene_id": "V4-E04-S04",
+  "start_state": {
+    "status": "실전 적용 성공"
+  },
+  "end_state": {
+    "status": "최종 적 제압"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4000
+}

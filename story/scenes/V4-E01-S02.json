@@ -1,0 +1,20 @@
+{
+  "id": "V4-E01-S02",
+  "event_id": "V4-E01",
+  "sequence": 2,
+  "objective": "눈보라 속에서 길을 잃고 생존을 위해 투쟁하는 과정",
+  "previous_scene_id": "V4-E01-S01",
+  "start_state": {
+    "status": "이동 시작"
+  },
+  "end_state": {
+    "status": "임시 거처 발견"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4000
+}

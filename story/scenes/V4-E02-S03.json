@@ -1,0 +1,20 @@
+{
+  "id": "V4-E02-S03",
+  "event_id": "V4-E02",
+  "sequence": 3,
+  "objective": "정찰대 일부를 유인하여 처리하는 카엘의 전술적 교전",
+  "previous_scene_id": "V4-E02-S02",
+  "start_state": {
+    "status": "은신 유지"
+  },
+  "end_state": {
+    "status": "소규모 교전 승리"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4000
+}

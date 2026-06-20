@@ -1,0 +1,20 @@
+{
+  "id": "V5-E02-S06",
+  "event_id": "V5-E02",
+  "sequence": 6,
+  "objective": "에테르노의 삼엄한 경계 상태를 확인하며 최종 진입 작전을 구상한다.",
+  "previous_scene_id": "V5-E02-S05",
+  "start_state": {
+    "status": "수도 외곽 도착"
+  },
+  "end_state": {
+    "status": "수도로 출발"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3000
+}

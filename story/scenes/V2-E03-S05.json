@@ -1,0 +1,20 @@
+{
+  "id": "V2-E03-S05",
+  "event_id": "V2-E03",
+  "sequence": 5,
+  "objective": "두 번째 조각이 뿜어내는 창백한 빛이 보이기 시작하는 최심층 제단 앞에 도착한다.",
+  "previous_scene_id": "V2-E03-S04",
+  "start_state": {
+    "status": "심층부 진입"
+  },
+  "end_state": {
+    "status": "조각 발견 직전"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3000
+}

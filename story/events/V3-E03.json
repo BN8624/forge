@@ -1,0 +1,20 @@
+{
+  "id": "V3-E03",
+  "volume_id": "V3",
+  "sequence": 3,
+  "objective": "조각의 기억 속에서 팔을 잃게 된 배신의 전말과 마주한다.",
+  "start_state": {
+    "status": "조각 획득"
+  },
+  "end_state": {
+    "status": "진실 확인"
+  },
+  "scene_ids": [
+    "V3-E03-S01",
+    "V3-E03-S02",
+    "V3-E03-S03",
+    "V3-E03-S04",
+    "V3-E03-S05",
+    "V3-E03-S06"
+  ]
+}

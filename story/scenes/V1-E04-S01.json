@@ -1,0 +1,21 @@
+{
+  "id": "V1-E04-S01",
+  "event_id": "V1-E04",
+  "sequence": 1,
+  "objective": "제단 위에 놓인 첫 번째 영혼의 조각이 내뿜는 기이한 빛과 그 압도적인 마력을 묘사한다.",
+  "previous_scene_id": "V1-E03-S07",
+  "start_state": {
+    "status": "제단 도착"
+  },
+  "end_state": {
+    "mood": "경외",
+    "danger": "중간"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3000
+}

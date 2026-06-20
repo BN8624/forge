@@ -1,0 +1,20 @@
+{
+  "id": "V3-E04-S04",
+  "event_id": "V3-E04",
+  "sequence": 4,
+  "objective": "트라우마로 인해 검을 제대로 휘두르지 못하는 카엘의 내적 갈등을 묘사한다.",
+  "previous_scene_id": "V3-E04-S03",
+  "start_state": {
+    "status": "최후의 대립"
+  },
+  "end_state": {
+    "status": "한계 봉착"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3600
+}

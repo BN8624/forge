@@ -1,0 +1,20 @@
+{
+  "id": "V5-E03-S06",
+  "event_id": "V5-E03",
+  "sequence": 6,
+  "objective": "최종 결전지인 성소의 문 앞까지 도달하며 최후의 각오를 다진다.",
+  "previous_scene_id": "V5-E03-S05",
+  "start_state": {
+    "status": "감시망 무력화"
+  },
+  "end_state": {
+    "status": "성소 문 앞 도착"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4000
+}

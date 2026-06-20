@@ -1,0 +1,22 @@
+{
+  "id": "V1-E01-S06",
+  "event_id": "V1-E01",
+  "sequence": 6,
+  "objective": "도시 내부로 진입한 후, 추적을 피하기 위해 군중 속에 섞여드는 과정과 도시의 기괴한 풍경을 묘사한다.",
+  "previous_scene_id": "V1-E01-S05",
+  "start_state": {
+    "mood": "안도",
+    "danger": "중간"
+  },
+  "end_state": {
+    "mood": "긴장",
+    "danger": "중간"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3000
+}

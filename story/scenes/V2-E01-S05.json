@@ -1,0 +1,20 @@
+{
+  "id": "V2-E01-S05",
+  "event_id": "V2-E01",
+  "sequence": 5,
+  "objective": "에테르노의 성벽을 완전히 벗어나 황량한 외곽 지대로 진입하며 느끼는 해방감과 새로운 불안을 묘사한다.",
+  "previous_scene_id": "V2-E01-S04",
+  "start_state": {
+    "status": "성문 통과"
+  },
+  "end_state": {
+    "status": "외곽 진입 성공"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3000
+}

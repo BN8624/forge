@@ -1,0 +1,20 @@
+{
+  "id": "V2-E02-S05",
+  "event_id": "V2-E02",
+  "sequence": 5,
+  "objective": "제사까지 남은 시간이 얼마 없음을 깨닫고, 유적으로 향하는 여정을 서둘러야 한다는 결론에 도달한다.",
+  "previous_scene_id": "V2-E02-S04",
+  "start_state": {
+    "status": "내부 위협 제거"
+  },
+  "end_state": {
+    "status": "위기감 고조"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3000
+}

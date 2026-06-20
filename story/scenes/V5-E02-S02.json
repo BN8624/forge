@@ -2,13 +2,13 @@
   "id": "V5-E02-S02",
   "event_id": "V5-E02",
   "sequence": 2,
-  "objective": "개기일식 전까지 에테르노로 돌아갈 것을 결심한다.",
+  "objective": "생포한 제국군 지휘관을 심문하여 '피의 제사'의 정확한 시점과 규모를 알아낸다.",
   "previous_scene_id": "V5-E02-S01",
   "start_state": {
-    "status": "정보 획득"
+    "status": "추격대 제압"
   },
   "end_state": {
-    "status": "수도로 출발"
+    "status": "정보 획득"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 600
+  "target_chars": 3200
 }

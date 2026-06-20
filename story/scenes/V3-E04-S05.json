@@ -1,0 +1,20 @@
+{
+  "id": "V3-E04-S05",
+  "event_id": "V3-E04",
+  "sequence": 5,
+  "objective": "환상통을 밀어내는 것이 아니라, 그 고통을 자신의 일부로 받아들이는 각성을 묘사한다.",
+  "previous_scene_id": "V3-E04-S04",
+  "start_state": {
+    "status": "한계 봉착"
+  },
+  "end_state": {
+    "status": "고통의 수용"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4200
+}

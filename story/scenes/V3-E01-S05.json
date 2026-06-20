@@ -1,0 +1,20 @@
+{
+  "id": "V3-E01-S05",
+  "event_id": "V3-E01",
+  "sequence": 5,
+  "objective": "북부 무기고의 외곽 지형에 도착하여 진입 경로를 결정한다.",
+  "previous_scene_id": "V3-E01-S04",
+  "start_state": {
+    "status": "정신적 회복"
+  },
+  "end_state": {
+    "status": "무기고 도착"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3500
+}

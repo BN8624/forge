@@ -1,0 +1,20 @@
+{
+  "id": "V5-E01-S05",
+  "event_id": "V5-E01",
+  "sequence": 5,
+  "objective": "발타자르가 지하 감옥에서 방계 혈족들의 피를 착취해온 참혹한 진실을 목격한다.",
+  "previous_scene_id": "V5-E01-S04",
+  "start_state": {
+    "status": "기억의 통합"
+  },
+  "end_state": {
+    "status": "진실 자각"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4200
+}

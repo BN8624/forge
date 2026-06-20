@@ -1,0 +1,20 @@
+{
+  "id": "V3-E04-S06",
+  "event_id": "V3-E04",
+  "sequence": 6,
+  "objective": "환상통을 역이용한 변칙적인 일격으로 적을 격파하며 신체적/정신적 승리를 거둔다.",
+  "previous_scene_id": "V3-E04-S05",
+  "start_state": {
+    "status": "고통의 수용"
+  },
+  "end_state": {
+    "status": "전투 승리"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4000
+}

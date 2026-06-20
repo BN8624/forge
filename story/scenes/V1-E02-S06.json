@@ -1,0 +1,22 @@
+{
+  "id": "V1-E02-S06",
+  "event_id": "V1-E02",
+  "sequence": 6,
+  "objective": "마침내 지하 배수로 내부로 진입하여 지상의 감시망으로부터 격리되는 순간의 해방감을 묘사한다.",
+  "previous_scene_id": "V1-E02-S05",
+  "start_state": {
+    "mood": "긴장",
+    "danger": "중간"
+  },
+  "end_state": {
+    "mood": "안도",
+    "danger": "낮음"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3000
+}

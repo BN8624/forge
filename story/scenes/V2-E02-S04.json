@@ -1,0 +1,20 @@
+{
+  "id": "V2-E02-S04",
+  "event_id": "V2-E02",
+  "sequence": 4,
+  "objective": "제국군에 협력하여 피난민을 밀고하는 배신자와의 갈등 및 이를 제압하는 카엘의 모습을 묘사한다.",
+  "previous_scene_id": "V2-E02-S03",
+  "start_state": {
+    "status": "잔혹성 인지"
+  },
+  "end_state": {
+    "status": "내부 위협 제거"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4000
+}

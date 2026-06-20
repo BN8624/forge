@@ -2,13 +2,13 @@
   "id": "V5-E03-S02",
   "event_id": "V5-E03",
   "sequence": 2,
-  "objective": "제국의 눈을 파괴하며 시민들에게 희망을 알린다.",
+  "objective": "도시 전역에 설치된 '제국의 눈' 감시망의 작동 원리를 파악하고 사각지대를 이용해 이동한다.",
   "previous_scene_id": "V5-E03-S01",
   "start_state": {
-    "status": "내성 진입"
+    "status": "빈민가 잠입"
   },
   "end_state": {
-    "status": "성소 문 앞 도착"
+    "status": "궁전 외곽 접근"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 800
+  "target_chars": 3000
 }

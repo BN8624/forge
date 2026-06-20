@@ -1,0 +1,22 @@
+{
+  "id": "V1-E01-S04",
+  "event_id": "V1-E01",
+  "sequence": 4,
+  "objective": "위조 통행증을 제시하며 감시병과 대치하는 찰나의 심리전과 긴장감을 세밀하게 그린다.",
+  "previous_scene_id": "V1-E01-S03",
+  "start_state": {
+    "mood": "공포",
+    "danger": "극도로 높음"
+  },
+  "end_state": {
+    "mood": "초조",
+    "danger": "극도로 높음"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3000
+}

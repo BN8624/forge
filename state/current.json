@@ -1,11 +1,11 @@
 {
-  "last_scene_id": "V5-E04-S02",
+  "last_scene_id": "V5-E04-S08",
   "state": {
     "status": "새로운 여명"
   },
   "applied_element_ids": [
-    "EL-03",
     "EL-01",
+    "EL-03",
     "EL-02",
     "EL-05",
     "EL-04",

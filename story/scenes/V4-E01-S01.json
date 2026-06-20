@@ -2,13 +2,13 @@
   "id": "V4-E01-S01",
   "event_id": "V4-E01",
   "sequence": 1,
-  "objective": "북부 고봉의 극한 환경에서 생존하며 이동한다.",
-  "previous_scene_id": "V3-E02-S02",
+  "objective": "북부 고봉으로 향하는 여정의 시작과 극한의 추위 묘사",
+  "previous_scene_id": "V3-E04-S07",
   "start_state": {
     "status": "환상통 극복"
   },
   "end_state": {
-    "status": "최종 관문 도착"
+    "status": "이동 시작"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 800
+  "target_chars": 4000
 }

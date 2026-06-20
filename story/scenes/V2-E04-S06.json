@@ -1,0 +1,20 @@
+{
+  "id": "V2-E04-S06",
+  "event_id": "V2-E04",
+  "sequence": 6,
+  "objective": "왕가의 피로 두 번째 조각을 활성화하며, 의식이 과거의 기억 속으로 빨려 들어가는 과정을 묘사한다.",
+  "previous_scene_id": "V2-E04-S05",
+  "start_state": {
+    "status": "조각 회수 성공"
+  },
+  "end_state": {
+    "status": "기억 동조"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3500
+}

@@ -2,7 +2,7 @@
   "id": "V1-E01-S01",
   "event_id": "V1-E01",
   "sequence": 1,
-  "objective": "에테르노의 삼엄한 감시 분위기를 묘사한다.",
+  "objective": "에테르노의 거대한 성벽과 '제국의 눈'이 주는 압도적인 감시 분위기를 묘사한다.",
   "previous_scene_id": null,
   "start_state": {
     "mood": "압도적",
@@ -14,11 +14,9 @@
   },
   "owns": {
     "changes": [],
-    "setups": [
-      "EL-03"
-    ],
+    "setups": [],
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 800
+  "target_chars": 3000
 }

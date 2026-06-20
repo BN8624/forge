@@ -1,0 +1,20 @@
+{
+  "id": "V5-E02-S04",
+  "event_id": "V5-E02",
+  "sequence": 4,
+  "objective": "에테르노로 돌아가기 위한 최단 경로를 탐색하고 위험을 감수하기로 결정한다.",
+  "previous_scene_id": "V5-E02-S03",
+  "start_state": {
+    "status": "위기감 고조"
+  },
+  "end_state": {
+    "status": "이동 경로 확정"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3000
+}

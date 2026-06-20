@@ -2,13 +2,13 @@
   "id": "V3-E02-S02",
   "event_id": "V3-E02",
   "sequence": 2,
-  "objective": "동료의 배신과 팔을 잃은 고통을 마주한다.",
+  "objective": "무기고 내부의 낡은 무기들을 보며 카엘이 과거의 영광과 상실을 회상한다.",
   "previous_scene_id": "V3-E02-S01",
   "start_state": {
-    "status": "과거 재현"
+    "status": "잠입 성공"
   },
   "end_state": {
-    "status": "환상통 극복"
+    "status": "과거 회상"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 1000
+  "target_chars": 3200
 }

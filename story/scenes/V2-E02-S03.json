@@ -2,13 +2,13 @@
   "id": "V2-E02-S03",
   "event_id": "V2-E02",
   "sequence": 3,
-  "objective": "두 번째 조각의 기억으로 왕가의 학살을 목격한다.",
+  "objective": "발타자르가 외곽 지역에서 혈통을 사냥하고 있다는 구체적인 증거와 피해 사례를 조사한다.",
   "previous_scene_id": "V2-E02-S02",
   "start_state": {
-    "status": "전술적 패배/간신히 생존"
+    "status": "정보 획득"
   },
   "end_state": {
-    "status": "증오와 결의"
+    "status": "잔혹성 인지"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 900
+  "target_chars": 3500
 }

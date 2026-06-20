@@ -1,0 +1,21 @@
+{
+  "id": "V1-E03-S01",
+  "event_id": "V1-E03",
+  "sequence": 1,
+  "objective": "배수로 내부의 습하고 어두운 환경과 고대 왕궁의 파편들이 주는 기괴한 분위기를 묘사한다.",
+  "previous_scene_id": "V1-E02-S08",
+  "start_state": {
+    "status": "배수로 진입"
+  },
+  "end_state": {
+    "mood": "경외",
+    "danger": "중간"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3000
+}

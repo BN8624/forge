@@ -1,0 +1,20 @@
+{
+  "id": "V3-E03-S05",
+  "event_id": "V3-E03",
+  "sequence": 5,
+  "objective": "배신자가 발타자르에게 충성을 맹세하며 카엘의 팔을 제물로 바친 이유를 밝힌다.",
+  "previous_scene_id": "V3-E03-S04",
+  "start_state": {
+    "status": "상실의 재현"
+  },
+  "end_state": {
+    "status": "배신의 이유"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3800
+}

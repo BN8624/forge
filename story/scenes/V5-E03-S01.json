@@ -2,23 +2,19 @@
   "id": "V5-E03-S01",
   "event_id": "V5-E03",
   "sequence": 1,
-  "objective": "호흡법을 이용해 궁전 외곽 방어선을 돌파한다.",
-  "previous_scene_id": "V5-E02-S02",
+  "objective": "수도 외곽 빈민가에 잠입하여 제국민들이 겪는 고통을 목격하고 민심을 확인한다.",
+  "previous_scene_id": "V5-E02-S06",
   "start_state": {
     "status": "수도로 출발"
   },
   "end_state": {
-    "status": "내성 진입"
+    "status": "빈민가 잠입"
   },
   "owns": {
     "changes": [],
     "setups": [],
-    "payoffs": [
-      "EL-05"
-    ]
+    "payoffs": []
   },
-  "consumes_setups": [
-    "EL-01"
-  ],
-  "target_chars": 1000
+  "consumes_setups": [],
+  "target_chars": 3200
 }

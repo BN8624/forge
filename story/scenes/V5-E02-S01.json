@@ -2,13 +2,13 @@
   "id": "V5-E02-S01",
   "event_id": "V5-E02",
   "sequence": 1,
-  "objective": "제국군 지휘관과의 교전 끝에 제사 시간을 알아낸다.",
-  "previous_scene_id": "V5-E01-S02",
+  "objective": "성소를 빠져나오는 남매를 포위한 제국군 추격대와의 치열한 교전을 묘사한다.",
+  "previous_scene_id": "V5-E01-S06",
   "start_state": {
     "status": "극심한 분노"
   },
   "end_state": {
-    "status": "정보 획득"
+    "status": "추격대 제압"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 700
+  "target_chars": 4000
 }

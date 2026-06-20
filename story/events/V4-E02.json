@@ -2,15 +2,19 @@
   "id": "V4-E02",
   "volume_id": "V4",
   "sequence": 2,
-  "objective": "불균형 검술을 사용하여 정예병을 격파한다.",
+  "objective": "추격하는 제국군 정찰대를 따돌리고 심리적 압박을 이겨낸다.",
   "start_state": {
-    "status": "최종 관문 도착"
+    "status": "성소 외곽 도착"
   },
   "end_state": {
-    "status": "네 번째 조각 획득"
+    "status": "최종 관문 진입"
   },
   "scene_ids": [
     "V4-E02-S01",
-    "V4-E02-S02"
+    "V4-E02-S02",
+    "V4-E02-S03",
+    "V4-E02-S04",
+    "V4-E02-S05",
+    "V4-E02-S06"
   ]
 }

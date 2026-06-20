@@ -1,0 +1,20 @@
+{
+  "id": "V2-E04-S04",
+  "event_id": "V2-E04",
+  "sequence": 4,
+  "objective": "왼팔의 부재로 인한 불균형 때문에 치명적인 공격을 허용하고, 죽음의 문턱까지 가는 위기를 묘사한다.",
+  "previous_scene_id": "V2-E04-S03",
+  "start_state": {
+    "status": "전술적 난관"
+  },
+  "end_state": {
+    "status": "절체절명의 위기"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4000
+}

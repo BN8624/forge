@@ -1,0 +1,20 @@
+{
+  "id": "V5-E01-S03",
+  "event_id": "V5-E01",
+  "sequence": 3,
+  "objective": "다섯 번째 조각을 확보하고 리아의 피로 활성화한다.",
+  "previous_scene_id": "V5-E01-S02",
+  "start_state": {
+    "status": "제단 앞 도착"
+  },
+  "end_state": {
+    "status": "조각 활성화"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3000
+}

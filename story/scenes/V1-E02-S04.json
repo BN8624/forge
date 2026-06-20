@@ -1,0 +1,22 @@
+{
+  "id": "V1-E02-S04",
+  "event_id": "V1-E02",
+  "sequence": 4,
+  "objective": "추격전을 피해 숨어든 폐가에서 리아가 카엘의 상처를 돌보며 서로의 결의를 다지는 정서적 교감을 그린다.",
+  "previous_scene_id": "V1-E02-S03",
+  "start_state": {
+    "mood": "긴박",
+    "danger": "매우 높음"
+  },
+  "end_state": {
+    "mood": "결의",
+    "danger": "중간"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3500
+}

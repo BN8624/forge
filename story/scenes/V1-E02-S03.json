@@ -2,13 +2,15 @@
   "id": "V1-E02-S03",
   "event_id": "V1-E02",
   "sequence": 3,
-  "objective": "전대 왕의 목소리를 통해 정체성을 깨닫는다.",
+  "objective": "정보원의 배신 혹은 제국군의 급습으로 인해 벌어지는 좁은 골목길에서의 추격전을 묘사한다.",
   "previous_scene_id": "V1-E02-S02",
   "start_state": {
-    "status": "광휘 발생"
+    "mood": "의심",
+    "danger": "높음"
   },
   "end_state": {
-    "status": "목표 설정"
+    "mood": "긴박",
+    "danger": "매우 높음"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 900
+  "target_chars": 4000
 }

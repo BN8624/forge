@@ -2,13 +2,13 @@
   "id": "V2-E02-S01",
   "event_id": "V2-E02",
   "sequence": 1,
-  "objective": "유적 심층부에서 두 번째 조각을 발견한다.",
-  "previous_scene_id": "V2-E01-S02",
+  "objective": "제국군을 피해 숨어든 피난민 마을의 비참한 환경과 그들의 경계심을 묘사한다.",
+  "previous_scene_id": "V2-E01-S05",
   "start_state": {
-    "status": "위기감 고조"
+    "status": "외곽 진입 성공"
   },
   "end_state": {
-    "status": "조각 발견"
+    "status": "피난민 접촉"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 700
+  "target_chars": 3500
 }

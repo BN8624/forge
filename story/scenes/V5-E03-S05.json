@@ -1,0 +1,20 @@
+{
+  "id": "V5-E03-S05",
+  "event_id": "V5-E03",
+  "sequence": 5,
+  "objective": "궁전 내의 주요 감시 수정구들을 파괴하여 도시 전체에 혼란을 주고 시민들에게 희망의 신호를 보낸다.",
+  "previous_scene_id": "V5-E03-S04",
+  "start_state": {
+    "status": "내부 통로 확보"
+  },
+  "end_state": {
+    "status": "감시망 무력화"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3000
+}

@@ -1,0 +1,20 @@
+{
+  "id": "V3-E04-S03",
+  "event_id": "V3-E04",
+  "sequence": 3,
+  "objective": "무기고를 탈출하려는 찰나, 과거의 배신자와 닮은 정예 기사가 앞을 가로막는다.",
+  "previous_scene_id": "V3-E04-S02",
+  "start_state": {
+    "status": "안정 도모"
+  },
+  "end_state": {
+    "status": "최후의 대립"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3800
+}

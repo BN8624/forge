@@ -2,13 +2,13 @@
   "id": "V4-E02-S01",
   "event_id": "V4-E02",
   "sequence": 1,
-  "objective": "정예병의 마력 방패에 다시 한번 부딪힌다.",
-  "previous_scene_id": "V4-E01-S01",
+  "objective": "제국군 정찰대의 추격 징후를 발견하고 긴장감 고조",
+  "previous_scene_id": "V4-E01-S06",
   "start_state": {
-    "status": "최종 관문 도착"
+    "status": "성소 외곽 도착"
   },
   "end_state": {
-    "status": "정석 검술의 한계 직면"
+    "status": "추격 인지"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 700
+  "target_chars": 4000
 }

@@ -1,0 +1,20 @@
+{
+  "id": "V2-E03-S01",
+  "event_id": "V2-E03",
+  "sequence": 1,
+  "objective": "습기와 이끼로 뒤덮인 고대 유적의 입구에 도착하여 그 압도적이고 음산한 분위기를 묘사한다.",
+  "previous_scene_id": "V2-E02-S05",
+  "start_state": {
+    "status": "위기감 고조"
+  },
+  "end_state": {
+    "status": "유적 진입"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3500
+}

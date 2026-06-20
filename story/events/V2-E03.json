@@ -1,0 +1,19 @@
+{
+  "id": "V2-E03",
+  "volume_id": "V2",
+  "sequence": 3,
+  "objective": "고대 유적의 험난한 환경을 돌파하며 두 번째 조각이 있는 심층부로 접근한다.",
+  "start_state": {
+    "status": "위기감 고조"
+  },
+  "end_state": {
+    "status": "조각 발견 직전"
+  },
+  "scene_ids": [
+    "V2-E03-S01",
+    "V2-E03-S02",
+    "V2-E03-S03",
+    "V2-E03-S04",
+    "V2-E03-S05"
+  ]
+}

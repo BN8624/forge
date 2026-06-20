@@ -1,0 +1,20 @@
+{
+  "id": "V4-E03-S04",
+  "event_id": "V4-E03",
+  "sequence": 4,
+  "objective": "부상을 입은 카엘이 리아를 보호하며 필사적으로 후퇴하는 과정",
+  "previous_scene_id": "V4-E03-S03",
+  "start_state": {
+    "status": "전술적 패배"
+  },
+  "end_state": {
+    "status": "일시적 퇴각"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4000
+}

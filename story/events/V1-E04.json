@@ -1,0 +1,21 @@
+{
+  "id": "V1-E04",
+  "volume_id": "V1",
+  "sequence": 4,
+  "objective": "첫 번째 조각을 활성화하여 왕가의 혈통임을 깨닫고 탈출한다.",
+  "start_state": {
+    "status": "제단 도착"
+  },
+  "end_state": {
+    "status": "목표 설정"
+  },
+  "scene_ids": [
+    "V1-E04-S01",
+    "V1-E04-S02",
+    "V1-E04-S03",
+    "V1-E04-S04",
+    "V1-E04-S05",
+    "V1-E04-S06",
+    "V1-E04-S07"
+  ]
+}

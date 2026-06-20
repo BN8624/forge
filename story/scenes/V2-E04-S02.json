@@ -1,0 +1,20 @@
+{
+  "id": "V2-E04-S02",
+  "event_id": "V2-E04",
+  "sequence": 2,
+  "objective": "조각을 집어 드는 순간, 매복해 있던 제국 정예병들이 나타나 남매를 포위하는 긴박함을 묘사한다.",
+  "previous_scene_id": "V2-E04-S01",
+  "start_state": {
+    "status": "조각 확보 시도"
+  },
+  "end_state": {
+    "status": "전투 개시"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4000
+}

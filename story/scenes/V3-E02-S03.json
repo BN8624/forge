@@ -1,0 +1,20 @@
+{
+  "id": "V3-E02-S03",
+  "event_id": "V3-E02",
+  "sequence": 3,
+  "objective": "제국군 순찰대와 조우하여 좁은 복도에서의 치열한 근접전을 벌인다.",
+  "previous_scene_id": "V3-E02-S02",
+  "start_state": {
+    "status": "과거 회상"
+  },
+  "end_state": {
+    "status": "교전 발생"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4200
+}

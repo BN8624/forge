@@ -1,0 +1,20 @@
+{
+  "id": "V2-E01-S03",
+  "event_id": "V2-E01",
+  "sequence": 3,
+  "objective": "리아가 느끼는 정체성에 대한 혼란과 카엘의 보호 본능 사이의 정서적 교감을 묘사한다.",
+  "previous_scene_id": "V2-E01-S02",
+  "start_state": {
+    "status": "슬럼가 통과"
+  },
+  "end_state": {
+    "status": "정서적 유대 강화"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3000
+}

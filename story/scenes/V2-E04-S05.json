@@ -1,0 +1,20 @@
+{
+  "id": "V2-E04-S05",
+  "event_id": "V2-E04",
+  "sequence": 5,
+  "objective": "리아의 도움과 찰나의 변칙적인 움직임으로 정예병의 빈틈을 찔러 간신히 생존하고 조각을 회수한다.",
+  "previous_scene_id": "V2-E04-S04",
+  "start_state": {
+    "status": "절체절명의 위기"
+  },
+  "end_state": {
+    "status": "조각 회수 성공"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4000
+}

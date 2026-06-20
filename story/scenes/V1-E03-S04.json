@@ -1,0 +1,22 @@
+{
+  "id": "V1-E03-S04",
+  "event_id": "V1-E03",
+  "sequence": 4,
+  "objective": "제단으로 향하는 길목에 설치된 고대 마법 함정을 작동시키고 이를 돌파하는 긴박한 상황을 그린다.",
+  "previous_scene_id": "V1-E03-S03",
+  "start_state": {
+    "mood": "비애",
+    "danger": "중간"
+  },
+  "end_state": {
+    "mood": "긴박",
+    "danger": "매우 높음"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3500
+}

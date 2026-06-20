@@ -1,0 +1,25 @@
+{
+  "id": "V5-E04-S04",
+  "event_id": "V5-E04",
+  "sequence": 4,
+  "objective": "왼팔의 부재로 인한 신체적 불균형을 역이용하여 방패의 궤적을 깨뜨리는 변칙 검술을 성공시킨다.",
+  "previous_scene_id": "V5-E04-S03",
+  "start_state": {
+    "status": "전술적 한계"
+  },
+  "end_state": {
+    "status": "방어막 돌파"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": [
+      "EL-04"
+    ]
+  },
+  "consumes_setups": [
+    "EL-02",
+    "EL-03"
+  ],
+  "target_chars": 4000
+}

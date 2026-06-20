@@ -1,0 +1,20 @@
+{
+  "id": "V3-E04-S07",
+  "event_id": "V3-E04",
+  "sequence": 7,
+  "objective": "무기고를 떠나며 더 이상 과거에 얽매이지 않는 카엘의 단단해진 내면을 묘사한다.",
+  "previous_scene_id": "V3-E04-S06",
+  "start_state": {
+    "status": "전투 승리"
+  },
+  "end_state": {
+    "status": "환상통 극복"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3800
+}

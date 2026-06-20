@@ -1,0 +1,20 @@
+{
+  "id": "V3-E02-S04",
+  "event_id": "V3-E02",
+  "sequence": 4,
+  "objective": "리아가 조각의 공명을 통해 정확한 위치를 안내하며 카엘의 전투를 보조한다.",
+  "previous_scene_id": "V3-E02-S03",
+  "start_state": {
+    "status": "교전 발생"
+  },
+  "end_state": {
+    "status": "위치 파악"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3600
+}

@@ -1,0 +1,21 @@
+{
+  "id": "V1-E04-S04",
+  "event_id": "V1-E04",
+  "sequence": 4,
+  "objective": "전대 왕의 사념이 두 사람의 정신에 직접 전달되는 초월적인 감각과 충격을 묘사한다.",
+  "previous_scene_id": "V1-E04-S03",
+  "start_state": {
+    "status": "광휘 발생"
+  },
+  "end_state": {
+    "mood": "충격",
+    "danger": "중간"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4000
+}

@@ -1,0 +1,20 @@
+{
+  "id": "V4-E04-S02",
+  "event_id": "V4-E04",
+  "sequence": 2,
+  "objective": "왼팔의 부재로 인해 발생하는 신체적 불균형을 의도적으로 이용하는 훈련",
+  "previous_scene_id": "V4-E04-S01",
+  "start_state": {
+    "status": "가설 설정"
+  },
+  "end_state": {
+    "status": "변칙 궤적 연습"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4000
+}

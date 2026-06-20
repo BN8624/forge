@@ -2,16 +2,21 @@
   "id": "V1-E02",
   "volume_id": "V1",
   "sequence": 2,
-  "objective": "첫 번째 조각을 활성화하여 정체성을 깨닫는다.",
+  "objective": "슬럼가의 혼란을 틈타 비밀리에 지하 배수로 입구를 찾아낸다.",
   "start_state": {
-    "status": "배수로 진입"
+    "status": "도시 진입 성공"
   },
   "end_state": {
-    "status": "목표 설정"
+    "status": "배수로 진입"
   },
   "scene_ids": [
     "V1-E02-S01",
     "V1-E02-S02",
-    "V1-E02-S03"
+    "V1-E02-S03",
+    "V1-E02-S04",
+    "V1-E02-S05",
+    "V1-E02-S06",
+    "V1-E02-S07",
+    "V1-E02-S08"
   ]
 }

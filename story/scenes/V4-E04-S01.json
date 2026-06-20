@@ -1,0 +1,20 @@
+{
+  "id": "V4-E04-S01",
+  "event_id": "V4-E04",
+  "sequence": 1,
+  "objective": "부상을 치료하며 정예병의 방패가 '예측 가능한 궤적'만을 막는다는 점 분석",
+  "previous_scene_id": "V4-E03-S05",
+  "start_state": {
+    "status": "정석 검술의 한계 직면"
+  },
+  "end_state": {
+    "status": "가설 설정"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4000
+}
