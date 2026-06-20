@@ -221,6 +221,11 @@ def load_scene_context(root: Path, scene_id: str) -> dict[str, Any]:
                 element_by_id[element_id]
                 for element_id in sorted(future_element_ids)
             ],
+            "rule": (
+                "available canon에 이미 공개된 물리적 사실은 언급할 수 있다. "
+                "다만 future_forbidden 요소가 뜻하는 기능, 인과, 기술, "
+                "성장 가능성, 복선 의미를 새로 부여하거나 활용하면 안 된다."
+            ),
         },
     }
 
@@ -271,6 +276,10 @@ def build_generator_prompt(
 - canon_constraints.current만 이 장면에서 새로 드러낼 수 있다.
 - canon_constraints.future_forbidden과 element_constraints.future_forbidden의
   사실·기술·회수·변화를 미리 공개하거나 실행하지 않는다.
+- canon_constraints.available에 이미 공개된 사실은 계속 언급할 수 있다.
+  예를 들어 C1이 available이면 왼팔 부재 자체는 묘사 가능하지만,
+  미래 EL-03의 신체적 불균형을 전투 변수·성장 가능성으로 해석하거나
+  미래 EL-04의 변칙 검술로 활용해서는 안 된다.
 - element_constraints.current_owned가 비어 있으면 새 setup, payoff, change를
   이 장면의 성과처럼 도입하지 않는다.
 - 이후 장면의 사건을 미리 완결하지 않는다.
@@ -360,6 +369,9 @@ continuity, prose_quality 불리언을 모두 넣는다.
 element_constraints.future_forbidden을 미리 드러내면 reveal_order를 false로
 판정한다. 현재 장면 owns에 없는 요소를 새로 설치·회수·변화시키면
 owned_elements를 false로 판정한다.
+단, canon_constraints.available에 있는 기존 사실을 단순히 다시 언급한 것만으로
+미래 요소 선취로 판정하지 않는다. 미래 요소가 정의하는 새 기능·인과·기술·
+성장 의미를 부여했을 때만 reveal_order 또는 owned_elements를 false로 판정한다.
 """
 
 

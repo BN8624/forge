@@ -276,6 +276,30 @@ class GenerateProseTests(unittest.TestCase):
 
             self.assertEqual(["critic"], [call[0] for call in llm.calls])
 
+    def test_prompt_distinguishes_available_fact_from_future_element_function(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            build_project(root)
+            approve_story(root)
+            llm = FakeLLM(
+                [
+                    prose_response("V1-E01-S01"),
+                    review_response("V1-E01-S01"),
+                ]
+            )
+
+            generate_prose_scene(
+                root,
+                "V1-E01-S01",
+                llm,
+                check_scale=False,
+            )
+
+            self.assertIn(
+                "기존 사실을 단순히 다시 언급",
+                llm.calls[1][1],
+            )
+
     def test_batch_generates_scenes_in_order_with_limit(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
