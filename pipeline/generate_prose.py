@@ -308,6 +308,13 @@ def build_generator_prompt(
 - 현재 scene.objective를 의미 공개의 상한으로 취급한다. 목표에 인물·장소·
   적대자가 언급되어도 future_forbidden에 있는 정체, 환경 특징, 힘의 원천,
   기술 원리, 성장 의미를 덧붙이지 않는다.
+- scene.objective의 단어가 future_forbidden 요소와 일부 겹쳐도 그 요소의
+  기능·인과·기술을 사용할 권한은 생기지 않는다. current_owned가 아닌
+  미래 요소와 겹치는 목표는 동료의 도움, 환경 변화, 우연한 타이밍,
+  상대의 실수처럼 해당 요소와 무관한 원인으로 달성한다.
+- 특히 목표에 변칙적 움직임이나 빈틈 공략이 있어도, future_forbidden에
+  신체 결함을 이용한 전투 기술이나 방패 돌파가 있으면 신체 불균형,
+  비정상 궤적, 예측 불가 검술을 해결 원인으로 사용하지 않는다.
 - future_forbidden의 설명은 정확한 문구뿐 아니라 동의어, 은유, 추측,
   예감, 상징적 복선으로도 암시하지 않는다.
 - current_owned가 비어 있으면 기존 결함이나 능력을 미래의 무기·가능성·
@@ -444,6 +451,8 @@ critic 또는 하네스 피드백:
   안도나 불안 같은 후속 반응은 추가하지 않는다.
 - following_scene_contracts의 objective에 속하는 공간·행동·감정은 한
   문장도 선취하지 않는다.
+- objective의 단어가 future_forbidden과 겹치면 미래 요소의 기능·인과·
+  기술을 확장에 사용하지 않고, current_owned 범위의 다른 원인으로 푼다.
 - 설명이나 코드펜스 없이 scene_id와 addition만 가진 JSON 객체를 반환한다.
 """
 
