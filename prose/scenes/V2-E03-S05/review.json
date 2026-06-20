@@ -1,0 +1,17 @@
+{
+  "scene_id": "V2-E03-S05",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 최심층 제단 도착과 조각의 창백한 빛을 확인하는 과정을 충실히 묘사하였으며, '조각 발견 직전'이라는 종료 상태를 정확히 준수함. 가용 설정인 심박 통제 호흡법(EL-01)과 신체적 불균형(EL-03)만을 적절히 활용하였고, 미래 금지 요소(제국군 매복 및 교전 등)를 선취하거나 암시하지 않음. 직전 산문과의 연결성 및 문체 또한 적절함.",
+  "prose_sha256": "ed2cd33670ebaf6effa28a9058af23f8f05fbab971e2bb6bad1c5c9a256586b3",
+  "scene_contract_sha256": "766261b0065c94fb3048564a0c31152d56c2d17975760af53940c429f47c0467"
+}

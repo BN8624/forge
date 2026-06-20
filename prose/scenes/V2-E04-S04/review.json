@@ -1,0 +1,17 @@
+{
+  "scene_id": "V2-E04-S04",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "산문이 장면의 목표인 '왼팔의 부재로 인한 불균형과 그로 인한 치명적 위기'를 정확하게 묘사하였습니다. 전술적 난관에서 절체절명의 위기로 이어지는 상태 전이가 명확하며, available에 정의된 요소(심박 통제 호흡법, 기하학적 마력 방패, 신체적 불균형)만을 적절히 활용하였습니다. 특히 다음 장면의 핵심인 '변칙 검술(EL-04)'을 사용하지 않고 정석적인 공격의 실패와 신체적 한계를 강조함으로써 reveal_order 계약을 엄격히 준수하였습니다.",
+  "prose_sha256": "b4ff24b48e647ccf4d2f52cc32dbcfb4a6fe7cae341a4beb577eab78cb82aacc",
+  "scene_contract_sha256": "14a3461009ce16c1c1ca32305692f2c77d13f9564e9bd695673a3241f8810c56"
+}

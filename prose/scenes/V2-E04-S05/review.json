@@ -1,0 +1,17 @@
+{
+  "scene_id": "V2-E04-S05",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 리아의 도움과 변칙적인 움직임을 통한 조각 회수가 정확하게 묘사되었습니다. 직전 산문의 부상 상태와 절망적인 상황에서 시작하여 조각 회수 성공이라는 종료 상태로의 전이가 매끄럽게 이루어졌습니다. 특히 EL-04(변칙 검술로 방패 돌파)를 선취하지 않고, 검술이 아닌 '추한 구름'이라는 신체적 변칙 움직임으로 방패의 틈을 이용해 우회한 점이 계약 준수 관점에서 적절합니다. 또한, 조각의 활성화 징후(빛의 소용돌이)를 묘사했으나, 이는 다음 장면(S06)의 핵심인 '의식이 기억 속으로 빨려 들어가는 과정'을 침범하지 않는 수준의 트리거 묘사로 판단됩니다. 모든 가용 캐논(C1, C13, C15, C17)을 적절히 활용하였으며 금지된 미래 요소의 유출이 없습니다.",
+  "prose_sha256": "47b835c6cbff7e32af5d892f9522589a49f9b40ea719165602eba690cafa54c9",
+  "scene_contract_sha256": "274a6cff4884c78655838728a1481f2a4182ebf59d4a26dda51092e002436cef"
+}

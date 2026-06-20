@@ -1,0 +1,17 @@
+{
+  "scene_id": "V2-E03-S01",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 고대 유적의 음산한 분위기 묘사와 진입 과정을 충실히 수행하였으며, 시작 상태(위기감 고조)에서 종료 상태(유적 진입)로의 전이가 명확함. 사용된 요소(심박 통제 호흡법, 왼팔의 부재로 인한 불균형)는 모두 available 리스트에 포함된 설정이며, future_forbidden에 해당하는 미래 사건이나 설정(제국군과의 교전, 마력 방패, 발타자르의 비밀 등)을 암시하거나 선취하지 않음. 직전 산문과의 연결성 또한 매끄러움.",
+  "prose_sha256": "e3131e93c787cd43dc8231a45f85956dc6cc74bc348e9826709be5d5375d220a",
+  "scene_contract_sha256": "ed424d761bd827ecd2fa6f7bdc1faac3bb28305bdf2532139d9fdb93eb2988bd"
+}

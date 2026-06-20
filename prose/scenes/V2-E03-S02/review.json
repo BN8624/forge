@@ -1,0 +1,17 @@
+{
+  "scene_id": "V2-E03-S02",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "산문이 장면의 목표인 '고대 왕가의 함정과 장치 돌파'를 구체적으로 묘사하였으며, 시작 상태(유적 진입)에서 종료 상태(1차 관문 돌파)로의 전이가 명확하게 이루어졌습니다. 카엘의 신체적 불균형(C1, EL-03)과 심박 통제 호흡법(C11, EL-01)이라는 기존 설정을 적절히 활용하였으며, future_forbidden에 해당하는 미래 사건이나 설정(제국군 교전, 팔을 잃은 경위, 마력 방패 등)을 선취하지 않았습니다. 직전 산문과의 연결성 또한 매끄럽게 유지되었습니다.",
+  "prose_sha256": "0e182d6006478f0d71e4bc959df9a8a7b739ee5023a22560f8f3f450af388c6e",
+  "scene_contract_sha256": "f4010eed01b2588956aa3e9981f3471560babd494528593213fa76d1c1f28339"
+}

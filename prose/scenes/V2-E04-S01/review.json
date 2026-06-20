@@ -1,0 +1,17 @@
+{
+  "scene_id": "V2-E04-S01",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 두 번째 영혼의 조각 발견과 그 신비로운 분위기 묘사가 충실히 수행되었습니다. 시작 상태(조각 발견 직전)에서 종료 상태(조각 확보 시도)로의 전이가 자연스럽게 이루어졌으며, available canon에 명시된 카엘의 신체적 특징(왼팔 부재), 호흡법, 왕가의 혈통 반응 등을 적절히 활용하였습니다. future_forbidden에 해당하는 제국군과의 교전이나 마력 방패, 발타자르의 비밀 등을 미리 드러내지 않았으며, 직전 승인 산문의 내용을 유지하며 세부 묘사를 확장하여 연속성을 확보했습니다.",
+  "prose_sha256": "9a85fc4dac12e33cc476c276f72ec9185045844838d89eb5194ae1ce810a5cd2",
+  "scene_contract_sha256": "b2dee2bea122696d063c48be77d39263e04d3ee94338f3e3e62f90f78d515447"
+}

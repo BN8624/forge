@@ -1,0 +1,17 @@
+{
+  "scene_id": "V2-E04-S03",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '제국 정예병의 기하학적 마력 방패에 의한 정석 검술의 무력화' 과정이 C17 설정에 근거하여 매우 상세하고 설득력 있게 묘사되었습니다. 시작 상태(전투 개시)에서 종료 상태(전술적 난관)로의 전이가 자연스럽게 이루어졌으며, EL-02(마력 방패)의 셋업이 정확히 수행되었습니다. 또한, 다음 장면(S04, S05)에서 다뤄야 할 '치명적 위기'나 '변칙 검술을 통한 돌파'라는 핵심 페이오프를 미리 노출하지 않고, 오직 정석 검술의 한계와 무력감만을 강조함으로써 reveal_order를 엄격히 준수하였습니다. 이전 산문과의 연결성 및 정본 설정(C1, C11 등)과의 일관성 또한 완벽합니다.",
+  "prose_sha256": "77eaeec886fc32c67d5192a0eac211d3c58e94591af1180c6ff4f372f890817b",
+  "scene_contract_sha256": "ace80d891f31e7c6cb67e07fe4947f29ce8ca20ae87f542017a6d409b4857e35"
+}

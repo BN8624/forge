@@ -1,0 +1,17 @@
+{
+  "scene_id": "V2-E03-S03",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "산문이 장면의 목표인 리아의 혈통에 대한 경외감과 슬픔을 충실히 묘사하였으며, '1차 관문 돌파'에서 '혈통의 자각'으로 이어지는 상태 전이가 명확하게 이루어졌습니다. 직전 산문의 끝부분과 자연스럽게 연결되며, future_forbidden에 명시된 발타자르의 비밀, 제국군과의 교전, 정당한 계승자로의 자각(EL-06) 등의 요소를 미리 드러내지 않고 정해진 범위 내에서 서술되었습니다.",
+  "prose_sha256": "382e4dec579e628dbd078b49ae89fc5e947c29f9b528f7c3c0a59756cd1a3cc6",
+  "scene_contract_sha256": "f89f24a1822a0506eef6c2e3dc67def65448a5d05d3e1002bf86ddb26fc2fc1b"
+}

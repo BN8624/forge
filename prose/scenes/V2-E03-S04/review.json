@@ -1,0 +1,17 @@
+{
+  "scene_id": "V2-E03-S04",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 유적 수호자와의 전투 및 심층부 진입이 충실하게 묘사되었습니다. 시작 상태(혈통의 자각)에서 종료 상태(심층부 진입)로의 전이가 명확하며, 사용 가능한 요소(EL-01, EL-03)를 적절히 활용하면서도 미래 금지 요소(제국군 교전, 마력 방패 등)를 선취하지 않았습니다. 직전 산문과의 연결성 및 문체 또한 적절합니다.",
+  "prose_sha256": "2d8ab41772cc74f33467a1fcb314742181778e5e098257f42af0247c020782d5",
+  "scene_contract_sha256": "3b2fae79b3a8d0436c16af0da48b664b01821e6301345df2b88e691aeeedc5b6"
+}

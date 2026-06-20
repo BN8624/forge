@@ -1,0 +1,17 @@
+{
+  "scene_id": "V2-E04-S02",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "산문이 장면 목표인 '조각 확보 직후 제국 정예병의 매복과 포위'를 긴박하게 묘사하였으며, 시작 상태(조각 확보 시도)에서 종료 상태(전투 개시)로의 전이가 명확합니다. available에 명시된 카엘의 신체적 불균형(EL-03)과 호흡법(EL-01)을 적절히 활용하면서도, 다음 장면의 핵심 요소인 '기하학적 마력 방패(EL-02)'나 구체적인 전술적 난관을 미리 드러내지 않아 reveal_order를 엄격히 준수했습니다. 직전 산문과의 연결성 또한 완벽합니다.",
+  "prose_sha256": "e50db1d86f38c84e0d56b887b1e60d474c55e0b24d15c3d3cb4ae0d4f77a0a50",
+  "scene_contract_sha256": "559c12eed19c5500e73b19f3e95eded84cf973ac81a8288887dd4fc90cca4009"
+}
