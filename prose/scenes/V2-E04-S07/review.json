@@ -1,0 +1,17 @@
+{
+  "scene_id": "V2-E04-S07",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "산문이 장면의 목표인 발타자르의 학살 목격과 그로 인한 공포 및 분노를 충실하게 묘사하였으며, 시작 상태(기억 동조)에서 종료 상태(진실 목격)로의 전이가 자연스럽게 이루어졌습니다. future_forbidden에 해당하는 설정(C6, C16, C19 등)이나 요소(EL-06)를 선취하지 않았으며, 다음 장면의 목표인 '기억에서 깨어남과 결의'를 미리 달성하지 않고 진실의 목격 단계에서 적절히 마무리되었습니다. 직전 산문과의 연결성 및 정본 설정 준수 여부 모두 완벽합니다.",
+  "prose_sha256": "d77e49eaf68cd405ef0c99e4a9b80c21f868b99b5c4552fb9cdcc8c36600a449",
+  "scene_contract_sha256": "6a5135b78271de067548b0e9092e795faf13d3f46555120033672ea23fcf7935"
+}

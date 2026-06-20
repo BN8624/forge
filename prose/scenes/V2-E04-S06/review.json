@@ -1,0 +1,17 @@
+{
+  "scene_id": "V2-E04-S06",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '왕가의 피를 통한 조각 활성화'와 '기억 속으로의 진입 과정'이 정본 설정(C3, C13)에 부합하게 상세히 묘사되었습니다. 시작 상태(조각 회수 성공)에서 종료 상태(기억 동조)로의 전이가 명확하며, 다음 장면(S07, S08)의 핵심 내용인 학살 목격이나 복수 결의를 미리 드러내지 않아 reveal_order를 준수했습니다. 또한, future_forbidden에 해당하는 왼팔 상실의 구체적 경위(C16)나 계승자로의 자각(EL-06) 등을 암시하지 않고 물리적 사실(C1)과 활성화 메커니즘에만 집중하여 계약을 엄격히 준수했습니다.",
+  "prose_sha256": "73ab86abfeac7e03b3d5e81aba8ca3bead2e2d20a3a981a45831c0f03911e5c5",
+  "scene_contract_sha256": "17118a30c8aeb770819bd0d93a134742515020ee144f709f20421225d815035f"
+}
