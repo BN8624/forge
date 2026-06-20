@@ -1,0 +1,17 @@
+{
+  "scene_id": "V3-E03-S02",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '최고의 검사로서의 찬란한 일상'을 충실히 재현하였으며, '기억 진입'에서 '정점의 기억'으로의 상태 전이가 명확하게 이루어졌습니다. available에 포함된 심박 통제 호흡법(EL-01)을 적절히 활용하였고, future_forbidden에 해당하는 배신의 전말(C16)이나 변칙 검술(EL-04) 등의 요소를 전혀 노출하지 않았습니다. 직전 산문의 끝부분과 매끄럽게 이어지며 문체 또한 정교합니다.",
+  "prose_sha256": "05c7643016e3a5b7ae5a3275cda943797f91c7602afdfb85d9644d0dc93294ee",
+  "scene_contract_sha256": "e3180e3a4e3e269469eb195edc9477c4503c29a121408a2fb4bb7af4419e5e5b"
+}

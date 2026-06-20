@@ -1,0 +1,17 @@
+{
+  "scene_id": "V3-E04-S03",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '배신자와 닮은 정예 기사와의 조우'를 정확히 달성하였으며, '안정 도모'에서 '최후의 대립'으로의 상태 전이가 매끄럽게 이루어졌습니다. 가용 캐논(C4, C11, C16, C17)을 적절히 활용하였고, 미래 금지 요소(future_forbidden)나 다음 장면(S04, S05)의 핵심 전개인 '검을 휘두르지 못하는 내적 갈등' 및 '고통의 수용'을 미리 해결하지 않고 긴장감 있게 마무리하여 계약을 엄격히 준수하였습니다.",
+  "prose_sha256": "78fae64179c160e8150eb7c40aad7004018c2b010d5f33fa52b2dfc08dbfdc4f",
+  "scene_contract_sha256": "4141de42c602747b338b8e88ee6e2db368e89ae8e27ae88a0119c4220111d9f2"
+}

@@ -1,0 +1,17 @@
+{
+  "scene_id": "V3-E03-S05",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '배신자가 발타자르에게 충성을 맹세하며 카엘의 팔을 제물로 바친 이유'를 명확하게 서술하였으며, 시작 상태(상실의 재현)에서 종료 상태(배신의 이유)로의 전이가 자연스럽게 이루어졌다. future_forbidden에 명시된 발타자르의 혈통 문제(C6)나 혈액 추출(C19) 등의 구체적인 설정이나 미래의 전개를 선취하지 않았으며, 직전 산문의 마지막 묘사와 완벽하게 이어지는 연속성을 보여준다.",
+  "prose_sha256": "5480014269a8c20f35825b897dc0e2f11d82524bc79a46b7fd75da76ff3965e6",
+  "scene_contract_sha256": "50ff10ba771776734aa0fedf5b68fefb461613be5e66f6e9598cef0baf0ebf7b"
+}

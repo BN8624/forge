@@ -1,0 +1,17 @@
+{
+  "scene_id": "V3-E04-S02",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '리아의 위로를 통한 상실의 재정의'가 명확하게 달성되었으며, '정신적 혼란'에서 '안정 도모'로의 상태 전이가 매끄럽게 묘사되었습니다. 직전 산문의 절망적인 분위기에서 자연스럽게 이어지는 연속성을 보여주며, 미래 금지 요소(EL-06의 계승자 자각 등)를 건드리지 않고 개인적인 정서적 회복에 집중하여 계약을 엄격히 준수하였습니다.",
+  "prose_sha256": "bd61bdad46be22d48522ffea6dfa89e78996718b432b7e3162d279c4cad77d9f",
+  "scene_contract_sha256": "913f8a132c90d145c6382847193508f0e05eb41f0dcf301acc5feca9993e9849"
+}

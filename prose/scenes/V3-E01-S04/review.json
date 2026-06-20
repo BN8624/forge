@@ -1,0 +1,17 @@
+{
+  "scene_id": "V3-E01-S04",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "리아가 카엘의 환상통과 심리적 붕괴를 보듬으며 남매의 유대감을 강화하는 장면 목표를 충실히 달성하였습니다. '심리적 위기'에서 '정신적 회복'으로의 상태 전이가 감정선에 따라 자연스럽게 묘사되었으며, 직전 산문의 절망적인 상황에서 매끄럽게 이어지는 연속성을 보여줍니다. future_forbidden에 해당하는 팔을 잃은 구체적 경위(C16)나 미래의 각성(EL-06) 등을 암시하지 않았으며, 다음 장면의 목표인 무기고 도착을 미리 수행하지 않고 회복 단계에서 마무리하여 reveal_order를 준수하였습니다.",
+  "prose_sha256": "26fc8b5128f9a7c50bf5205de2a4a5ef772142cfd2865bd435080e0154235727",
+  "scene_contract_sha256": "603cf7ecbc52e0d2297e39b8ee983889560ab0698b3704607bdde2e642e07886"
+}

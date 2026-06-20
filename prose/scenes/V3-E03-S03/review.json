@@ -1,0 +1,17 @@
+{
+  "scene_id": "V3-E03-S03",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '발타자르의 은밀한 포섭과 배신의 전조'를 심리적 묘사와 대화를 통해 충실히 구현하였습니다. '정점의 기억'에서 '균열의 시작'으로의 상태 전이가 자연스럽게 이루어졌으며, 직전 산문의 분위기와 설정을 일관되게 유지하고 있습니다. 특히 future_forbidden에 해당하는 '왼팔의 상실(C16)'이라는 구체적인 결과나 '배신의 이유(S05)'를 직접적으로 드러내지 않고, 오직 배신이 다가오고 있다는 위화감과 전조에만 집중함으로써 reveal_order 계약을 엄격히 준수하였습니다.",
+  "prose_sha256": "bfd4ffd671b5c7e998f34d133501268d3feb250d6086146cccbc7da96aadc1b3",
+  "scene_contract_sha256": "82e83732924c81ee27f3fea7dc06a508f7bf22b12b2ab768c35eff0c514edbcd"
+}

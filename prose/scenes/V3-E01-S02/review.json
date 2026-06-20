@@ -1,0 +1,17 @@
+{
+  "scene_id": "V3-E01-S02",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '북부 피난민을 통한 무기고 경비 체계 조사'가 구체적으로 달성되었습니다. 순찰 주기, 마법 등불, 경보 마법 등 구체적인 정보 수집 과정이 묘사되었으며, '여정 시작'에서 '정보 수집'으로의 상태 전이가 명확합니다. future_forbidden에 해당하는 팔을 잃은 구체적 경위(C16)나 발타자르의 정체(C6) 등을 미리 드러내지 않았으며, 기존 정본 설정(C1, C2)과 직전 산문의 흐름을 일관되게 유지하고 있습니다.",
+  "prose_sha256": "b3e84ae2a053d88b321894401d9c7640bb24c7e12a3c95be34227002ea90a0b0",
+  "scene_contract_sha256": "b7dc9d837e85c699af314ea40fd5e6457f278eff2e1300ee06ce545bab036820"
+}

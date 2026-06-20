@@ -1,0 +1,17 @@
+{
+  "scene_id": "V3-E03-S01",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "산문은 왕가의 피를 통해 조각을 활성화하고 과거의 연무장 기억으로 의식이 전이되는 과정을 상세히 묘사하여 장면 목표를 완벽히 달성했다. 시작 상태(조각 획득)에서 종료 상태(기억 진입)로의 전이가 매끄럽게 이루어졌으며, future_forbidden에 해당하는 배신의 구체적 전말이나 미래의 사건들을 선취하지 않고 오직 기억의 공간에 진입하는 과정과 감각적 재현에 집중했다. 정본 설정 C13의 메커니즘을 정확히 준수하였으며, 직전 산문과의 연결성 또한 훌륭하다.",
+  "prose_sha256": "445a128a548b053dedf86d8f3800194f926f61de3eb8046de291498e98f28dcd",
+  "scene_contract_sha256": "438830186f55f32c4b739418d6d71850860c51addf13f1be18b075a4054d0d3f"
+}

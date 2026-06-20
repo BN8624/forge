@@ -1,0 +1,17 @@
+{
+  "scene_id": "V3-E03-S06",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "산문이 장면의 목표인 '과거의 자신과 마주하며 진실을 완전히 수용하는 과정'을 충실히 묘사하였습니다. '배신의 이유'에서 '진실 확인'으로의 상태 전이가 명확하며, 직전 산문에서 제시된 '가격'과 '증명'이라는 키워드를 통해 서사적 연속성을 유지했습니다. 또한, future_forbidden에 해당하는 설정(혈통의 비밀, 조각의 완성, 발타자르의 몰락 등)이나 미래 요소(정당한 계승자로의 자각 등)를 선취하지 않았으며, 지정된 범위 내의 정본 설정만을 활용하여 계약을 엄격히 준수하였습니다.",
+  "prose_sha256": "a57077df11cd3589d81bab0768f1d5ac070f07956ab43e694aa447d074ec5d12",
+  "scene_contract_sha256": "5af958d141a309442886a253b927d6be14889e04fa1e6c595cb1d914473b5509"
+}

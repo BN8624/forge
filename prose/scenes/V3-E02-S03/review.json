@@ -1,0 +1,17 @@
+{
+  "scene_id": "V3-E02-S03",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 제국군 순찰대와의 조우 및 근접전 발생이 정확하게 묘사되었으며, 시작 상태(과거 회상)에서 종료 상태(교전 발생)로의 전이가 매끄럽게 이루어졌다. 가용 설정인 심박 통제 호흡법(EL-01), 마력 방패(EL-02), 신체적 불균형(EL-03)을 적절히 활용하였으며, 금지된 미래 요소인 팔을 잃은 구체적 경위(C16)나 변칙 검술을 통한 돌파(EL-04)를 미리 드러내지 않고 오히려 그 한계와 위압감을 강조함으로써 이후의 페이오프를 위한 빌드업을 충실히 수행했다.",
+  "prose_sha256": "40c7f52f20cb48c3322a256a7ee87c82fa118854116b8f5b90b3ab261e591f6f",
+  "scene_contract_sha256": "8551b52bf7fa52126bfb6dfc6037308b83c36896f990c330d4b9dcde9b52696a"
+}

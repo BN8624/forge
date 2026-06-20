@@ -1,0 +1,17 @@
+{
+  "scene_id": "V3-E04-S07",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "산문이 장면의 목표인 '과거에 얽매이지 않는 카엘의 단단해진 내면 묘사'를 충실히 수행하였으며, 시작 상태(전투 승리)에서 종료 상태(환상통 극복)로의 심리적 전이가 매끄럽게 이루어졌습니다. available canon에 명시된 심박 통제 호흡법(C11)과 신체적 불균형(EL-03)을 적절히 활용하였으며, future_forbidden에 해당하는 제국 계승자로서의 자각(EL-06)이나 이후 전개될 북부 여정(V4-E01-S01)의 내용을 선취하지 않았습니다. 직전 산문의 분위기와 상황을 그대로 이어받아 일관성 있게 서술되었습니다.",
+  "prose_sha256": "66fc83b2ba6308c283e82a359de18752dd6d89d55e1302b1e6d24331ea51324d",
+  "scene_contract_sha256": "99e25dc224b3971b80659182dfc70646e9281a07e2cb7f6030248461203877e2"
+}

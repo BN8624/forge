@@ -1,0 +1,17 @@
+{
+  "scene_id": "V3-E04-S01",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "산문이 장면의 목표인 '현실 복귀 후 극심한 환상통 묘사'를 충실히 수행하였으며, 시작 상태(진실 확인)에서 종료 상태(정신적 혼란)로의 전이가 명확하게 이루어졌다. 가용 캐논인 C1(왼팔 부재), C11(심박 통제 호흡법), C16(배신으로 인한 상실)을 적절히 활용하였으며, 미래 금지 요소(future_forbidden)나 다음 장면의 목표를 선취하지 않았다. 직전 산문의 결말과 자연스럽게 이어지며 설정 충돌 없이 계약을 완벽히 준수했다.",
+  "prose_sha256": "9cfd80413ce2a56281f3a07b8e6592955f88d8f52124ab0d6c9dbb3157853457",
+  "scene_contract_sha256": "5b0a65bc5c494a53ff8aa9d116382e3445e0c6dbaebbdc227a01b5ddb5379271"
+}

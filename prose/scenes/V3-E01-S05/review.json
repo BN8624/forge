@@ -1,0 +1,17 @@
+{
+  "scene_id": "V3-E01-S05",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "산문이 장면의 목표인 '무기고 외곽 도착 및 진입 경로 결정'을 정확히 달성하였으며, 시작 상태(정신적 회복)에서 종료 상태(무기고 도착)로의 전이가 자연스럽게 이루어졌다. available에 명시된 심박 통제 호흡법(EL-01)과 마력 방패(EL-02)를 적절히 활용하였으며, future_forbidden에 해당하는 설정이나 요소를 선취하거나 암시하지 않았다. 직전 산문의 정서적 흐름을 유지하며 서술되었다.",
+  "prose_sha256": "df1bf9b8d863878a6e41edc5cfc837afd7bedd970e4559cd7413d1e04aec3f08",
+  "scene_contract_sha256": "917a34a8c57b224fe6f611e4c1d9405ef7b6cb465bb5cab1c9cdbec4820136cc"
+}

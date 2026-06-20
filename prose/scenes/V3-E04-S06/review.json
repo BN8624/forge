@@ -1,0 +1,17 @@
+{
+  "scene_id": "V3-E04-S06",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "산문은 환상통으로 인한 신체적 경련과 불균형을 역이용해 적의 빈틈을 만들어 격파한다는 장면 목표를 정확히 달성했으며, '고통의 수용'에서 '전투 승리'로의 상태 전이가 매끄럽게 이루어졌습니다. 특히 future_forbidden에 설정된 EL-04(마력 방패 돌파)의 핵심 요소인 '마력 방패'가 등장하지 않았으므로, 단순히 불균형을 이용한 변칙적 공격이 나타난 것만으로는 미래 요소 선취로 판정하지 않습니다. 이전 산문과의 연속성 및 정본 설정(C1, C11, C16) 준수 여부 모두 완벽합니다.",
+  "prose_sha256": "03319ce452be23a44dfd0962d443c85d070a83ef809c3dbd903b246684f2cefb",
+  "scene_contract_sha256": "f8b5017f83abcb72146cfc9875ec60576a7abc5e9baa561fce590e1cfbd2deba"
+}

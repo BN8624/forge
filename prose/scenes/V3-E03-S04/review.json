@@ -1,0 +1,17 @@
+{
+  "scene_id": "V3-E03-S04",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '동료의 배신으로 인한 왼팔 상실의 세밀한 묘사'를 충실히 수행하였으며, 시작 상태(균열의 시작)에서 종료 상태(상실의 재현)로의 전이가 자연스럽게 이루어졌다. C1, C16, C11 등 관련 정본 설정을 엄격히 준수하였고, 다음 장면의 목표(배신의 이유)를 미리 누설하거나 future_forbidden에 명시된 미래 사건 및 설정을 암시하지 않았다. 또한, owns에 정의되지 않은 새로운 요소를 임의로 설치하거나 회수하지 않았으며, 직전 산문과의 서사적 연속성 및 문체적 일관성이 매우 뛰어나다.",
+  "prose_sha256": "cc57ad09f8beb2c5f45887b1e9e5e83fb6b3d74c94ee3fd16b2e5dc4c8569d5a",
+  "scene_contract_sha256": "a320dc1f10a51ab2761040b7b46be3619e7e9452fc259bb325a9f4b77cea8708"
+}

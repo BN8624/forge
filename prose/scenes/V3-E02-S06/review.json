@@ -1,0 +1,17 @@
+{
+  "scene_id": "V3-E02-S06",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 세 번째 영혼의 조각 확보와 그 과정에서 발생하는 강렬한 마력 파동의 묘사가 충실하게 구현되었습니다. 시작 상태(최종 관문 돌파)에서 종료 상태(조각 획득)로의 전이가 매끄러우며, 직전 산문의 상황과 분위기를 일관되게 유지하고 있습니다. 특히, 다음 장면의 핵심 계약인 '피를 통한 기억 전이'를 미리 수행하지 않았으며, future_forbidden에 명시된 팔을 잃은 구체적 경위(C16)나 계승자로서의 자각(EL-06) 등을 암시하지 않고 물리적/감각적 묘사에 집중하여 계약을 엄격히 준수하였습니다.",
+  "prose_sha256": "55560fbedec8b6749f497448f5d5514de0e234c04b63d5bfdf1e57c7c7bb31ea",
+  "scene_contract_sha256": "1436057cb8543888e5895759301fbed887452de002e89d8a287bcc68f9dbf198"
+}

@@ -1,0 +1,17 @@
+{
+  "scene_id": "V3-E02-S01",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 외곽 초소 무력화와 잠입 시작을 충실히 수행하였으며, 시작 상태(무기고 도착)에서 종료 상태(잠입 성공)로의 전이가 명확합니다. 직전 산문의 결말(북동쪽 틈새 진입 결정)에서 자연스럽게 이어지는 연속성을 보여주며, available canon에 명시된 심박 통제 호흡법(EL-01)과 신체적 불균형(EL-03)을 적절히 활용하였습니다. 특히, future_forbidden에 해당하는 변칙 검술을 통한 마력 방패 돌파(EL-04)나 궁전 잠입(EL-05) 등의 기능을 선취하지 않고 일반 병사와의 교전으로 제한하여 reveal_order를 엄격히 준수하였습니다.",
+  "prose_sha256": "305ee90014d928be452cff56d2f5f88bf35cd45e655c53955ff1ad1250c6e6aa",
+  "scene_contract_sha256": "86ae38ce8b1bf8801a66fca3a6e72953af6ab59f28e87b875d9609217b634d95"
+}

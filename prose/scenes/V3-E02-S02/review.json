@@ -1,0 +1,17 @@
+{
+  "scene_id": "V3-E02-S02",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "산문이 장면 목표인 '과거의 영광과 상실에 대한 회상'을 충실히 수행하였으며, 시작 상태(잠입 성공)에서 종료 상태(과거 회상)로의 전이가 자연스럽게 이루어졌다. 특히 future_forbidden에 해당하는 C16의 핵심 내용인 '동료의 배신'을 언급하지 않고 연무장이라는 공간적 배경과 상실감만을 묘사함으로써 정보 공개 순서를 엄격히 준수하였다. 기존 정본 설정(C1, C11)과의 정합성 및 직전 산문과의 연속성 또한 완벽하다.",
+  "prose_sha256": "d5bb4df838d95e81fd8aaaef5ef662ded9046be3ae819af71ef927b3fccca2ce",
+  "scene_contract_sha256": "2ac184c681479729f4e0e3698a1ff21c9031b2660038267827b04653aaef1fae"
+}

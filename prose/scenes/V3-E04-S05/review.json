@@ -1,0 +1,17 @@
+{
+  "scene_id": "V3-E04-S05",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '환상통의 수용과 각성'을 심리 묘사를 통해 밀도 있게 구현하였으며, '한계 봉착'에서 '고통의 수용'으로 이어지는 상태 전이가 명확함. 직전 산문의 마지막 상황(벽에 기대어 한계에 다다른 모습)에서 자연스럽게 이어지며, 다음 장면(S06)의 핵심 페이오프인 '변칙적 일격으로 적을 격파'하는 행위를 직접적으로 수행하지 않고 그 전 단계인 정신적 준비 상태까지만 묘사함으로써 reveal_order를 엄격히 준수함. 금지된 미래 설정이나 요소의 선취 없이 계약된 범위 내에서 서술됨.",
+  "prose_sha256": "417895b74d4272be41d321cecc35274350262db8cba33be7e322cbbb98d14e3e",
+  "scene_contract_sha256": "907431b6f08e915a0f2159520ea98e85f670b0f0967ab11cc633de3c27e6de74"
+}

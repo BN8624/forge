@@ -1,0 +1,17 @@
+{
+  "scene_id": "V3-E02-S04",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '리아의 공명을 통한 위치 안내 및 전투 보조'가 충실히 구현되었으며, '교전 발생'에서 '위치 파악'으로의 상태 전이가 명확하게 이루어졌습니다. 특히 다음 장면(S05)의 핵심 페이오프인 '변칙 검술을 통한 마력 방패 돌파(EL-04)'를 미리 수행하지 않고, 단순히 방패의 틈새를 파고드는 회피 기동으로 묘사하여 reveal_order를 엄격히 준수했습니다. 가용 캐논(C1, C11, C13, C17)의 적절한 활용과 직전 산문과의 매끄러운 연결성, 높은 서사 퀄리티를 유지하고 있습니다.",
+  "prose_sha256": "118d8d718c5125ac46b89fbda53958ecc438e662e9d1c2443115141e1438c019",
+  "scene_contract_sha256": "8b69abb8cbd7d7bf47ed7170929ec7ab0033224efd87ede670ce21f7b9ce2ca2"
+}
