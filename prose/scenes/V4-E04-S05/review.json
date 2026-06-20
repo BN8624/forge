@@ -1,0 +1,17 @@
+{
+  "scene_id": "V4-E04-S05",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '지휘관 격파'를 외부 변수(낙석)를 통한 방패의 사각지대 노출이라는 방식으로 적절히 달성하였습니다. 특히 future_forbidden 요소인 EL-04(불균형을 이용한 변칙 검술로 돌파)를 사용하지 않고, 오히려 정석적인 찌르기로 마무리함으로써 설정상의 제약을 엄격히 준수하였습니다. 시작 상태와 종료 상태의 전이가 명확하며, 가용 캐논(C1, C11, C17)을 충실히 반영하였습니다.",
+  "prose_sha256": "0dde783e5851e1fed4ab26a2d6782b0cb9472cd7655eff97c89beedb5aa7914a",
+  "scene_contract_sha256": "a77cbd1cbed7a9eed9c301b3db8ae4c8c3044a8faf103772c3160137ee874fb8"
+}

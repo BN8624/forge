@@ -1,0 +1,17 @@
+{
+  "scene_id": "V4-E01-S05",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 성소의 흔적(석주) 발견과 목적지(푸른 빛의 소용돌이) 파악이 명확하게 달성되었으며, 시작 상태(고지대 도달)에서 종료 상태(성소 위치 파악)로의 전이가 자연스럽게 이루어졌습니다. 가용 캐논(C1, C4, C11 등)을 적절히 활용하였고, 미래 금지 요소(EL-06의 정당한 계승자로의 자각 등)를 캐릭터의 내면적 변화나 서사적 각성으로 다루지 않고 성소의 진입 조건이라는 설정적 장치로만 묘사하여 reveal_order를 준수했습니다. 직전 산문의 신체적 상태와 환경적 묘사가 일관되게 유지되었습니다.",
+  "prose_sha256": "5926fe42c65226688b28f3f35a723e169d171faf5d218289f12cf37da53f823d",
+  "scene_contract_sha256": "d63205a61dce43c463ee5225aee6492050f0613016741546a54bddb0e61162fa"
+}

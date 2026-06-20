@@ -1,0 +1,17 @@
+{
+  "scene_id": "V4-E02-S02",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "산문이 장면의 목표인 '설원에서의 은신과 심리전'을 충실히 묘사했으며, '추격 인지'에서 '은신 유지'로의 상태 전이가 명확하게 이루어졌습니다. 직전 산문의 마지막 문장(정찰대장의 외침)에서 자연스럽게 이어지며 연속성을 유지하고 있습니다. 가용 캐논(C1, C11)을 적절히 활용하였으며, 미래 금지 요소(future_forbidden)나 다음 장면의 목표(S03의 교전)를 미리 드러내지 않았습니다. 또한, owns에 정의되지 않은 새로운 설정이나 페이오프를 임의로 추가하지 않았습니다.",
+  "prose_sha256": "1cd53db1967fcf81f19d955552223b334ea1d7e6af5d039f71151b7d927bd2aa",
+  "scene_contract_sha256": "18814c44e9f38737c3b36c8370f692a4111c2b204dd2ec9ac8262f668762bb69"
+}

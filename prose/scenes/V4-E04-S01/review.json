@@ -1,0 +1,17 @@
+{
+  "scene_id": "V4-E04-S01",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "산문이 장면의 목표인 '부상 치료'와 '정예병 방패의 예측 가능성 분석'을 충실히 수행하였으며, '정석 검술의 한계 직면' 상태에서 '가설 설정' 상태로의 전이가 명확하게 이루어졌습니다. 가용 캐논(C1, C11, C17)과 요소(EL-02, EL-03)를 적절히 활용하였으며, 다음 장면의 목표인 '의도적 훈련'이나 미래 금지 요소인 '변칙 검술을 통한 돌파(EL-04)'를 실제로 실행하지 않고 오직 가설 단계에서만 머물렀으므로 reveal_order를 준수하였습니다. 직전 산문과의 연결성 및 문체 또한 적절합니다.",
+  "prose_sha256": "a3e7c44fe17100209b7dc193dd02b9c6616dba1caac64bf77b57056133880b3d",
+  "scene_contract_sha256": "65435012ab409bc75e6d02cd7018b4a1d3ad2d9e4f2e9bb012fda2b07a83c9c6"
+}

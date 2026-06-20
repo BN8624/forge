@@ -1,0 +1,17 @@
+{
+  "scene_id": "V4-E04-S07",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '환영을 통한 마지막 조각의 위치 파악 및 최종 결전 준비'가 충실히 묘사되었으며, 시작 상태(활성화)에서 종료 상태(획득)로의 전이가 명확하게 이루어졌습니다. future_forbidden에 명시된 발타자르의 비밀(C6, C19), 기록 체계의 완성(C18), 감시망 파괴(C21) 및 특정 페이오프 요소(EL-04, EL-05, EL-06)를 선취하거나 암시하지 않았습니다. 직전 산문의 마지막 문장에서 자연스럽게 이어지는 연속성을 보이며, 정본 설정(C1, C3, C4, C5, C13)을 엄격히 준수하였습니다.",
+  "prose_sha256": "e3a7622a503113d823b6d59a0360c3683115e333e6821dabc8487fc2973add25",
+  "scene_contract_sha256": "eb2beeca5e033dcef43029c250dc20b3bcc505fa1f0f2d592565960881e611b3"
+}

@@ -1,0 +1,17 @@
+{
+  "scene_id": "V4-E02-S03",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 정찰대 일부 유인 및 처리가 성공적으로 묘사되었으며, '은신 유지'에서 '소규모 교전 승리'로의 상태 전이가 명확합니다. available 요소인 심박 통제 호흡법(EL-01), 마력 방패(EL-02), 신체적 불균형(EL-03)을 적절히 활용하였으며, 특히 금지된 페이오프인 EL-04(불균형을 이용한 변칙 검술로 방패 돌파)를 수행하지 않고 지형지물(빙판)을 이용한 전술적 승리로 처리하여 reveal_order를 준수했습니다. 이전 산문과의 연속성 및 정본 설정과의 충돌이 없으며 문체 또한 적절합니다.",
+  "prose_sha256": "2dc5ed59b62f8043a29fbfb3852b182ab70e6dff118fd3954592d30823ddc147",
+  "scene_contract_sha256": "d7ce2d3cb4c35c2a0592d1abf9b30cba5fe3567097eb4c1bf693b000e0f82f7e"
+}

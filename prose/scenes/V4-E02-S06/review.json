@@ -1,0 +1,17 @@
+{
+  "scene_id": "V4-E02-S06",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 성소 최종 관문 도달 및 진입이 명확하게 묘사되었으며, 시작 상태(결의 다짐)에서 종료 상태(최종 관문 진입)로의 전이가 자연스럽게 이루어졌습니다. available canon에 명시된 심박 통제 호흡법(C11)과 신체적 결핍(C1)을 적절히 활용하였으며, future_forbidden에 해당하는 미래 사건이나 설정, 혹은 다음 장면의 핵심 사건(정예병과의 조우)을 미리 노출하지 않고 적절한 지점에서 마무리되었습니다. 직전 산문의 정서적 흐름과 물리적 상황이 일관되게 유지되었습니다.",
+  "prose_sha256": "65211583bb5cf50f0e017539c37e5ab22fc607616cacae73808089fc0506821c",
+  "scene_contract_sha256": "db8f18e3784d1e0434f16881cfd5f0f3af51a92b0a6f54e6a1c1e6f992199860"
+}

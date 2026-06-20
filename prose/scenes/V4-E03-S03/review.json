@@ -1,0 +1,17 @@
+{
+  "scene_id": "V4-E03-S03",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '정석 검술의 한계 체감 및 반격당함'을 충실하게 구현하였습니다. 시작 상태에서 종료 상태(전술적 패배)로의 전이가 명확하며, available 요소인 심박 통제 호흡법(EL-01), 마력 방패(EL-02), 신체적 불균형(EL-03)을 적절히 활용하여 정석 검술의 무력함을 극대화했습니다. future_forbidden에 해당하는 변칙 검술의 발견(EL-04)이나 정체성 자각(EL-06) 등의 내용을 선취하지 않았으며, 직전 산문과의 연결성 및 묘사 수준 또한 매우 우수합니다.",
+  "prose_sha256": "8578717ed366b9dbe1f7a74b869ffee44ee5d4a65d13db5e3144ce9bed2a39ef",
+  "scene_contract_sha256": "23f34e3efb5868caae7a55e809910e19c28bf5b94988aa7f7f6654718b8a41c8"
+}

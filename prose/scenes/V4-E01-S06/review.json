@@ -1,0 +1,17 @@
+{
+  "scene_id": "V4-E01-S06",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 성소 외곽 도착, 지형 정찰, 진입 경로 탐색이 모두 충실하게 수행되었습니다. 시작 상태에서 종료 상태로의 전이가 명확하며, available canon(C1, C11 등)을 적절히 활용하면서도 future_forbidden에 해당하는 요소(EL-04의 변칙 검술 활용, EL-06의 계승자 자각 등)를 전혀 선취하지 않았습니다. 특히 신체적 불균형을 묘사하면서도 이를 '성장이 아닌 처절한 생존을 위한 사투'로 정의함으로써 미래의 페이오프(EL-04)와 엄격히 구분하였습니다.",
+  "prose_sha256": "1b8cd590a517fb75fad06aefbcce3d90ebaaba83af5dafe9beec525a3429662e",
+  "scene_contract_sha256": "9169081876eee80e2f0d0bfd4c7ec2bddfb6b9b343cca18c3b0c6108c41f10d3"
+}

@@ -1,0 +1,17 @@
+{
+  "scene_id": "V4-E04-S04",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '변칙 검술의 실전 검증'을 충실히 수행하였으며, '불균형 검술의 기초 완성'에서 '실전 적용 성공'으로의 상태 전이가 명확하게 묘사되었습니다. 특히 미래 금지 요소인 EL-04(마력 방패 돌파)를 단독으로 완결 짓지 않고, 리아의 도움이라는 외부 변수를 통해 '가능성'을 확인하는 수준으로 연출함으로써 다음 장면(V4-E04-S05)의 계약인 '사각지대를 정확히 꿰뚫어 지휘관 격파'를 위한 빌드업을 적절히 유지했습니다. 정본 설정(C1, C11, C17) 및 직전 산문의 흐름과도 완벽하게 일치합니다.",
+  "prose_sha256": "ca881fe005d45bda417eb35bcf9cf093d18021cedfafc63e97e04c5a57ae6a5c",
+  "scene_contract_sha256": "687840fcf3798b9992f13a3617ebec49107f592592a8af310a48a0f2ac883b09"
+}

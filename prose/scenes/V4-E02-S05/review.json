@@ -1,0 +1,17 @@
+{
+  "scene_id": "V4-E02-S05",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "산문이 장면의 목표인 카엘의 내면적 갈등과 책임감을 깊이 있게 묘사했으며, '포위망 탈출'에서 '결의 다짐'으로 이어지는 상태 전이를 정확하게 수행했습니다. available canon에 명시된 신체적 결손, 호흡법, 제국군의 특성을 적절히 활용하였으며, future_forbidden에 해당하는 정당한 계승자로의 자각(EL-06)이나 구체적인 변칙 검술의 원리(EL-04)를 선취하지 않고 심리적 묘사에 집중했습니다. 또한 다음 장면의 목표인 '거대 석문 도달'을 미리 달성하지 않아 reveal_order를 준수했습니다.",
+  "prose_sha256": "aa6d10c5c1ee1532ca10a01a98ba859b3449942e26a9a74146a8efdc16b1deac",
+  "scene_contract_sha256": "0f35c831843a6ca3629fb819088e087ac3e698744de3764dd9ff9102f2dc7b55"
+}

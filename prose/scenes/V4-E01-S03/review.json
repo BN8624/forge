@@ -1,0 +1,17 @@
+{
+  "scene_id": "V4-E01-S03",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 왕가의 운명과 정체성에 대한 대화가 충실히 구현되었으며, '임시 거처 발견'에서 '유대감 강화'로의 상태 전이가 자연스럽게 이루어졌습니다. future_forbidden에 해당하는 정당한 계승자로의 자각(EL-06)이나 발타자르의 비밀(C6, C19 등)을 미리 드러내지 않았으며, 가용 캐논(C1, C4, C11 등)을 적절히 활용하여 서사의 일관성을 유지했습니다.",
+  "prose_sha256": "0a29e0713c8e9fadc759d0c9e5cb1f4d77d64073e36d639d320907531be80c91",
+  "scene_contract_sha256": "40b2a55243a84b30678963c35ccefa4586ab6d3bf337515e217077ab89893ec7"
+}

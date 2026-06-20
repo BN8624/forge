@@ -1,0 +1,17 @@
+{
+  "scene_id": "V4-E03-S01",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 제국 정예병과의 조우를 충실히 묘사하였으며, '최종 관문 진입'에서 '전투 개시'로의 상태 전이가 명확하게 이루어졌다. 가용 설정(C1, C4, C11, C17)과 요소(EL-01, EL-03)를 적절히 활용하였으며, 다음 장면(V4-E03-S02)의 핵심인 마력 방패의 구체적인 작동 원리나 기하학적 문양에 대한 묘사를 배제하여 reveal_order를 준수하였다. 이전 산문과의 연결성 및 서사적 문체 또한 적절하다.",
+  "prose_sha256": "a45868d3975cdd6c9f2f484e5232ece00e9e12fee9320fb74829d941a9045fe5",
+  "scene_contract_sha256": "61f3a612e39d3fce224edf7b14df867b5388256defd92c08dcb59b7162c6ec89"
+}

@@ -1,0 +1,17 @@
+{
+  "scene_id": "V4-E02-S04",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '리아의 지혜를 통한 탈출로 확보'가 명확하게 달성되었으며, 시작 상태(소규모 교전 승리)에서 종료 상태(포위망 탈출)로의 전이가 자연스럽게 이루어졌다. 금지된 미래 요소(future_forbidden)를 선취하거나 다음 장면의 목표를 미리 달성하지 않았으며, 기존 정본 설정(C1, C11, C17 등)을 일관성 있게 유지하며 서술되었다.",
+  "prose_sha256": "e851a7f5b5cdd7d1a2792bd5ff8f0f87bf6f64154c642531d3abfcbf8f33c23e",
+  "scene_contract_sha256": "deb1eae95c4cce1479810bd8d4c622d6e9c53bf391e582ac2276ac5013883074"
+}

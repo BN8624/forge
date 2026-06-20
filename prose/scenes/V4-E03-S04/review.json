@@ -1,0 +1,17 @@
+{
+  "scene_id": "V4-E03-S04",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 '부상 입은 카엘의 리아 보호 및 필사적 후퇴'가 충실히 묘사되었으며, '전술적 패배'에서 '일시적 퇴각'으로의 상태 전이가 명확하게 이루어졌다. 미래 금지 요소인 '변칙 검술을 통한 방패 돌파(EL-04)'를 시도하지 않고 오히려 정면 돌파의 불가능함을 인정하며 퇴각하는 방향으로 서술하여 reveal_order를 준수했다. 또한 이전 산문의 끝 지점에서 자연스럽게 이어지며 정본 설정(C1, C11, C17 등)과 충돌 없이 일관성을 유지했다.",
+  "prose_sha256": "325b24c6d6ace2948b5ed6d9667de4115b0fdc9c859b91dcf51d10ecd561247d",
+  "scene_contract_sha256": "265a0707c0d11c84aea770dfe3378b3a9d5689ad1453c545228d4f8ed4ccb200"
+}

@@ -1,0 +1,17 @@
+{
+  "scene_id": "V4-E01-S01",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 북부 고봉 여정의 시작과 극한의 추위 묘사가 충실하게 수행되었습니다. 직전 산문의 끝 지점(무기고 철문을 나섬)에서 자연스럽게 이어지며, 시작 상태(환상통 극복)에서 종료 상태(이동 시작)로의 전이가 명확합니다. available canon에 명시된 심박 통제 호흡법(C11/EL-01)과 신체적 불균형(C1/EL-03)을 적절히 활용하였으며, future_forbidden에 해당하는 설정이나 이후 장면(S02)의 핵심 사건(길을 잃음, 거처 발견)을 미리 누설하지 않았습니다.",
+  "prose_sha256": "f0cb8c8b3e7ab25c7d07dd625f59e5085c74e497f6f6129627ca020ac5bcfee7",
+  "scene_contract_sha256": "4860b5b7b0cf9a024c5b4c992c814948d2c7e4d66361eb05cc9f9c62fab5674e"
+}
