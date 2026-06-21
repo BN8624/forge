@@ -53,6 +53,18 @@ def project_bundle(root: Path) -> dict:
 
 
 class GenerateCandidateTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.source_directory = tempfile.TemporaryDirectory()
+        self.source_patcher = patch(
+            "pipeline.generate_candidate.CURRENT_REFERENCE_ROOT",
+            Path(self.source_directory.name) / "missing-current",
+        )
+        self.source_patcher.start()
+
+    def tearDown(self) -> None:
+        self.source_patcher.stop()
+        self.source_directory.cleanup()
+
     def test_current_generated_world_precedes_legacy_reference(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             current = Path(directory) / "current"
@@ -132,6 +144,8 @@ class GenerateCandidateTests(unittest.TestCase):
             self.assertIn('"id": "C21"', prompt)
             self.assertIn("기존 압축 원고", prompt)
             self.assertIn("추가 지시 없음", prompt)
+            self.assertIn("각 정본 항목은 최소 한 장면", prompt)
+            self.assertIn("조건, 독점 주체, 부작용", prompt)
 
     def test_invalid_json_preserves_existing_output(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

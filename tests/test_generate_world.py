@@ -82,7 +82,7 @@ class GenerateWorldTests(unittest.TestCase):
             sentinel.write_text("기존 세계", encoding="utf-8")
 
             with self.assertRaises(WorldGenerationError):
-                generate_world("", output, FakeLLM(["{}"] * 3))
+                generate_world("", output, FakeLLM(["{}"] * 5))
 
             self.assertEqual("기존 세계", sentinel.read_text(encoding="utf-8"))
 
@@ -93,6 +93,30 @@ class GenerateWorldTests(unittest.TestCase):
         errors = validate_world_source(value)
 
         self.assertTrue(any("C1-C21" in error for error in errors), errors)
+
+    def test_short_manuscript_is_extended_by_generator(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "current"
+            value = world_source()
+            value["manuscript"] = value["manuscript"][:1800]
+            addition = "새 공동체는 기억을 소유하지 않고 서로 증언했다. " * 80
+            llm = FakeLLM(
+                [
+                    json.dumps(value, ensure_ascii=False),
+                    json.dumps(
+                        {"manuscript_addition": addition},
+                        ensure_ascii=False,
+                    ),
+                ]
+            )
+
+            generate_world("", output, llm)
+
+            manuscript = (output / "compressed_manuscript.md").read_text(
+                encoding="utf-8"
+            )
+            self.assertGreaterEqual(len(manuscript.strip()), 3000)
+            self.assertEqual(["generator", "generator"], [call[0] for call in llm.calls])
 
 
 if __name__ == "__main__":

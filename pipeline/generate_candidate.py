@@ -108,6 +108,11 @@ series는 객체이며 나머지는 객체 배열이다.
 모든 start_state와 end_state를 계층과 장면 순서에 맞게 연결한다.
 canon_bible.json의 정본 항목 {json.dumps(canon_ids, ensure_ascii=False)}을
 모두 유지하며 충돌하는 설정을 만들지 않는다.
+각 정본 항목은 최소 한 장면의 objective, start_state, end_state 또는 owns
+요소에서 직접 입증 가능해야 한다. 분위기나 배경에 암묵적으로 남겨두지 않는다.
+규칙의 조건, 독점 주체, 부작용, 장소, 과거 사건도 생략하지 말고 해당 장면
+목표에 구체적으로 배치한다.
+구조를 반환하기 전에 모든 정본 ID별로 직접 근거 장면이 있는지 스스로 점검한다.
 compressed_manuscript.md의 기존 인물, 세계관, 사건, 결말을 유지한다.
 기존 10권 설계는 입력이 아니며 5권별 사건 배치는 스스로 새로 결정한다.
 정본 설정에 title이 있으면 series.title은 그 값을 정확히 사용한다.

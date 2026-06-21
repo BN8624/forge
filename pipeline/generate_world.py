@@ -19,7 +19,7 @@ from lib.jsonutil import extract_json
 from pipeline.validate_structure import validate_schema
 
 
-MAX_WORLD_ATTEMPTS = 3
+MAX_WORLD_ATTEMPTS = 5
 EXPECTED_CANON_IDS = {f"C{index}" for index in range(1, 22)}
 
 
@@ -104,6 +104,51 @@ def validate_world_source(value: Any) -> list[str]:
     return errors
 
 
+def extend_short_manuscript(
+    value: dict[str, Any],
+    llm: LLM,
+) -> dict[str, Any]:
+    manuscript = value.get("manuscript")
+    if not isinstance(manuscript, str) or not 1000 <= len(manuscript) < 3000:
+        return value
+    response = llm.generate(
+        "generator",
+        f"""너는 Forge의 신규 세계관 참고 원고 generator다.
+아래 원고는 세계관과 결말은 완성됐지만 최소 분량보다 짧다.
+기존 문장을 수정하거나 반복하지 말고 마지막 문장 뒤에 자연스럽게 이어질
+출판 가능한 한국어 산문만 추가하라.
+
+세계관 제목: {value.get("title", "")}
+장르: {value.get("genre", "")}
+톤: {value.get("tone", "")}
+부족 분량: 최소 {3000 - len(manuscript) + 500}자
+
+현재 원고:
+{manuscript}
+
+추가 산문은 기존 결말 이후의 장기적 여파, 인물 관계의 잔향, 새 사회의
+변화를 구체적 장면과 감각으로 확장하되 새로운 핵심 설정이나 반전을 만들지 않는다.
+설명이나 코드펜스 없이 manuscript_addition 키만 가진 JSON 객체를 반환한다.
+""",
+        temperature=0.8,
+    )
+    addition_value = extract_json(response)
+    if (
+        isinstance(addition_value, dict)
+        and set(addition_value) == {"manuscript_addition"}
+        and isinstance(addition_value["manuscript_addition"], str)
+        and addition_value["manuscript_addition"].strip()
+    ):
+        extended = dict(value)
+        extended["manuscript"] = (
+            manuscript.rstrip()
+            + "\n\n"
+            + addition_value["manuscript_addition"].strip()
+        )
+        return extended
+    return value
+
+
 def materialize_world(value: dict[str, Any], output: Path) -> None:
     output.mkdir(parents=True, exist_ok=True)
     canon_bible = {
@@ -163,6 +208,8 @@ def generate_world(
         for attempt in range(1, MAX_WORLD_ATTEMPTS + 1):
             response = llm.generate("generator", prompt, temperature=0.9)
             value = extract_json(response)
+            if isinstance(value, dict):
+                value = extend_short_manuscript(value, llm)
             last_errors = validate_world_source(value)
             if not last_errors:
                 materialize_world(value, staged)

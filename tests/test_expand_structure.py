@@ -4,7 +4,11 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from pipeline.expand_structure import StructureExpansionError, expand_structure
+from pipeline.expand_structure import (
+    StructureExpansionError,
+    expand_structure,
+    normalize_consumed_setups,
+)
 from pipeline.validate_canon import story_sha256
 from pipeline.validate_scale import validate_story_scale
 from pipeline.validate_structure import validate_project
@@ -72,6 +76,17 @@ def expanded_volume_response(volume_index: int, scene_target: int = 4_000) -> st
 
 
 class ExpandStructureTests(unittest.TestCase):
+    def test_unknown_or_canon_setup_references_are_removed(self) -> None:
+        response = json.loads(expanded_volume_response(1))
+        response["scenes"][0]["consumes_setups"] = ["C13", "SETUP-1", "UNKNOWN"]
+
+        normalize_consumed_setups(response, {"SETUP-1"})
+
+        self.assertEqual(
+            ["SETUP-1"],
+            response["scenes"][0]["consumes_setups"],
+        )
+
     def test_five_expanded_volumes_are_assembled_and_validated(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             workspace = Path(directory)

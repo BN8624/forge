@@ -122,6 +122,11 @@ def build_expansion_prompt(
         element_by_id[element_id]
         for element_id in context["owned_element_ids"]
     ]
+    setup_elements = [
+        element
+        for element in series["elements"]
+        if element["kind"] == "setup"
+    ]
     volume_summaries = [
         {
             "id": volume["id"],
@@ -151,6 +156,9 @@ def build_expansion_prompt(
 이 권이 정확히 한 번 소유해야 하는 이야기 요소:
 {json.dumps(owned_elements, ensure_ascii=False, indent=2)}
 
+consumes_setups에 사용할 수 있는 전체 setup 요소:
+{json.dumps(setup_elements, ensure_ascii=False, indent=2)}
+
 추가 사용자 지시:
 {instruction.strip() or "없음"}
 
@@ -170,7 +178,9 @@ def build_expansion_prompt(
 - scene ID는 각 사건의 S01부터 연속 순번을 사용한다.
 - 위 이야기 요소 ID만 owns에 넣고 각각 정확히 한 번 소유한다.
 - 다른 권의 요소나 새 요소 ID를 만들지 않는다.
-- consumes_setups는 series에 정의된 setup ID만 사용한다.
+- consumes_setups는 위 목록의 setup ID만 사용한다. C1-C21 같은 canon ID,
+  change ID, payoff ID는 절대 넣지 않는다. 해당 setup을 실제로 회수하거나
+  소비하지 않는 장면은 빈 배열을 사용한다.
 - start_state, 상위 end_state, previous_scene_id는 조립 단계에서 Forge가
   정규화하므로 유효한 객체와 필드는 제공하되 복제 정확성에 집착하지 않는다.
 """
@@ -221,6 +231,23 @@ def owned_element_ids(scenes: list[dict[str, Any]]) -> list[str]:
         for owner_key in OWNER_KEYS:
             result.extend(owns.get(owner_key, []))
     return result
+
+
+def normalize_consumed_setups(
+    response: dict[str, Any],
+    setup_ids: set[str],
+) -> None:
+    for scene in response["scenes"]:
+        if not isinstance(scene, dict):
+            continue
+        consumed = scene.get("consumes_setups")
+        if not isinstance(consumed, list):
+            continue
+        scene["consumes_setups"] = [
+            setup_id
+            for setup_id in consumed
+            if setup_id in setup_ids
+        ]
 
 
 def validate_volume_response(
@@ -404,6 +431,7 @@ def generate_expanded_volume(
         try:
             value = extract_json(response_text)
             response = require_volume_response(value)
+            normalize_consumed_setups(response, setup_ids)
             last_errors = validate_volume_response(
                 response,
                 volume_id,
