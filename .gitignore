@@ -2,4 +2,5 @@
 __pycache__/
 runs/
 exports/
+reference/current/
 .pytest_cache/

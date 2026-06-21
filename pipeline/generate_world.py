@@ -1,0 +1,225 @@
+# 새로운 장편 세계관과 21개 정본 항목, 압축 참고 원고를 생성·검증·게시하는 도구
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import shutil
+import sys
+import tempfile
+from pathlib import Path
+from typing import Any, Protocol
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+LIB_ROOT = PROJECT_ROOT / "lib"
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from lib.jsonutil import extract_json
+from pipeline.validate_structure import validate_schema
+
+
+MAX_WORLD_ATTEMPTS = 3
+EXPECTED_CANON_IDS = {f"C{index}" for index in range(1, 22)}
+
+
+class LLM(Protocol):
+    def generate(
+        self,
+        role: str,
+        prompt: str,
+        temperature: float | None = None,
+    ) -> str: ...
+
+
+class WorldGenerationError(Exception):
+    def __init__(self, errors: list[str] | str):
+        self.errors = [errors] if isinstance(errors, str) else errors
+        super().__init__("\n".join(self.errors))
+
+
+def build_world_prompt(instruction: str = "") -> str:
+    optional_instruction = instruction.strip() or "추가 지시 없음. 장르와 소재도 스스로 결정한다."
+    schema = json.loads(
+        (PROJECT_ROOT / "schemas" / "world_source.schema.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    return f"""너는 Forge의 신규 세계관 창작자다.
+기존 작품, 에테르노, 카엘, 리아, 발타자르, 영혼의 조각을 사용하지 말고
+완전히 새로운 한국어 장편소설 세계관을 창작하라.
+
+사용자 선택 지시:
+{optional_instruction}
+
+이 세계관은 정확히 5권의 장편 구조와 완결된 산문으로 확장될 원천 정본이다.
+인물 이름, 장소, 사회 체제, 초자연 규칙, 갈등, 반전, 결말을 독창적으로 만든다.
+핵심 규칙은 모호한 분위기가 아니라 이후 critic이 판정할 수 있는 사실 문장으로 쓴다.
+
+canon 21개는 다음 역할을 고르게 담당한다.
+- C1-C4: 주인공과 핵심 관계, 결핍.
+- C5-C8: 세계의 물리·사회·초자연 규칙.
+- C9-C12: 주요 장소, 세력, 적대자와 위협.
+- C13-C16: 중반의 발견과 과거 진실.
+- C17-C19: 후반 반전과 대가.
+- C20-C21: 최종 결말에서 반드시 성립할 사실.
+
+manuscript는 최소 3,000자의 압축 참고 원고다.
+도입, 5권에 걸친 상승과 전환, 최종 결말을 모두 포함하며 출판 산문의 문체,
+대화, 감각 묘사를 보여준다. 구조 문서나 항목 설명처럼 쓰지 않는다.
+
+설명이나 코드펜스 없이 JSON 객체 하나만 반환한다.
+스키마:
+{json.dumps(schema, ensure_ascii=False, indent=2)}
+"""
+
+
+def validate_world_source(value: Any) -> list[str]:
+    errors: list[str] = []
+    if not validate_schema(
+        value,
+        "world_source.schema.json",
+        "world-source.json",
+        errors,
+    ):
+        return errors
+    canon_ids = [item["id"] for item in value["canon"]]
+    if (
+        len(canon_ids) != len(set(canon_ids))
+        or set(canon_ids) != EXPECTED_CANON_IDS
+    ):
+        errors.append("신규 세계관 canon은 C1-C21을 정확히 한 번씩 포함해야 함")
+    forbidden = ("에테르노", "카엘", "리아", "발타자르", "영혼의 조각")
+    combined = " ".join(
+        [
+            value["title"],
+            value["premise"],
+            value["manuscript"],
+            *(item["text"] for item in value["canon"]),
+        ]
+    )
+    found = [term for term in forbidden if term in combined]
+    if found:
+        errors.append(f"기존 세계관 고유어 재사용 금지: {', '.join(found)}")
+    return errors
+
+
+def materialize_world(value: dict[str, Any], output: Path) -> None:
+    output.mkdir(parents=True, exist_ok=True)
+    canon_bible = {
+        "title": value["title"],
+        "genre": value["genre"],
+        "tone": value["tone"],
+        "premise": value["premise"],
+        "canon": value["canon"],
+    }
+    (output / "canon_bible.json").write_text(
+        json.dumps(canon_bible, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (output / "compressed_manuscript.md").write_text(
+        value["manuscript"].strip() + "\n",
+        encoding="utf-8",
+    )
+    metadata = {
+        key: value[key]
+        for key in ("title", "genre", "tone", "premise")
+    }
+    (output / "world.json").write_text(
+        json.dumps(metadata, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
+def publish_world(staged: Path, output: Path) -> None:
+    output.parent.mkdir(parents=True, exist_ok=True)
+    backup = output.parent / f".{output.name}.previous"
+    shutil.rmtree(backup, ignore_errors=True)
+    had_output = output.exists()
+    if had_output:
+        os.replace(output, backup)
+    try:
+        os.replace(staged, output)
+    except OSError as exc:
+        if had_output and backup.exists() and not output.exists():
+            os.replace(backup, output)
+        raise WorldGenerationError(f"신규 세계관 게시 실패: {exc}") from exc
+    shutil.rmtree(backup, ignore_errors=True)
+
+
+def generate_world(
+    instruction: str,
+    output: Path,
+    llm: LLM,
+) -> Path:
+    output = output.resolve()
+    output.parent.mkdir(parents=True, exist_ok=True)
+    staging_root = Path(tempfile.mkdtemp(prefix=".world-", dir=output.parent))
+    staged = staging_root / "world"
+    original_prompt = build_world_prompt(instruction)
+    prompt = original_prompt
+    last_errors: list[str] = []
+    try:
+        for attempt in range(1, MAX_WORLD_ATTEMPTS + 1):
+            response = llm.generate("generator", prompt, temperature=0.9)
+            value = extract_json(response)
+            last_errors = validate_world_source(value)
+            if not last_errors:
+                materialize_world(value, staged)
+                publish_world(staged, output)
+                return output
+            if attempt == MAX_WORLD_ATTEMPTS:
+                break
+            prompt = f"""{original_prompt}
+
+직전 응답은 신규 세계관 계약 검증에 실패했다.
+아래 오류를 모두 해결한 전체 JSON 객체를 처음부터 다시 반환하라.
+
+오류:
+{json.dumps(last_errors, ensure_ascii=False, indent=2)}
+
+직전 응답:
+{response}
+"""
+    finally:
+        shutil.rmtree(staging_root, ignore_errors=True)
+    raise WorldGenerationError(
+        [f"신규 세계관 생성 {MAX_WORLD_ATTEMPTS}회 실패", *last_errors]
+    )
+
+
+def create_llm_client() -> LLM:
+    if str(LIB_ROOT) not in sys.path:
+        sys.path.insert(0, str(LIB_ROOT))
+    from llm import LLMClient
+
+    return LLMClient()
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="기존 작품과 무관한 신규 5권 장편 세계관 원천을 생성한다."
+    )
+    parser.add_argument("--instruction-file", type=Path)
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=PROJECT_ROOT / "reference" / "current",
+    )
+    args = parser.parse_args()
+    try:
+        instruction = (
+            args.instruction_file.read_text(encoding="utf-8")
+            if args.instruction_file
+            else ""
+        )
+        generate_world(instruction, args.output, create_llm_client())
+    except (OSError, RuntimeError, WorldGenerationError) as exc:
+        print(f"[FAIL] {exc}")
+        return 1
+    print(f"[OK] 신규 세계관 생성 완료: {args.output.resolve()}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

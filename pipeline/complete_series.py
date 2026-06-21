@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 import os
+import shutil
 import sys
 import tempfile
 from datetime import datetime, timezone
@@ -19,6 +20,8 @@ if str(PROJECT_ROOT) not in sys.path:
 from pipeline.expand_structure import expand_structure
 from pipeline.export_epub import export_epub
 from pipeline.generate_candidate import generate_candidate
+from pipeline.generate_candidate import load_source_material
+from pipeline.generate_world import generate_world
 from pipeline.generate_prose import (
     ProseGenerationError,
     approved_prose,
@@ -90,6 +93,109 @@ def write_status(root: Path, stage: str, **details: Any) -> None:
     except OSError:
         temporary_path.unlink(missing_ok=True)
         raise
+
+
+def read_json_if_exists(path: Path) -> dict[str, Any] | None:
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    return value if isinstance(value, dict) else None
+
+
+def write_json_atomic(path: Path, value: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    descriptor, temporary_name = tempfile.mkstemp(
+        prefix=f".{path.stem}-",
+        suffix=".json.tmp",
+        dir=path.parent,
+    )
+    temporary_path = Path(temporary_name)
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as file:
+            json.dump(value, file, ensure_ascii=False, indent=2)
+            file.write("\n")
+            file.flush()
+            os.fsync(file.fileno())
+        os.replace(temporary_path, path)
+    except OSError:
+        temporary_path.unlink(missing_ok=True)
+        raise
+
+
+def archive_current_world(root: Path) -> Path:
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ")
+    archive = root / "runs" / "world-backups" / stamp
+    archive.mkdir(parents=True, exist_ok=True)
+    for relative in (
+        Path("story"),
+        Path("prose"),
+        Path("state"),
+        Path("exports"),
+        Path("reference") / "current",
+    ):
+        source = root / relative
+        if not source.exists():
+            continue
+        destination = archive / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        if source.is_dir():
+            shutil.copytree(source, destination)
+        else:
+            shutil.copy2(source, destination)
+    return archive
+
+
+def structure_matches_source(root: Path) -> bool:
+    source, _ = load_source_material()
+    if not source.get("title"):
+        return True
+    series = read_json_if_exists(root / "story" / "series.json")
+    return bool(
+        series
+        and series.get("title") == source["title"]
+        and series.get("premise") == source.get("premise")
+    )
+
+
+def prepare_new_world(
+    root: Path,
+    llm: LLM,
+    instruction: str,
+) -> tuple[Path, bool]:
+    active_path = root / "runs" / "new-world" / "active.json"
+    active = read_json_if_exists(active_path)
+    current_source = root / "reference" / "current"
+    if active and active.get("status") == "active" and current_source.is_dir():
+        return Path(active["backup"]), not structure_matches_source(root)
+
+    backup = archive_current_world(root)
+    generate_world(instruction, current_source, llm)
+    source, _ = load_source_material()
+    write_json_atomic(
+        active_path,
+        {
+            "status": "active",
+            "title": source.get("title"),
+            "backup": str(backup),
+            "created_at": datetime.now(timezone.utc).isoformat(),
+        },
+    )
+    return backup, True
+
+
+def finish_new_world(root: Path, result: dict[str, Any]) -> None:
+    active_path = root / "runs" / "new-world" / "active.json"
+    active = read_json_if_exists(active_path) or {}
+    active.update(
+        {
+            "status": "complete",
+            "completed_at": datetime.now(timezone.utc).isoformat(),
+            "scene_count": result.get("scene_count"),
+            "epubs": [str(path) for path in result.get("epubs", [])],
+        }
+    )
+    write_json_atomic(active_path, active)
 
 
 def approved_candidate(candidate: Path) -> bool:
@@ -403,10 +509,15 @@ def create_llm_client() -> LLM:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="기존 세계관에서 5권 구조·산문·EPUB 완성까지 자동 실행한다."
+        description="선택한 세계관에서 5권 구조·산문·EPUB 완성까지 자동 실행한다."
     )
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--instruction-file", type=Path)
+    parser.add_argument(
+        "--new-world",
+        action="store_true",
+        help="기존 세계관과 무관한 새 세계관을 생성한 뒤 5권 완주한다.",
+    )
     parser.add_argument(
         "--regenerate-structure",
         action="store_true",
@@ -415,11 +526,13 @@ def main() -> int:
     parser.add_argument(
         "--scene-retries",
         type=int,
-        default=5,
-        help="한 장면의 전체 생성 실행 재시도 횟수. 0이면 성공할 때까지 재시도한다.",
+        help=(
+            "한 장면의 전체 생성 실행 재시도 횟수. 0이면 성공할 때까지 재시도한다. "
+            "기본값은 일반 모드 5회, --new-world 모드 무제한이다."
+        ),
     )
     args = parser.parse_args()
-    if args.scene_retries < 0:
+    if args.scene_retries is not None and args.scene_retries < 0:
         print("[FAIL] --scene-retries는 0 이상이어야 함")
         return 1
     try:
@@ -428,12 +541,26 @@ def main() -> int:
             if args.instruction_file
             else ""
         )
+        llm = LazyLLM()
+        regenerate_structure = args.regenerate_structure
+        if args.new_world:
+            _, new_world_regenerate = prepare_new_world(
+                args.root.resolve(),
+                llm,
+                instruction,
+            )
+            regenerate_structure = regenerate_structure or new_world_regenerate
+        scene_retries = (
+            args.scene_retries
+            if args.scene_retries is not None
+            else (0 if args.new_world else 5)
+        )
         result = complete_series(
             args.root,
-            LazyLLM(),
+            llm,
             instruction,
-            args.regenerate_structure,
-            args.scene_retries,
+            regenerate_structure,
+            scene_retries,
         )
     except Exception as exc:
         try:
@@ -445,6 +572,8 @@ def main() -> int:
     if not result["complete"]:
         print(f"[STOP] 현재 장면 완료 뒤 중단. 이번 실행 {result['generated']}개 승인")
         return 0
+    if args.new_world:
+        finish_new_world(args.root.resolve(), result)
     print(
         f"[OK] 5권 자동 완주 완료. {result['scene_count']}개 장면, "
         f"이번 실행 {result['generated']}개 승인, EPUB {len(result['epubs'])}개"

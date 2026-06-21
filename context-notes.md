@@ -333,5 +333,17 @@
 - `python -m compileall -q -f lib pipeline tests` 통과.
 - `python -m pip check` 통과.
 - `python pipeline\validate_structure.py`와 `python pipeline\validate_scale.py` 통과.
+
+## 2026-06-21 신규 세계관 자동 완주
+
+- `--new-world`는 기존 작품의 고유 인물·장소·장치를 금지하고 제목, 장르, 톤, 전제, C1-C21 정본, 3천 자 이상 압축 참고 원고를 먼저 생성한다.
+- 생성 세계관은 `reference/current`에 원자적으로 게시되며 모든 구조·critic·산문 프롬프트가 legacy보다 이를 우선 사용한다.
+- 신규 세계관의 series.title과 series.premise는 원천 세계관 값과 정확히 일치해야 구조 후보가 통과한다.
+- 첫 신규 실행 전에 현재 story, prose, state, exports, reference/current를 `runs/world-backups`에 복사한다.
+- `runs/new-world/active.json`이 active이면 같은 `--new-world` 명령은 새 세계를 만들지 않고 진행 중 세계에서 재개한다. complete 뒤 다시 실행하면 새 세계를 시작한다.
+- 신규 세계관 모드는 장면 전체 생성 실행 재시도 기본값을 무제한으로 사용한다.
+- 생성 세계관의 21개 정본 ID는 기존 review 스키마와 추적성을 유지하기 위해 C1-C21 형식을 쓰지만 내용은 모두 새로 생성한다.
+- 전체 테스트 70개, 구문 검사, 의존성 검사, 구조·규모 검증을 통과했다.
+- 현재 완성본에서 일반 `python pipeline\complete_series.py` 재실행도 모델 호출 없이 통과해 기존 모드 회귀가 없음을 확인했다.
 - 보강된 EL-04 충돌 경계로 `V3-E04-S06`과 마지막 장면을 승인해 V3 전체 24개 장면, 77,402자를 완성했다.
 - V3 모든 critic checks와 산문 해시가 유효하며 다음 시작점은 `V4-E01-S01`이다.

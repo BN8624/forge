@@ -34,6 +34,7 @@
 python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
 python pipeline\complete_series.py
+python pipeline\complete_series.py --new-world
 python pipeline\generate_candidate.py
 python pipeline\validate_canon.py runs\candidate
 python pipeline\validate_structure.py
@@ -56,7 +57,31 @@ python pipeline\serve_prose.py --host 100.89.73.83 --port 8765
 python pipeline\complete_series.py
 ```
 
-자동 실행 순서는 구조 후보 생성, C1-C21 critic 검증, 정본 승격, 상태 원장
+완전히 새로운 세계관부터 시작해 5권 전체를 자동 완주하려면 다음 명령 하나를
+사용한다.
+
+```powershell
+python pipeline\complete_series.py --new-world
+```
+
+이 모드는 기존 작품의 인물·장소·설정을 사용하지 않고 장르, 제목, 인물,
+세계 규칙, 적대 세력, 반전, 결말, 21개 검증 정본, 압축 참고 원고를 먼저
+생성한다. 이후 구조 생성부터 EPUB까지 같은 실행에서 이어간다. 기존
+`story`, `prose`, `state`, `exports`, 생성 세계관 원천은
+`runs/world-backups`에 보존된다.
+
+중간 실패나 프로세스 종료 뒤 같은 `--new-world` 명령을 다시 실행하면
+진행 중인 신규 세계관과 승인 산문에서 재개한다. 완주 뒤 다시 실행하면 또
+다른 신규 세계관을 시작한다. 신규 세계관 모드는 장면 생성 실행을 기본적으로
+성공할 때까지 재시도한다.
+
+장르나 핵심 소재만 지정하려면 UTF-8 텍스트 파일을 전달한다.
+
+```powershell
+python pipeline\complete_series.py --new-world --instruction-file premise.txt
+```
+
+자동 실행 순서는 구조 후보 생성, 21개 원천 정본 critic 검증, 정본 승격, 상태 원장
 재구성, 장편 규모 확장, 재검증·재승격, 남은 산문 생성·critic 승인, 전권
 검증, V1-V5 EPUB 생성 순서다. 진행 상태는
 `runs/complete-series/status.json`에 기록된다.
@@ -80,7 +105,7 @@ python pipeline\complete_series.py --scene-retries 0
 python pipeline\complete_series.py --regenerate-structure
 ```
 
-후보 생성과 독립 검증에는 `.env`의 `GOOGLE_API_KEY` 계열, `GENERATOR_MODEL`, `CRITIC_MODEL` 설정이 필요하다. Forge는 `reference/legacy/canon_bible.json`과 `compressed_manuscript.md`를 자동 입력으로 사용하며 기본 출력은 `runs/candidate`다.
+후보 생성과 독립 검증에는 `.env`의 `GOOGLE_API_KEY` 계열, `GENERATOR_MODEL`, `CRITIC_MODEL` 설정이 필요하다. 기본 모드는 `reference/current`의 생성 세계관을 우선 사용하고, 없으면 `reference/legacy` 사본을 사용한다.
 
 승격 후보 경로에는 완전한 `story` 디렉터리와 최신 `canon-review.json` 승인이 있어야 한다. 구조 또는 정본 검증 실패 시 현재 정본은 변경되지 않는다.
 

@@ -25,8 +25,8 @@ DOCUMENT_IDS = {
     "events": re.compile(r"^V[1-5]-E\d{2}$"),
     "scenes": re.compile(r"^V[1-5]-E\d{2}-S\d{2}$"),
 }
-CANON_PATH = PROJECT_ROOT / "reference" / "legacy" / "canon_bible.json"
-MANUSCRIPT_PATH = PROJECT_ROOT / "reference" / "legacy" / "compressed_manuscript.md"
+CURRENT_REFERENCE_ROOT = PROJECT_ROOT / "reference" / "current"
+LEGACY_REFERENCE_ROOT = PROJECT_ROOT / "reference" / "legacy"
 MAX_GENERATION_ATTEMPTS = 3
 
 
@@ -50,10 +50,22 @@ def load_schema_text(schema_name: str) -> str:
     return path.read_text(encoding="utf-8")
 
 
+def source_material_paths() -> tuple[Path, Path]:
+    current_canon = CURRENT_REFERENCE_ROOT / "canon_bible.json"
+    current_manuscript = CURRENT_REFERENCE_ROOT / "compressed_manuscript.md"
+    if current_canon.is_file() and current_manuscript.is_file():
+        return current_canon, current_manuscript
+    return (
+        LEGACY_REFERENCE_ROOT / "canon_bible.json",
+        LEGACY_REFERENCE_ROOT / "compressed_manuscript.md",
+    )
+
+
 def load_source_material() -> tuple[dict[str, Any], str]:
+    canon_path, manuscript_path = source_material_paths()
     try:
-        canon = json.loads(CANON_PATH.read_text(encoding="utf-8"))
-        manuscript = MANUSCRIPT_PATH.read_text(encoding="utf-8")
+        canon = json.loads(canon_path.read_text(encoding="utf-8"))
+        manuscript = manuscript_path.read_text(encoding="utf-8")
     except (OSError, json.JSONDecodeError) as exc:
         raise CandidateGenerationError(f"기존 세계관 자료 로드 실패: {exc}") from exc
     if not isinstance(canon, dict) or not isinstance(canon.get("canon"), list):
@@ -65,6 +77,7 @@ def load_source_material() -> tuple[dict[str, Any], str]:
 
 def build_prompt(instruction: str = "") -> str:
     canon, manuscript = load_source_material()
+    canon_ids = [item.get("id") for item in canon["canon"]]
     schemas = {
         name: json.loads(load_schema_text(name))
         for name in (
@@ -93,9 +106,12 @@ series는 객체이며 나머지는 객체 배열이다.
 각 이야기 요소는 정확히 한 장면의 owns가 소유해야 한다.
 복선 setup은 이를 회수하는 payoff보다 앞선 장면에 배치한다.
 모든 start_state와 end_state를 계층과 장면 순서에 맞게 연결한다.
-canon_bible.json의 C1-C21은 모두 유지하며 충돌하는 설정을 만들지 않는다.
+canon_bible.json의 정본 항목 {json.dumps(canon_ids, ensure_ascii=False)}을
+모두 유지하며 충돌하는 설정을 만들지 않는다.
 compressed_manuscript.md의 기존 인물, 세계관, 사건, 결말을 유지한다.
 기존 10권 설계는 입력이 아니며 5권별 사건 배치는 스스로 새로 결정한다.
+정본 설정에 title이 있으면 series.title은 그 값을 정확히 사용한다.
+series.premise는 정본 설정의 premise를 정확히 사용한다.
 
 문서 스키마:
 {json.dumps(schemas, ensure_ascii=False, indent=2)}
@@ -135,6 +151,20 @@ def require_bundle(value: Any) -> dict[str, Any]:
         if not isinstance(value[key], list):
             raise CandidateGenerationError(f"{key}는 배열이어야 함")
     return value
+
+
+def validate_source_identity(
+    bundle: dict[str, Any],
+    canon: dict[str, Any],
+) -> list[str]:
+    if not canon.get("title"):
+        return []
+    errors: list[str] = []
+    if bundle["series"].get("title") != canon["title"]:
+        errors.append("신규 세계관 series.title이 원천 title과 다름")
+    if bundle["series"].get("premise") != canon.get("premise"):
+        errors.append("신규 세계관 series.premise가 원천 premise와 다름")
+    return errors
 
 
 def write_json(path: Path, value: dict[str, Any]) -> None:
@@ -347,6 +377,8 @@ def generate_candidate(
                     staged_candidate,
                     check_ledger=False,
                 )
+                source_canon, _ = load_source_material()
+                last_errors.extend(validate_source_identity(bundle, source_canon))
                 if last_errors:
                     raise CandidateGenerationError(last_errors)
             except CandidateGenerationError as exc:

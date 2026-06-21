@@ -9,6 +9,7 @@ from unittest.mock import patch
 from pipeline.complete_series import (
     backup_invalid_prose_suffix,
     complete_series,
+    prepare_new_world,
     promote_with_prose_backup,
     validate_all_prose,
 )
@@ -169,6 +170,66 @@ class CompleteSeriesTests(unittest.TestCase):
             self.assertTrue(
                 (backup / "scenes" / scene_ids[-1] / "prose.md").is_file()
             )
+
+    def test_new_world_is_archived_once_and_resumed(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            scene_ids = self.make_project(root)
+            approve_prose(root, scene_ids[0])
+            source = {
+                "title": "새 세계",
+                "premise": "완전히 새로운 장편 전제",
+                "canon": [],
+            }
+
+            def create_world(_instruction, output, _llm):
+                output.mkdir(parents=True)
+                (output / "canon_bible.json").write_text(
+                    json.dumps(source, ensure_ascii=False),
+                    encoding="utf-8",
+                )
+                (output / "compressed_manuscript.md").write_text(
+                    "새 원고",
+                    encoding="utf-8",
+                )
+
+            with (
+                patch(
+                    "pipeline.complete_series.generate_world",
+                    side_effect=create_world,
+                ) as generator,
+                patch(
+                    "pipeline.complete_series.load_source_material",
+                    return_value=(source, "새 원고"),
+                ),
+            ):
+                backup, regenerate = prepare_new_world(
+                    root,
+                    FakeLLM([]),
+                    "",
+                )
+
+                self.assertTrue(regenerate)
+                self.assertTrue((backup / "story" / "series.json").is_file())
+                self.assertTrue((backup / "prose" / "scenes").is_dir())
+
+                series_path = root / "story" / "series.json"
+                series = json.loads(series_path.read_text(encoding="utf-8"))
+                series["title"] = source["title"]
+                series["premise"] = source["premise"]
+                series_path.write_text(
+                    json.dumps(series, ensure_ascii=False, indent=2) + "\n",
+                    encoding="utf-8",
+                )
+                resumed_backup, resumed_regenerate = prepare_new_world(
+                    root,
+                    FakeLLM([]),
+                    "",
+                )
+
+            self.assertEqual(backup, resumed_backup)
+            self.assertFalse(resumed_regenerate)
+            self.assertEqual(1, generator.call_count)
 
 
 if __name__ == "__main__":

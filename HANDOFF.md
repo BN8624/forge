@@ -29,6 +29,7 @@ GitHub 원격 저장소는 `https://github.com/BN8624/forge`다.
 - objective 어휘가 미래 금지 요소와 겹칠 때 미래 기능을 사용하지 않고 다른 원인으로 목표를 달성하도록 강제.
 - V1 Tailscale 모바일 뷰어와 iPhone 도서 앱용 EPUB 내보내기.
 - V1-V5 전권 Tailscale 모바일 서재와 권별 EPUB 다운로드.
+- 신규 세계관·21개 정본·참고 원고 생성부터 5권 완주까지 `--new-world` 한 명령 자동화.
 - 숨은 모델 폴백 제거.
 - Atelier 핵심 자료의 읽기 전용 참고 사본 보관.
 
@@ -42,6 +43,7 @@ GitHub 원격 저장소는 `https://github.com/BN8624/forge`다.
 
 ```powershell
 python pipeline\complete_series.py
+python pipeline\complete_series.py --new-world
 python -m unittest discover -s tests -v
 python pipeline\generate_candidate.py
 python pipeline\validate_canon.py runs\candidate
@@ -58,3 +60,6 @@ python pipeline\serve_prose.py --host 100.89.73.83 --port 8765
 실제 생성과 검증 전에 `.env`에 `GENERATOR_MODEL`과 `CRITIC_MODEL`을 명시해야 한다.
 일상적인 완주와 재개는 `complete_series.py` 한 명령만 사용하며 개별 단계
 명령은 진단 또는 특정 단계 재현용이다.
+신규 세계관 완주는 `complete_series.py --new-world`를 사용한다. 진행 중
+중단되면 같은 명령이 현재 신규 세계관에서 재개하며 기존 완성본은
+`runs/world-backups`에 보존된다.

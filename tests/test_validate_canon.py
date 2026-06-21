@@ -77,7 +77,7 @@ class ValidateCanonTests(unittest.TestCase):
 
             errors = validate_review(candidate, review)
 
-            self.assertTrue(any("C1-C21" in error for error in errors), errors)
+            self.assertTrue(any("원천 정본 ID" in error for error in errors), errors)
 
     def test_unknown_scene_id_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

@@ -1,4 +1,4 @@
-# Forge critic으로 후보의 C1-C21 의미 준수를 독립 검증하는 도구
+# Forge critic으로 후보의 원천 정본 의미 준수를 독립 검증하는 도구
 from __future__ import annotations
 
 import argparse
@@ -21,9 +21,6 @@ from pipeline.validate_structure import validate_project, validate_schema
 
 
 MAX_REVIEW_ATTEMPTS = 3
-EXPECTED_CANON_IDS = {f"C{index}" for index in range(1, 22)}
-
-
 class LLM(Protocol):
     def generate(
         self,
@@ -76,10 +73,11 @@ def load_story_bundle(candidate: Path) -> dict[str, Any]:
 
 def build_review_prompt(candidate: Path) -> str:
     canon, manuscript = load_source_material()
+    canon_ids = [item["id"] for item in canon["canon"]]
     bundle = load_story_bundle(candidate)
     digest = story_sha256(candidate)
     return f"""너는 Forge의 독립 정본 검증 critic이다.
-아래 후보를 수정하거나 다시 쓰지 말고 C1-C21 준수 여부만 엄격히 판정하라.
+아래 후보를 수정하거나 다시 쓰지 말고 원천 정본 항목 준수 여부만 엄격히 판정하라.
 
 정본 설정과 확정 사건:
 {json.dumps(canon, ensure_ascii=False, indent=2)}
@@ -95,8 +93,8 @@ def build_review_prompt(candidate: Path) -> str:
 
 설명이나 코드펜스 없이 다음 계약의 JSON 객체 하나만 반환하라.
 - story_sha256: 위 해시를 그대로 복사한다.
-- overall_pass: C1-C21이 모두 pass일 때만 true다.
-- verdicts: C1부터 C21까지 정확히 한 번씩 포함한다.
+- overall_pass: 모든 원천 정본 항목이 pass일 때만 true다.
+- verdicts: {json.dumps(canon_ids, ensure_ascii=False)}를 정확히 한 번씩 포함한다.
 - 각 verdict는 canon_id, status(pass|fail|uncertain), scene_ids, reason을 가진다.
 - scene_ids는 해당 정본 항목을 직접 입증하는 후보 장면 ID만 기록한다.
 - 근거가 없거나 충돌하면 pass로 추정하지 말고 fail 또는 uncertain으로 판정한다.
@@ -136,8 +134,14 @@ def review_contract_errors(candidate: Path, review: Any) -> list[str]:
 
     verdicts = review["verdicts"]
     canon_ids = [verdict["canon_id"] for verdict in verdicts]
-    if len(canon_ids) != len(set(canon_ids)) or set(canon_ids) != EXPECTED_CANON_IDS:
-        errors.append("검토 verdicts는 C1-C21을 정확히 한 번씩 포함해야 함")
+    source_canon, _ = load_source_material()
+    expected_canon_ids = {item["id"] for item in source_canon["canon"]}
+    if (
+        len(canon_ids) != len(set(canon_ids))
+        or set(canon_ids) != expected_canon_ids
+    ):
+        expected = ", ".join(sorted(expected_canon_ids))
+        errors.append(f"검토 verdicts는 원천 정본 ID를 정확히 포함해야 함: {expected}")
 
     scene_ids = {
         path.stem
@@ -251,7 +255,7 @@ def create_llm_client() -> LLM:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Forge critic으로 후보의 C1-C21 의미 준수를 검증한다."
+        description="Forge critic으로 후보의 원천 정본 의미 준수를 검증한다."
     )
     parser.add_argument("candidate", type=Path)
     args = parser.parse_args()

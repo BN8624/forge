@@ -6,7 +6,12 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from pipeline.generate_candidate import CandidateGenerationError, generate_candidate
+from pipeline.generate_candidate import (
+    CandidateGenerationError,
+    generate_candidate,
+    load_source_material,
+    validate_source_identity,
+)
 from pipeline.validate_structure import validate_project
 from tests.test_validate_structure import build_project
 
@@ -48,6 +53,53 @@ def project_bundle(root: Path) -> dict:
 
 
 class GenerateCandidateTests(unittest.TestCase):
+    def test_current_generated_world_precedes_legacy_reference(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            current = Path(directory) / "current"
+            current.mkdir()
+            (current / "canon_bible.json").write_text(
+                json.dumps(
+                    {
+                        "title": "새 세계",
+                        "premise": "새 전제",
+                        "canon": [{"id": "C1", "text": "새 정본"}],
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            (current / "compressed_manuscript.md").write_text(
+                "새 참고 원고",
+                encoding="utf-8",
+            )
+
+            with patch(
+                "pipeline.generate_candidate.CURRENT_REFERENCE_ROOT",
+                current,
+            ):
+                canon, manuscript = load_source_material()
+
+            self.assertEqual("새 세계", canon["title"])
+            self.assertEqual("새 참고 원고", manuscript)
+
+    def test_generated_world_title_and_premise_are_exact_contracts(self) -> None:
+        bundle = {
+            "series": {
+                "title": "다른 제목",
+                "premise": "다른 전제",
+            }
+        }
+        canon = {
+            "title": "원천 제목",
+            "premise": "원천 전제",
+        }
+
+        errors = validate_source_identity(bundle, canon)
+
+        self.assertEqual(2, len(errors))
+        self.assertTrue(any("title" in error for error in errors))
+        self.assertTrue(any("premise" in error for error in errors))
+
     def test_valid_response_creates_valid_candidate(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             workspace = Path(directory)
