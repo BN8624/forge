@@ -41,6 +41,7 @@ GitHub 원격 저장소는 `https://github.com/BN8624/forge`다.
 ## 실행 명령
 
 ```powershell
+python pipeline\complete_series.py
 python -m unittest discover -s tests -v
 python pipeline\generate_candidate.py
 python pipeline\validate_canon.py runs\candidate
@@ -55,3 +56,5 @@ python pipeline\serve_prose.py --host 100.89.73.83 --port 8765
 ```
 
 실제 생성과 검증 전에 `.env`에 `GENERATOR_MODEL`과 `CRITIC_MODEL`을 명시해야 한다.
+일상적인 완주와 재개는 `complete_series.py` 한 명령만 사용하며 개별 단계
+명령은 진단 또는 특정 단계 재현용이다.

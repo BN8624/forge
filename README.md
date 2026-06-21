@@ -33,6 +33,7 @@
 ```powershell
 python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
+python pipeline\complete_series.py
 python pipeline\generate_candidate.py
 python pipeline\validate_canon.py runs\candidate
 python pipeline\validate_structure.py
@@ -44,6 +45,39 @@ python pipeline\generate_prose.py
 python pipeline\generate_prose.py --all
 python pipeline\export_epub.py --volume V1
 python pipeline\serve_prose.py --host 100.89.73.83 --port 8765
+```
+
+## 전 과정 자동화
+
+기본 실행은 현재 정본과 승인 산문을 검사해 완료된 단계는 건너뛰고, 중단된
+장면부터 5권 완성까지 이어서 실행한다.
+
+```powershell
+python pipeline\complete_series.py
+```
+
+자동 실행 순서는 구조 후보 생성, C1-C21 critic 검증, 정본 승격, 상태 원장
+재구성, 장편 규모 확장, 재검증·재승격, 남은 산문 생성·critic 승인, 전권
+검증, V1-V5 EPUB 생성 순서다. 진행 상태는
+`runs/complete-series/status.json`에 기록된다.
+
+현재 장면이 끝난 뒤 자동 실행을 멈추려면 프로젝트 루트에
+`STOP_AFTER_RUN` 빈 파일을 만든다. 다시 시작할 때 파일을 지우고 같은 명령을
+실행하면 된다.
+
+한 장면의 전체 생성 실행은 기본 5회까지 재시도한다. 일시적 모델 실패를
+성공할 때까지 재시도하려면 다음처럼 실행한다.
+
+```powershell
+python pipeline\complete_series.py --scene-retries 0
+```
+
+유효한 정본 구조까지 새로 만들려는 경우에만 명시적으로
+`--regenerate-structure`를 사용한다. 새 구조가 기존 구조와 다르면 현재 산문은
+`runs/prose-backups`에 보존된다.
+
+```powershell
+python pipeline\complete_series.py --regenerate-structure
 ```
 
 후보 생성과 독립 검증에는 `.env`의 `GOOGLE_API_KEY` 계열, `GENERATOR_MODEL`, `CRITIC_MODEL` 설정이 필요하다. Forge는 `reference/legacy/canon_bible.json`과 `compressed_manuscript.md`를 자동 입력으로 사용하며 기본 출력은 `runs/candidate`다.

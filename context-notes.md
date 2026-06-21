@@ -313,5 +313,25 @@
 - 126개 review의 상태, 7개 checks, 산문 SHA-256을 전부 검증했다.
 - 전권 EPUB 5개를 생성하고 각 컨테이너·패키지·목차·XHTML XML 구문을 검증했다.
 - Tailscale 뷰어를 전권 서재로 확장해 5권 읽기 링크와 EPUB 다운로드를 제공하며 iPhone 390px 폭에서 가로 넘침이 없음을 확인했다.
+
+## 2026-06-21 전 과정 자동화
+
+- 기본 자동화 명령은 현재 유효한 정본 구조와 승인 산문을 재사용하며 미완료 단계만 실행한다.
+- 정본 구조가 없거나 유효하지 않으면 5권 후보 생성, critic C1-C21 검증, 승격, 상태 원장 재구성을 순서대로 실행한다.
+- 구조가 장편 규모 미달이면 권별 확장 후보 생성, critic 재검증, 승격, 상태 원장 재구성을 자동 실행한다.
+- 구조 강제 재생성은 명시적 옵션으로만 허용하며 구조가 바뀔 때 기존 산문은 `runs/prose-backups`로 이동하고 승격 실패 시 복구한다.
+- 산문 생성은 장면 단위 승인 상태에서 재개하고 실패 장면은 설정된 횟수만큼 전체 생성 실행을 재시도한다.
+- 최종 단계에서 126개 산문 review·해시, 구조, 규모를 검증하고 V1-V5 EPUB을 다시 생성한다.
+- `pipeline/complete_series.py`를 단일 진입점으로 추가했다. 기본 실행은 유효한 정본과 승인 산문을 건너뛰며 모델 클라이언트도 실제 생성 호출 전에는 만들지 않는다.
+- 진행 상태는 `runs/complete-series/status.json`에 원자적으로 기록한다.
+- `STOP_AFTER_RUN`이 이미 있으면 새 장면을 시작하지 않고, 생성 중 만들어지면 현재 승인 장면 뒤에 멈춘다.
+- `--scene-retries 0`은 장면 성공까지 계속 재시도하며 기본값은 전체 생성 실행 5회다.
+- `--regenerate-structure`는 후보를 새로 생성하고 구조가 달라질 때 기존 산문을 `runs/prose-backups`에 보존한다. 승격 실패 시 산문 디렉터리를 복구한다.
+- 기존 산문 중 최초 미승인·해시 불일치·계약 불일치 장면을 찾으면 그 장면부터 뒤쪽 산문만 작업 백업하고 앞의 유효한 승인 산문은 재사용한다.
+- 완성된 현재 저장소에서 `python pipeline\complete_series.py`를 실행해 모델 호출 없이 126개 장면 검증과 EPUB 5개 재생성을 완료했다.
+- `python -m unittest discover -s tests -v` 통과. 테스트 63개.
+- `python -m compileall -q -f lib pipeline tests` 통과.
+- `python -m pip check` 통과.
+- `python pipeline\validate_structure.py`와 `python pipeline\validate_scale.py` 통과.
 - 보강된 EL-04 충돌 경계로 `V3-E04-S06`과 마지막 장면을 승인해 V3 전체 24개 장면, 77,402자를 완성했다.
 - V3 모든 critic checks와 산문 해시가 유효하며 다음 시작점은 `V4-E01-S01`이다.
