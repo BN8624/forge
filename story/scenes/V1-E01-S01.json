@@ -2,21 +2,22 @@
   "id": "V1-E01-S01",
   "event_id": "V1-E01",
   "sequence": 1,
-  "objective": "에테르노의 거대한 성벽과 '제국의 눈'이 주는 압도적인 감시 분위기를 묘사한다.",
+  "objective": "리안의 기억 소멸 상태와 엘라라의 정체성 부여 과정을 통해 두 사람의 관계를 정의한다.",
   "previous_scene_id": null,
   "start_state": {
-    "mood": "압도적",
-    "danger": "높음"
+    "rian": "기억 소멸 상태",
+    "elara": "기록 준비 상태"
   },
   "end_state": {
-    "mood": "긴장",
-    "danger": "매우 높음"
+    "rian": "이름과 기본 정체성을 부여받음"
   },
   "owns": {
-    "changes": [],
+    "changes": [
+      "EL_Rian_Identity"
+    ],
     "setups": [],
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3000
+  "target_chars": 4000
 }

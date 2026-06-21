@@ -2,13 +2,13 @@
   "id": "V4-E02-S02",
   "event_id": "V4-E02",
   "sequence": 2,
-  "objective": "설원에서의 은신과 추격자와의 숨막히는 심리전",
+  "objective": "리안과 엘라라가 공포에 질린 사람들을 구출하며 겪는 갈등을 묘사한다.",
   "previous_scene_id": "V4-E02-S01",
   "start_state": {
-    "status": "추격 인지"
+    "world": "시민들이 공허수에게 기억을 강탈당하며 자아를 잃어감"
   },
   "end_state": {
-    "status": "은신 유지"
+    "rian": "구출 과정에서 타인의 고통스러운 기억들에 노출되어 정신적 과부하를 느낌"
   },
   "owns": {
     "changes": [],

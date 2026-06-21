@@ -2,13 +2,14 @@
   "id": "V4-E02-S05",
   "event_id": "V4-E02",
   "sequence": 5,
-  "objective": "추격의 압박 속에서 느끼는 카엘의 책임감과 내면의 갈등",
+  "objective": "도시의 생존자들이 최후의 수단으로 '제물'의 필요성을 언급하며 절망하는 모습을 묘사한다.",
   "previous_scene_id": "V4-E02-S04",
   "start_state": {
-    "status": "포위망 탈출"
+    "world": "공허수들이 거대한 해일처럼 엔진 중심부를 향해 이동함"
   },
   "end_state": {
-    "status": "결의 다짐"
+    "rian": "도시 전체가 공허수의 바다에 잠기는 위기를 맞음",
+    "elara": "사태를 해결할 유일한 방법이 '제물'임을 알게 됨"
   },
   "owns": {
     "changes": [],
@@ -16,5 +17,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 4200
 }

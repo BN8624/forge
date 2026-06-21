@@ -2,13 +2,13 @@
   "id": "V2-E02-S02",
   "event_id": "V2-E02",
   "sequence": 2,
-  "objective": "마을의 장로 혹은 생존자로부터 '피의 제사'와 개기일식에 관한 불길한 소문을 듣는다.",
+  "objective": "유적 내부에서 공허수들의 습격을 받으며 리안의 저장 능력이 괴물들을 자극함을 보여준다.",
   "previous_scene_id": "V2-E02-S01",
   "start_state": {
-    "status": "피난민 접촉"
+    "rian": "도시의 가장 깊고 어두운 폐기 구역에 진입함"
   },
   "end_state": {
-    "status": "정보 획득"
+    "rian": "공허수들이 자신의 기억을 갈구하며 달려드는 공포를 경험함"
   },
   "owns": {
     "changes": [],

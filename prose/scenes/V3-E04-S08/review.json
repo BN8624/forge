@@ -1,0 +1,17 @@
+{
+  "scene_id": "V3-E04-S08",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "산문이 장면의 목표인 위원장의 몰락, 상아탑의 붕괴, 그리고 리안과 엘라라의 탈출을 충실하게 묘사하였습니다. 특히 리안이 신의 왕좌를 거부하고 인간으로서의 슬픔을 선택하는 상태 전이가 명확하게 드러났으며, 미래 금지 요소(백색 도서관, 영원한 사서, 도시 전체의 물리적 붕괴 등)를 선취하지 않고 현재 장면의 범위 내에서 서사를 완결지었습니다.",
+  "prose_sha256": "fc971917d3606cfb7d8566cc4e2e76ff4598c50e6c91d97e80f8699890a857f7",
+  "scene_contract_sha256": "58bfaa2e57c2dc3426dcbd5a8867b7be6e775e816cdf519fd18fceec4954c51f"
+}

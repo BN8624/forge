@@ -2,13 +2,14 @@
   "id": "V3-E04-S01",
   "event_id": "V3-E04",
   "sequence": 1,
-  "objective": "현실로 돌아온 카엘이 기억의 충격으로 인해 극심한 환상통에 휩싸이는 과정을 묘사한다.",
+  "objective": "상아탑 최상층, 위원장의 집무실에 도달하여 그가 가진 기괴한 위압감과 정적을 묘사한다.",
   "previous_scene_id": "V3-E03-S06",
   "start_state": {
-    "status": "진실 확인"
+    "rian": "자신이 위원장의 대체품으로 설계되었음을 깨달음",
+    "elara": "조작되기 전의 '진실된 역사' 기록을 일부 복원함"
   },
   "end_state": {
-    "status": "정신적 혼란"
+    "rian": "위원장과 대면함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +17,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3800
+  "target_chars": 3000
 }

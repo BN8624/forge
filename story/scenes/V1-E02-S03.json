@@ -2,15 +2,13 @@
   "id": "V1-E02-S03",
   "event_id": "V1-E02",
   "sequence": 3,
-  "objective": "정보원의 배신 혹은 제국군의 급습으로 인해 벌어지는 좁은 골목길에서의 추격전을 묘사한다.",
+  "objective": "기억 추출 과정에서 발생하는 '유령 통증'의 고통을 묘사하여 기억 삭제의 잔혹성을 입증한다.",
   "previous_scene_id": "V1-E02-S02",
   "start_state": {
-    "mood": "의심",
-    "danger": "높음"
+    "rian": "도시의 동력이 타인의 상실 위에 세워졌음을 깨달음"
   },
   "end_state": {
-    "mood": "긴박",
-    "danger": "매우 높음"
+    "rian": "신체에 남는 정서적 잔재의 고통에 공감하며 괴로워함"
   },
   "owns": {
     "changes": [],

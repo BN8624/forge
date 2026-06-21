@@ -2,13 +2,14 @@
   "id": "V4-E01-S01",
   "event_id": "V4-E01",
   "sequence": 1,
-  "objective": "북부 고봉으로 향하는 여정의 시작과 극한의 추위 묘사",
-  "previous_scene_id": "V3-E04-S07",
+  "objective": "V3의 승리 이후 찾아온 짧은 평화와 엔진의 불길한 전조를 묘사한다.",
+  "previous_scene_id": "V3-E04-S08",
   "start_state": {
-    "status": "환상통 극복"
+    "rian": "신이 될 기회를 거부하고 인간으로서의 슬픔을 선택함",
+    "elara": "조작된 역사의 기록을 완전히 복원함"
   },
   "end_state": {
-    "status": "이동 시작"
+    "world": "도시 곳곳에서 원인을 알 수 없는 진동이 발생함"
   },
   "owns": {
     "changes": [],

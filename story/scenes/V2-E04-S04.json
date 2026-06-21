@@ -2,19 +2,21 @@
   "id": "V2-E04-S04",
   "event_id": "V2-E04",
   "sequence": 4,
-  "objective": "왼팔의 부재로 인한 불균형 때문에 치명적인 공격을 허용하고, 죽음의 문턱까지 가는 위기를 묘사한다.",
+  "objective": "리안이 자신의 빈자리를 정의해 줄 수 있는 유일한 존재가 엘라라임을 인정하고 그녀에게 의지한다.",
   "previous_scene_id": "V2-E04-S03",
   "start_state": {
-    "status": "전술적 난관"
+    "rian": "인간적인 유대감 없이는 생존할 수 없음을 역설적으로 깨달음"
   },
   "end_state": {
-    "status": "절체절명의 위기"
+    "rian": "엘라라를 자신의 존재를 정의하는 유일한 구원으로 인식함"
   },
   "owns": {
-    "changes": [],
+    "changes": [
+      "EL_Elara_Salvation"
+    ],
     "setups": [],
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 4600
 }

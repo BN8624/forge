@@ -2,13 +2,13 @@
   "id": "V3-E01-S05",
   "event_id": "V3-E01",
   "sequence": 5,
-  "objective": "북부 무기고의 외곽 지형에 도착하여 진입 경로를 결정한다.",
+  "objective": "리안이 가진 '공백자'로서의 특성이 상아탑의 보안 체계를 무력화할 유일한 열쇠임을 입증한다.",
   "previous_scene_id": "V3-E01-S04",
   "start_state": {
-    "status": "정신적 회복"
+    "rian": "체제 유지의 대가가 너무나 가혹하다는 사실에 동조하기 시작함"
   },
   "end_state": {
-    "status": "무기고 도착"
+    "rian": "자신이 이 전쟁의 핵심 도구가 되어야 함을 깨달음"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3500
+  "target_chars": 3000
 }

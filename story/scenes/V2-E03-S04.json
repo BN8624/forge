@@ -2,13 +2,13 @@
   "id": "V2-E03-S04",
   "event_id": "V2-E03",
   "sequence": 4,
-  "objective": "유적 심층부로 내려가는 길목에서 마주친 야생의 괴수 혹은 유적 수호자와의 전투를 묘사한다.",
+  "objective": "리안이 자신이 가진 가장 소중한 정서적 기억 중 하나를 희생하기로 결심하는 갈등을 묘사한다.",
   "previous_scene_id": "V2-E03-S03",
   "start_state": {
-    "status": "혈통의 자각"
+    "rian": "기억의 가치가 정서적 강도에 비례한다는 잔혹한 법칙을 체감함"
   },
   "end_state": {
-    "status": "심층부 진입"
+    "rian": "엘라라와 처음 만났을 때 느꼈던 신뢰의 감정을 제물로 선택함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 4700
 }

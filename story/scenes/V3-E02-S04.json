@@ -2,19 +2,21 @@
   "id": "V3-E02-S04",
   "event_id": "V3-E02",
   "sequence": 4,
-  "objective": "리아가 조각의 공명을 통해 정확한 위치를 안내하며 카엘의 전투를 보조한다.",
+  "objective": "도시 전체로 므네모시네 퓨얼을 운송하는 거대 파이프라인을 발견하고, 그 액체 속에 갇힌 비명 섞인 기억들을 목격한다.",
   "previous_scene_id": "V3-E02-S03",
   "start_state": {
-    "status": "교전 발생"
+    "rian": "상아탑의 내부 구조와 기억 유통 경로를 파악함"
   },
   "end_state": {
-    "status": "위치 파악"
+    "rian": "기억 동력 체계의 잔혹한 실체에 분노함"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [],
-  "target_chars": 3600
+  "consumes_setups": [
+    "EL_Fuel_System"
+  ],
+  "target_chars": 4000
 }

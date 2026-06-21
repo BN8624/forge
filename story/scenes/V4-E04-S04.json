@@ -2,13 +2,13 @@
   "id": "V4-E04-S04",
   "event_id": "V4-E04",
   "sequence": 4,
-  "objective": "다시 정예병들과 맞붙어 새로운 변칙 검술을 실전에서 검증",
+  "objective": "제단으로 향하는 길목에서 공허수들의 최후 저항과 리안의 처절한 전투를 묘사한다.",
   "previous_scene_id": "V4-E04-S03",
   "start_state": {
-    "status": "불균형 검술의 기초 완성"
+    "elara": "자신의 희생이 도시의 수많은 생명을 구할 수 있다는 사실에 체념 섞인 결심을 함"
   },
   "end_state": {
-    "status": "실전 적용 성공"
+    "rian": "심각한 부상을 입었으나 엘라라를 무사히 제단 앞까지 인도함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 4400
 }

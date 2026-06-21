@@ -2,13 +2,15 @@
   "id": "V5-E02-S04",
   "event_id": "V5-E02",
   "sequence": 4,
-  "objective": "에테르노로 돌아가기 위한 최단 경로를 탐색하고 위험을 감수하기로 결정한다.",
+  "objective": "엘라라가 리안을 기억하려 애쓰지만 결국 망각의 파도에 휩쓸리는 애절한 순간을 그린다.",
   "previous_scene_id": "V5-E02-S03",
   "start_state": {
-    "status": "위기감 고조"
+    "rian": "세상 모든 이들의 기억 속에서 자신의 형상과 이름이 사라짐",
+    "elara": "리안의 얼굴이 희미해지며 그에 대한 기억이 조각나기 시작함"
   },
   "end_state": {
-    "status": "이동 경로 확정"
+    "rian": "완전한 고독 속으로 침잠함",
+    "elara": "눈앞의 존재가 누구인지 잊었지만, 가슴 속의 따스함만은 남김"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3000
+  "target_chars": 4500
 }

@@ -2,13 +2,13 @@
   "id": "V3-E04-S04",
   "event_id": "V3-E04",
   "sequence": 4,
-  "objective": "트라우마로 인해 검을 제대로 휘두르지 못하는 카엘의 내적 갈등을 묘사한다.",
+  "objective": "대말살 사건이 단순한 사고가 아니라, 위원회가 권력을 공고히 하기 위해 의도적으로 설계한 인위적 재앙이었음을 폭로한다.",
   "previous_scene_id": "V3-E04-S03",
   "start_state": {
-    "status": "최후의 대립"
+    "rian": "전능함과 정체성 사이에서 극심한 혼란을 느낌"
   },
   "end_state": {
-    "status": "한계 봉착"
+    "rian": "위원회의 통치 기반이 거대한 거짓말 위에 세워졌음을 확신함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3600
+  "target_chars": 4500
 }

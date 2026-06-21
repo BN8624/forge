@@ -2,13 +2,13 @@
   "id": "V4-E02-S04",
   "event_id": "V4-E02",
   "sequence": 4,
-  "objective": "제국군의 포위망이 좁혀오는 상황에서 리아의 지혜로 탈출로 확보",
+  "objective": "공허수들이 단순한 파괴가 아니라 특정 지점(엔진 심장부)으로 모여들고 있음을 발견한다.",
   "previous_scene_id": "V4-E02-S03",
   "start_state": {
-    "status": "소규모 교전 승리"
+    "rian": "신체 회로의 한계까지 기억을 흡수하여 주변을 보호함"
   },
   "end_state": {
-    "status": "포위망 탈출"
+    "world": "공허수들이 거대한 해일처럼 엔진 중심부를 향해 이동함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 3900
 }

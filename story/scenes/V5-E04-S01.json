@@ -2,13 +2,15 @@
   "id": "V5-E04-S01",
   "event_id": "V5-E04",
   "sequence": 1,
-  "objective": "성소 내부로 진입하여 피의 제사를 집전 중인 발타자르와 대면한다.",
-  "previous_scene_id": "V5-E03-S06",
+  "objective": "리안이 눈을 뜬 백색 도서관의 무한한 공간과 정적을 묘사한다.",
+  "previous_scene_id": "V5-E03-S05",
   "start_state": {
-    "status": "성소 문 앞 도착"
+    "rian": "백색 도서관의 깊은 곳에 안착함",
+    "elara": "자신의 손끝에서 느껴지는 시간의 흐름과 생명력을 깨달음"
   },
   "end_state": {
-    "status": "최종 대면"
+    "rian": "자신이 세상의 모든 잊힌 것들의 보관소가 되었음을 인지함",
+    "elara": "폐허가 된 도시에서 새로운 공동체를 형성하기 시작함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3000
+  "target_chars": 4000
 }

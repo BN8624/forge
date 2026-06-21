@@ -2,19 +2,22 @@
   "id": "V2-E01-S01",
   "event_id": "V2-E01",
   "sequence": 1,
-  "objective": "첫 번째 조각 획득 후 에테르노를 벗어나려는 남매의 긴장감과 심리적 상태를 묘사한다.",
-  "previous_scene_id": "V1-E04-S07",
+  "objective": "V1의 충격 이후 리안의 정신적 불안정과 엘라라의 보살핌을 묘사한다.",
+  "previous_scene_id": "V1-E04-S05",
   "start_state": {
-    "status": "목표 설정"
+    "rian": "위원회가 은폐한 잔혹한 기억의 조각을 발견함",
+    "elara": "도시의 시스템에 대한 강한 회의감을 느낌"
   },
   "end_state": {
-    "status": "탈출 시작"
+    "rian": "타인의 기억 잔재로 인해 심한 두통과 정체성 혼란을 겪음"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [],
-  "target_chars": 3500
+  "consumes_setups": [
+    "EL_Symbiosis"
+  ],
+  "target_chars": 4000
 }

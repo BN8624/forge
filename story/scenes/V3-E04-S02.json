@@ -2,13 +2,13 @@
   "id": "V3-E04-S02",
   "event_id": "V3-E04",
   "sequence": 2,
-  "objective": "리아가 카엘을 진정시키며, 상실은 패배가 아닌 새로운 시작임을 역설한다.",
+  "objective": "위원장이 단일 인격이 아니라 수백 년간 축적된 역대 위원장들의 기억 집합체라는 충격적인 진실을 드러낸다.",
   "previous_scene_id": "V3-E04-S01",
   "start_state": {
-    "status": "정신적 혼란"
+    "rian": "위원장과 대면함"
   },
   "end_state": {
-    "status": "안정 도모"
+    "rian": "개인의 자아가 사라진 거대 집합체의 허무함을 목격함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3400
+  "target_chars": 4000
 }

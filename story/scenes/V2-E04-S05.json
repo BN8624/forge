@@ -2,13 +2,14 @@
   "id": "V2-E04-S05",
   "event_id": "V2-E04",
   "sequence": 5,
-  "objective": "리아의 도움과 찰나의 변칙적인 움직임으로 정예병의 빈틈을 찔러 간신히 생존하고 조각을 회수한다.",
+  "objective": "상실의 고통을 딛고, 위원회에 대항하여 자신의 진짜 이름을 찾겠다는 의지를 다지며 마무리한다.",
   "previous_scene_id": "V2-E04-S04",
   "start_state": {
-    "status": "절체절명의 위기"
+    "rian": "엘라라를 자신의 존재를 정의하는 유일한 구원으로 인식함"
   },
   "end_state": {
-    "status": "조각 회수 성공"
+    "rian": "중요한 기억을 얻기 위해 다른 소중한 감정을 희생함",
+    "elara": "기억의 등가교환이 가져오는 영혼의 마모를 목격함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +17,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 4300
 }

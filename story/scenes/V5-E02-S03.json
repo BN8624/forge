@@ -2,13 +2,15 @@
   "id": "V5-E02-S03",
   "event_id": "V5-E02",
   "sequence": 3,
-  "objective": "개기일식이라는 시간적 제약이 주는 압박감과 제국의 운명이 걸린 상황을 분석한다.",
+  "objective": "리안이 자신의 존재 기록을 세상에서 지워내는 등가교환의 과정을 묘사한다.",
   "previous_scene_id": "V5-E02-S02",
   "start_state": {
-    "status": "정보 획득"
+    "rian": "자아의 경계가 무너지고 타인의 고통과 하나가 됨",
+    "elara": "리안의 고통을 나누려 하지만 접근할 수 없는 장벽을 느낌"
   },
   "end_state": {
-    "status": "위기감 고조"
+    "rian": "세상 모든 이들의 기억 속에서 자신의 형상과 이름이 사라짐",
+    "elara": "리안의 얼굴이 희미해지며 그에 대한 기억이 조각나기 시작함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3000
+  "target_chars": 4000
 }

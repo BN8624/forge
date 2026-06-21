@@ -2,14 +2,14 @@
   "id": "V1-E04-S01",
   "event_id": "V1-E04",
   "sequence": 1,
-  "objective": "제단 위에 놓인 첫 번째 영혼의 조각이 내뿜는 기이한 빛과 그 압도적인 마력을 묘사한다.",
-  "previous_scene_id": "V1-E03-S07",
+  "objective": "폐기 구역에서 회수한 정체불명의 기억 캡슐을 분석하며 위원회의 보안 체계를 추적한다.",
+  "previous_scene_id": "V1-E03-S05",
   "start_state": {
-    "status": "제단 도착"
+    "rian": "자신의 존재가 단순한 결함 이상의 무언가임을 직감함",
+    "elara": "리안을 잃을지도 모른다는 공포와 함께 그를 지키려는 의지를 다짐"
   },
   "end_state": {
-    "mood": "경외",
-    "danger": "중간"
+    "elara": "캡슐에 담긴 기억이 일반적인 추출물이 아닌 '강제 삭제'된 기록임을 발견함"
   },
   "owns": {
     "changes": [],
@@ -17,5 +17,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3000
+  "target_chars": 4000
 }

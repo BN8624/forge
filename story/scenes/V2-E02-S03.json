@@ -2,19 +2,21 @@
   "id": "V2-E02-S03",
   "event_id": "V2-E02",
   "sequence": 3,
-  "objective": "발타자르가 외곽 지역에서 혈통을 사냥하고 있다는 구체적인 증거와 피해 사례를 조사한다.",
+  "objective": "과거 기억 디지털화 실험의 실패 흔적과 버려진 기록 장치들을 발견한다.",
   "previous_scene_id": "V2-E02-S02",
   "start_state": {
-    "status": "정보 획득"
+    "rian": "공허수들이 자신의 기억을 갈구하며 달려드는 공포를 경험함"
   },
   "end_state": {
-    "status": "잔혹성 인지"
+    "elara": "과거 문명이 추구했던 영생의 추악한 실패를 목격함"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [],
-  "target_chars": 3500
+  "consumes_setups": [
+    "EL_Fuel_System"
+  ],
+  "target_chars": 4400
 }

@@ -2,14 +2,14 @@
   "id": "V1-E03-S01",
   "event_id": "V1-E03",
   "sequence": 1,
-  "objective": "배수로 내부의 습하고 어두운 환경과 고대 왕궁의 파편들이 주는 기괴한 분위기를 묘사한다.",
-  "previous_scene_id": "V1-E02-S08",
+  "objective": "버려진 기억들이 응집된 '공허수'가 출몰하는 폐기 구역으로의 위험한 여정을 시작한다.",
+  "previous_scene_id": "V1-E02-S05",
   "start_state": {
-    "status": "배수로 진입"
+    "rian": "기억 추출의 비인간적인 면모에 혐오감을 느낌",
+    "elara": "도시의 시스템에 대한 근본적인 의문을 품기 시작함"
   },
   "end_state": {
-    "mood": "경외",
-    "danger": "중간"
+    "rian": "공허수들이 뿜어내는 기억의 잔해들에 압도당함"
   },
   "owns": {
     "changes": [],
@@ -17,5 +17,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3000
+  "target_chars": 4000
 }

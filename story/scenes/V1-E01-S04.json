@@ -2,21 +2,21 @@
   "id": "V1-E01-S04",
   "event_id": "V1-E01",
   "sequence": 4,
-  "objective": "위조 통행증을 제시하며 감시병과 대치하는 찰나의 심리전과 긴장감을 세밀하게 그린다.",
+  "objective": "리안이 거리의 부랑자로부터 기억 조각을 임시 저장하며 타인의 감정을 모방하는 과정을 묘사한다.",
   "previous_scene_id": "V1-E01-S03",
   "start_state": {
-    "mood": "공포",
-    "danger": "극도로 높음"
+    "rian": "엘라라 없이는 단 하루도 존재할 수 없음을 인정함"
   },
   "end_state": {
-    "mood": "초조",
-    "danger": "극도로 높음"
+    "rian": "타인의 슬픔을 자신의 것처럼 느끼며 정체성의 혼란을 겪음"
   },
   "owns": {
-    "changes": [],
+    "changes": [
+      "EL_Rian_Emotion"
+    ],
     "setups": [],
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3000
+  "target_chars": 4000
 }

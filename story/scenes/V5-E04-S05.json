@@ -2,13 +2,15 @@
   "id": "V5-E04-S05",
   "event_id": "V5-E04",
   "sequence": 5,
-  "objective": "방어막이 뚫린 찰나, 제사의 핵심인 혈액 추출관을 파괴하여 발타자르의 마력 공급을 끊는다.",
+  "objective": "리안의 영원한 고독과 엘라라의 새로운 시작이 교차하며, 진정한 구원의 의미를 되새기며 마무리한다.",
   "previous_scene_id": "V5-E04-S04",
   "start_state": {
-    "status": "방어막 돌파"
+    "rian": "도서관의 창 너머로 푸른 하늘을 바라봄",
+    "elara": "처음으로 보는 맑은 하늘 아래에서 깊은 숨을 들이마심"
   },
   "end_state": {
-    "status": "추출관 파괴"
+    "rian": "잊힌 기억들을 지키며 타인의 행복을 통해 안식을 얻음",
+    "elara": "이유 없는 그리움을 느끼며 새로운 내일을 기록함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3000
+  "target_chars": 4500
 }

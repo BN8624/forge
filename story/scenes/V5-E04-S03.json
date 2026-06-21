@@ -2,16 +2,20 @@
   "id": "V5-E04-S03",
   "event_id": "V5-E04",
   "sequence": 3,
-  "objective": "정석적인 검술이 발타자르의 마력 방패에 막히는 절망적인 상황을 묘사한다.",
+  "objective": "리안이 '영원한 사서'로서 가지는 책임감과 그 속에서 찾는 기묘한 평온을 묘사한다.",
   "previous_scene_id": "V5-E04-S02",
   "start_state": {
-    "status": "전투 고조"
+    "rian": "타인의 행복을 통해 자신의 고독을 치유함",
+    "elara": "더 이상 기록자가 아니지만, 일상의 소중함을 기록하기 시작함"
   },
   "end_state": {
-    "status": "전술적 한계"
+    "rian": "망각이 파괴가 아니라 보존의 다른 형태임을 깨달음",
+    "elara": "가슴 속의 정체 모를 그리움을 따뜻하게 받아들임"
   },
   "owns": {
-    "changes": [],
+    "changes": [
+      "EL_Librarian_Ascension"
+    ],
     "setups": [],
     "payoffs": []
   },

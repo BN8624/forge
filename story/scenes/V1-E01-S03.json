@@ -2,21 +2,21 @@
   "id": "V1-E01-S03",
   "event_id": "V1-E01",
   "sequence": 3,
-  "objective": "검문소로 향하는 길목에서 목격하는 제국병들의 잔혹한 통제와 시민들의 공포를 묘사한다.",
+  "objective": "녹슨 거리의 풍경을 통해 도시의 계급 구조를 보여주고, 리안과 엘라라의 생존을 위한 상호의존성을 강조한다.",
   "previous_scene_id": "V1-E01-S02",
   "start_state": {
-    "mood": "비장",
-    "danger": "매우 높음"
+    "rian": "자신의 존재가 타인에 의해 정의된다는 사실에 허망함을 느낌"
   },
   "end_state": {
-    "mood": "공포",
-    "danger": "극도로 높음"
+    "rian": "엘라라 없이는 단 하루도 존재할 수 없음을 인정함"
   },
   "owns": {
     "changes": [],
-    "setups": [],
+    "setups": [
+      "EL_Symbiosis"
+    ],
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3500
+  "target_chars": 4500
 }

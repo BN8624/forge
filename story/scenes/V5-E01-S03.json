@@ -2,19 +2,23 @@
   "id": "V5-E01-S03",
   "event_id": "V5-E01",
   "sequence": 3,
-  "objective": "다섯 번째 조각을 확보하고 리아의 피로 활성화한다.",
+  "objective": "리안이 자신의 신체 회로와 제단의 공명 현상을 통해 새로운 가능성을 발견한다.",
   "previous_scene_id": "V5-E01-S02",
   "start_state": {
-    "status": "제단 앞 도착"
+    "rian": "엘라라 없는 삶의 무의미함을 깨달음",
+    "elara": "리안이 자신을 잊고 행복해지기를 바람"
   },
   "end_state": {
-    "status": "조각 활성화"
+    "rian": "자신이 기억을 '저장'하는 것을 넘어 '흡수'할 수 있음을 인지함",
+    "elara": "리안의 갑작스러운 변화에 당혹해함"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [],
-  "target_chars": 3000
+  "consumes_setups": [
+    "EL_Vessel_Circuit"
+  ],
+  "target_chars": 4000
 }

@@ -2,21 +2,19 @@
   "id": "V2-E04-S03",
   "event_id": "V2-E04",
   "sequence": 3,
-  "objective": "제국 정예병의 기하학적 마력 방패에 가로막혀 카엘의 정석 검술이 무력화되는 과정을 상세히 묘사한다.",
+  "objective": "감정이 결여된 리안이 효율성만을 추구하다가 위험한 상황에 처하는 갈등을 묘사한다.",
   "previous_scene_id": "V2-E04-S02",
   "start_state": {
-    "status": "전투 개시"
+    "elara": "리안의 영혼이 깎여 나가는 것을 보며 깊은 슬픔과 책임감을 느낌"
   },
   "end_state": {
-    "status": "전술적 난관"
+    "rian": "인간적인 유대감 없이는 생존할 수 없음을 역설적으로 깨달음"
   },
   "owns": {
     "changes": [],
-    "setups": [
-      "EL-02"
-    ],
+    "setups": [],
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4500
+  "target_chars": 4100
 }

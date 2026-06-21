@@ -2,13 +2,13 @@
   "id": "V4-E02-S01",
   "event_id": "V4-E02",
   "sequence": 1,
-  "objective": "제국군 정찰대의 추격 징후를 발견하고 긴장감 고조",
-  "previous_scene_id": "V4-E01-S06",
+  "objective": "공허수들의 대규모 습격으로 인한 녹슨 거리의 아비규환을 묘사한다.",
+  "previous_scene_id": "V4-E01-S05",
   "start_state": {
-    "status": "성소 외곽 도착"
+    "world": "상아탑의 동력이 정지하고 도시 전체가 물리적 붕괴의 위기에 처함"
   },
   "end_state": {
-    "status": "추격 인지"
+    "world": "시민들이 공허수에게 기억을 강탈당하며 자아를 잃어감"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 4300
 }

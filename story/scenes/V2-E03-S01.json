@@ -2,13 +2,14 @@
   "id": "V2-E03-S01",
   "event_id": "V2-E03",
   "sequence": 1,
-  "objective": "습기와 이끼로 뒤덮인 고대 유적의 입구에 도착하여 그 압도적이고 음산한 분위기를 묘사한다.",
-  "previous_scene_id": "V2-E02-S05",
+  "objective": "위원회의 다음 계획을 저지하기 위해 필요한 '열쇠 기억'의 존재를 알게 된다.",
+  "previous_scene_id": "V2-E02-S06",
   "start_state": {
-    "status": "위기감 고조"
+    "rian": "자신이 위원회가 설계한 '살아있는 저장소'임을 알게 됨",
+    "elara": "리안의 존재가 가진 비극적 목적을 이해함"
   },
   "end_state": {
-    "status": "유적 진입"
+    "rian": "특정 기억을 복구해야만 다음 단계로 나아갈 수 있음을 깨달음"
   },
   "owns": {
     "changes": [],
@@ -16,5 +17,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3500
+  "target_chars": 3900
 }

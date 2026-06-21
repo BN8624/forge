@@ -1,43 +1,31 @@
-# Forge 핸드오프
+# Forge 인수인계
 
-## 현재 상태
+## 현재 정본
 
-Forge가 기존 세계관을 5권 126개 장면의 장편 구조로 확장하고 critic 독립 검증 뒤 정본으로 승격했다. 전권 126개 장면, 391,363자의 산문 생성·승인이 완료됐다.
+현재 작품은 Forge가 신규 세계관부터 자동 생성한 5권 장편 `은색의 기록자와 망각의 태엽`이다.
 
-프로젝트 경로는 `C:\Users\USER\forge`이며 Golem 저장소와 완전히 분리되어 있다.
+- 원천 세계관은 `reference/current`에 있다.
+- 5권 구조 정본은 `story`에 있다.
+- 승인 산문과 critic 결과는 `prose/scenes`에 있다.
+- 현재 상태 원장은 `state/current.json`이다.
+- 전체 규모는 20개 사건, 108개 장면, 산문 375,597자다.
+- 이전 완성본은 `runs/world-backups/20260621T020758.714624Z`에 보존한다.
 
-GitHub 원격 저장소는 `https://github.com/BN8624/forge`다.
+권별 제목과 산문 규모는 다음과 같다.
 
-## 완료 항목
+- V1 `녹슨 거리의 은색 기록`. 20개 장면, 71,192자.
+- V2 `살아있는 저장소의 비명`. 21개 장면, 74,982자.
+- V3 `상아탑의 이클립스`. 26개 장면, 83,276자.
+- V4 `므네모시네의 붕괴`. 21개 장면, 74,621자.
+- V5 `백색 도서관의 파수꾼`. 20개 장면, 71,526자.
 
-- 5권 구조를 강제하는 시리즈, 권, 사건, 장면, 상태 원장 스키마.
-- 계층, 순번, 상태 연속성, 이전 장면 연결 검증.
-- 설정 변경, 복선, 회수의 단일 소유권 검증.
-- 복선보다 회수가 먼저 등장하는 구조 차단.
-- 후보 `story`의 독립 검증과 실패 시 정본 보존.
-- 같은 파일시스템 내 정본 디렉터리 교체와 중단된 교체 복구.
-- 검증된 구조에서 상태 원장을 결정적으로 재구성하고 원자적으로 저장.
-- 상태 원장 재실행의 바이트 동일성 및 적용 요소 목록 검증.
-- 기획 브리프에서 완전한 5권 구조 번들을 생성하고 검증된 후보만 게시.
-- 파싱, 구조 검증, 게시 실패 시 기존 후보 출력 보존.
-- critic의 C1-C21 장면별 판정과 후보 해시 검증.
-- 승인 파일이 없거나 후보 변경으로 오래된 경우 정본 승격 차단.
-- 승인 근거를 `story/canon-review.json`에 정본 구조와 함께 보존.
-- 권별 최소 20개 장면·8만 자 장편 규모 검증과 권별 확장 재개 캐시.
-- 장면 산문의 목표·상태·요소·공개 순서·정본·연속성·품질 critic 검증.
-- 현재 장면의 `end_state`를 절대 종료선으로 강제해 다음 장면의 장소·행동·감정 선취를 차단.
-- objective 어휘가 미래 금지 요소와 겹칠 때 미래 기능을 사용하지 않고 다른 원인으로 목표를 달성하도록 강제.
-- V1 Tailscale 모바일 뷰어와 iPhone 도서 앱용 EPUB 내보내기.
-- V1-V5 전권 Tailscale 모바일 서재와 권별 EPUB 다운로드.
-- 신규 세계관·21개 정본·참고 원고 생성부터 5권 완주까지 `--new-world` 한 명령 자동화.
-- 숨은 모델 폴백 제거.
-- Atelier 핵심 자료의 읽기 전용 참고 사본 보관.
+## 자동화 원칙
 
-## 현재 완료 상태
-
-1. V1-V5 전 장면이 critic 승인을 통과했다.
-2. 모든 산문과 review 해시가 일치한다.
-3. 전권 EPUB과 Tailscale 모바일 서재가 제공된다.
+- Forge 모델이 세계관, 구조, 산문을 생성한다.
+- 하네스는 계약, 프롬프트, 검증, 재시도, 승격만 담당한다.
+- 산문 오류는 직접 고치지 않는다. 원인 계약이나 프롬프트를 보강하고 해당 범위를 다시 생성한다.
+- 구조화 문서가 정본이며 산문과 EPUB은 파생 산출물이다.
+- 후보는 독립 검증을 통과한 뒤에만 정본으로 승격한다.
 
 ## 실행 명령
 
@@ -45,21 +33,15 @@ GitHub 원격 저장소는 `https://github.com/BN8624/forge`다.
 python pipeline\complete_series.py
 python pipeline\complete_series.py --new-world
 python -m unittest discover -s tests -v
-python pipeline\generate_candidate.py
-python pipeline\validate_canon.py runs\candidate
 python pipeline\validate_structure.py
 python pipeline\validate_scale.py
-python pipeline\expand_structure.py
-python pipeline\promote_candidate.py C:\path\to\candidate
-python pipeline\rebuild_state.py
-python pipeline\generate_prose.py
-python pipeline\export_epub.py --volume V1
 python pipeline\serve_prose.py --host 100.89.73.83 --port 8765
 ```
 
-실제 생성과 검증 전에 `.env`에 `GENERATOR_MODEL`과 `CRITIC_MODEL`을 명시해야 한다.
-일상적인 완주와 재개는 `complete_series.py` 한 명령만 사용하며 개별 단계
-명령은 진단 또는 특정 단계 재현용이다.
-신규 세계관 완주는 `complete_series.py --new-world`를 사용한다. 진행 중
-중단되면 같은 명령이 현재 신규 세계관에서 재개하며 기존 완성본은
-`runs/world-backups`에 보존된다.
+일반 재검증과 EPUB 재생성은 `python pipeline\complete_series.py`를 사용한다. 완전히 새로운 작품은 `python pipeline\complete_series.py --new-world`를 사용한다.
+
+## iPhone 서재
+
+같은 Tailscale 네트워크에 연결된 iPhone에서 `http://node.tail3e9e21.ts.net:8765/`를 연다. 전권 HTML 읽기와 V1-V5 EPUB 다운로드를 제공한다.
+
+2026년 6월 22일 기준 iPhone 390×844 뷰포트에서 제목, EPUB 링크 5개, 가로 넘침 없음을 검증했다.

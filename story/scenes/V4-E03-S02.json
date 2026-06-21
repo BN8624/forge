@@ -2,13 +2,13 @@
   "id": "V4-E03-S02",
   "event_id": "V4-E03",
   "sequence": 2,
-  "objective": "정예병의 기하학적 마력 방패의 위력과 작동 원리 목격",
+  "objective": "엘라라가 기록자의 능력을 사용하여 보안 장치에 얽힌 과거의 기억을 해독하는 과정을 묘사한다.",
   "previous_scene_id": "V4-E03-S01",
   "start_state": {
-    "status": "전투 개시"
+    "world": "기록 보관소의 입구에 도달하지만 강력한 기억 보안 장치에 가로막힘"
   },
   "end_state": {
-    "status": "방어막의 벽 체감"
+    "world": "보관소의 문이 열리며 잊힌 고대 문명의 기록들이 드러남"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 3700
 }

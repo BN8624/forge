@@ -2,13 +2,13 @@
   "id": "V2-E01-S05",
   "event_id": "V2-E01",
   "sequence": 5,
-  "objective": "에테르노의 성벽을 완전히 벗어나 황량한 외곽 지대로 진입하며 느끼는 해방감과 새로운 불안을 묘사한다.",
+  "objective": "회로가 활성화되며 리안이 감당할 수 없는 방대한 정보의 파편에 휩쓸리는 고통을 묘사한다.",
   "previous_scene_id": "V2-E01-S04",
   "start_state": {
-    "status": "성문 통과"
+    "elara": "리안의 신체가 위원회에 의해 인위적으로 개조되었을 가능성을 확신함"
   },
   "end_state": {
-    "status": "외곽 진입 성공"
+    "rian": "자신의 피부 아래에 정체불명의 회로가 각인되어 있음을 인지함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3000
+  "target_chars": 4100
 }

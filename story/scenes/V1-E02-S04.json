@@ -2,15 +2,13 @@
   "id": "V1-E02-S04",
   "event_id": "V1-E02",
   "sequence": 4,
-  "objective": "추격전을 피해 숨어든 폐가에서 리아가 카엘의 상처를 돌보며 서로의 결의를 다지는 정서적 교감을 그린다.",
+  "objective": "상아탑의 기억 수집가들과의 갈등을 통해 기억을 독점하려는 권력층의 오만함을 보여준다.",
   "previous_scene_id": "V1-E02-S03",
   "start_state": {
-    "mood": "긴박",
-    "danger": "매우 높음"
+    "rian": "신체에 남는 정서적 잔재의 고통에 공감하며 괴로워함"
   },
   "end_state": {
-    "mood": "결의",
-    "danger": "중간"
+    "elara": "상층부의 탐욕이 하층민의 삶을 어떻게 파괴하는지 목격함"
   },
   "owns": {
     "changes": [],
@@ -18,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3500
+  "target_chars": 4000
 }

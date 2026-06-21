@@ -2,14 +2,13 @@
   "id": "V1-E04-S02",
   "event_id": "V1-E04",
   "sequence": 2,
-  "objective": "조각을 회수하려다 발생하는 사고로 카엘의 피가 조각에 닿는 찰나의 순간을 세밀하게 묘사한다.",
+  "objective": "리안이 캡슐의 기억을 자신의 몸에 받아들이며 겪는 강렬한 환상과 고통을 묘사한다.",
   "previous_scene_id": "V1-E04-S01",
   "start_state": {
-    "mood": "경외",
-    "danger": "중간"
+    "elara": "캡슐에 담긴 기억이 일반적인 추출물이 아닌 '강제 삭제'된 기록임을 발견함"
   },
   "end_state": {
-    "status": "조각 접촉"
+    "rian": "자신이 본 것이 단순한 기억이 아니라 조작된 역사의 파편임을 깨달음"
   },
   "owns": {
     "changes": [],
@@ -17,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3000
+  "target_chars": 4000
 }

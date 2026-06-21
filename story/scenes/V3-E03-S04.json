@@ -2,13 +2,13 @@
   "id": "V3-E03-S04",
   "event_id": "V3-E03",
   "sequence": 4,
-  "objective": "가장 믿었던 동료의 칼날이 카엘의 왼팔을 앗아가는 끔찍한 순간을 세밀하게 묘사한다.",
+  "objective": "리안이 저장소의 일부 기억들과 공명하며, 자신이 위원장의 기억을 전수받기 위해 만들어진 '차세대 그릇'임을 알게 된다.",
   "previous_scene_id": "V3-E03-S03",
   "start_state": {
-    "status": "균열의 시작"
+    "rian": "기억의 상실이 곧 인간성의 상실임을 뼈저리게 느낌"
   },
   "end_state": {
-    "status": "상실의 재현"
+    "rian": "자신의 존재 이유가 타인의 자아를 지우기 위함이었다는 사실에 경악함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4800
+  "target_chars": 4000
 }

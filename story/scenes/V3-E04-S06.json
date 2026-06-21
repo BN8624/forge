@@ -2,13 +2,13 @@
   "id": "V3-E04-S06",
   "event_id": "V3-E04",
   "sequence": 6,
-  "objective": "환상통을 역이용한 변칙적인 일격으로 적을 격파하며 신체적/정신적 승리를 거둔다.",
+  "objective": "리안이 위원장의 제안을 정면으로 거부하며, 그가 가진 모든 기억의 권위를 부정하는 결정적 순간을 묘사한다.",
   "previous_scene_id": "V3-E04-S05",
   "start_state": {
-    "status": "고통의 수용"
+    "rian": "자신의 의지로 슬퍼할 권리를 선택함"
   },
   "end_state": {
-    "status": "전투 승리"
+    "rian": "신이 될 기회를 완전히 거부함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 3000
 }

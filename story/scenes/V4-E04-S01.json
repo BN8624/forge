@@ -2,13 +2,13 @@
   "id": "V4-E04-S01",
   "event_id": "V4-E04",
   "sequence": 1,
-  "objective": "부상을 치료하며 정예병의 방패가 '예측 가능한 궤적'만을 막는다는 점 분석",
+  "objective": "리안이 제물을 대체할 방법을 찾기 위해 금기된 기억 실험장을 조사하는 과정을 묘사한다.",
   "previous_scene_id": "V4-E03-S05",
   "start_state": {
-    "status": "정석 검술의 한계 직면"
+    "world": "모든 슬픔을 흡수해 격리할 사서의 필요성이 입증됨"
   },
   "end_state": {
-    "status": "가설 설정"
+    "rian": "어떤 대체 수단도 없으며, 오직 지정된 '그릇'만이 가능함을 확인하고 좌절함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 4200
 }

@@ -2,13 +2,14 @@
   "id": "V3-E03-S01",
   "event_id": "V3-E03",
   "sequence": 1,
-  "objective": "조각에 피를 떨어뜨려 과거의 연무장 기억 속으로 의식이 전이되는 과정을 묘사한다.",
+  "objective": "중앙 저장소 내부의 끝없는 서고와 액체 기억 탱크들이 만들어내는 기괴하고 탐미적인 풍경을 묘사한다.",
   "previous_scene_id": "V3-E02-S06",
   "start_state": {
-    "status": "조각 획득"
+    "rian": "상아탑의 심장부인 중앙 저장소 입구에 도달함",
+    "elara": "지배층이 누리는 기억의 풍요가 하층민의 고통 위에 세워졌음을 확인함"
   },
   "end_state": {
-    "status": "기억 진입"
+    "rian": "방대한 기억의 양에 압도당함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +17,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3500
+  "target_chars": 4000
 }

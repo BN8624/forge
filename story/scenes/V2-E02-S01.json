@@ -2,13 +2,13 @@
   "id": "V2-E02-S01",
   "event_id": "V2-E02",
   "sequence": 1,
-  "objective": "제국군을 피해 숨어든 피난민 마을의 비참한 환경과 그들의 경계심을 묘사한다.",
+  "objective": "진실을 찾기 위해 오볼루스 하층의 금지된 고대 유적지로 향하는 여정을 그린다.",
   "previous_scene_id": "V2-E01-S05",
   "start_state": {
-    "status": "외곽 진입 성공"
+    "rian": "자신의 피부 아래에 정체불명의 회로가 각인되어 있음을 인지함"
   },
   "end_state": {
-    "status": "피난민 접촉"
+    "rian": "도시의 가장 깊고 어두운 폐기 구역에 진입함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3500
+  "target_chars": 4300
 }

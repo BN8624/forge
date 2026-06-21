@@ -2,19 +2,23 @@
   "id": "V5-E01-S02",
   "event_id": "V5-E01",
   "sequence": 2,
-  "objective": "고대 성소 내부의 복잡한 함정과 왕가의 시련을 돌파한다.",
+  "objective": "리안과 엘라라의 마지막 대화를 통해 그들의 상호의존적 유대를 극대화한다.",
   "previous_scene_id": "V5-E01-S01",
   "start_state": {
-    "status": "성소 입구 도착"
+    "rian": "제단의 메커니즘을 보며 절망함",
+    "elara": "자신의 운명을 수용하고 리안을 위로함"
   },
   "end_state": {
-    "status": "제단 앞 도착"
+    "rian": "엘라라 없는 삶의 무의미함을 깨달음",
+    "elara": "리안이 자신을 잊고 행복해지기를 바람"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [],
-  "target_chars": 3500
+  "consumes_setups": [
+    "EL_Symbiosis"
+  ],
+  "target_chars": 4500
 }

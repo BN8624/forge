@@ -2,13 +2,13 @@
   "id": "V4-E01-S03",
   "event_id": "V4-E01",
   "sequence": 3,
-  "objective": "동굴 속에서 리아와 나누는 왕가의 운명과 정체성에 대한 대화",
+  "objective": "상아탑의 기계 장치들이 하나둘씩 정지하며 발생하는 물리적 붕괴를 묘사한다.",
   "previous_scene_id": "V4-E01-S02",
   "start_state": {
-    "status": "임시 거처 발견"
+    "world": "기억 연료의 역류 현상이 발생하여 시민들이 집단 환각에 빠짐"
   },
   "end_state": {
-    "status": "유대감 강화"
+    "world": "상아탑의 일부 구역이 무너져 내리며 하층 구역을 덮침"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 4500
 }

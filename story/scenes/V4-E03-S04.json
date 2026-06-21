@@ -2,19 +2,21 @@
   "id": "V4-E03-S04",
   "event_id": "V4-E03",
   "sequence": 4,
-  "objective": "부상을 입은 카엘이 리아를 보호하며 필사적으로 후퇴하는 과정",
+  "objective": "엘라라가 자신의 기록 능력이 사실은 사서가 되기 위한 '동조 과정'이었음을 깨닫는 심리적 붕괴를 묘사한다.",
   "previous_scene_id": "V4-E03-S03",
   "start_state": {
-    "status": "전술적 패배"
+    "world": "사서가 모든 슬픔을 흡수하여 격리해야만 도시가 유지된다는 사실을 발견함"
   },
   "end_state": {
-    "status": "일시적 퇴각"
+    "elara": "자신의 존재 이유가 결국 거대한 쓰레기통이자 제물이었다는 사실에 절망함"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [],
-  "target_chars": 4000
+  "consumes_setups": [
+    "EL_Librarian_Fate"
+  ],
+  "target_chars": 4300
 }

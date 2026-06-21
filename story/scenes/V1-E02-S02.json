@@ -2,21 +2,21 @@
   "id": "V1-E02-S02",
   "event_id": "V1-E02",
   "sequence": 2,
-  "objective": "배수로 입구에 대한 정보를 가진 은밀한 접선자와의 위험한 만남과 협상을 다룬다.",
+  "objective": "므네모시네 퓨얼의 작동 원리와 그것이 인간의 기억을 소모한다는 비윤리적 진실을 드러낸다.",
   "previous_scene_id": "V1-E02-S01",
   "start_state": {
-    "mood": "침울",
-    "danger": "중간"
+    "rian": "의뢰인의 절박함과 기억의 가치에 대해 의문을 가짐"
   },
   "end_state": {
-    "mood": "의심",
-    "danger": "높음"
+    "rian": "도시의 동력이 타인의 상실 위에 세워졌음을 깨달음"
   },
   "owns": {
     "changes": [],
-    "setups": [],
+    "setups": [
+      "EL_Fuel_System"
+    ],
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3500
+  "target_chars": 4500
 }

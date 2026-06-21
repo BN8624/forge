@@ -2,13 +2,13 @@
   "id": "V2-E04-S01",
   "event_id": "V2-E04",
   "sequence": 1,
-  "objective": "제단 위에서 두 번째 영혼의 조각을 발견하고 그것이 가진 신비로운 분위기를 묘사한다.",
+  "objective": "소중한 감정을 잃어버린 리안이 느끼는 정서적 공허함과 무감각 상태를 묘사한다.",
   "previous_scene_id": "V2-E03-S05",
   "start_state": {
-    "status": "조각 발견 직전"
+    "rian": "동일한 가치의 다른 기억을 영구히 잃음"
   },
   "end_state": {
-    "status": "조각 확보 시도"
+    "rian": "엘라라를 보아도 예전과 같은 따스함을 느끼지 못하는 상태가 됨"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3000
+  "target_chars": 4000
 }

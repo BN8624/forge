@@ -2,21 +2,21 @@
   "id": "V1-E03-S03",
   "event_id": "V1-E03",
   "sequence": 3,
-  "objective": "왕실의 영광이 깃든 벽화들을 발견하며 카엘이 느끼는 상실감과 제국에 대한 분노를 묘사한다.",
+  "objective": "리안이 공허수의 파편화된 기억들을 흡수하며 겪는 정신적 과부하와 고통을 묘사한다.",
   "previous_scene_id": "V1-E03-S02",
   "start_state": {
-    "mood": "초조",
-    "danger": "높음"
+    "rian": "자신이 공허수들에게는 거대한 먹잇감이자 빈 그릇임을 깨달음"
   },
   "end_state": {
-    "mood": "비애",
-    "danger": "중간"
+    "rian": "수많은 타인의 비명이 머릿속에서 소용돌이치는 혼란에 빠짐"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [],
-  "target_chars": 3000
+  "consumes_setups": [
+    "EL_Symbiosis"
+  ],
+  "target_chars": 4500
 }

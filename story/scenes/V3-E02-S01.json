@@ -2,13 +2,14 @@
   "id": "V3-E02-S01",
   "event_id": "V3-E02",
   "sequence": 1,
-  "objective": "무기고의 외곽 초소를 은밀히 무력화하며 잠입을 시작한다.",
-  "previous_scene_id": "V3-E01-S05",
+  "objective": "상아탑 침투를 위한 정교한 작전 계획 수립과 리안의 신체적 제약을 극복하기 위한 임시 기억 주입 과정을 묘사한다.",
+  "previous_scene_id": "V3-E01-S06",
   "start_state": {
-    "status": "무기고 도착"
+    "rian": "이클립스의 일원으로서 상아탑 침투 계획에 참여함",
+    "elara": "이클립스의 극단적 목적과 자신의 기록자로서의 사명 사이에서 갈등함"
   },
   "end_state": {
-    "status": "잠입 성공"
+    "rian": "침투를 위한 최소한의 정체성을 확보함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +17,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3800
+  "target_chars": 3500
 }

@@ -2,13 +2,13 @@
   "id": "V3-E01-S04",
   "event_id": "V3-E01",
   "sequence": 4,
-  "objective": "리아가 카엘의 고통을 보듬으며 남매의 유대감을 강화한다.",
+  "objective": "이클립스의 리더와 대면하여 기억 동력 체계의 완전한 파괴라는 극단적 이상과 그 정당성을 논쟁한다.",
   "previous_scene_id": "V3-E01-S03",
   "start_state": {
-    "status": "심리적 위기"
+    "rian": "이클립스의 본거지에 도착하여 그들의 규모와 체계성을 확인함"
   },
   "end_state": {
-    "status": "정신적 회복"
+    "rian": "체제 유지의 대가가 너무나 가혹하다는 사실에 동조하기 시작함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3200
+  "target_chars": 4500
 }

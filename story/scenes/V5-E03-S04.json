@@ -2,19 +2,23 @@
   "id": "V5-E03-S04",
   "event_id": "V5-E03",
   "sequence": 4,
-  "objective": "내성 경비병들과의 국지전을 통해 빠르게 전진하며 리아를 보호한다.",
+  "objective": "기억 엔진의 완전한 파괴와 함께 오볼루스의 물리적 구조가 재편되는 과정을 그린다.",
   "previous_scene_id": "V5-E03-S03",
   "start_state": {
-    "status": "내성 진입"
+    "rian": "백색 도서관의 입구에 도달함",
+    "elara": "사람들이 거리에서 서로를 멍하니 바라보며 눈물 흘리는 모습을 목격함"
   },
   "end_state": {
-    "status": "내부 통로 확보"
+    "rian": "도서관의 관리자 권한을 부여받음",
+    "elara": "상아탑의 벽이 무너지고 외부의 공기가 유입되는 것을 느낌"
   },
   "owns": {
-    "changes": [],
+    "changes": [
+      "EL_Machine_End"
+    ],
     "setups": [],
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3000
+  "target_chars": 4000
 }

@@ -2,13 +2,13 @@
   "id": "V3-E04-S05",
   "event_id": "V3-E04",
   "sequence": 5,
-  "objective": "환상통을 밀어내는 것이 아니라, 그 고통을 자신의 일부로 받아들이는 각성을 묘사한다.",
+  "objective": "위원장이 제시하는 '고통 없는 영생'의 환상과 리안이 갈구하는 '아픈 인간의 삶' 사이의 가치관 충돌을 다룬다.",
   "previous_scene_id": "V3-E04-S04",
   "start_state": {
-    "status": "한계 봉착"
+    "rian": "위원회의 통치 기반이 거대한 거짓말 위에 세워졌음을 확신함"
   },
   "end_state": {
-    "status": "고통의 수용"
+    "rian": "자신의 의지로 슬퍼할 권리를 선택함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4200
+  "target_chars": 3500
 }

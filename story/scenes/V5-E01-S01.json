@@ -2,19 +2,23 @@
   "id": "V5-E01-S01",
   "event_id": "V5-E01",
   "sequence": 1,
-  "objective": "북부 고봉의 극한 환경을 뚫고 성소로 향하는 고난의 여정을 묘사한다.",
-  "previous_scene_id": "V4-E04-S07",
+  "objective": "상아탑 최심부 제단의 압도적인 분위기와 엘라라의 체념을 묘사한다.",
+  "previous_scene_id": "V4-E04-S06",
   "start_state": {
-    "status": "네 번째 조각 획득"
+    "rian": "엘라라를 제단에 바쳐야 하는 잔혹한 선택지에 놓임",
+    "elara": "도시를 위해 자신을 희생하기로 결심함"
   },
   "end_state": {
-    "status": "성소 입구 도착"
+    "rian": "제단의 메커니즘을 보며 절망함",
+    "elara": "자신의 운명을 수용하고 리안을 위로함"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [],
-  "target_chars": 3200
+  "consumes_setups": [
+    "EL_Librarian_Fate"
+  ],
+  "target_chars": 4000
 }

@@ -2,19 +2,23 @@
   "id": "V3-E01-S01",
   "event_id": "V3-E01",
   "sequence": 1,
-  "objective": "북부 고봉의 가혹한 환경과 카엘의 신체적 제약을 묘사한다.",
-  "previous_scene_id": "V2-E04-S08",
+  "objective": "V2의 여파로 인한 리안의 정서적 결핍과 엘라라의 죄책감을 묘사하여 두 사람의 유대를 강화한다.",
+  "previous_scene_id": "V2-E04-S05",
   "start_state": {
-    "status": "증오와 결의"
+    "rian": "중요한 기억을 얻기 위해 다른 소중한 감정을 희생함",
+    "elara": "기억의 등가교환이 가져오는 영혼의 마모를 목격함"
   },
   "end_state": {
-    "status": "여정 시작"
+    "rian": "자신의 내면에 생긴 거대한 공허를 실감함",
+    "elara": "리안을 지키기 위해 더 큰 힘이나 진실이 필요함을 절감함"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [],
+  "consumes_setups": [
+    "EL_Symbiosis"
+  ],
   "target_chars": 3500
 }

@@ -2,13 +2,13 @@
   "id": "V2-E03-S03",
   "event_id": "V2-E03",
   "sequence": 3,
-  "objective": "벽면에 새겨진 왕가의 기록들을 보며 리아가 자신의 혈통에 대해 느끼는 경외감과 슬픔을 묘사한다.",
+  "objective": "리안이 가치 없는 기억들로 교환을 시도하지만, 시스템에 의해 거부당하는 실패를 겪는다.",
   "previous_scene_id": "V2-E03-S02",
   "start_state": {
-    "status": "1차 관문 돌파"
+    "elara": "단말기가 요구하는 '등가교환'의 조건을 확인하고 경악함"
   },
   "end_state": {
-    "status": "혈통의 자각"
+    "rian": "기억의 가치가 정서적 강도에 비례한다는 잔혹한 법칙을 체감함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3000
+  "target_chars": 4300
 }

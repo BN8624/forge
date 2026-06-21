@@ -2,19 +2,21 @@
   "id": "V2-E04-S02",
   "event_id": "V2-E04",
   "sequence": 2,
-  "objective": "조각을 집어 드는 순간, 매복해 있던 제국 정예병들이 나타나 남매를 포위하는 긴박함을 묘사한다.",
+  "objective": "엘라라가 리안의 상실을 채워주기 위해 필사적으로 그의 존재를 은색 잉크로 기록하는 과정을 그린다.",
   "previous_scene_id": "V2-E04-S01",
   "start_state": {
-    "status": "조각 확보 시도"
+    "rian": "엘라라를 보아도 예전과 같은 따스함을 느끼지 못하는 상태가 됨"
   },
   "end_state": {
-    "status": "전투 개시"
+    "elara": "리안의 영혼이 깎여 나가는 것을 보며 깊은 슬픔과 책임감을 느낌"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [],
-  "target_chars": 4000
+  "consumes_setups": [
+    "EL_Symbiosis"
+  ],
+  "target_chars": 4200
 }

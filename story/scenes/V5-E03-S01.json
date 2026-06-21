@@ -2,19 +2,23 @@
   "id": "V5-E03-S01",
   "event_id": "V5-E03",
   "sequence": 1,
-  "objective": "수도 외곽 빈민가에 잠입하여 제국민들이 겪는 고통을 목격하고 민심을 확인한다.",
-  "previous_scene_id": "V5-E02-S06",
+  "objective": "기억 공급이 중단된 므네모시네 엔진이 과부하로 인해 붕괴하기 시작하는 과정을 묘사한다.",
+  "previous_scene_id": "V5-E02-S05",
   "start_state": {
-    "status": "수도로 출발"
+    "rian": "모든 기억의 집합체이자 동시에 아무것도 아닌 존재가 됨",
+    "elara": "완전한 망각과 함께 구원받음"
   },
   "end_state": {
-    "status": "빈민가 잠입"
+    "rian": "물리적 육체가 빛으로 분해됨",
+    "elara": "엔진의 굉음과 함께 도시가 진동하는 것을 느낌"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [],
-  "target_chars": 3200
+  "consumes_setups": [
+    "EL_Fuel_System"
+  ],
+  "target_chars": 4000
 }

@@ -2,13 +2,13 @@
   "id": "V4-E04-S03",
   "event_id": "V4-E04",
   "sequence": 3,
-  "objective": "중심축을 무너뜨림으로써 발생하는 예측 불가능한 공격 경로의 발견",
+  "objective": "엘라라가 자신의 운명을 받아들이며 리안에게 마지막 인사를 준비하는 애상적인 분위기를 묘사한다.",
   "previous_scene_id": "V4-E04-S02",
   "start_state": {
-    "status": "변칙 궤적 연습"
+    "world": "리안과 엘라라가 위원회 잔당들의 추격을 피해 제단으로 향하는 길로 내몰림"
   },
   "end_state": {
-    "status": "불균형 검술의 기초 완성"
+    "elara": "자신의 희생이 도시의 수많은 생명을 구할 수 있다는 사실에 체념 섞인 결심을 함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 4100
 }

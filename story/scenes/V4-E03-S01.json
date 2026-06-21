@@ -2,13 +2,14 @@
   "id": "V4-E03-S01",
   "event_id": "V4-E03",
   "sequence": 1,
-  "objective": "성소 내부 진입 직후 기다리고 있던 제국 정예병과의 조우",
-  "previous_scene_id": "V4-E02-S06",
+  "objective": "리안과 엘라라가 해결책을 찾기 위해 상아탑 지하의 금지된 기록 보관소로 향하는 여정을 묘사한다.",
+  "previous_scene_id": "V4-E02-S05",
   "start_state": {
-    "status": "최종 관문 진입"
+    "rian": "도시 전체가 공허수의 바다에 잠기는 위기를 맞음",
+    "elara": "사태를 해결할 유일한 방법이 '제물'임을 알게 됨"
   },
   "end_state": {
-    "status": "전투 개시"
+    "world": "기록 보관소의 입구에 도달하지만 강력한 기억 보안 장치에 가로막힘"
   },
   "owns": {
     "changes": [],
@@ -16,5 +17,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 4100
 }

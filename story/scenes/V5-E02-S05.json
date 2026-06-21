@@ -2,16 +2,20 @@
   "id": "V5-E02-S05",
   "event_id": "V5-E02",
   "sequence": 5,
-  "objective": "한계까지 몸을 밀어붙이며 수도로 회군하는 과정에서의 육체적, 정신적 소모를 묘사한다.",
+  "objective": "리안이 세상의 모든 기억과 고통을 완전히 흡수하여 특이점이 되는 정점을 묘사한다.",
   "previous_scene_id": "V5-E02-S04",
   "start_state": {
-    "status": "이동 경로 확정"
+    "rian": "완전한 고독 속으로 침잠함",
+    "elara": "눈앞의 존재가 누구인지 잊었지만, 가슴 속의 따스함만은 남김"
   },
   "end_state": {
-    "status": "수도 외곽 도착"
+    "rian": "모든 기억의 집합체이자 동시에 아무것도 아닌 존재가 됨",
+    "elara": "완전한 망각과 함께 구원받음"
   },
   "owns": {
-    "changes": [],
+    "changes": [
+      "EL_Global_Absorb"
+    ],
     "setups": [],
     "payoffs": []
   },

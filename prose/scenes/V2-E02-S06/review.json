@@ -1,0 +1,17 @@
+{
+  "scene_id": "V2-E02-S06",
+  "status": "pass",
+  "checks": {
+    "objective": true,
+    "state_transition": true,
+    "owned_elements": true,
+    "reveal_order": true,
+    "canon": true,
+    "continuity": true,
+    "prose_quality": true
+  },
+  "issues": [],
+  "reason": "장면의 목표인 엘라라의 위로와 인간으로서의 삶에 대한 다짐이 충실히 묘사되었으며, 리안의 정체성 붕괴(start_state)에서 '살아있는 저장소'로서의 운명 수용 및 엘라라의 이해(end_state)로 이어지는 상태 전이가 명확하게 이루어졌다. 미래 금지 설정(등가교환, 이클립스, 영원한 사서 등)을 선취하지 않았으며, 이전 산문의 정서적 흐름과 물리적 상황을 완벽하게 계승하였다.",
+  "prose_sha256": "04097ac958dd5a1671a2289730e228fcfbe4d6c76db936e5220710f0c5a73ab9",
+  "scene_contract_sha256": "3e3e48e96e8ca14b966490def788a0a226ddcacfe794347aec08af34921f987d"
+}

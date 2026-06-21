@@ -2,13 +2,13 @@
   "id": "V3-E03-S03",
   "event_id": "V3-E03",
   "sequence": 3,
-  "objective": "동료들과의 신뢰 속에 숨겨진 발타자르의 은밀한 포섭과 배신의 전조를 묘사한다.",
+  "objective": "기억을 모두 빼앗기고 육체만 남은 '빈 껍데기'들이 수용된 지하 수용소를 발견하고 그들의 비참한 상태를 목격한다.",
   "previous_scene_id": "V3-E03-S02",
   "start_state": {
-    "status": "정점의 기억"
+    "elara": "자신의 운명이 정해져 있었다는 사실에 절망함"
   },
   "end_state": {
-    "status": "균열의 시작"
+    "rian": "기억의 상실이 곧 인간성의 상실임을 뼈저리게 느낌"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4200
+  "target_chars": 3500
 }

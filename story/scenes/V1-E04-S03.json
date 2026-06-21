@@ -2,19 +2,21 @@
   "id": "V1-E04-S03",
   "event_id": "V1-E04",
   "sequence": 3,
-  "objective": "리아의 피가 겹쳐 떨어지며 조각이 완전히 활성화되는 폭발적인 광휘의 과정을 그린다.",
+  "objective": "기억 속에서 드러나는 '대말살 사건'의 참혹한 광경과 위원회의 냉혹한 통제 방식을 묘사한다.",
   "previous_scene_id": "V1-E04-S02",
   "start_state": {
-    "status": "조각 접촉"
+    "rian": "자신이 본 것이 단순한 기억이 아니라 조작된 역사의 파편임을 깨달음"
   },
   "end_state": {
-    "status": "광휘 발생"
+    "rian": "도시의 평화가 수만 명의 정체성 말살 위에 세워졌음을 목격함"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [],
-  "target_chars": 3500
+  "consumes_setups": [
+    "EL_Fuel_System"
+  ],
+  "target_chars": 4500
 }

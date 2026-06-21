@@ -2,19 +2,21 @@
   "id": "V3-E02-S05",
   "event_id": "V3-E02",
   "sequence": 5,
-  "objective": "무기고 심층부의 수호자와 맞붙어 신체적 불균형을 이용한 변칙 공격을 시도한다.",
+  "objective": "상아탑의 고주파 보안 망이 리안의 신체 내 회로와 공명하며 발생하는 극심한 고통과 일시적인 자아 붕괴를 묘사한다.",
   "previous_scene_id": "V3-E02-S04",
   "start_state": {
-    "status": "위치 파악"
+    "rian": "기억 동력 체계의 잔혹한 실체에 분노함"
   },
   "end_state": {
-    "status": "최종 관문 돌파"
+    "rian": "자신의 신체가 상아탑과 연결되어 있다는 공포를 느낌"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [],
+  "consumes_setups": [
+    "EL_Vessel_Circuit"
+  ],
   "target_chars": 4500
 }

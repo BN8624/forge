@@ -2,23 +2,23 @@
   "id": "V5-E03-S03",
   "event_id": "V5-E03",
   "sequence": 3,
-  "objective": "기사단 시절 익힌 심박 통제 호흡법을 극대화하여 궁전의 마력 방어선을 은밀히 돌파한다.",
+  "objective": "시민들이 기억의 상품화에서 벗어나 '유령 통증'이 사라지는 해방감을 묘사한다.",
   "previous_scene_id": "V5-E03-S02",
   "start_state": {
-    "status": "궁전 외곽 접근"
+    "rian": "공간의 틈새로 빨려 들어감",
+    "elara": "도시의 모든 소음이 한순간에 사라진 정적을 경험함"
   },
   "end_state": {
-    "status": "내성 진입"
+    "rian": "백색 도서관의 입구에 도달함",
+    "elara": "사람들이 거리에서 서로를 멍하니 바라보며 눈물 흘리는 모습을 목격함"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": [
-      "EL-05"
+      "EL_Memory_Liberation"
     ]
   },
-  "consumes_setups": [
-    "EL-01"
-  ],
-  "target_chars": 4000
+  "consumes_setups": [],
+  "target_chars": 4500
 }

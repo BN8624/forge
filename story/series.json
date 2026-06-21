@@ -1,9 +1,9 @@
 {
   "id": "SERIES",
-  "title": "에테르노의 그림자",
-  "premise": "전쟁 영웅이었으나 왼팔을 잃고 몰락한 검사 '카엘'과 그의 여동생 '리아'가 전대 왕의 죽음에 숨겨진 추악한 진실을 추적한다. 숨겨진 왕가의 혈통인 남매는 왕이 남긴 5개의 '영혼의 조각'을 모아 섭정 발타자르의 음모를 밝히고 제국을 되찾으려 한다.",
-  "theme": "상실을 통한 성장과 정당한 권위의 회복",
-  "ending": "발타자르의 가짜 권능을 파괴하고 제국의 감시망을 무너뜨려 진정한 여명을 불러온다.",
+  "title": "은색의 기록자와 망각의 태엽",
+  "premise": "기억이 물리적인 액체 형태로 추출되어 도시의 동력원으로 사용되는 세계 '오볼루스'. 사람들은 생존과 권력을 위해 소중한 기억을 팔아치우고, 버려진 기억의 찌꺼기들은 '공허수(Hollows)'라는 괴물이 되어 도시를 위협한다. 24시간마다 모든 기억이 소멸하는 저주받은 '공백자' 리안은 타인의 기억을 저장할 수 있는 유일한 그릇으로 태어났으며, 기록자 엘라라와 함께 도시의 추악한 진실과 자신의 존재 이유를 추적하며 기억의 완전한 회복과 파멸 사이의 선택을 강요받는다.",
+  "theme": "망각의 고통을 통한 구원과 존재의 정의",
+  "ending": "리안이 세상의 모든 기억을 흡수하여 스스로 망각된 존재가 됨으로써 엘라라와 도시를 구하고, 백색 도서관의 영원한 관리자가 된다.",
   "volume_ids": [
     "V1",
     "V2",
@@ -13,36 +13,111 @@
   ],
   "elements": [
     {
-      "id": "EL-01",
-      "kind": "setup",
-      "description": "카엘이 기사단에서 익힌 심박 통제 호흡법"
-    },
-    {
-      "id": "EL-02",
-      "kind": "setup",
-      "description": "제국 정예병의 기하학적 마력 방패"
-    },
-    {
-      "id": "EL-03",
-      "kind": "setup",
-      "description": "왼팔의 부재로 인한 신체적 불균형"
-    },
-    {
-      "id": "EL-04",
-      "kind": "payoff",
-      "description": "불균형을 이용한 변칙 검술로 마력 방패 돌파",
-      "resolves": "EL-02"
-    },
-    {
-      "id": "EL-05",
-      "kind": "payoff",
-      "description": "호흡법을 이용한 궁전 잠입",
-      "resolves": "EL-01"
-    },
-    {
-      "id": "EL-06",
+      "id": "EL_Rian_Identity",
       "kind": "change",
-      "description": "방계 혈통에서 제국의 정당한 계승자로의 자각"
+      "description": "리안이 매일 아침 엘라라로부터 오늘의 이름과 정체성을 부여받음"
+    },
+    {
+      "id": "EL_Rian_Emotion",
+      "kind": "change",
+      "description": "리안이 타인의 기억 조각을 통해 일시적으로 타인의 감정을 모방함"
+    },
+    {
+      "id": "EL_Silver_Ink",
+      "kind": "change",
+      "description": "리안의 피부에 은색 잉크로 정체성을 고정하는 문자가 새겨짐"
+    },
+    {
+      "id": "EL_Forbidden_Mem",
+      "kind": "change",
+      "description": "리안이 위원회가 은폐한 학살과 조작의 금지된 기억 조각을 확보함"
+    },
+    {
+      "id": "EL_Vessel_Awareness",
+      "kind": "change",
+      "description": "리안이 자신이 인간이 아니라 설계된 '살아있는 저장소'임을 깨달음"
+    },
+    {
+      "id": "EL_Emotion_Loss",
+      "kind": "change",
+      "description": "리안이 기억의 등가교환 법칙에 의해 자신의 소중한 정서를 영구히 희생함"
+    },
+    {
+      "id": "EL_Elara_Salvation",
+      "kind": "change",
+      "description": "리안이 엘라라를 자신의 존재를 정의하는 유일한 구원으로 인식함"
+    },
+    {
+      "id": "EL_Eclipse_Join",
+      "kind": "change",
+      "description": "리안이 기억 동력 체계를 파괴하려는 반정부 조직 이클립스에 합류함"
+    },
+    {
+      "id": "EL_Committee_Fall",
+      "kind": "change",
+      "description": "대말살 사건의 진실이 폭로되며 위원회에 대한 대중의 신뢰가 붕괴됨"
+    },
+    {
+      "id": "EL_City_Destruction",
+      "kind": "change",
+      "description": "기억 엔진의 과부하로 도시의 물리적 붕괴와 공허수의 침공이 가속화됨"
+    },
+    {
+      "id": "EL_Elara_Altar",
+      "kind": "change",
+      "description": "엘라라가 모든 슬픔을 짊어질 '영원한 사서'의 제물로서 제단으로 향함"
+    },
+    {
+      "id": "EL_Global_Absorb",
+      "kind": "change",
+      "description": "리안이 세상의 모든 기억과 고통을 자신의 공백 속으로 흡수함"
+    },
+    {
+      "id": "EL_Machine_End",
+      "kind": "change",
+      "description": "기억 동력 엔진이 파괴되어 모든 기계 문명이 정지하고 자연적 망각이 회복됨"
+    },
+    {
+      "id": "EL_Librarian_Ascension",
+      "kind": "change",
+      "description": "리안이 존재 자체가 지워진 채 백색 도서관의 관리자가 됨"
+    },
+    {
+      "id": "EL_Blue_Sky",
+      "kind": "change",
+      "description": "구리색 먼지가 사라지고 오볼루스의 하늘이 투명한 푸른색으로 변함"
+    },
+    {
+      "id": "EL_Symbiosis",
+      "kind": "setup",
+      "description": "공백자 리안과 기록자 엘라라의 생존을 위한 상호의존적 관계"
+    },
+    {
+      "id": "EL_Fuel_System",
+      "kind": "setup",
+      "description": "므네모시네 퓨얼을 기반으로 한 기억 추출 동력 체계의 비윤리성"
+    },
+    {
+      "id": "EL_Vessel_Circuit",
+      "kind": "setup",
+      "description": "리안의 신체에 각인된 위원회의 기억 저장 회로"
+    },
+    {
+      "id": "EL_Librarian_Fate",
+      "kind": "setup",
+      "description": "엘라라의 기록 능력이 사실은 제물이 되기 위한 준비 과정이었다는 운명"
+    },
+    {
+      "id": "EL_Memory_Liberation",
+      "kind": "payoff",
+      "description": "리안의 희생으로 모든 인간이 기억의 상품화에서 벗어나 자유를 얻음",
+      "resolves": "EL_Symbiosis"
+    },
+    {
+      "id": "EL_Humanity_Return",
+      "kind": "payoff",
+      "description": "기계적 영생과 통제가 사라지고 인간의 자연스러운 삶과 죽음이 회복됨",
+      "resolves": "EL_Fuel_System"
     }
   ]
 }

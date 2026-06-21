@@ -2,13 +2,13 @@
   "id": "V3-E01-S03",
   "event_id": "V3-E01",
   "sequence": 3,
-  "objective": "추위를 통해 증폭되는 왼팔의 환상통과 카엘의 심리적 붕괴를 묘사한다.",
+  "objective": "녹슨 거리의 가장 깊은 곳, 폐기된 기억 저장소에 숨겨진 이클립스의 은신처로 향하는 여정을 그린다.",
   "previous_scene_id": "V3-E01-S02",
   "start_state": {
-    "status": "정보 수집"
+    "rian": "이클립스의 정체에 대해 호기심과 경계심을 동시에 가짐"
   },
   "end_state": {
-    "status": "심리적 위기"
+    "rian": "이클립스의 본거지에 도착하여 그들의 규모와 체계성을 확인함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3800
+  "target_chars": 4000
 }

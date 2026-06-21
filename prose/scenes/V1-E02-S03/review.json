@@ -11,7 +11,7 @@
     "prose_quality": true
   },
   "issues": [],
-  "reason": "장면의 목표인 '좁은 골목길에서의 추격전'을 충실히 묘사하였으며, 시작 상태(의심/높음)에서 종료 상태(긴박/매우 높음)로의 전이가 자연스럽게 이루어졌다. available canon인 C1(왼팔 부재), C9(제국의 눈), C11(심박 통제 호흡법)을 적절히 활용하였으며, 특히 EL-01(호흡법)의 사용은 허용된 범위 내에 있다. EL-03(신체적 불균형)에 대한 언급이 있으나, 이는 C1의 물리적 사실을 묘사한 수준이며, 이를 이용해 변칙 검술을 펼치는 EL-04의 기능적 활용이나 복선 부여로 이어지지 않았으므로 reveal_order 및 owned_elements 위반으로 보지 않는다.",
-  "prose_sha256": "b4ccd5caf920029fe044a4dc8d4157b348d5c9060a9cec3e90d6e058ff770fef",
-  "scene_contract_sha256": "c59209de0fac956d359139cf11fdec2970668a323b5fe54fb7e2828e905347fb"
+  "reason": "장면의 목표인 '유령 통증'의 묘사와 기억 삭제의 잔혹성 입증이 매우 구체적이고 탐미적으로 서술되었습니다. 시작 상태(도시 동력의 진실 깨달음)에서 종료 상태(정서적 잔재의 고통에 공감하며 괴로워함)로의 전이가 매끄럽게 이루어졌으며, 정본 설정 C6를 정확하게 구현했습니다. future_forbidden에 해당하는 설정이나 요소를 선취하지 않았으며, available 상태인 C5, C9 및 EL_Fuel_System, EL_Rian_Emotion의 범주 내에서 서술되어 계약을 엄격히 준수하였습니다.",
+  "prose_sha256": "d470b78fd9c78384c7094f2095cbfa7bcbfa3b6fa42ba1fb46b093b7b26d6b85",
+  "scene_contract_sha256": "db9ca6fa12a4b7e623587663f940e572ac2ab9a12bae7480b08af38dcde5e7bc"
 }

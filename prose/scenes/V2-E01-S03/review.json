@@ -11,7 +11,7 @@
     "prose_quality": true
   },
   "issues": [],
-  "reason": "장면의 목표인 리아의 정체성 혼란과 카엘의 보호 본능 사이의 정서적 교감을 깊이 있게 묘사하였으며, '슬럼가 통과'에서 '정서적 유대 강화'로의 상태 전이가 명확하게 이루어졌습니다. available canon(C1, C2, C4, C11 등)의 범위 내에서 설정을 활용하였으며, future_forbidden에 해당하는 미래 사건이나 기술, 계승자로서의 자각(EL-06) 등의 요소를 선취하지 않았습니다. 직전 산문의 끝 지점에서 자연스럽게 이어지며 문체 또한 정교합니다.",
-  "prose_sha256": "e67c00b24421eb094ca532558d1ffba2df7db26b415b133f9f3978916c96f287",
-  "scene_contract_sha256": "89d6e0b516fbf70b31d3f51c92cd6532cc699cce748e6beb2e92bc51eafae476"
+  "reason": "장면의 목표인 '엘라라의 회로 실체 확인'을 정교한 묘사를 통해 달성하였으며, 리안이 자신의 신체가 인간이 아님을 직감하는 end_state로 정확히 전이되었습니다. EL_Vessel_Circuit 설정을 적절히 설치하였으며, future_forbidden에 해당하는 '살아있는 저장소'라는 구체적 명칭이나 위원회의 설계 목적(C13), 정체성 자각(EL_Vessel_Awareness)의 단계로 넘어가지 않고 '직감'과 '이질감'의 수준에서 묘사하여 reveal_order를 엄격히 준수했습니다.",
+  "prose_sha256": "21f905ab6ab991f1b57a2b5bbc04ce2305d765017d5fd2e5808504d8dc8e1dae",
+  "scene_contract_sha256": "a022fec2b57faea4a185488982d011bb1ffa5c32f9c671c49230f8365b24b326"
 }

@@ -2,19 +2,22 @@
   "id": "V3-E04-S07",
   "event_id": "V3-E04",
   "sequence": 7,
-  "objective": "무기고를 떠나며 더 이상 과거에 얽매이지 않는 카엘의 단단해진 내면을 묘사한다.",
+  "objective": "엘라라가 복원한 진실된 기록을 도시 전체의 기억 송신망에 강제로 방류하여 위원회의 정체성을 붕괴시킨다.",
   "previous_scene_id": "V3-E04-S06",
   "start_state": {
-    "status": "전투 승리"
+    "rian": "신이 될 기회를 완전히 거부함"
   },
   "end_state": {
-    "status": "환상통 극복"
+    "rian": "위원회의 권위가 무너지는 것을 목격함",
+    "elara": "조작된 역사의 기록을 완전히 복원함"
   },
   "owns": {
-    "changes": [],
+    "changes": [
+      "EL_Committee_Fall"
+    ],
     "setups": [],
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3800
+  "target_chars": 4000
 }

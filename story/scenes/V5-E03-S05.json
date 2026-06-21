@@ -2,19 +2,23 @@
   "id": "V5-E03-S05",
   "event_id": "V5-E03",
   "sequence": 5,
-  "objective": "궁전 내의 주요 감시 수정구들을 파괴하여 도시 전체에 혼란을 주고 시민들에게 희망의 신호를 보낸다.",
+  "objective": "인위적인 영생과 통제가 사라지고, 인간이 다시 늙고 잊어가는 자연스러운 삶을 회복함을 묘사한다.",
   "previous_scene_id": "V5-E03-S04",
   "start_state": {
-    "status": "내부 통로 확보"
+    "rian": "도서관의 관리자 권한을 부여받음",
+    "elara": "상아탑의 벽이 무너지고 외부의 공기가 유입되는 것을 느낌"
   },
   "end_state": {
-    "status": "감시망 무력화"
+    "rian": "백색 도서관의 깊은 곳에 안착함",
+    "elara": "자신의 손끝에서 느껴지는 시간의 흐름과 생명력을 깨달음"
   },
   "owns": {
     "changes": [],
     "setups": [],
-    "payoffs": []
+    "payoffs": [
+      "EL_Humanity_Return"
+    ]
   },
   "consumes_setups": [],
-  "target_chars": 3000
+  "target_chars": 4000
 }

@@ -2,13 +2,14 @@
   "id": "V3-E02-S06",
   "event_id": "V3-E02",
   "sequence": 6,
-  "objective": "세 번째 영혼의 조각을 확보하고 그 순간 밀려오는 강렬한 마력의 파동을 묘사한다.",
+  "objective": "엘라라의 헌신적인 기록 고정 작업으로 위기를 넘기고, 마침내 상아탑의 심장부인 중앙 저장소의 육중한 문 앞에 도달한다.",
   "previous_scene_id": "V3-E02-S05",
   "start_state": {
-    "status": "최종 관문 돌파"
+    "rian": "자신의 신체가 상아탑과 연결되어 있다는 공포를 느낌"
   },
   "end_state": {
-    "status": "조각 획득"
+    "rian": "상아탑의 심장부인 중앙 저장소 입구에 도달함",
+    "elara": "지배층이 누리는 기억의 풍요가 하층민의 고통 위에 세워졌음을 확인함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +17,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3800
+  "target_chars": 3500
 }

@@ -2,13 +2,13 @@
   "id": "V4-E03-S03",
   "event_id": "V4-E03",
   "sequence": 3,
-  "objective": "카엘이 기사단의 정석 검술로 공격하지만 모두 읽히고 반격당함",
+  "objective": "보관소 내부에서 '영원한 사서'라는 개념과 그 설계 목적에 대한 문서를 발견한다.",
   "previous_scene_id": "V4-E03-S02",
   "start_state": {
-    "status": "방어막의 벽 체감"
+    "world": "보관소의 문이 열리며 잊힌 고대 문명의 기록들이 드러남"
   },
   "end_state": {
-    "status": "전술적 패배"
+    "world": "사서가 모든 슬픔을 흡수하여 격리해야만 도시가 유지된다는 사실을 발견함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 4600
 }

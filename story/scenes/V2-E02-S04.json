@@ -2,19 +2,23 @@
   "id": "V2-E02-S04",
   "event_id": "V2-E02",
   "sequence": 4,
-  "objective": "제국군에 협력하여 피난민을 밀고하는 배신자와의 갈등 및 이를 제압하는 카엘의 모습을 묘사한다.",
+  "objective": "리안의 회로와 일치하는 '생체 저장소' 설계도를 발견하고 그 기능을 분석한다.",
   "previous_scene_id": "V2-E02-S03",
   "start_state": {
-    "status": "잔혹성 인지"
+    "elara": "과거 문명이 추구했던 영생의 추악한 실패를 목격함"
   },
   "end_state": {
-    "status": "내부 위협 제거"
+    "rian": "자신의 신체가 기억을 보존하기 위한 '그릇'으로 설계되었음을 알게 됨"
   },
   "owns": {
     "changes": [],
-    "setups": [],
+    "setups": [
+      "EL_Librarian_Fate"
+    ],
     "payoffs": []
   },
-  "consumes_setups": [],
-  "target_chars": 4000
+  "consumes_setups": [
+    "EL_Vessel_Circuit"
+  ],
+  "target_chars": 4600
 }

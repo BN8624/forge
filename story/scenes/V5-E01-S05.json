@@ -2,13 +2,15 @@
   "id": "V5-E01-S05",
   "event_id": "V5-E01",
   "sequence": 5,
-  "objective": "발타자르가 지하 감옥에서 방계 혈족들의 피를 착취해온 참혹한 진실을 목격한다.",
+  "objective": "리안이 엘라라와의 마지막 작별 인사를 나누며 흡수 프로세스를 준비한다.",
   "previous_scene_id": "V5-E01-S04",
   "start_state": {
-    "status": "기억의 통합"
+    "rian": "존재의 소멸이라는 대가를 받아들임",
+    "elara": "리안을 말리려 하지만 그의 확고한 의지를 확인함"
   },
   "end_state": {
-    "status": "진실 자각"
+    "rian": "자신의 '공백'을 극한으로 개방함",
+    "elara": "리안의 손을 잡고 마지막 기도를 올림"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4200
+  "target_chars": 4000
 }

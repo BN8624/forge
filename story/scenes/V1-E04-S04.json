@@ -2,17 +2,18 @@
   "id": "V1-E04-S04",
   "event_id": "V1-E04",
   "sequence": 4,
-  "objective": "전대 왕의 사념이 두 사람의 정신에 직접 전달되는 초월적인 감각과 충격을 묘사한다.",
+  "objective": "기억의 조각이 가져온 진실로 인해 리안과 엘라라가 느끼는 심리적 붕괴와 분노를 묘사한다.",
   "previous_scene_id": "V1-E04-S03",
   "start_state": {
-    "status": "광휘 발생"
+    "rian": "도시의 평화가 수만 명의 정체성 말살 위에 세워졌음을 목격함"
   },
   "end_state": {
-    "mood": "충격",
-    "danger": "중간"
+    "rian": "더 이상 이전의 무지한 상태로 돌아갈 수 없음을 깨달음"
   },
   "owns": {
-    "changes": [],
+    "changes": [
+      "EL_Forbidden_Mem"
+    ],
     "setups": [],
     "payoffs": []
   },

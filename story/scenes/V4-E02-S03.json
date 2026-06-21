@@ -2,19 +2,21 @@
   "id": "V4-E02-S03",
   "event_id": "V4-E02",
   "sequence": 3,
-  "objective": "정찰대 일부를 유인하여 처리하는 카엘의 전술적 교전",
+  "objective": "리안이 자신의 능력을 사용하여 공허수들의 공격을 일시적으로 막아내는 장면을 묘사한다.",
   "previous_scene_id": "V4-E02-S02",
   "start_state": {
-    "status": "은신 유지"
+    "rian": "구출 과정에서 타인의 고통스러운 기억들에 노출되어 정신적 과부하를 느낌"
   },
   "end_state": {
-    "status": "소규모 교전 승리"
+    "rian": "신체 회로의 한계까지 기억을 흡수하여 주변을 보호함"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [],
-  "target_chars": 4000
+  "consumes_setups": [
+    "EL_Vessel_Circuit"
+  ],
+  "target_chars": 4400
 }

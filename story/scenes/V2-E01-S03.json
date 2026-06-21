@@ -2,19 +2,21 @@
   "id": "V2-E01-S03",
   "event_id": "V2-E01",
   "sequence": 3,
-  "objective": "리아가 느끼는 정체성에 대한 혼란과 카엘의 보호 본능 사이의 정서적 교감을 묘사한다.",
+  "objective": "엘라라가 리안의 피부에 새겨진 기하학적 회로의 실체를 확인한다.",
   "previous_scene_id": "V2-E01-S02",
   "start_state": {
-    "status": "슬럼가 통과"
+    "rian": "연료 액체에 닿았을 때 피부 아래에서 빛이 일어나는 것을 목격함"
   },
   "end_state": {
-    "status": "정서적 유대 강화"
+    "rian": "자신의 몸이 단순한 인간의 육체가 아님을 직감함"
   },
   "owns": {
     "changes": [],
-    "setups": [],
+    "setups": [
+      "EL_Vessel_Circuit"
+    ],
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3000
+  "target_chars": 4500
 }

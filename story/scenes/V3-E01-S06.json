@@ -1,0 +1,23 @@
+{
+  "id": "V3-E01-S06",
+  "event_id": "V3-E01",
+  "sequence": 6,
+  "objective": "엘라라의 우려에도 불구하고, 리안이 스스로의 의지로 이클립스에 합류하여 상아탑 침투에 동의한다.",
+  "previous_scene_id": "V3-E01-S05",
+  "start_state": {
+    "rian": "자신이 이 전쟁의 핵심 도구가 되어야 함을 깨달음"
+  },
+  "end_state": {
+    "rian": "이클립스의 일원으로서 상아탑 침투 계획에 참여함",
+    "elara": "이클립스의 극단적 목적과 자신의 기록자로서의 사명 사이에서 갈등함"
+  },
+  "owns": {
+    "changes": [
+      "EL_Eclipse_Join"
+    ],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4000
+}

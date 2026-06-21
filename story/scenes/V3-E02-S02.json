@@ -2,13 +2,13 @@
   "id": "V3-E02-S02",
   "event_id": "V3-E02",
   "sequence": 2,
-  "objective": "무기고 내부의 낡은 무기들을 보며 카엘이 과거의 영광과 상실을 회상한다.",
+  "objective": "하층 구역에서 상층 상아탑으로 이어지는 수직 통로의 압도적인 규모와 그곳을 지키는 경비 체계를 묘사한다.",
   "previous_scene_id": "V3-E02-S01",
   "start_state": {
-    "status": "잠입 성공"
+    "rian": "침투를 위한 최소한의 정체성을 확보함"
   },
   "end_state": {
-    "status": "과거 회상"
+    "rian": "상아탑의 첫 번째 관문을 통과함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3200
+  "target_chars": 4000
 }

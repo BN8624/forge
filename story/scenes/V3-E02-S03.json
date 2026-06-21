@@ -2,13 +2,13 @@
   "id": "V3-E02-S03",
   "event_id": "V3-E02",
   "sequence": 3,
-  "objective": "제국군 순찰대와 조우하여 좁은 복도에서의 치열한 근접전을 벌인다.",
+  "objective": "상아탑 내부의 화려함 뒤에 숨겨진 기억 추출 장치들과 그 과정에서 발생하는 비인간적인 소음들을 추적한다.",
   "previous_scene_id": "V3-E02-S02",
   "start_state": {
-    "status": "과거 회상"
+    "rian": "상아탑의 첫 번째 관문을 통과함"
   },
   "end_state": {
-    "status": "교전 발생"
+    "rian": "상아탑의 내부 구조와 기억 유통 경로를 파악함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4200
+  "target_chars": 3500
 }

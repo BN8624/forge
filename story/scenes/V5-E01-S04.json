@@ -2,13 +2,15 @@
   "id": "V5-E01-S04",
   "event_id": "V5-E01",
   "sequence": 4,
-  "objective": "다섯 개의 조각이 공명하며 전대 왕의 모든 기록이 하나로 통합되는 과정을 묘사한다.",
+  "objective": "리안이 제3의 길(자신이 모든 기억을 짊어지는 것)의 대가와 위험성을 분석한다.",
   "previous_scene_id": "V5-E01-S03",
   "start_state": {
-    "status": "조각 활성화"
+    "rian": "자신이 기억을 '저장'하는 것을 넘어 '흡수'할 수 있음을 인지함",
+    "elara": "리안의 갑작스러운 변화에 당혹해함"
   },
   "end_state": {
-    "status": "기억의 통합"
+    "rian": "존재의 소멸이라는 대가를 받아들임",
+    "elara": "리안을 말리려 하지만 그의 확고한 의지를 확인함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3800
+  "target_chars": 4000
 }

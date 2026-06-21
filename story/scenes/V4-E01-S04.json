@@ -2,13 +2,13 @@
   "id": "V4-E01-S04",
   "event_id": "V4-E01",
   "sequence": 4,
-  "objective": "빙벽을 오르며 겪는 신체적 한계와 왼팔의 부재로 인한 고충",
+  "objective": "엔진의 붕괴로 인해 억눌려 있던 트라우마들이 물리적 형태로 분출되는 과정을 묘사한다.",
   "previous_scene_id": "V4-E01-S03",
   "start_state": {
-    "status": "유대감 강화"
+    "world": "상아탑의 일부 구역이 무너져 내리며 하층 구역을 덮침"
   },
   "end_state": {
-    "status": "고지대 도달"
+    "world": "도시의 배수구와 환기구에서 검은 액체 형태의 기억 찌꺼기들이 솟구침"
   },
   "owns": {
     "changes": [],
@@ -16,5 +16,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 3800
 }

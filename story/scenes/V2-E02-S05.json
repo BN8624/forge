@@ -2,19 +2,23 @@
   "id": "V2-E02-S05",
   "event_id": "V2-E02",
   "sequence": 5,
-  "objective": "제사까지 남은 시간이 얼마 없음을 깨닫고, 유적으로 향하는 여정을 서둘러야 한다는 결론에 도달한다.",
+  "objective": "리안이 자신이 인간이 아니라 위원회가 만든 도구였다는 사실을 완전히 깨닫고 무너진다.",
   "previous_scene_id": "V2-E02-S04",
   "start_state": {
-    "status": "내부 위협 제거"
+    "rian": "자신의 신체가 기억을 보존하기 위한 '그릇'으로 설계되었음을 알게 됨"
   },
   "end_state": {
-    "status": "위기감 고조"
+    "rian": "자아의 근간이 흔들리는 극심한 정체성 붕괴를 겪음"
   },
   "owns": {
-    "changes": [],
+    "changes": [
+      "EL_Vessel_Awareness"
+    ],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [],
-  "target_chars": 3000
+  "consumes_setups": [
+    "EL_Librarian_Fate"
+  ],
+  "target_chars": 4800
 }

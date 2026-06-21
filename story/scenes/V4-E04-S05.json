@@ -2,19 +2,21 @@
   "id": "V4-E04-S05",
   "event_id": "V4-E04",
   "sequence": 5,
-  "objective": "방패의 사각지대를 정확히 꿰뚫어 정예병 지휘관을 격파",
+  "objective": "리안과 엘라라의 상호의존적 관계가 극한의 슬픔 속에서 어떻게 발현되는지 묘사한다.",
   "previous_scene_id": "V4-E04-S04",
   "start_state": {
-    "status": "실전 적용 성공"
+    "rian": "심각한 부상을 입었으나 엘라라를 무사히 제단 앞까지 인도함"
   },
   "end_state": {
-    "status": "최종 적 제압"
+    "rian": "엘라라를 잃는 것이 자신의 존재 자체를 잃는 것과 같음을 깨달음"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [],
-  "target_chars": 4000
+  "consumes_setups": [
+    "EL_Symbiosis"
+  ],
+  "target_chars": 4300
 }

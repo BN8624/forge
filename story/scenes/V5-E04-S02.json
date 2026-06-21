@@ -2,13 +2,15 @@
   "id": "V5-E04-S02",
   "event_id": "V5-E04",
   "sequence": 2,
-  "objective": "발타자르가 구사하는 압도적인 거짓 권능과 마력의 파고에 맞서 버틴다.",
+  "objective": "리안이 도서관의 책장들을 정리하며 타인의 소박한 행복의 기억들을 읽는 과정을 그린다.",
   "previous_scene_id": "V5-E04-S01",
   "start_state": {
-    "status": "최종 대면"
+    "rian": "자신이 세상의 모든 잊힌 것들의 보관소가 되었음을 인지함",
+    "elara": "폐허가 된 도시에서 새로운 공동체를 형성하기 시작함"
   },
   "end_state": {
-    "status": "전투 고조"
+    "rian": "타인의 행복을 통해 자신의 고독을 치유함",
+    "elara": "더 이상 기록자가 아니지만, 일상의 소중함을 기록하기 시작함"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3000
+  "target_chars": 4500
 }

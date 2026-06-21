@@ -2,19 +2,21 @@
   "id": "V4-E01-S05",
   "event_id": "V4-E01",
   "sequence": 5,
-  "objective": "고대 성소의 흔적을 발견하고 목적지에 대한 확신을 가짐",
+  "objective": "므네모시네 엔진의 완전한 과부하로 인한 도시 전체의 기능 정지를 입증한다.",
   "previous_scene_id": "V4-E01-S04",
   "start_state": {
-    "status": "고지대 도달"
+    "world": "도시의 배수구와 환기구에서 검은 액체 형태의 기억 찌꺼기들이 솟구침"
   },
   "end_state": {
-    "status": "성소 위치 파악"
+    "world": "상아탑의 동력이 정지하고 도시 전체가 물리적 붕괴의 위기에 처함"
   },
   "owns": {
-    "changes": [],
+    "changes": [
+      "EL_City_Destruction"
+    ],
     "setups": [],
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 4100
 }

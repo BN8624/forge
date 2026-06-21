@@ -2,19 +2,21 @@
   "id": "V2-E01-S04",
   "event_id": "V2-E01",
   "sequence": 4,
-  "objective": "성문 외곽의 검문소에서 위조 통행증과 호흡법을 이용해 위기를 모면하는 과정을 긴박하게 묘사한다.",
+  "objective": "은색 잉크를 이용해 회로의 패턴을 분석하며 그것이 '저장 장치'의 설계도임을 추론한다.",
   "previous_scene_id": "V2-E01-S03",
   "start_state": {
-    "status": "정서적 유대 강화"
+    "rian": "자신의 몸이 단순한 인간의 육체가 아님을 직감함"
   },
   "end_state": {
-    "status": "성문 통과"
+    "elara": "리안의 신체가 위원회에 의해 인위적으로 개조되었을 가능성을 확신함"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [],
-  "target_chars": 4500
+  "consumes_setups": [
+    "EL_Vessel_Circuit"
+  ],
+  "target_chars": 3800
 }
