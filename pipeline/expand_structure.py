@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import shutil
 import sys
@@ -51,6 +52,14 @@ class StructureExpansionError(Exception):
     def __init__(self, errors: list[str] | str):
         self.errors = [errors] if isinstance(errors, str) else errors
         super().__init__("\n".join(self.errors))
+
+
+def expansion_contract_sha256(root: Path, instruction: str) -> str:
+    digest = hashlib.sha256()
+    digest.update(story_sha256(root).encode("ascii"))
+    digest.update(b"\0")
+    digest.update(instruction.strip().encode("utf-8"))
+    return digest.hexdigest()
 
 
 def read_json(path: Path) -> dict[str, Any]:
@@ -494,7 +503,7 @@ def expand_structure(
     work_dir = (
         output.parent
         / "expansion-work"
-        / story_sha256(root)
+        / expansion_contract_sha256(root, instruction)
     )
     work_dir.mkdir(parents=True, exist_ok=True)
     expanded_bundle = {

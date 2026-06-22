@@ -6,10 +6,10 @@ from pathlib import Path
 
 from pipeline.expand_structure import (
     StructureExpansionError,
+    expansion_contract_sha256,
     expand_structure,
     normalize_consumed_setups,
 )
-from pipeline.validate_canon import story_sha256
 from pipeline.validate_scale import validate_story_scale
 from pipeline.validate_structure import validate_project
 from tests.test_generate_candidate import FakeLLM
@@ -160,7 +160,7 @@ class ExpandStructureTests(unittest.TestCase):
             work = (
                 workspace
                 / "expansion-work"
-                / story_sha256(root)
+                / expansion_contract_sha256(root, "")
                 / "failures"
             )
             work.mkdir(parents=True)
@@ -177,6 +177,19 @@ class ExpandStructureTests(unittest.TestCase):
 
             self.assertEqual([], llm.calls)
             self.assertEqual([], validate_story_scale(output))
+
+    def test_instruction_changes_expansion_cache_contract(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            build_project(root)
+
+            first = expansion_contract_sha256(root, "기본 지시")
+            revised = expansion_contract_sha256(
+                root,
+                "기본 지시\nC19 순서를 수정한다.",
+            )
+
+            self.assertNotEqual(first, revised)
 
     def test_retry_exhaustion_preserves_existing_output(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
