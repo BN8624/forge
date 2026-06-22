@@ -190,6 +190,12 @@ def prepare_new_world(
         selected = read_json_if_exists(concept_path / "selected-synopsis.json")
         if selected is None:
             raise SeriesCompletionError("선택 시놉시스 결과를 읽을 수 없음")
+        write_status(
+            root,
+            "world_generation",
+            selected_synopsis_id=selected.get("id"),
+            selected_title=selected.get("title"),
+        )
     if selected is None:
         generate_world(world_instruction, current_source, llm)
     else:

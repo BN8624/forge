@@ -8,6 +8,7 @@ import secrets
 import subprocess
 import sys
 import threading
+import ctypes
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
@@ -30,6 +31,28 @@ def write_json(path: Path, value: dict[str, Any]) -> None:
 
 
 def process_alive(pid: int) -> bool:
+    if pid <= 0:
+        return False
+    if os.name == "nt":
+        process_query_limited_information = 0x1000
+        still_active = 259
+        handle = ctypes.windll.kernel32.OpenProcess(
+            process_query_limited_information,
+            False,
+            pid,
+        )
+        if not handle:
+            return False
+        try:
+            exit_code = ctypes.c_ulong()
+            if not ctypes.windll.kernel32.GetExitCodeProcess(
+                handle,
+                ctypes.byref(exit_code),
+            ):
+                return False
+            return exit_code.value == still_active
+        finally:
+            ctypes.windll.kernel32.CloseHandle(handle)
     try:
         os.kill(pid, 0)
     except OSError:
@@ -48,12 +71,25 @@ class DashboardController:
         popen_factory: Callable[..., subprocess.Popen] = subprocess.Popen,
     ) -> None:
         self.root = root.resolve()
-        self.token = secrets.token_urlsafe(24)
         self.popen_factory = popen_factory
         self.process: subprocess.Popen | None = None
         self.lock = threading.Lock()
         self.state_path = self.root / "runs" / "dashboard" / "job.json"
         self.log_path = self.root / "runs" / "dashboard" / "job.log"
+        self.token_path = self.root / "runs" / "dashboard" / "token.txt"
+        self.token = self._load_token()
+
+    def _load_token(self) -> str:
+        try:
+            token = self.token_path.read_text(encoding="utf-8").strip()
+        except OSError:
+            token = ""
+        if token:
+            return token
+        token = secrets.token_urlsafe(24)
+        self.token_path.parent.mkdir(parents=True, exist_ok=True)
+        self.token_path.write_text(token + "\n", encoding="utf-8")
+        return token
 
     def _current_job(self) -> dict[str, Any] | None:
         job = read_json_if_exists(self.state_path)
@@ -65,7 +101,7 @@ class DashboardController:
         if self.process is not None and self.process.pid == job.get("pid"):
             return_code = self.process.poll()
         elif not process_alive(int(job.get("pid", 0))):
-            return_code = int(job.get("return_code", 1))
+            return_code = 0 if self._external_job_succeeded(job) else 1
         if return_code is None:
             return job
         job.update(
@@ -78,6 +114,33 @@ class DashboardController:
         write_json(self.state_path, job)
         self.process = None
         return job
+
+    def _external_job_succeeded(self, job: dict[str, Any]) -> bool:
+        started_at = str(job.get("started_at", ""))
+        if job.get("kind") == "concepts":
+            review_path = (
+                self.root
+                / "runs"
+                / "new-world"
+                / "concept"
+                / "synopsis-review.json"
+            )
+            if not review_path.exists():
+                return False
+            modified_at = datetime.fromtimestamp(
+                review_path.stat().st_mtime,
+                timezone.utc,
+            ).isoformat()
+            return modified_at >= started_at
+        if job.get("kind") == "series":
+            active = read_json_if_exists(
+                self.root / "runs" / "new-world" / "active.json"
+            ) or {}
+            return bool(
+                active.get("status") == "complete"
+                and str(active.get("completed_at", "")) >= started_at
+            )
+        return False
 
     def _start(self, kind: str, command: list[str]) -> dict[str, Any]:
         with self.lock:
@@ -254,8 +317,8 @@ details{{border-top:1px solid var(--line);padding-top:12px}} summary{{font-weigh
 const token=document.body.dataset.token; let state=null;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}}[c]));
 async function api(path,body){{const r=await fetch(path,{{method:body?'POST':'GET',headers:body?{{'Content-Type':'application/json','X-Forge-Token':token}}:{{}},body:body?JSON.stringify(body):undefined}});const data=await r.json();if(!r.ok)throw new Error(data.error||'요청 실패');return data}}
-function jobView(s){{const j=s.job||{{status:'idle'}};const stage=s.completion?.stage;const label=j.status==='running'?(j.kind==='concepts'?'후보를 만드는 중':'5권을 완주하는 중'):j.status==='failed'?'작업 실패':j.status==='complete'?'최근 작업 완료':'대기 중';document.querySelector('#job').innerHTML=`<div class="status"><i class="dot ${{esc(j.status)}}"></i><strong>${{esc(label)}}</strong></div><div class="muted">파이프라인 단계 ${{esc(stage||'없음')}} · 현재 작품 ${{esc(s.current_series?.title||'없음')}}</div>`;document.querySelector('#error').textContent=s.log_tail||''}}
-function cardsView(s){{const list=s.concept?.candidates||[];const review=s.concept?.review||{{}};const recommended=review.selected_id;const scores=Object.fromEntries((review.evaluations||[]).map(x=>[x.id,x]));const holder=document.querySelector('#cards');if(!list.length){{holder.innerHTML='<div class="panel empty">아직 생성된 후보가 없습니다.</div>';return}}holder.innerHTML=list.map(c=>{{const e=scores[c.id]||{{}};return `<article class="card" data-id="${{esc(c.id)}}"><div class="topline"><div><div class="genre">${{esc(c.genre)}} · ${{esc(c.id)}}</div><h3>${{esc(c.title)}}</h3></div>${{c.id===recommended?'<span class="badge">FORGE 추천</span>':''}}</div><p>${{esc(c.logline)}}</p><div class="facts"><div><b>플레이어 역할</b>${{esc(c.player_role)}}</div><div><b>핵심 루프</b>${{esc(c.core_loop)}}</div><div><b>성장</b>${{esc(c.progression)}}</div><div><b>선택 구조</b>${{esc(c.choice_structure)}}</div></div><details><summary>5권 전개와 critic 평가</summary><ol>${{(c.five_volume_arc||[]).map(x=>`<li>${{esc(x)}}</li>`).join('')}}</ol><p><b>강점.</b> ${{esc((e.strengths||[]).join(' · '))}}</p><p><b>위험.</b> ${{esc((e.risks||[]).join(' · '))}}</p></details><label class="choice"><input type="radio" name="concept" value="${{esc(c.id)}}" ${{c.id===recommended?'checked':''}}>이 기획 선택</label></article>`}}).join('');markSelection()}}
+function jobView(s){{const j=s.job||{{status:'idle'}};const stage=s.completion?.stage;const stageLabels={{synopsis_selection:'선택한 기획으로 세계관을 생성하는 중',world_generation:'선택한 기획으로 세계관을 생성하는 중',structure_candidate:'5권 구조를 설계하는 중',structure_expansion:'장편 규모로 구조를 확장하는 중',prose:'장면 산문을 생성하고 검증하는 중',final_validation:'전권을 최종 검증하는 중',complete:'완료'}};const label=j.status==='running'?(j.kind==='concepts'?'후보를 만드는 중':(stageLabels[stage]||'5권을 완주하는 중')):j.status==='failed'?'작업 실패':j.status==='complete'?'최근 작업 완료':'대기 중';document.querySelector('#job').innerHTML=`<div class="status"><i class="dot ${{esc(j.status)}}"></i><strong>${{esc(label)}}</strong></div><div class="muted">파이프라인 단계 ${{esc(stage||'없음')}} · 현재 작품 ${{esc(s.current_series?.title||'없음')}}</div>`;document.querySelector('#error').textContent=s.log_tail||''}}
+function cardsView(s){{const holder=document.querySelector('#cards');if(s.job?.status==='running'&&s.job?.kind==='concepts'){{holder.innerHTML='<div class="panel empty">새 후보를 생성하고 평가하는 중입니다. 완료되면 선택 카드가 표시됩니다.</div>';return}}const list=s.concept?.candidates||[];const review=s.concept?.review||{{}};const recommended=review.selected_id;const scores=Object.fromEntries((review.evaluations||[]).map(x=>[x.id,x]));if(!list.length){{holder.innerHTML='<div class="panel empty">아직 생성된 후보가 없습니다.</div>';return}}holder.innerHTML=list.map(c=>{{const e=scores[c.id]||{{}};return `<article class="card" data-id="${{esc(c.id)}}"><div class="topline"><div><div class="genre">${{esc(c.genre)}} · ${{esc(c.id)}}</div><h3>${{esc(c.title)}}</h3></div>${{c.id===recommended?'<span class="badge">FORGE 추천</span>':''}}</div><p>${{esc(c.logline)}}</p><div class="facts"><div><b>플레이어 역할</b>${{esc(c.player_role)}}</div><div><b>핵심 루프</b>${{esc(c.core_loop)}}</div><div><b>성장</b>${{esc(c.progression)}}</div><div><b>선택 구조</b>${{esc(c.choice_structure)}}</div></div><details><summary>5권 전개와 critic 평가</summary><ol>${{(c.five_volume_arc||[]).map(x=>`<li>${{esc(x)}}</li>`).join('')}}</ol><p><b>강점.</b> ${{esc((e.strengths||[]).join(' · '))}}</p><p><b>위험.</b> ${{esc((e.risks||[]).join(' · '))}}</p></details><label class="choice"><input type="radio" name="concept" value="${{esc(c.id)}}" ${{c.id===recommended?'checked':''}}>이 기획 선택</label></article>`}}).join('');markSelection()}}
 function markSelection(){{const chosen=document.querySelector('input[name=concept]:checked');const busy=state?.job?.status==='running';const hasActive=state?.active_world?.status==='active';document.querySelectorAll('.card').forEach(x=>x.classList.toggle('selected',chosen&&x.dataset.id===chosen.value));document.querySelector('#start').disabled=!chosen||busy||hasActive;document.querySelector('#resume').disabled=busy||!hasActive}}
 function render(s){{state=s;jobView(s);cardsView(s);const busy=s.job?.status==='running';document.querySelector('#generate').disabled=busy||s.active_world?.status==='active';markSelection()}}
 async function refresh(){{try{{render(await api('/api/dashboard'))}}catch(e){{document.querySelector('#error').textContent=e.message}}}}

@@ -3,6 +3,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from pipeline.dashboard import DashboardController, DashboardError, render_dashboard
 from tests.test_generate_synopses import candidates_response, review_response
@@ -47,6 +48,72 @@ class DashboardTests(unittest.TestCase):
             self.assertIn("pipeline/generate_synopses.py", command)
             self.assertIn("--instruction-file", command)
             self.assertEqual("running", controller.status()["job"]["status"])
+
+    def test_finished_external_process_unlocks_dashboard(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            controller = DashboardController(root, FakePopen())
+            controller.state_path.parent.mkdir(parents=True, exist_ok=True)
+            controller.state_path.write_text(
+                json.dumps(
+                    {
+                        "kind": "concepts",
+                        "status": "running",
+                        "pid": 99999,
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+
+            with patch("pipeline.dashboard.process_alive", return_value=False):
+                job = controller.status()["job"]
+
+            self.assertEqual("failed", job["status"])
+
+    def test_completed_detached_series_is_reported_as_complete(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            controller = DashboardController(root, FakePopen())
+            controller.state_path.parent.mkdir(parents=True, exist_ok=True)
+            controller.state_path.write_text(
+                json.dumps(
+                    {
+                        "kind": "series",
+                        "status": "running",
+                        "pid": 99999,
+                        "started_at": "2026-06-22T01:00:00+00:00",
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            active_path = root / "runs" / "new-world" / "active.json"
+            active_path.parent.mkdir(parents=True, exist_ok=True)
+            active_path.write_text(
+                json.dumps(
+                    {
+                        "status": "complete",
+                        "completed_at": "2026-06-22T02:00:00+00:00",
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+
+            with patch("pipeline.dashboard.process_alive", return_value=False):
+                job = controller.status()["job"]
+
+            self.assertEqual("complete", job["status"])
+
+    def test_dashboard_token_survives_controller_restart(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+
+            first = DashboardController(root, FakePopen())
+            second = DashboardController(root, FakePopen())
+
+            self.assertEqual(first.token, second.token)
 
     def test_selected_candidate_starts_reused_concept_pipeline(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
