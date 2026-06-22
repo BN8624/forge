@@ -131,6 +131,40 @@ def validate_prose_style(
     return errors
 
 
+def merge_feedback(
+    existing: list[str] | None,
+    added: list[str],
+) -> list[str]:
+    merged = list(existing or [])
+    for item in added:
+        if item and item not in merged:
+            merged.append(item)
+    return merged
+
+
+def read_failure_feedback(work_dir: Path) -> list[str]:
+    path = work_dir / "last-failure.json"
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return []
+    if not isinstance(value, list):
+        return []
+    return [item for item in value if isinstance(item, str) and item]
+
+
+def write_failure_feedback(work_dir: Path, errors: list[str]) -> None:
+    work_dir.mkdir(parents=True, exist_ok=True)
+    (work_dir / "last-failure.json").write_text(
+        json.dumps(errors, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
+def next_artifact_index(work_dir: Path, pattern: str) -> int:
+    return len(list(work_dir.glob(pattern))) + 1
+
+
 def approved_prose(root: Path, scene_id: str) -> str:
     directory = prose_scene_dir(root, scene_id)
     prose_path = directory / "prose.md"
@@ -658,26 +692,26 @@ def generate_prose_scene(
         / scene_id
         / contract_sha256(scene)
     )
+    feedback = read_failure_feedback(work_dir)
     if work_dir.exists():
         recovery_paths = sorted(
             work_dir.glob("generator-attempt-*.txt"),
+            key=lambda path: path.stat().st_mtime_ns,
             reverse=True,
         )
-        recovered_candidates: list[str] = []
         for recovery_path in recovery_paths:
             try:
                 recovered_response = recovery_path.read_text(encoding="utf-8")
-                recovered_prose = parse_prose_response(
+                previous_candidate = parse_prose_response(
                     recovered_response,
                     scene_id,
                     scene["target_chars"],
                     enforce_length=False,
                 )
-                recovered_candidates.append(recovered_prose)
+                break
             except (OSError, ProseGenerationError):
                 continue
-        if recovered_candidates:
-            previous_candidate = max(recovered_candidates, key=len)
+        if previous_candidate:
             try:
                 parse_prose_response(
                     json.dumps(
@@ -711,23 +745,28 @@ def generate_prose_scene(
                     *recovered_review["issues"],
                     recovered_review["reason"],
                 ]
-                feedback = last_errors
+                feedback = merge_feedback(feedback, last_errors)
+                write_failure_feedback(work_dir, feedback)
                 previous_candidate = ""
             except ProseGenerationError as exc:
                 last_errors = exc.errors
-                feedback = last_errors
+                feedback = merge_feedback(feedback, last_errors)
+                write_failure_feedback(work_dir, feedback)
 
     for attempt in range(1, MAX_PROSE_ATTEMPTS + 1):
         minimum = int(scene["target_chars"] * MIN_LENGTH_RATIO)
         if previous_candidate and len(previous_candidate) < minimum:
-            feedback = [
-                *(feedback or []),
+            feedback = merge_feedback(
+                feedback,
+                [
                 (
                     f"산문 길이 부족: {len(previous_candidate)}자. "
                     f"최소 {minimum}자를 충족하도록 전체 장면을 다시 구성하라. "
                     "기존 끝에 묘사나 독백을 덧붙이지 않는다."
                 ),
-            ]
+                ],
+            )
+            write_failure_feedback(work_dir, feedback)
             previous_candidate = ""
         response = llm.generate(
             "generator",
@@ -757,11 +796,16 @@ def generate_prose_scene(
             except ProseGenerationError:
                 previous_candidate = ""
             work_dir.mkdir(parents=True, exist_ok=True)
-            (work_dir / f"generator-attempt-{attempt}.txt").write_text(
+            artifact_index = next_artifact_index(
+                work_dir,
+                "generator-attempt-*.txt",
+            )
+            (work_dir / f"generator-attempt-{artifact_index}.txt").write_text(
                 response,
                 encoding="utf-8",
             )
-            feedback = last_errors
+            feedback = merge_feedback(feedback, last_errors)
+            write_failure_feedback(work_dir, feedback)
             if attempt == MAX_PROSE_ATTEMPTS:
                 break
             continue
@@ -769,12 +813,17 @@ def generate_prose_scene(
         style_errors = validate_prose_style(context, prose)
         if style_errors:
             work_dir.mkdir(parents=True, exist_ok=True)
-            (work_dir / f"style-rejected-prose-{attempt}.md").write_text(
+            artifact_index = next_artifact_index(
+                work_dir,
+                "style-rejected-prose-*.md",
+            )
+            (work_dir / f"style-rejected-prose-{artifact_index}.md").write_text(
                 prose,
                 encoding="utf-8",
             )
             last_errors = style_errors
-            feedback = style_errors
+            feedback = merge_feedback(feedback, style_errors)
+            write_failure_feedback(work_dir, feedback)
             previous_candidate = ""
             if attempt == MAX_PROSE_ATTEMPTS:
                 break
@@ -790,11 +839,15 @@ def generate_prose_scene(
         if review["status"] == "pass":
             return promote_prose(root, scene_id, prose, review)
         work_dir.mkdir(parents=True, exist_ok=True)
-        (work_dir / f"critic-rejected-prose-{attempt}.md").write_text(
+        artifact_index = next_artifact_index(
+            work_dir,
+            "critic-rejected-prose-*.md",
+        )
+        (work_dir / f"critic-rejected-prose-{artifact_index}.md").write_text(
             prose,
             encoding="utf-8",
         )
-        (work_dir / f"critic-rejected-review-{attempt}.json").write_text(
+        (work_dir / f"critic-rejected-review-{artifact_index}.json").write_text(
             json.dumps(review, ensure_ascii=False, indent=2) + "\n",
             encoding="utf-8",
         )
@@ -802,7 +855,8 @@ def generate_prose_scene(
             *review["issues"],
             review["reason"],
         ]
-        feedback = last_errors
+        feedback = merge_feedback(feedback, last_errors)
+        write_failure_feedback(work_dir, feedback)
         previous_candidate = ""
 
     raise ProseGenerationError(

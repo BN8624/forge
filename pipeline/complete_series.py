@@ -583,7 +583,7 @@ def main() -> int:
         type=int,
         help=(
             "한 장면의 전체 생성 실행 재시도 횟수. 0이면 성공할 때까지 재시도한다. "
-            "기본값은 일반 모드 5회, 신규 세계관 모드 무제한이다."
+            "기본값은 모든 모드 5회다."
         ),
     )
     args = parser.parse_args()
@@ -618,7 +618,7 @@ def main() -> int:
         scene_retries = (
             args.scene_retries
             if args.scene_retries is not None
-            else (0 if new_world_mode else 5)
+            else 5
         )
         result = complete_series(
             args.root,

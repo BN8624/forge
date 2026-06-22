@@ -120,6 +120,44 @@ class GenerateProseTests(unittest.TestCase):
             self.assertIn("장면 목표가 충분히", llm.calls[2][1])
             self.assertIn("직전 산문 후보:\n없음", llm.calls[2][1])
 
+    def test_failure_feedback_survives_next_scene_execution(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            build_project(root)
+            approve_story(root)
+            first_llm = FakeLLM(
+                [
+                    prose_response("V1-E01-S01"),
+                    review_response("V1-E01-S01", "fail"),
+                    prose_response("V1-E01-S01", 50),
+                    prose_response("V1-E01-S01", 50),
+                ]
+            )
+
+            with self.assertRaisesRegex(ProseGenerationError, "3회"):
+                generate_prose_scene(
+                    root,
+                    "V1-E01-S01",
+                    first_llm,
+                    check_scale=False,
+                )
+
+            second_llm = FakeLLM(
+                [
+                    prose_response("V1-E01-S01"),
+                    review_response("V1-E01-S01"),
+                ]
+            )
+            generate_prose_scene(
+                root,
+                "V1-E01-S01",
+                second_llm,
+                check_scale=False,
+            )
+
+            self.assertIn("장면 목표가 충분히", second_llm.calls[0][1])
+            self.assertIn("산문 길이 범위 위반", second_llm.calls[0][1])
+
     def test_second_scene_requires_previous_approved_prose(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

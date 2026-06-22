@@ -438,3 +438,9 @@
 - 새 계약으로 재생성한 표본은 V1-E01-S01 3,011자와 대화 0%, V1-E01-S02 3,348자와 대화 31.8%, V1-E01-S03 3,307자와 대화 18.5%다. 첫 장면은 단독 각성 장면이라 대화 예외를 적용했고 세 번 이상의 구체적 시도와 실패 또는 예상 밖 결과를 요구했다.
 - 표본 3개 모두 새 critic 검증을 통과했다. 전체 자동 완주는 3개 승인 상태에서 V1-E01-S04부터 재개했다.
 - `python -m unittest discover -s tests -v` 전체 94개, `python -m compileall -q -f lib pipeline tests`, `python -m pip check`, `python pipeline\validate_structure.py`, `python pipeline\validate_scale.py`가 통과했다.
+
+## 2026-06-22 과도한 산문 재시도 진단
+
+- 새 품질 계약 적용 뒤 V1-E02-S03이 18회째 재시도에 진입했다.
+- 이는 정상적인 품질 강화 범위를 벗어나며 장면 구조, 생성 지시, 선검사 또는 critic 피드백 루프 사이의 충돌로 취급한다.
+- 같은 실패를 무제한 반복시키지 않고 현재 실행을 중단한 뒤 실제 실패 원인을 읽어 하네스와 원인 계약을 수정한다.
