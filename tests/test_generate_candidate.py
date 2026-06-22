@@ -10,6 +10,7 @@ from pipeline.generate_candidate import (
     CandidateGenerationError,
     generate_candidate,
     load_source_material,
+    normalize_owned_element_references,
     validate_source_identity,
 )
 from pipeline.validate_structure import validate_project
@@ -64,6 +65,29 @@ class GenerateCandidateTests(unittest.TestCase):
     def tearDown(self) -> None:
         self.source_patcher.stop()
         self.source_directory.cleanup()
+
+    def test_owned_elements_are_limited_to_declared_series_elements(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            build_project(root)
+            bundle = project_bundle(root)
+            scene = bundle["scenes"][0]
+            scene["owns"] = {
+                "changes": ["C1_VOID_VESSEL"],
+                "setups": ["CHG-1"],
+                "payoffs": ["UNKNOWN"],
+            }
+
+            normalize_owned_element_references(bundle)
+
+            self.assertEqual(
+                {
+                    "changes": ["CHG-1"],
+                    "setups": [],
+                    "payoffs": [],
+                },
+                scene["owns"],
+            )
 
     def test_current_generated_world_precedes_legacy_reference(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

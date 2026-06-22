@@ -104,6 +104,9 @@ def build_prompt(instruction: str = "") -> str:
 series는 객체이며 나머지는 객체 배열이다.
 모든 권, 사건, 장면 문서를 빠짐없이 포함하고 ID와 참조를 일치시킨다.
 각 이야기 요소는 정확히 한 장면의 owns가 소유해야 한다.
+owns.changes, owns.setups, owns.payoffs에는 series.elements에 선언된 ID만
+종류에 맞게 넣는다. C1-C21 같은 canon ID나 임의로 만든 ID는 owns에 넣지
+않고 objective, start_state, end_state에서 직접 입증한다.
 복선 setup은 이를 회수하는 payoff보다 앞선 장면에 배치한다.
 모든 start_state와 end_state를 계층과 장면 순서에 맞게 연결한다.
 canon_bible.json의 정본 항목 {json.dumps(canon_ids, ensure_ascii=False)}을
@@ -344,6 +347,37 @@ def normalize_setup_order(bundle: dict[str, Any]) -> None:
         scenes[first_requirement - 1]["owns"]["setups"].append(setup_id)
 
 
+def normalize_owned_element_references(bundle: dict[str, Any]) -> None:
+    elements = {
+        element["id"]: element["kind"]
+        for element in bundle["series"].get("elements", [])
+        if isinstance(element, dict)
+        and isinstance(element.get("id"), str)
+        and element.get("kind") in {"change", "setup", "payoff"}
+    }
+    key_by_kind = {
+        "change": "changes",
+        "setup": "setups",
+        "payoff": "payoffs",
+    }
+    for scene in bundle["scenes"]:
+        owns = scene.get("owns")
+        if not isinstance(owns, dict):
+            continue
+        normalized = {"changes": [], "setups": [], "payoffs": []}
+        for values in owns.values():
+            if not isinstance(values, list):
+                continue
+            for element_id in values:
+                kind = elements.get(element_id)
+                if kind is None:
+                    continue
+                target = normalized[key_by_kind[kind]]
+                if element_id not in target:
+                    target.append(element_id)
+        scene["owns"] = normalized
+
+
 def publish_candidate(staged_candidate: Path, output: Path) -> None:
     backup = staged_candidate.parent / "candidate.previous"
     had_output = output.exists()
@@ -389,6 +423,7 @@ def generate_candidate(
                 bundle = require_bundle(bundle)
                 normalize_state_continuity(bundle)
                 normalize_previous_scene_ids(bundle)
+                normalize_owned_element_references(bundle)
                 normalize_setup_order(bundle)
                 materialize_bundle(bundle, staged_candidate)
                 last_errors = validate_project(
