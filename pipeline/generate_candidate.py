@@ -369,6 +369,8 @@ def normalize_owned_element_references(bundle: dict[str, Any]) -> None:
             if not isinstance(values, list):
                 continue
             for element_id in values:
+                if not isinstance(element_id, str):
+                    continue
                 kind = elements.get(element_id)
                 if kind is None:
                     continue

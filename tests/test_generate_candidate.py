@@ -73,7 +73,7 @@ class GenerateCandidateTests(unittest.TestCase):
             bundle = project_bundle(root)
             scene = bundle["scenes"][0]
             scene["owns"] = {
-                "changes": ["C1_VOID_VESSEL"],
+                "changes": ["C1_VOID_VESSEL", {"id": "CHG-1"}],
                 "setups": ["CHG-1"],
                 "payoffs": ["UNKNOWN"],
             }
