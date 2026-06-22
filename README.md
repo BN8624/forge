@@ -93,6 +93,18 @@ Forge generator가 장르, 플레이어 역할, 핵심 플레이 반복, 성장,
 `reference/current/synopsis-review.json`,
 `reference/current/selected-synopsis.json`에 보존된다.
 
+iPhone에서 후보를 읽고 직접 시작하려면 Tailscale 전권 서재의 대시보드를
+연다.
+
+```text
+http://node.tail3e9e21.ts.net:8765/dashboard
+```
+
+대시보드에서 선택 지시를 입력하거나 비워 둔 채 후보 5개를 생성할 수 있다.
+critic 추천, 후보별 핵심 플레이 반복, 성장, 선택 구조, 5권 전개, 강점과
+위험을 확인한 뒤 원하는 후보를 선택해 자동 완주를 시작한다. 작업은 서버의
+백그라운드에서 진행되며 화면이 잠겨도 계속된다.
+
 장르나 핵심 소재만 지정하려면 UTF-8 텍스트 파일을 전달한다.
 
 ```powershell

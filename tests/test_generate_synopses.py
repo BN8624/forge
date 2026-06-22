@@ -6,6 +6,7 @@ from pathlib import Path
 
 from pipeline.generate_synopses import (
     SynopsisGenerationError,
+    choose_game_concept,
     generate_game_concept,
     validate_candidates,
     validate_review,
@@ -143,6 +144,31 @@ class GenerateSynopsesTests(unittest.TestCase):
         errors = validate_review(value)
 
         self.assertTrue(any("critic ranking" in error for error in errors), errors)
+
+    def test_user_can_override_critic_selection(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory)
+            (output / "synopsis-candidates.json").write_text(
+                json.dumps(candidates_response(), ensure_ascii=False),
+                encoding="utf-8",
+            )
+            (output / "synopsis-review.json").write_text(
+                json.dumps(review_response(), ensure_ascii=False),
+                encoding="utf-8",
+            )
+
+            instruction = choose_game_concept(output, "S5", "user")
+
+            selected = json.loads(
+                (output / "selected-synopsis.json").read_text(encoding="utf-8")
+            )
+            selection = json.loads(
+                (output / "concept-selection.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual("S5", selected["id"])
+            self.assertEqual("user", selection["selected_by"])
+            self.assertEqual("S3", selection["critic_recommendation"])
+            self.assertIn("S5 후보를 선택", instruction)
 
 
 if __name__ == "__main__":

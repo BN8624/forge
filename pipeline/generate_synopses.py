@@ -320,6 +320,66 @@ critic 보완 지시:
 """
 
 
+def choose_game_concept(
+    output: Path,
+    selected_id: str | None = None,
+    selected_by: str = "critic",
+) -> str:
+    try:
+        candidates = json.loads(
+            (output / "synopsis-candidates.json").read_text(encoding="utf-8")
+        )
+        review = json.loads(
+            (output / "synopsis-review.json").read_text(encoding="utf-8")
+        )
+    except (OSError, json.JSONDecodeError) as exc:
+        raise SynopsisGenerationError(f"저장된 시놉시스 결과 읽기 실패: {exc}") from exc
+    errors = validate_candidates(candidates)
+    errors.extend(validate_review(review))
+    if errors:
+        raise SynopsisGenerationError(errors)
+    choice = selected_id or review["selected_id"]
+    if choice not in candidate_ids():
+        raise SynopsisGenerationError(f"알 수 없는 시놉시스 ID: {choice}")
+    selected = next(
+        candidate
+        for candidate in candidates["candidates"]
+        if candidate["id"] == choice
+    )
+    (output / "selected-synopsis.json").write_text(
+        json.dumps(selected, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (output / "concept-selection.json").write_text(
+        json.dumps(
+            {
+                "selected_id": choice,
+                "selected_by": selected_by,
+                "critic_recommendation": review["selected_id"],
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    return selected_instruction(
+        candidates,
+        {
+            **review,
+            "selected_id": choice,
+            "selection_reason": (
+                review["selection_reason"]
+                if choice == review["selected_id"]
+                else (
+                    f"사용자가 critic 추천 {review['selected_id']} 대신 "
+                    f"{choice} 후보를 선택했다. critic 평가의 위험과 보완 지시는 유지한다."
+                )
+            ),
+        },
+    )
+
+
 def publish_result(staged: Path, output: Path) -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
     backup = output.parent / f".{output.name}.previous"
@@ -378,7 +438,7 @@ def generate_game_concept(
         publish_result(staged, output)
     finally:
         shutil.rmtree(staging_root, ignore_errors=True)
-    return selected_instruction(candidates, review)
+    return choose_game_concept(output)
 
 
 def create_llm_client() -> LLM:

@@ -21,7 +21,7 @@ from pipeline.expand_structure import expand_structure
 from pipeline.export_epub import export_epub
 from pipeline.generate_candidate import generate_candidate
 from pipeline.generate_candidate import load_source_material
-from pipeline.generate_synopses import generate_game_concept
+from pipeline.generate_synopses import choose_game_concept, generate_game_concept
 from pipeline.generate_world import generate_world
 from pipeline.generate_prose import (
     ProseGenerationError,
@@ -164,6 +164,8 @@ def prepare_new_world(
     llm: LLM,
     instruction: str,
     game_scenario: bool = False,
+    reuse_concept: bool = False,
+    selected_synopsis: str | None = None,
 ) -> tuple[Path, bool]:
     active_path = root / "runs" / "new-world" / "active.json"
     active = read_json_if_exists(active_path)
@@ -177,7 +179,14 @@ def prepare_new_world(
     selected: dict[str, Any] | None = None
     if game_scenario:
         write_status(root, "synopsis_selection")
-        world_instruction = generate_game_concept(instruction, concept_path, llm)
+        if reuse_concept:
+            world_instruction = choose_game_concept(
+                concept_path,
+                selected_synopsis,
+                "user" if selected_synopsis else "critic",
+            )
+        else:
+            world_instruction = generate_game_concept(instruction, concept_path, llm)
         selected = read_json_if_exists(concept_path / "selected-synopsis.json")
         if selected is None:
             raise SeriesCompletionError("선택 시놉시스 결과를 읽을 수 없음")
@@ -190,6 +199,7 @@ def prepare_new_world(
             "synopsis-candidates.json",
             "synopsis-review.json",
             "selected-synopsis.json",
+            "concept-selection.json",
         ):
             shutil.copy2(concept_path / name, current_source / name)
     source, _ = load_source_material()
@@ -548,6 +558,16 @@ def main() -> int:
         help="시놉시스 5개를 생성·평가·선택한 뒤 게임 원작 소설 5권을 완주한다.",
     )
     parser.add_argument(
+        "--reuse-concept",
+        action="store_true",
+        help="저장된 게임 시놉시스 후보와 평가를 재사용한다.",
+    )
+    parser.add_argument(
+        "--selected-synopsis",
+        choices=[f"S{index}" for index in range(1, 6)],
+        help="저장된 후보 중 사용할 ID다. --game-scenario --reuse-concept와 함께 쓴다.",
+    )
+    parser.add_argument(
         "--regenerate-structure",
         action="store_true",
         help="현재 유효한 정본 구조도 새로 생성한다. 기존 산문은 작업 백업한다.",
@@ -564,6 +584,12 @@ def main() -> int:
     if args.scene_retries is not None and args.scene_retries < 0:
         print("[FAIL] --scene-retries는 0 이상이어야 함")
         return 1
+    if args.reuse_concept and not args.game_scenario:
+        print("[FAIL] --reuse-concept는 --game-scenario와 함께 사용해야 함")
+        return 1
+    if args.selected_synopsis and not args.reuse_concept:
+        print("[FAIL] --selected-synopsis는 --reuse-concept와 함께 사용해야 함")
+        return 1
     try:
         instruction = (
             args.instruction_file.read_text(encoding="utf-8")
@@ -579,6 +605,8 @@ def main() -> int:
                 llm,
                 instruction,
                 args.game_scenario,
+                args.reuse_concept,
+                args.selected_synopsis,
             )
             regenerate_structure = regenerate_structure or new_world_regenerate
         scene_retries = (

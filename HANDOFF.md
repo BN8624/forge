@@ -50,4 +50,8 @@ python pipeline\serve_prose.py --host 100.89.73.83 --port 8765
 
 같은 Tailscale 네트워크에 연결된 iPhone에서 `http://node.tail3e9e21.ts.net:8765/`를 연다. 전권 HTML 읽기와 V1-V5 EPUB 다운로드를 제공한다.
 
+새 게임 원작 후보 생성과 자동 완주 시작은
+`http://node.tail3e9e21.ts.net:8765/dashboard`에서 한다. 후보 생성과
+완주 작업은 백그라운드 프로세스로 실행되며 3초마다 상태가 갱신된다.
+
 2026년 6월 22일 기준 iPhone 390×844 뷰포트에서 제목, EPUB 링크 5개, 가로 넘침 없음을 검증했다.

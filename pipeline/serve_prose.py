@@ -194,44 +194,146 @@ a {{ display:inline-block; margin-right:8px; color:inherit; text-underline-offse
 @media (prefers-color-scheme:dark) {{ :root {{--paper:#181714;--ink:#e9e2d5;--line:#403b34;}} }}
 </style>
 </head>
-<body><main><h1>{html.escape(series_title)}</h1>{"".join(cards)}</main></body>
+<body><main><p><a href="/dashboard">새 작품 대시보드</a></p><h1>{html.escape(series_title)}</h1>{"".join(cards)}</main></body>
 </html>"""
     return page.encode("utf-8")
+
+
+def load_library_payload(root: Path) -> tuple[bytes, dict[str, bytes], dict[str, bytes]]:
+    from pipeline.export_epub import epub_bytes
+
+    series = read_json(root / "story" / "series.json")
+    volumes = [load_volume(root, volume_id) for volume_id in series["volume_ids"]]
+    pages = {
+        volume["id"]: render_volume(volume, f'{volume["id"]}.epub')
+        for volume in volumes
+    }
+    epubs = {volume["id"]: epub_bytes(volume) for volume in volumes}
+    return render_library(volumes), pages, epubs
 
 
 def make_library_handler(
     index_page: bytes,
     pages: dict[str, bytes],
     epubs: dict[str, bytes],
+    root: Path | None = None,
+    dashboard=None,
 ):
     class LibraryHandler(BaseHTTPRequestHandler):
-        def do_GET(self) -> None:
-            path = urlparse(self.path).path
-            filename = None
-            if path == "/health":
-                body, content_type, status = b"ok", "text/plain; charset=utf-8", 200
-            elif path == "/":
-                body, content_type, status = index_page, "text/html; charset=utf-8", 200
-            elif path.rstrip("/").lstrip("/") in pages:
-                volume_id = path.rstrip("/").lstrip("/")
-                body, content_type, status = pages[volume_id], "text/html; charset=utf-8", 200
-            elif path.lstrip("/").removesuffix(".epub") in epubs:
-                volume_id = path.lstrip("/").removesuffix(".epub")
-                filename = f"{volume_id}.epub"
-                body, content_type, status = epubs[volume_id], "application/epub+zip", 200
-            else:
-                body, content_type, status = b"not found", "text/plain; charset=utf-8", 404
-
+        def send_body(
+            self,
+            body: bytes,
+            content_type: str,
+            status: int = 200,
+            filename: str | None = None,
+        ) -> None:
             self.send_response(status)
             self.send_header("Content-Type", content_type)
             self.send_header("Content-Length", str(len(body)))
             self.send_header("Cache-Control", "no-store")
+            self.send_header("X-Content-Type-Options", "nosniff")
+            self.send_header("Referrer-Policy", "same-origin")
             if filename:
                 self.send_header(
                     "Content-Disposition", f'attachment; filename="{filename}"'
                 )
             self.end_headers()
             self.wfile.write(body)
+
+        def send_json(self, value: dict, status: int = 200) -> None:
+            self.send_body(
+                json.dumps(value, ensure_ascii=False).encode("utf-8"),
+                "application/json; charset=utf-8",
+                status,
+            )
+
+        def dynamic_payload(self) -> tuple[bytes, dict[str, bytes], dict[str, bytes]]:
+            if root is None:
+                return index_page, pages, epubs
+            return load_library_payload(root)
+
+        def do_GET(self) -> None:
+            path = urlparse(self.path).path
+            filename = None
+            if path == "/health":
+                self.send_body(b"ok", "text/plain; charset=utf-8")
+                return
+            if path == "/dashboard" and dashboard is not None:
+                from pipeline.dashboard import render_dashboard
+
+                self.send_body(
+                    render_dashboard(dashboard.token),
+                    "text/html; charset=utf-8",
+                )
+                return
+            if path == "/api/dashboard" and dashboard is not None:
+                self.send_json(dashboard.status())
+                return
+            try:
+                current_index, current_pages, current_epubs = self.dynamic_payload()
+            except (OSError, KeyError, json.JSONDecodeError) as exc:
+                self.send_json(
+                    {"error": f"현재 서재를 읽는 중입니다: {exc}"},
+                    503,
+                )
+                return
+            if path == "/":
+                body, content_type, status = current_index, "text/html; charset=utf-8", 200
+            elif path.rstrip("/").lstrip("/") in current_pages:
+                volume_id = path.rstrip("/").lstrip("/")
+                body = current_pages[volume_id]
+                content_type, status = "text/html; charset=utf-8", 200
+            elif path.lstrip("/").removesuffix(".epub") in current_epubs:
+                volume_id = path.lstrip("/").removesuffix(".epub")
+                filename = f"{volume_id}.epub"
+                body = current_epubs[volume_id]
+                content_type, status = "application/epub+zip", 200
+            else:
+                body, content_type, status = b"not found", "text/plain; charset=utf-8", 404
+
+            self.send_body(body, content_type, status, filename)
+
+        def do_POST(self) -> None:
+            path = urlparse(self.path).path
+            if dashboard is None or path not in (
+                "/api/dashboard/concepts",
+                "/api/dashboard/start",
+                "/api/dashboard/resume",
+            ):
+                self.send_json({"error": "not found"}, 404)
+                return
+            if self.headers.get("X-Forge-Token") != dashboard.token:
+                self.send_json({"error": "요청 토큰이 올바르지 않습니다."}, 403)
+                return
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+                if length > 16_384:
+                    raise ValueError("요청이 너무 큽니다.")
+                payload = json.loads(self.rfile.read(length) or b"{}")
+                if not isinstance(payload, dict):
+                    raise ValueError("JSON 객체가 필요합니다.")
+                if path == "/api/dashboard/concepts":
+                    result = dashboard.generate_concepts(
+                        str(payload.get("instruction", ""))
+                    )
+                elif path == "/api/dashboard/start":
+                    result = dashboard.start_series(
+                        str(payload.get("selected_id", ""))
+                    )
+                else:
+                    result = dashboard.resume_series()
+            except (ValueError, json.JSONDecodeError) as exc:
+                self.send_json({"error": str(exc)}, 400)
+                return
+            except Exception as exc:
+                from pipeline.dashboard import DashboardError
+
+                if isinstance(exc, DashboardError):
+                    self.send_json({"error": str(exc)}, 409)
+                    return
+                self.send_json({"error": str(exc)}, 500)
+                return
+            self.send_json({"job": result}, 202)
 
         def log_message(self, format: str, *args) -> None:
             return
@@ -276,19 +378,21 @@ def main() -> None:
     parser.add_argument("--port", type=int, default=8765)
     args = parser.parse_args()
 
-    from pipeline.export_epub import epub_bytes
-
     if args.volume == "all":
-        series = read_json(ROOT / "story" / "series.json")
-        volumes = [load_volume(ROOT, volume_id) for volume_id in series["volume_ids"]]
-        pages = {
-            volume["id"]: render_volume(volume, f'{volume["id"]}.epub')
-            for volume in volumes
-        }
-        epubs = {volume["id"]: epub_bytes(volume) for volume in volumes}
-        handler = make_library_handler(render_library(volumes), pages, epubs)
+        from pipeline.dashboard import DashboardController
+
+        index_page, pages, epubs = load_library_payload(ROOT)
+        handler = make_library_handler(
+            index_page,
+            pages,
+            epubs,
+            ROOT,
+            DashboardController(ROOT),
+        )
         label = "전권"
     else:
+        from pipeline.export_epub import epub_bytes
+
         volume = load_volume(ROOT, args.volume)
         epub_filename = f"{args.volume}.epub"
         epub = epub_bytes(volume)

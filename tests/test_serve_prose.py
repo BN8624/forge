@@ -80,6 +80,7 @@ class ServeProseTests(unittest.TestCase):
 
         self.assertIn('href="/V1/"', page)
         self.assertIn('href="/V1.epub"', page)
+        self.assertIn('href="/dashboard"', page)
         self.assertIn("2개 장면", page)
         self.assertTrue(hasattr(handler, "do_GET"))
 

@@ -382,3 +382,20 @@
 - 결과는 `reference/current`의 `synopsis-candidates.json`, `synopsis-review.json`, `selected-synopsis.json`으로 세계관 원천과 함께 보존한다.
 - `python -m unittest discover -s tests -v` 80개, 전체 구문 검사, `python -m pip check`, 구조·규모 검증이 통과했다.
 - 현재 완성본에서 `python pipeline\complete_series.py`를 다시 실행해 모델 호출 없이 108개 장면과 EPUB 5개를 재검증했다.
+
+## 2026-06-22 iPhone 시작 대시보드
+
+- 기존 Tailscale 전권 서재의 `/dashboard`에 모바일 제어 화면을 추가한다.
+- 대시보드는 선택 지시 입력, 시놉시스 후보 생성, critic 추천과 후보별 강점·위험 확인, 후보 선택, 5권 자동 완주 시작, 진행 상태 조회를 제공한다.
+- 후보 생성과 5권 자동 완주는 HTTP 요청 스레드가 아니라 숨겨진 백그라운드 Python 프로세스로 실행한다.
+- 서버는 동시에 하나의 Forge 작업만 허용하며 실행 PID, 작업 종류, 시작·종료 상태를 `runs/dashboard/job.json`에 기록한다.
+- POST 요청은 서버 시작 시 생성한 난수 토큰을 같은 출처 페이지가 헤더로 보내야 실행된다. 서버는 Tailscale IP에만 바인딩한다.
+- 사용자가 critic 추천과 다른 후보를 고르면 `concept-selection.json`에 사용자 선택과 원래 추천을 함께 보존한다.
+- 대시보드가 시작하는 자동화 명령은 `--game-scenario --reuse-concept --selected-synopsis S#`다.
+- 전권 서재는 요청마다 현재 구조와 산문을 읽어 새 작품 완주 뒤 서버 재시작 없이 새 정본을 표시한다.
+- 중단된 신규 작품이 있으면 새 후보 시작을 차단하고 기존 `--game-scenario` 실행을 재개하는 버튼을 제공한다.
+- 실제 서버를 Tailscale IP `100.89.73.83`의 8765 포트에 다시 띄웠으며 최종 검증 시 PID는 42280이다.
+- `http://node.tail3e9e21.ts.net:8765/dashboard`가 HTTP 200으로 응답하고 토큰 없는 POST 요청은 HTTP 403으로 거부됨을 확인했다.
+- iPhone 390×844 뷰포트에서 문서 폭과 스크롤 폭이 모두 390px라 가로 넘침이 없었다. 후보 생성, 상태 갱신, 선택 시작, 중단 재개 버튼과 현재 작품 상태를 확인했고 브라우저 경고·오류는 없었다.
+- 전체 테스트 87개, 구문 검사, 의존성 검사, 구조·규모 검증이 통과했다.
+- `python pipeline\complete_series.py` 재실행은 모델 호출 없이 108개 장면과 EPUB 5개를 검증했다.

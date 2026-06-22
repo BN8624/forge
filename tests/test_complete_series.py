@@ -247,6 +247,14 @@ class CompleteSeriesTests(unittest.TestCase):
                     ("synopsis-candidates.json", {"candidates": []}),
                     ("synopsis-review.json", {"selected_id": "S4"}),
                     ("selected-synopsis.json", {"id": "S4", "title": "선택 기획"}),
+                    (
+                        "concept-selection.json",
+                        {
+                            "selected_id": "S4",
+                            "selected_by": "critic",
+                            "critic_recommendation": "S4",
+                        },
+                    ),
                 ):
                     (output / name).write_text(
                         json.dumps(value, ensure_ascii=False),
