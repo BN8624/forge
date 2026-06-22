@@ -9,6 +9,7 @@ from pipeline.serve_prose import (
     make_handler,
     make_library_handler,
     render_library,
+    render_library_pending,
     render_volume,
 )
 
@@ -83,6 +84,13 @@ class ServeProseTests(unittest.TestCase):
         self.assertIn('href="/dashboard"', page)
         self.assertIn("2개 장면", page)
         self.assertTrue(hasattr(handler, "do_GET"))
+
+    def test_pending_library_links_to_dashboard(self) -> None:
+        page = render_library_pending(self.root).decode("utf-8")
+
+        self.assertIn("시험 시리즈", page)
+        self.assertIn('href="/dashboard"', page)
+        self.assertIn("critic 검증하는 중", page)
 
 
 if __name__ == "__main__":

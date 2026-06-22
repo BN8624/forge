@@ -115,6 +115,63 @@ class DashboardTests(unittest.TestCase):
 
             self.assertEqual(first.token, second.token)
 
+    def test_status_reports_exact_scene_progress(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "story" / "volumes").mkdir(parents=True)
+            (root / "story" / "events").mkdir(parents=True)
+            (root / "prose" / "scenes" / "V1-E01-S01").mkdir(parents=True)
+            (root / "story" / "series.json").write_text(
+                json.dumps(
+                    {
+                        "title": "진행 시험",
+                        "volume_ids": ["V1"],
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            (root / "story" / "volumes" / "V1.json").write_text(
+                json.dumps({"event_ids": ["V1-E01"]}, ensure_ascii=False),
+                encoding="utf-8",
+            )
+            (root / "story" / "events" / "V1-E01.json").write_text(
+                json.dumps(
+                    {"scene_ids": ["V1-E01-S01", "V1-E01-S02"]},
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            scene = root / "prose" / "scenes" / "V1-E01-S01"
+            (scene / "prose.md").write_text("승인 산문", encoding="utf-8")
+            (scene / "review.json").write_text(
+                json.dumps({"status": "pass"}, ensure_ascii=False),
+                encoding="utf-8",
+            )
+            status_path = root / "runs" / "complete-series" / "status.json"
+            status_path.parent.mkdir(parents=True)
+            status_path.write_text(
+                json.dumps(
+                    {
+                        "stage": "prose",
+                        "scene_id": "V1-E01-S02",
+                        "attempt": 2,
+                        "generated_this_run": 1,
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+
+            progress = DashboardController(root, FakePopen()).status()["progress"]
+
+            self.assertEqual("진행 시험", progress["target_title"])
+            self.assertEqual(2, progress["total_scenes"])
+            self.assertEqual(1, progress["approved_scenes"])
+            self.assertEqual(2, progress["current_scene_number"])
+            self.assertEqual("V1-E01-S02", progress["current_scene_id"])
+            self.assertEqual(2, progress["attempt"])
+
     def test_selected_candidate_starts_reused_concept_pipeline(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

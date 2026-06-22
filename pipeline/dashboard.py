@@ -9,6 +9,7 @@ import subprocess
 import sys
 import threading
 import ctypes
+from time import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
@@ -239,6 +240,129 @@ class DashboardController:
             "selected": selected,
         }
 
+    def _ordered_scene_ids(self) -> list[str]:
+        series = read_json_if_exists(self.root / "story" / "series.json") or {}
+        scene_ids: list[str] = []
+        for volume_id in series.get("volume_ids", []):
+            volume = read_json_if_exists(
+                self.root / "story" / "volumes" / f"{volume_id}.json"
+            ) or {}
+            for event_id in volume.get("event_ids", []):
+                event = read_json_if_exists(
+                    self.root / "story" / "events" / f"{event_id}.json"
+                ) or {}
+                scene_ids.extend(
+                    scene_id
+                    for scene_id in event.get("scene_ids", [])
+                    if isinstance(scene_id, str)
+                )
+        return scene_ids
+
+    def _approved_scene_count(self, scene_ids: list[str]) -> int:
+        approved = 0
+        for scene_id in scene_ids:
+            directory = self.root / "prose" / "scenes" / scene_id
+            if not (directory / "prose.md").is_file():
+                continue
+            review = read_json_if_exists(directory / "review.json") or {}
+            if review.get("status") == "pass":
+                approved += 1
+        return approved
+
+    def _progress(self, job: dict[str, Any] | None) -> dict[str, Any]:
+        completion = read_json_if_exists(
+            self.root / "runs" / "complete-series" / "status.json"
+        ) or {}
+        active = read_json_if_exists(
+            self.root / "runs" / "new-world" / "active.json"
+        ) or {}
+        concept = self._load_concept()
+        series = read_json_if_exists(self.root / "story" / "series.json") or {}
+        stage = str(completion.get("stage", "idle"))
+        scene_ids = self._ordered_scene_ids()
+        total_scenes = len(scene_ids)
+        approved_scenes = self._approved_scene_count(scene_ids)
+        current_scene_id = completion.get("scene_id")
+        current_scene_number = None
+        if isinstance(current_scene_id, str) and current_scene_id in scene_ids:
+            current_scene_number = scene_ids.index(current_scene_id) + 1
+        stage_labels = {
+            "idle": "대기 중",
+            "starting": "자동 완주를 준비하는 중",
+            "synopsis_selection": "선택한 기획을 확정하는 중",
+            "world_generation": "세계관과 정본을 생성하는 중",
+            "structure_candidate": "5권 기본 구조를 생성·검증하는 중",
+            "structure_expansion": "5권 구조를 장편 규모로 확장·검증하는 중",
+            "prose": "장면 산문을 생성하고 critic 검증하는 중",
+            "final_validation": "전권 구조·산문·EPUB을 최종 검증하는 중",
+            "complete": "5권 자동 완주 완료",
+            "failed": "자동 완주 실패",
+            "stopped": "현재 장면 뒤 중단됨",
+        }
+        phase_by_stage = {
+            "starting": 1,
+            "synopsis_selection": 1,
+            "world_generation": 2,
+            "structure_candidate": 3,
+            "structure_expansion": 4,
+            "prose": 5,
+            "final_validation": 6,
+            "complete": 7,
+        }
+        if stage == "prose" and total_scenes:
+            percent = round(40 + (approved_scenes / total_scenes) * 50, 1)
+        else:
+            percent_by_stage = {
+                "idle": 0,
+                "starting": 1,
+                "synopsis_selection": 3,
+                "world_generation": 8,
+                "structure_candidate": 18,
+                "structure_expansion": 30,
+                "final_validation": 95,
+                "complete": 100,
+            }
+            percent = percent_by_stage.get(stage, 0)
+        target_title = (
+            active.get("title")
+            or concept["selected"].get("title")
+            or series.get("title")
+        )
+        started_at = str((job or {}).get("started_at", ""))
+        elapsed_seconds = None
+        if started_at:
+            try:
+                elapsed_seconds = max(
+                    0,
+                    int(
+                        time()
+                        - datetime.fromisoformat(started_at).timestamp()
+                    ),
+                )
+            except ValueError:
+                pass
+        return {
+            "target_title": target_title,
+            "stage": stage,
+            "stage_label": stage_labels.get(stage, stage),
+            "phase": phase_by_stage.get(stage),
+            "phase_total": 7,
+            "percent": percent,
+            "total_scenes": total_scenes,
+            "approved_scenes": approved_scenes,
+            "current_scene_id": current_scene_id,
+            "current_scene_number": current_scene_number,
+            "current_volume": (
+                current_scene_id[:2]
+                if isinstance(current_scene_id, str)
+                else None
+            ),
+            "attempt": completion.get("attempt"),
+            "generated_this_run": completion.get("generated_this_run"),
+            "updated_at": completion.get("updated_at"),
+            "elapsed_seconds": elapsed_seconds,
+        }
+
     def status(self) -> dict[str, Any]:
         concept = self._load_concept()
         series = read_json_if_exists(self.root / "story" / "series.json") or {}
@@ -263,6 +387,7 @@ class DashboardController:
             },
             "completion": completion,
             "active_world": active_world,
+            "progress": self._progress(job),
             "log_tail": log_tail,
         }
 
@@ -287,6 +412,7 @@ textarea{{width:100%;min-height:92px;resize:vertical;background:#0b1016;color:va
 button,.link{{border:0;border-radius:12px;padding:13px 16px;font:inherit;font-weight:800;cursor:pointer;text-decoration:none;display:inline-flex;justify-content:center;align-items:center}}
 button.primary{{background:var(--accent);color:#201500}} button.secondary,.link{{background:#243040;color:var(--text)}} button:disabled{{opacity:.42;cursor:not-allowed}}
 .actions{{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}} .status{{display:flex;gap:9px;align-items:center;margin:0 0 8px}} .dot{{width:9px;height:9px;border-radius:50%;background:var(--muted)}} .dot.running{{background:var(--accent);box-shadow:0 0 0 5px #f1b24a20}} .dot.complete{{background:var(--ok)}} .dot.failed{{background:#ff6b6b}}
+.progress{{height:10px;background:#0b1016;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin:14px 0}} .progress i{{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#ffdc8a);border-radius:inherit}} .metrics{{display:grid;grid-template-columns:1fr 1fr;gap:8px}} .metric{{background:#0b1016;border-radius:11px;padding:10px}} .metric b{{display:block;color:var(--muted);font-size:.7rem;margin-bottom:3px}} .metric span{{font-weight:800}}
 .cards{{display:grid;gap:14px}} .card{{position:relative;margin:0}} .card.selected{{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 18px 50px #0005}}
 .topline{{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}} .genre{{color:var(--accent);font-size:.8rem;font-weight:700}} .badge{{background:#f1b24a20;color:#ffd488;padding:4px 8px;border-radius:999px;font-size:.72rem;font-weight:800;white-space:nowrap}}
 .facts{{display:grid;gap:9px;margin:16px 0}} .facts div{{border-left:2px solid var(--line);padding-left:10px}} .facts b{{display:block;color:var(--muted);font-size:.72rem;margin-bottom:2px}}
@@ -317,7 +443,8 @@ details{{border-top:1px solid var(--line);padding-top:12px}} summary{{font-weigh
 const token=document.body.dataset.token; let state=null;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}}[c]));
 async function api(path,body){{const r=await fetch(path,{{method:body?'POST':'GET',headers:body?{{'Content-Type':'application/json','X-Forge-Token':token}}:{{}},body:body?JSON.stringify(body):undefined}});const data=await r.json();if(!r.ok)throw new Error(data.error||'요청 실패');return data}}
-function jobView(s){{const j=s.job||{{status:'idle'}};const stage=s.completion?.stage;const stageLabels={{synopsis_selection:'선택한 기획으로 세계관을 생성하는 중',world_generation:'선택한 기획으로 세계관을 생성하는 중',structure_candidate:'5권 구조를 설계하는 중',structure_expansion:'장편 규모로 구조를 확장하는 중',prose:'장면 산문을 생성하고 검증하는 중',final_validation:'전권을 최종 검증하는 중',complete:'완료'}};const label=j.status==='running'?(j.kind==='concepts'?'후보를 만드는 중':(stageLabels[stage]||'5권을 완주하는 중')):j.status==='failed'?'작업 실패':j.status==='complete'?'최근 작업 완료':'대기 중';document.querySelector('#job').innerHTML=`<div class="status"><i class="dot ${{esc(j.status)}}"></i><strong>${{esc(label)}}</strong></div><div class="muted">파이프라인 단계 ${{esc(stage||'없음')}} · 현재 작품 ${{esc(s.current_series?.title||'없음')}}</div>`;document.querySelector('#error').textContent=s.log_tail||''}}
+function duration(sec){{if(sec==null)return'-';const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60);return h?`${{h}}시간 ${{m}}분`:`${{m}}분`}}
+function jobView(s){{const j=s.job||{{status:'idle'}};const p=s.progress||{{}};const label=j.status==='running'?(j.kind==='concepts'?'후보 5개를 생성하고 critic 평가하는 중':p.stage_label):j.status==='failed'?'작업 실패':j.status==='complete'?'최근 작업 완료':p.stage_label;const scene=p.current_scene_id?`${{p.current_scene_number||'?'}} / ${{p.total_scenes||'?'}} · ${{p.current_scene_id}}`:`${{p.approved_scenes||0}} / ${{p.total_scenes||0}} 승인`;document.querySelector('#job').innerHTML=`<div class="status"><i class="dot ${{esc(j.status)}}"></i><strong>${{esc(label||'대기 중')}}</strong></div><h3>${{esc(p.target_title||s.current_series?.title||'대상 작품 없음')}}</h3><div class="progress"><i style="width:${{Number(p.percent||0)}}%"></i></div><div class="metrics"><div class="metric"><b>예상 전체 진행률</b><span>${{esc(p.percent??0)}}% · 단계 ${{esc(p.phase||'-')}}/${{esc(p.phase_total||7)}}</span></div><div class="metric"><b>산문 승인</b><span>${{esc(p.approved_scenes||0)}} / ${{esc(p.total_scenes||0)}}</span></div><div class="metric"><b>현재 장면</b><span>${{esc(scene)}}</span></div><div class="metric"><b>현재 권·시도</b><span>${{esc(p.current_volume||'-')}} · ${{esc(p.attempt||1)}}회</span></div><div class="metric"><b>실행 시간</b><span>${{esc(duration(p.elapsed_seconds))}}</span></div><div class="metric"><b>마지막 상태 갱신</b><span>${{esc(p.updated_at?new Date(p.updated_at).toLocaleTimeString('ko-KR'): '-')}}</span></div></div>`;document.querySelector('#error').textContent=s.log_tail||''}}
 function cardsView(s){{const holder=document.querySelector('#cards');if(s.job?.status==='running'&&s.job?.kind==='concepts'){{holder.innerHTML='<div class="panel empty">새 후보를 생성하고 평가하는 중입니다. 완료되면 선택 카드가 표시됩니다.</div>';return}}const list=s.concept?.candidates||[];const review=s.concept?.review||{{}};const recommended=review.selected_id;const scores=Object.fromEntries((review.evaluations||[]).map(x=>[x.id,x]));if(!list.length){{holder.innerHTML='<div class="panel empty">아직 생성된 후보가 없습니다.</div>';return}}holder.innerHTML=list.map(c=>{{const e=scores[c.id]||{{}};return `<article class="card" data-id="${{esc(c.id)}}"><div class="topline"><div><div class="genre">${{esc(c.genre)}} · ${{esc(c.id)}}</div><h3>${{esc(c.title)}}</h3></div>${{c.id===recommended?'<span class="badge">FORGE 추천</span>':''}}</div><p>${{esc(c.logline)}}</p><div class="facts"><div><b>플레이어 역할</b>${{esc(c.player_role)}}</div><div><b>핵심 루프</b>${{esc(c.core_loop)}}</div><div><b>성장</b>${{esc(c.progression)}}</div><div><b>선택 구조</b>${{esc(c.choice_structure)}}</div></div><details><summary>5권 전개와 critic 평가</summary><ol>${{(c.five_volume_arc||[]).map(x=>`<li>${{esc(x)}}</li>`).join('')}}</ol><p><b>강점.</b> ${{esc((e.strengths||[]).join(' · '))}}</p><p><b>위험.</b> ${{esc((e.risks||[]).join(' · '))}}</p></details><label class="choice"><input type="radio" name="concept" value="${{esc(c.id)}}" ${{c.id===recommended?'checked':''}}>이 기획 선택</label></article>`}}).join('');markSelection()}}
 function markSelection(){{const chosen=document.querySelector('input[name=concept]:checked');const busy=state?.job?.status==='running';const hasActive=state?.active_world?.status==='active';document.querySelectorAll('.card').forEach(x=>x.classList.toggle('selected',chosen&&x.dataset.id===chosen.value));document.querySelector('#start').disabled=!chosen||busy||hasActive;document.querySelector('#resume').disabled=busy||!hasActive}}
 function render(s){{state=s;jobView(s);cardsView(s);const busy=s.job?.status==='running';document.querySelector('#generate').disabled=busy||s.active_world?.status==='active';markSelection()}}

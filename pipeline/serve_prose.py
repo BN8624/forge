@@ -212,6 +212,27 @@ def load_library_payload(root: Path) -> tuple[bytes, dict[str, bytes], dict[str,
     return render_library(volumes), pages, epubs
 
 
+def render_library_pending(root: Path) -> bytes:
+    series = read_json(root / "story" / "series.json")
+    page = f"""<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>{html.escape(series["title"])} 준비 중</title>
+<style>
+body{{margin:0;background:#181714;color:#e9e2d5;font-family:-apple-system,"Apple SD Gothic Neo",sans-serif}}
+main{{width:min(100% - 40px,720px);margin:auto;padding:max(48px,env(safe-area-inset-top)) 0 80px}}
+a{{color:#f1b24a}} h1{{line-height:1.15}} p{{line-height:1.7;color:#aaa094}}
+</style>
+</head>
+<body><main><p><a href="/dashboard">진행 대시보드 열기</a></p>
+<h1>{html.escape(series["title"])}</h1>
+<p>Forge가 장면 산문을 생성하고 critic 검증하는 중입니다. 승인된 전권이 준비되면 이 서재가 자동으로 열립니다.</p>
+</main></body></html>"""
+    return page.encode("utf-8")
+
+
 def make_library_handler(
     index_page: bytes,
     pages: dict[str, bytes],
@@ -272,6 +293,12 @@ def make_library_handler(
             try:
                 current_index, current_pages, current_epubs = self.dynamic_payload()
             except (OSError, KeyError, json.JSONDecodeError) as exc:
+                if root is not None and path == "/":
+                    self.send_body(
+                        render_library_pending(root),
+                        "text/html; charset=utf-8",
+                    )
+                    return
                 self.send_json(
                     {"error": f"현재 서재를 읽는 중입니다: {exc}"},
                     503,
@@ -381,7 +408,10 @@ def main() -> None:
     if args.volume == "all":
         from pipeline.dashboard import DashboardController
 
-        index_page, pages, epubs = load_library_payload(ROOT)
+        try:
+            index_page, pages, epubs = load_library_payload(ROOT)
+        except FileNotFoundError:
+            index_page, pages, epubs = render_library_pending(ROOT), {}, {}
         handler = make_library_handler(
             index_page,
             pages,
