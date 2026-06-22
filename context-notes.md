@@ -366,3 +366,19 @@
 - iPhone 390×844 뷰포트에서 제목과 EPUB 링크 5개를 확인했고 문서 폭 390px, 스크롤 폭 390px로 가로 넘침이 없었다.
 - 이전 완성본은 실행 시점 백업인 `runs/world-backups/20260621T020758.714624Z`에 보존한다.
 - 실제 완주 후 `python -m unittest discover -s tests -v` 72개, `python -m compileall -q -f lib pipeline tests`, `python -m pip check`, 구조·규모 검증이 모두 통과했다.
+
+## 2026-06-22 게임 시나리오 기획 자동 선택
+
+- 사용자가 장르나 소재를 먼저 선택하지 않고 Forge가 게임 시나리오로 확장하기 좋은 소설 기획 후보를 여러 개 제안하도록 한다.
+- generator는 핵심 플레이 반복, 플레이어 역할, 성장 구조, 세력, 선택 구조, 5권 서사 확장성이 서로 다른 후보 5개를 만든다.
+- 별도 critic은 소설 완결성, 게임 핵심 반복, 플레이어 행위성, 콘텐츠 확장성, 차별성을 기준으로 모든 후보를 평가하고 하나를 선택한다.
+- 선택된 후보와 critic의 위험 요소·보완 지시만 신규 세계관 생성의 구속 입력으로 사용한다. 사람이 산문이나 설정을 직접 작성하지 않는다.
+- 후보 목록, critic 평가, 최종 선택본은 이후 결정 추적을 위해 생성 세계관 원천과 함께 보존한다.
+- 기존 `--new-world`의 즉시 세계관 생성 동작은 유지하고 게임 기획 자동 선택은 별도 진입점으로 제공한다.
+- 새 진입점은 `python pipeline\complete_series.py --game-scenario`다.
+- 후보는 S1-S5를 정확히 한 번씩 포함하며 제목, 장르, 로그라인, 플레이어 역할, 핵심 반복, 성장, 세력, 선택 구조, 5권 전개, 게임 적합성을 필수로 가진다.
+- critic은 후보별 다섯 기준의 1-10점 평가, 강점, 위험, 전체 순위, 선택 근거, 세계관 보완 지시를 반환해야 한다.
+- 선택된 후보의 제목과 장르는 세계관 생성 결과와 정확히 일치해야 하며 불일치하면 세계관 전체 응답을 재생성한다.
+- 결과는 `reference/current`의 `synopsis-candidates.json`, `synopsis-review.json`, `selected-synopsis.json`으로 세계관 원천과 함께 보존한다.
+- `python -m unittest discover -s tests -v` 80개, 전체 구문 검사, `python -m pip check`, 구조·규모 검증이 통과했다.
+- 현재 완성본에서 `python pipeline\complete_series.py`를 다시 실행해 모델 호출 없이 108개 장면과 EPUB 5개를 재검증했다.

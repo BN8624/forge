@@ -21,6 +21,7 @@ from pipeline.expand_structure import expand_structure
 from pipeline.export_epub import export_epub
 from pipeline.generate_candidate import generate_candidate
 from pipeline.generate_candidate import load_source_material
+from pipeline.generate_synopses import generate_game_concept
 from pipeline.generate_world import generate_world
 from pipeline.generate_prose import (
     ProseGenerationError,
@@ -162,6 +163,7 @@ def prepare_new_world(
     root: Path,
     llm: LLM,
     instruction: str,
+    game_scenario: bool = False,
 ) -> tuple[Path, bool]:
     active_path = root / "runs" / "new-world" / "active.json"
     active = read_json_if_exists(active_path)
@@ -170,7 +172,26 @@ def prepare_new_world(
         return Path(active["backup"]), not structure_matches_source(root)
 
     backup = archive_current_world(root)
-    generate_world(instruction, current_source, llm)
+    world_instruction = instruction
+    concept_path = root / "runs" / "new-world" / "concept"
+    selected: dict[str, Any] | None = None
+    if game_scenario:
+        write_status(root, "synopsis_selection")
+        world_instruction = generate_game_concept(instruction, concept_path, llm)
+        selected = read_json_if_exists(concept_path / "selected-synopsis.json")
+        if selected is None:
+            raise SeriesCompletionError("선택 시놉시스 결과를 읽을 수 없음")
+    if selected is None:
+        generate_world(world_instruction, current_source, llm)
+    else:
+        generate_world(world_instruction, current_source, llm, selected)
+    if game_scenario:
+        for name in (
+            "synopsis-candidates.json",
+            "synopsis-review.json",
+            "selected-synopsis.json",
+        ):
+            shutil.copy2(concept_path / name, current_source / name)
     source, _ = load_source_material()
     write_json_atomic(
         active_path,
@@ -179,6 +200,8 @@ def prepare_new_world(
             "title": source.get("title"),
             "backup": str(backup),
             "created_at": datetime.now(timezone.utc).isoformat(),
+            "mode": "game-scenario" if game_scenario else "new-world",
+            "selected_synopsis_id": selected.get("id") if selected else None,
         },
     )
     return backup, True
@@ -513,10 +536,16 @@ def main() -> int:
     )
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--instruction-file", type=Path)
-    parser.add_argument(
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument(
         "--new-world",
         action="store_true",
         help="기존 세계관과 무관한 새 세계관을 생성한 뒤 5권 완주한다.",
+    )
+    mode.add_argument(
+        "--game-scenario",
+        action="store_true",
+        help="시놉시스 5개를 생성·평가·선택한 뒤 게임 원작 소설 5권을 완주한다.",
     )
     parser.add_argument(
         "--regenerate-structure",
@@ -528,7 +557,7 @@ def main() -> int:
         type=int,
         help=(
             "한 장면의 전체 생성 실행 재시도 횟수. 0이면 성공할 때까지 재시도한다. "
-            "기본값은 일반 모드 5회, --new-world 모드 무제한이다."
+            "기본값은 일반 모드 5회, 신규 세계관 모드 무제한이다."
         ),
     )
     args = parser.parse_args()
@@ -543,17 +572,19 @@ def main() -> int:
         )
         llm = LazyLLM()
         regenerate_structure = args.regenerate_structure
-        if args.new_world:
+        new_world_mode = args.new_world or args.game_scenario
+        if new_world_mode:
             _, new_world_regenerate = prepare_new_world(
                 args.root.resolve(),
                 llm,
                 instruction,
+                args.game_scenario,
             )
             regenerate_structure = regenerate_structure or new_world_regenerate
         scene_retries = (
             args.scene_retries
             if args.scene_retries is not None
-            else (0 if args.new_world else 5)
+            else (0 if new_world_mode else 5)
         )
         result = complete_series(
             args.root,
@@ -572,7 +603,7 @@ def main() -> int:
     if not result["complete"]:
         print(f"[STOP] 현재 장면 완료 뒤 중단. 이번 실행 {result['generated']}개 승인")
         return 0
-    if args.new_world:
+    if args.new_world or args.game_scenario:
         finish_new_world(args.root.resolve(), result)
     print(
         f"[OK] 5권 자동 완주 완료. {result['scene_count']}개 장면, "

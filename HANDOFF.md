@@ -32,6 +32,7 @@
 ```powershell
 python pipeline\complete_series.py
 python pipeline\complete_series.py --new-world
+python pipeline\complete_series.py --game-scenario
 python -m unittest discover -s tests -v
 python pipeline\validate_structure.py
 python pipeline\validate_scale.py
@@ -39,6 +40,11 @@ python pipeline\serve_prose.py --host 100.89.73.83 --port 8765
 ```
 
 일반 재검증과 EPUB 재생성은 `python pipeline\complete_series.py`를 사용한다. 완전히 새로운 작품은 `python pipeline\complete_series.py --new-world`를 사용한다.
+
+게임 시나리오 원작 기획의 선택까지 Forge에 맡길 때는
+`python pipeline\complete_series.py --game-scenario`를 사용한다. 이 명령은
+시놉시스 5개 생성, 독립 critic 평가와 선택, 선택본 기반 세계관 생성,
+5권 구조·산문·EPUB 완주를 순서대로 실행한다.
 
 ## iPhone 서재
 

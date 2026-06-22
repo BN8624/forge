@@ -74,7 +74,10 @@ manuscript는 최소 3,000자의 압축 참고 원고다.
 """
 
 
-def validate_world_source(value: Any) -> list[str]:
+def validate_world_source(
+    value: Any,
+    expected_identity: dict[str, Any] | None = None,
+) -> list[str]:
     errors: list[str] = []
     if not validate_schema(
         value,
@@ -101,6 +104,14 @@ def validate_world_source(value: Any) -> list[str]:
     found = [term for term in forbidden if term in combined]
     if found:
         errors.append(f"기존 세계관 고유어 재사용 금지: {', '.join(found)}")
+    if expected_identity:
+        for key in ("title", "genre"):
+            expected = expected_identity.get(key)
+            if isinstance(expected, str) and value.get(key) != expected:
+                errors.append(
+                    f"선택 시놉시스 {key} 불일치: "
+                    f"기대 {expected!r}, 실제 {value.get(key)!r}"
+                )
     return errors
 
 
@@ -196,6 +207,7 @@ def generate_world(
     instruction: str,
     output: Path,
     llm: LLM,
+    expected_identity: dict[str, Any] | None = None,
 ) -> Path:
     output = output.resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -210,7 +222,7 @@ def generate_world(
             value = extract_json(response)
             if isinstance(value, dict):
                 value = extend_short_manuscript(value, llm)
-            last_errors = validate_world_source(value)
+            last_errors = validate_world_source(value, expected_identity)
             if not last_errors:
                 materialize_world(value, staged)
                 publish_world(staged, output)

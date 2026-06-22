@@ -231,6 +231,75 @@ class CompleteSeriesTests(unittest.TestCase):
             self.assertFalse(resumed_regenerate)
             self.assertEqual(1, generator.call_count)
 
+    def test_game_scenario_selects_concept_before_world_generation(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.make_project(root)
+            source = {
+                "title": "선택된 게임 세계",
+                "premise": "게임 시나리오 후보 평가에서 선택된 장편 전제",
+                "canon": [],
+            }
+
+            def create_concept(_instruction, output, _llm):
+                output.mkdir(parents=True)
+                for name, value in (
+                    ("synopsis-candidates.json", {"candidates": []}),
+                    ("synopsis-review.json", {"selected_id": "S4"}),
+                    ("selected-synopsis.json", {"id": "S4", "title": "선택 기획"}),
+                ):
+                    (output / name).write_text(
+                        json.dumps(value, ensure_ascii=False),
+                        encoding="utf-8",
+                    )
+                return "critic이 선택한 구속 입력"
+
+            def create_world(world_instruction, output, _llm, selected):
+                self.assertEqual("critic이 선택한 구속 입력", world_instruction)
+                self.assertEqual("S4", selected["id"])
+                output.mkdir(parents=True)
+                (output / "canon_bible.json").write_text(
+                    json.dumps(source, ensure_ascii=False),
+                    encoding="utf-8",
+                )
+                (output / "compressed_manuscript.md").write_text(
+                    "선택된 원고",
+                    encoding="utf-8",
+                )
+
+            with (
+                patch(
+                    "pipeline.complete_series.generate_game_concept",
+                    side_effect=create_concept,
+                ),
+                patch(
+                    "pipeline.complete_series.generate_world",
+                    side_effect=create_world,
+                ),
+                patch(
+                    "pipeline.complete_series.load_source_material",
+                    return_value=(source, "선택된 원고"),
+                ),
+            ):
+                _, regenerate = prepare_new_world(
+                    root,
+                    FakeLLM([]),
+                    "",
+                    game_scenario=True,
+                )
+
+            self.assertTrue(regenerate)
+            self.assertTrue(
+                (root / "reference" / "current" / "synopsis-review.json").is_file()
+            )
+            active = json.loads(
+                (root / "runs" / "new-world" / "active.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+            self.assertEqual("game-scenario", active["mode"])
+            self.assertEqual("S4", active["selected_synopsis_id"])
+
 
 if __name__ == "__main__":
     unittest.main()

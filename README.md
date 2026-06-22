@@ -75,11 +75,32 @@ python pipeline\complete_series.py --new-world
 다른 신규 세계관을 시작한다. 신규 세계관 모드는 장면 생성 실행을 기본적으로
 성공할 때까지 재시도한다.
 
+게임 시나리오로 확장하기 좋은 소설 기획의 선택까지 Forge에 맡기려면 다음
+명령을 사용한다.
+
+```powershell
+python pipeline\complete_series.py --game-scenario
+```
+
+Forge generator가 장르, 플레이어 역할, 핵심 플레이 반복, 성장, 세력,
+선택 구조가 서로 다른 시놉시스 5개를 만든다. 독립 critic이 소설 완결성,
+핵심 반복, 플레이어 행위성, 콘텐츠 확장성, 차별성을 평가해 하나를 선택한다.
+선택된 제목과 장르는 이후 세계관 생성에서 변경할 수 없는 계약으로 검증되며,
+선택본만 구조·산문·EPUB 자동 완주로 이어진다.
+
+후보 목록, critic 평가, 선택 결과는 각각
+`reference/current/synopsis-candidates.json`,
+`reference/current/synopsis-review.json`,
+`reference/current/selected-synopsis.json`에 보존된다.
+
 장르나 핵심 소재만 지정하려면 UTF-8 텍스트 파일을 전달한다.
 
 ```powershell
 python pipeline\complete_series.py --new-world --instruction-file premise.txt
 ```
+
+같은 사용자 지시를 후보 생성 단계부터 적용하려면 `--game-scenario`와
+`--instruction-file`을 함께 사용한다.
 
 자동 실행 순서는 구조 후보 생성, 21개 원천 정본 critic 검증, 정본 승격, 상태 원장
 재구성, 장편 규모 확장, 재검증·재승격, 남은 산문 생성·critic 승인, 전권

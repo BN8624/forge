@@ -94,6 +94,17 @@ class GenerateWorldTests(unittest.TestCase):
 
         self.assertTrue(any("C1-C21" in error for error in errors), errors)
 
+    def test_selected_synopsis_title_and_genre_are_binding(self) -> None:
+        value = world_source()
+
+        errors = validate_world_source(
+            value,
+            {"title": "다른 제목", "genre": "다른 장르"},
+        )
+
+        self.assertTrue(any("title 불일치" in error for error in errors), errors)
+        self.assertTrue(any("genre 불일치" in error for error in errors), errors)
+
     def test_short_manuscript_is_extended_by_generator(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "current"
