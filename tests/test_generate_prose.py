@@ -11,6 +11,7 @@ from pipeline.generate_prose import (
     contract_sha256,
     generate_all_prose,
     generate_prose_scene,
+    validate_prose_style,
 )
 from tests.test_generate_candidate import FakeLLM
 from tests.test_promote_candidate import approve_candidate
@@ -26,7 +27,14 @@ def approve_story(root: Path) -> None:
 
 
 def prose_response(scene_id: str, length: int = 1800) -> str:
-    prose = ("차가운 바람이 감시 수정구 아래 거리를 훑었다. " * 100)[:length]
+    unit = (
+        '차가운 바람이 감시 수정구 아래 거리를 훑었다. '
+        '"멈춰. 지금 선택해야 해." 경비가 길을 막았다. '
+        '"비켜. 이대로면 모두 늦어." 그는 손잡이를 당겼다. '
+        '"그 선택의 대가는 알아?" 경비가 다시 물었다. '
+        '"알아. 그래도 간다." 문이 열리며 경보가 울렸다. '
+    )
+    prose = (unit * 100)[:length]
     return json.dumps(
         {"scene_id": scene_id, "prose": prose},
         ensure_ascii=False,
@@ -207,17 +215,16 @@ class GenerateProseTests(unittest.TestCase):
 
             self.assertEqual(["generator"] * 3, [call[0] for call in llm.calls])
             self.assertIn(
-                "현재 산문 후보",
+                "전체 장면을 다시 구성",
                 llm.calls[1][1],
             )
 
-    def test_short_candidate_is_extended_instead_of_rewritten(self) -> None:
+    def test_short_candidate_is_rewritten_as_complete_scene(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             build_project(root)
             approve_story(root)
             short_prose = ("차가운 바람이 거리를 훑었다. " * 90)[:1300]
-            addition = ("사람들은 고개를 숙인 채 걸음을 재촉했다. " * 40)[:500]
             llm = FakeLLM(
                 [
                     json.dumps(
@@ -230,7 +237,9 @@ class GenerateProseTests(unittest.TestCase):
                     json.dumps(
                         {
                             "scene_id": "V1-E01-S01",
-                            "addition": addition,
+                            "prose": json.loads(
+                                prose_response("V1-E01-S01")
+                            )["prose"],
                         },
                         ensure_ascii=False,
                     ),
@@ -246,12 +255,9 @@ class GenerateProseTests(unittest.TestCase):
             )
 
             prose = (result / "prose.md").read_text(encoding="utf-8")
-            self.assertTrue(prose.startswith(short_prose.strip()))
-            self.assertTrue(prose.endswith(addition.strip()))
-            self.assertIn("addition", llm.calls[1][1])
-            self.assertIn("end_state에 도달한 순간", llm.calls[1][1])
-            self.assertIn("objective의 단어가 future_forbidden", llm.calls[1][1])
-            self.assertIn("일회성 우발 사건", llm.calls[1][1])
+            self.assertFalse(prose.startswith(short_prose.strip()))
+            self.assertIn("전체 장면을 다시 구성", llm.calls[1][1])
+            self.assertNotIn("추가 산문만", llm.calls[1][1])
             self.assertIn("현재 미래 요소 충돌 특별 경계", llm.calls[1][1])
 
     def test_scene_id_single_key_response_is_accepted(self) -> None:
@@ -384,6 +390,35 @@ class GenerateProseTests(unittest.TestCase):
                 llm.calls[0][1],
             )
             self.assertIn("현재 미래 요소 충돌 특별 경계", llm.calls[0][1])
+            self.assertIn("약 15-35%를 대화", llm.calls[0][1])
+            self.assertIn("시도 → 방해나 예상 밖 반응", llm.calls[0][1])
+            self.assertIn("같은 공포·깨달음", llm.calls[0][1])
+            self.assertIn("정보 전달용 독백", llm.calls[1][1])
+
+    def test_dialogue_required_scene_rejects_description_only_prose(self) -> None:
+        context = {
+            "scene": {
+                "previous_scene_id": "V1-E01-S01",
+                "objective": "소라와 협상해 봉인된 문을 연다.",
+            }
+        }
+        prose = "차가운 복도를 바라보며 공포를 느꼈다. " * 100
+
+        errors = validate_prose_style(context, prose)
+
+        self.assertTrue(any("대화 턴 부족" in error for error in errors), errors)
+        self.assertTrue(any("대화 비중 부족" in error for error in errors), errors)
+
+    def test_solo_action_scene_can_omit_dialogue(self) -> None:
+        context = {
+            "scene": {
+                "previous_scene_id": "V1-E01-S01",
+                "objective": "붕괴하는 통로에서 탈출한다.",
+            }
+        }
+        prose = "그는 무너지는 철판을 건너 출구로 달렸다. " * 100
+
+        self.assertEqual([], validate_prose_style(context, prose))
 
     def test_el04_future_guard_forbids_generalized_combat_growth(self) -> None:
         guard = build_future_element_guard(
