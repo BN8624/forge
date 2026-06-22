@@ -10,7 +10,7 @@ import sys
 import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Protocol
+from typing import Any, Callable, Protocol
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 LIB_ROOT = PROJECT_ROOT / "lib"
@@ -34,6 +34,7 @@ from pipeline.generate_prose import (
 from pipeline.promote_candidate import promote_candidate
 from pipeline.rebuild_state import rebuild_state
 from pipeline.validate_canon import (
+    CanonReviewError,
     story_sha256,
     validate_canon_candidate,
     validate_review,
@@ -53,6 +54,9 @@ class LLM(Protocol):
 
 class SeriesCompletionError(Exception):
     pass
+
+
+MAX_STRUCTURE_REVIEW_ATTEMPTS = 3
 
 
 class LazyLLM:
@@ -330,12 +334,26 @@ def backup_invalid_prose_suffix(root: Path) -> Path | None:
 def ensure_reviewed_candidate(
     candidate: Path,
     llm: LLM,
-    create_candidate,
+    create_candidate: Callable[[str], None],
+    instruction: str,
 ) -> None:
     if approved_candidate(candidate):
         return
-    create_candidate()
-    validate_canon_candidate(candidate, llm)
+    revision_instruction = instruction
+    for attempt in range(1, MAX_STRUCTURE_REVIEW_ATTEMPTS + 1):
+        create_candidate(revision_instruction)
+        try:
+            validate_canon_candidate(candidate, llm)
+            return
+        except CanonReviewError as exc:
+            if attempt == MAX_STRUCTURE_REVIEW_ATTEMPTS:
+                raise
+            revision_instruction = (
+                f"{instruction.strip()}\n\n"
+                "직전 독립 정본 critic이 구조를 거부했다. 아래 오류를 모두 "
+                "해결하도록 전체 구조를 다시 작성한다. 부분 패치로 답하지 않는다.\n"
+                f"{json.dumps(exc.errors, ensure_ascii=False, indent=2)}"
+            ).strip()
 
 
 def ensure_structure(
@@ -350,13 +368,18 @@ def ensure_structure(
         candidate = root / "runs" / "candidate"
         write_status(root, "structure_candidate")
         if regenerate_structure:
-            generate_candidate(instruction, candidate, llm)
-            validate_canon_candidate(candidate, llm)
+            ensure_reviewed_candidate(
+                candidate,
+                llm,
+                lambda revision: generate_candidate(revision, candidate, llm),
+                instruction,
+            )
         else:
             ensure_reviewed_candidate(
                 candidate,
                 llm,
-                lambda: generate_candidate(instruction, candidate, llm),
+                lambda revision: generate_candidate(revision, candidate, llm),
+                instruction,
             )
         backup = promote_with_prose_backup(root, candidate)
         if backup is not None:
@@ -368,13 +391,18 @@ def ensure_structure(
         expanded = root / "runs" / "expanded-candidate"
         write_status(root, "structure_expansion", errors=scale_errors)
         if regenerate_structure or structure_errors:
-            expand_structure(root, expanded, llm, instruction)
-            validate_canon_candidate(expanded, llm)
+            ensure_reviewed_candidate(
+                expanded,
+                llm,
+                lambda revision: expand_structure(root, expanded, llm, revision),
+                instruction,
+            )
         else:
             ensure_reviewed_candidate(
                 expanded,
                 llm,
-                lambda: expand_structure(root, expanded, llm, instruction),
+                lambda revision: expand_structure(root, expanded, llm, revision),
+                instruction,
             )
         backup = promote_with_prose_backup(root, expanded)
         if backup is not None:

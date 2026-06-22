@@ -9,10 +9,12 @@ from unittest.mock import patch
 from pipeline.complete_series import (
     backup_invalid_prose_suffix,
     complete_series,
+    ensure_reviewed_candidate,
     prepare_new_world,
     promote_with_prose_backup,
     validate_all_prose,
 )
+from pipeline.validate_canon import CanonReviewError
 from pipeline.generate_prose import contract_sha256, ordered_scene_ids
 from tests.test_generate_candidate import FakeLLM
 from tests.test_generate_prose import approve_story, prose_response, review_response
@@ -41,6 +43,39 @@ class CompleteSeriesTests(unittest.TestCase):
         build_project(root)
         approve_story(root)
         return ordered_scene_ids(root)
+
+    def test_canon_rejection_is_sent_back_to_structure_generator(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            candidate = Path(directory) / "candidate"
+            instructions: list[str] = []
+
+            def create_candidate(instruction: str) -> None:
+                instructions.append(instruction)
+
+            with (
+                patch(
+                    "pipeline.complete_series.approved_candidate",
+                    return_value=False,
+                ),
+                patch(
+                    "pipeline.complete_series.validate_canon_candidate",
+                    side_effect=[
+                        CanonReviewError("C19 최종 보스 결정 순서 위반"),
+                        {"status": "pass"},
+                    ],
+                ),
+            ):
+                ensure_reviewed_candidate(
+                    candidate,
+                    FakeLLM([]),
+                    create_candidate,
+                    "기본 지시",
+                )
+
+            self.assertEqual(2, len(instructions))
+            self.assertEqual("기본 지시", instructions[0])
+            self.assertIn("C19 최종 보스 결정 순서 위반", instructions[1])
+            self.assertIn("전체 구조를 다시 작성", instructions[1])
 
     def test_completed_project_reuses_all_approved_outputs(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
