@@ -58,7 +58,7 @@ BACKOFF_500_SEC = 5.0    # 서버 5xx 지수백오프: 5→10→20→40s
 # (키당 1콜/2분 = 720/일 < RPD 1500이라 쿼터 안전. 서버 폭풍·일시 RPM은 시간이 약.)
 SLOW_RETRY_SEC = 120.0   # 백오프 소진 후 무한 재시도 간격
 EMPTY_RETRIES = 2        # 빈 응답 재시도 상한
-GENERATOR_MAX_OUTPUT_TOKENS = 8192
+GENERATOR_MAX_OUTPUT_TOKENS = 32768
 
 
 class AllKeysExhausted(Exception):
