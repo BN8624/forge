@@ -262,7 +262,7 @@ class GenerateProseTests(unittest.TestCase):
             root = Path(directory)
             build_project(root)
             approve_story(root)
-            short_prose = ("차가운 바람이 거리를 훑었다. " * 90)[:1300]
+            short_prose = ("차가운 바람이 거리를 훑었다. " * 90)[:1200]
             llm = FakeLLM(
                 [
                     json.dumps(
@@ -297,6 +297,7 @@ class GenerateProseTests(unittest.TestCase):
             self.assertIn("전체 장면을 다시 구성", llm.calls[1][1])
             self.assertNotIn("추가 산문만", llm.calls[1][1])
             self.assertIn("현재 미래 요소 충돌 특별 경계", llm.calls[1][1])
+            self.assertIn(short_prose.strip(), llm.calls[1][1])
 
     def test_scene_id_single_key_response_is_accepted(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

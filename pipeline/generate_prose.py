@@ -26,6 +26,7 @@ from pipeline.validate_structure import validate_project, validate_schema
 MAX_PROSE_ATTEMPTS = 3
 MAX_REVIEW_ATTEMPTS = 3
 MIN_LENGTH_RATIO = 0.7
+SOLO_MIN_LENGTH_RATIO = 0.65
 MAX_LENGTH_RATIO = 1.5
 PROSE_CONTRACT_VERSION = 2
 DIALOGUE_PATTERN = re.compile(
@@ -473,6 +474,7 @@ def parse_prose_response(
     scene_id: str,
     target_chars: int,
     enforce_length: bool = True,
+    min_length_ratio: float = MIN_LENGTH_RATIO,
 ) -> str:
     value = extract_json(response)
     if (
@@ -501,7 +503,7 @@ def parse_prose_response(
         )
     if not isinstance(prose, str) or not prose.strip():
         raise ProseGenerationError("산문 응답 prose가 비어 있음")
-    minimum = int(target_chars * MIN_LENGTH_RATIO)
+    minimum = int(target_chars * min_length_ratio)
     maximum = int(target_chars * MAX_LENGTH_RATIO)
     if enforce_length and not minimum <= len(prose) <= maximum:
         raise ProseGenerationError(
@@ -682,6 +684,11 @@ def generate_prose_scene(
     previous_prose = previous_prose_context(root, scene_id)
     context = load_scene_context(root, scene_id)
     scene = context["scene"]
+    min_length_ratio = (
+        MIN_LENGTH_RATIO
+        if dialogue_required(context)
+        else SOLO_MIN_LENGTH_RATIO
+    )
     feedback: list[str] | None = None
     previous_candidate = ""
     last_errors: list[str] = []
@@ -707,6 +714,7 @@ def generate_prose_scene(
                     scene_id,
                     scene["target_chars"],
                     enforce_length=False,
+                    min_length_ratio=min_length_ratio,
                 )
                 break
             except (OSError, ProseGenerationError):
@@ -720,6 +728,7 @@ def generate_prose_scene(
                     ),
                     scene_id,
                     scene["target_chars"],
+                    min_length_ratio=min_length_ratio,
                 )
                 style_errors = validate_prose_style(
                     context,
@@ -754,7 +763,7 @@ def generate_prose_scene(
                 write_failure_feedback(work_dir, feedback)
 
     for attempt in range(1, MAX_PROSE_ATTEMPTS + 1):
-        minimum = int(scene["target_chars"] * MIN_LENGTH_RATIO)
+        minimum = int(scene["target_chars"] * min_length_ratio)
         if previous_candidate and len(previous_candidate) < minimum:
             feedback = merge_feedback(
                 feedback,
@@ -767,7 +776,6 @@ def generate_prose_scene(
                 ],
             )
             write_failure_feedback(work_dir, feedback)
-            previous_candidate = ""
         response = llm.generate(
             "generator",
             build_generator_prompt(
@@ -783,6 +791,7 @@ def generate_prose_scene(
                 response,
                 scene_id,
                 scene["target_chars"],
+                min_length_ratio=min_length_ratio,
             )
         except ProseGenerationError as exc:
             last_errors = exc.errors
@@ -792,6 +801,7 @@ def generate_prose_scene(
                     scene_id,
                     scene["target_chars"],
                     enforce_length=False,
+                    min_length_ratio=min_length_ratio,
                 )
             except ProseGenerationError:
                 previous_candidate = ""
