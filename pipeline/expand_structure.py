@@ -180,6 +180,13 @@ consumes_setups에 사용할 수 있는 전체 setup 요소:
   두 장면 연속 회상·관찰·설명 장면을 만들지 않는다.
 - 대화 가능한 인물이 함께 있는 장면은 관계나 전술을 바꾸는 대화가
   일어나도록 objective에 이해관계 충돌을 포함한다.
+- 각 장면은 interaction_mode와 dialogue_policy를 실제 장면 작동 방식에 맞게
+  결정한다. interaction_mode는 solo, covert, interpersonal, group 중 하나다.
+  dialogue_policy는 none, optional, required 중 하나다.
+- 협상, 추궁, 관계 변화, 명령 불복, 이해관계 충돌이 장면 결과를 만드는
+  경우에만 required를 사용한다. 혼자 행동하거나 들키지 않는 것이 핵심인
+  잠입·은신·정찰 장면은 none 또는 optional로 둔다.
+- 인물이 둘 이상 등장한다는 이유만으로 required를 사용하지 않는다.
 - 기존 권 목표와 시작·종료 역할을 유지하고 다음 권 사건을 선취하지 않는다.
 - event ID는 {volume_id}-E01부터 연속 순번을 사용한다.
 - scene ID는 각 사건의 S01부터 연속 순번을 사용한다.

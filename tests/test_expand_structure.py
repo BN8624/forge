@@ -44,6 +44,8 @@ def expanded_volume_response(volume_index: int, scene_target: int = 4_000) -> st
                     "event_id": event_id,
                     "sequence": scene_index,
                     "objective": f"{volume_id} 확장 장면 {event_index}-{scene_index}",
+                    "interaction_mode": "interpersonal",
+                    "dialogue_policy": "required",
                     "previous_scene_id": None,
                     "start_state": {},
                     "end_state": {

@@ -77,6 +77,8 @@ def build_project(root: Path, duplicate_owner: bool = False) -> None:
                 "event_id": event_id,
                 "sequence": 1,
                 "objective": f"{index}권의 상태를 바꾼다.",
+                "interaction_mode": "solo",
+                "dialogue_policy": "none",
                 "previous_scene_id": previous_scene_id,
                 "start_state": start,
                 "end_state": end,

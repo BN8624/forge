@@ -237,6 +237,8 @@ def validate_project(root: Path, check_ledger: bool = True) -> list[str]:
                         "event_id",
                         "sequence",
                         "objective",
+                        "interaction_mode",
+                        "dialogue_policy",
                         "previous_scene_id",
                         "start_state",
                         "end_state",

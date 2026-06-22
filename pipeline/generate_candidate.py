@@ -118,6 +118,13 @@ canon_bible.json의 정본 항목 {json.dumps(canon_ids, ensure_ascii=False)}을
 `공포를 묘사한다`, `기능을 설명한다`, `규칙을 학습한다`, `장소를 소개한다`
 처럼 설명만 하는 목표를 만들지 않는다. 설정 공개도 협상, 충돌, 실패,
 추적, 구조, 배신, 거래 같은 현재 사건의 결과로 드러낸다.
+각 장면은 interaction_mode와 dialogue_policy를 실제 장면 작동 방식에 맞게
+결정한다. interaction_mode는 solo, covert, interpersonal, group 중 하나다.
+dialogue_policy는 none, optional, required 중 하나다. 협상, 추궁, 관계 변화,
+명령 불복, 이해관계 충돌이 장면 결과를 만드는 경우에만 required를 사용한다.
+혼자 행동하거나 들키지 않는 것이 핵심인 잠입·은신·정찰 장면에는 대화를
+강제하지 말고 none 또는 optional을 사용한다. 인물이 함께 있다는 이유만으로
+required를 선택하지 않는다.
 인접한 두 장면을 모두 회상·관찰·설명 장면으로 배치하지 않는다.
 compressed_manuscript.md의 기존 인물, 세계관, 사건, 결말을 유지한다.
 기존 10권 설계는 입력이 아니며 5권별 사건 배치는 스스로 새로 결정한다.

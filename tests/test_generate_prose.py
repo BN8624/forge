@@ -429,7 +429,7 @@ class GenerateProseTests(unittest.TestCase):
                 llm.calls[0][1],
             )
             self.assertIn("현재 미래 요소 충돌 특별 경계", llm.calls[0][1])
-            self.assertIn("약 15-35%를 대화", llm.calls[0][1])
+            self.assertIn("대화 정책은 none", llm.calls[0][1])
             self.assertIn("시도 → 방해나 예상 밖 반응", llm.calls[0][1])
             self.assertIn("같은 공포·깨달음", llm.calls[0][1])
             self.assertIn("정보 전달용 독백", llm.calls[1][1])
@@ -439,6 +439,8 @@ class GenerateProseTests(unittest.TestCase):
             "scene": {
                 "previous_scene_id": "V1-E01-S01",
                 "objective": "소라와 협상해 봉인된 문을 연다.",
+                "interaction_mode": "interpersonal",
+                "dialogue_policy": "required",
             }
         }
         prose = "차가운 복도를 바라보며 공포를 느꼈다. " * 100
@@ -453,9 +455,24 @@ class GenerateProseTests(unittest.TestCase):
             "scene": {
                 "previous_scene_id": "V1-E01-S01",
                 "objective": "붕괴하는 통로에서 탈출한다.",
+                "interaction_mode": "solo",
+                "dialogue_policy": "none",
             }
         }
         prose = "그는 무너지는 철판을 건너 출구로 달렸다. " * 100
+
+        self.assertEqual([], validate_prose_style(context, prose))
+
+    def test_covert_scene_uses_explicit_optional_dialogue_policy(self) -> None:
+        context = {
+            "scene": {
+                "previous_scene_id": "V1-E02-S06",
+                "objective": "정찰대를 피해 증기 파이프 사이에 숨는다.",
+                "interaction_mode": "covert",
+                "dialogue_policy": "optional",
+            }
+        }
+        prose = "그는 숨을 죽이고 정찰대의 탐조등이 지나가기를 기다렸다. " * 100
 
         self.assertEqual([], validate_prose_style(context, prose))
 
