@@ -2,15 +2,15 @@
   "id": "V5-E02-S02",
   "event_id": "V5-E02",
   "sequence": 2,
-  "objective": "리안이 흡수한 기억들 속의 고통과 슬픔, 트라우마가 그를 잠식하는 과정을 그린다.",
+  "objective": "심연의 추종자들의 수장(설계자)이 정신적 투영체로 나타나 엘리안을 유혹한다. 모든 기억을 지워 고통을 끝내자는 망각의 해탈을 주장하며, 파편을 파괴해 추락을 가속화하라고 종용한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V5-E02-S01",
   "start_state": {
-    "rian": "수만 명의 기억이 동시에 밀려드는 정신적 충격을 겪음",
-    "elara": "도시의 기억들이 빛의 줄기가 되어 리안에게 모이는 것을 목격함"
+    "status": "발레리우스의 제안 거절"
   },
   "end_state": {
-    "rian": "자아의 경계가 무너지고 타인의 고통과 하나가 됨",
-    "elara": "리안의 고통을 나누려 하지만 접근할 수 없는 장벽을 느낌"
+    "status": "설계자의 망각론 반박"
   },
   "owns": {
     "changes": [],

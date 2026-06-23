@@ -2,21 +2,21 @@
   "id": "V2-E04-S04",
   "event_id": "V2-E04",
   "sequence": 4,
-  "objective": "리안이 자신의 빈자리를 정의해 줄 수 있는 유일한 존재가 엘라라임을 인정하고 그녀에게 의지한다.",
+  "objective": "자신을 도구로 여기는 발레리우스에게 굴복하지 않고, 기록자로서의 독립적인 의지를 증명하기 위해 그의 제안을 역이용할 계획을 세운다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V2-E04-S03",
   "start_state": {
-    "rian": "인간적인 유대감 없이는 생존할 수 없음을 역설적으로 깨달음"
+    "relation": "엘리안을 '살아있는 부품'으로 취급(C3)"
   },
   "end_state": {
-    "rian": "엘라라를 자신의 존재를 정의하는 유일한 구원으로 인식함"
+    "action": "전술적 굴복 결정"
   },
   "owns": {
-    "changes": [
-      "EL_Elara_Salvation"
-    ],
+    "changes": [],
     "setups": [],
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4600
+  "target_chars": 3700
 }

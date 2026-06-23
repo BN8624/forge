@@ -2,18 +2,20 @@
   "id": "V1-E04-S04",
   "event_id": "V1-E04",
   "sequence": 4,
-  "objective": "기억의 조각이 가져온 진실로 인해 리안과 엘라라가 느끼는 심리적 붕괴와 분노를 묘사한다.",
+  "objective": "제6층의 낯선 환경 속에서 센티넬의 잔여 추격조를 피해 은신처로 이동하며, 수집한 파편들이 서로 공명하며 일으키는 정신적 소음을 견뎌낸다.",
+  "interaction_mode": "covert",
+  "dialogue_policy": "none",
   "previous_scene_id": "V1-E04-S03",
   "start_state": {
-    "rian": "도시의 평화가 수만 명의 정체성 말살 위에 세워졌음을 목격함"
+    "location": "제6층 진입로",
+    "status": "불안정한 통과"
   },
   "end_state": {
-    "rian": "더 이상 이전의 무지한 상태로 돌아갈 수 없음을 깨달음"
+    "location": "제6층 은신처 근처",
+    "status": "정신적 피로 극심"
   },
   "owns": {
-    "changes": [
-      "EL_Forbidden_Mem"
-    ],
+    "changes": [],
     "setups": [],
     "payoffs": []
   },

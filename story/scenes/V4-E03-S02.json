@@ -2,13 +2,15 @@
   "id": "V4-E03-S02",
   "event_id": "V4-E03",
   "sequence": 2,
-  "objective": "엘라라가 기록자의 능력을 사용하여 보안 장치에 얽힌 과거의 기억을 해독하는 과정을 묘사한다.",
+  "objective": "코어의 외곽층에서 기억을 잃고 괴물이 된 '공허화된 자들'의 무리를 만난다. 그들이 자신의 기록 장치에서 뿜어져 나오는 기억의 향기에 반응해 공격해오자, 이를 역이용해 그들을 유인하여 제거한다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "none",
   "previous_scene_id": "V4-E03-S01",
   "start_state": {
-    "world": "기록 보관소의 입구에 도달하지만 강력한 기억 보안 장치에 가로막힘"
+    "result": "코어 외곽 진입"
   },
   "end_state": {
-    "world": "보관소의 문이 열리며 잊힌 고대 문명의 기록들이 드러남"
+    "result": "코어 내층 진입로 확보"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3700
+  "target_chars": 4500
 }

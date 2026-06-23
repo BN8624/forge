@@ -2,23 +2,21 @@
   "id": "V2-E02-S04",
   "event_id": "V2-E02",
   "sequence": 4,
-  "objective": "리안의 회로와 일치하는 '생체 저장소' 설계도를 발견하고 그 기능을 분석한다.",
+  "objective": "집을 잃은 주민들의 분노 섞인 추궁에 직면하여, 기록자로서의 능력과 그에 따른 잔인한 대가를 설명하며 갈등한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V2-E02-S03",
   "start_state": {
-    "elara": "과거 문명이 추구했던 영생의 추악한 실패를 목격함"
+    "result": "등가교환의 기록 법칙 확인(C8)"
   },
   "end_state": {
-    "rian": "자신의 신체가 기억을 보존하기 위한 '그릇'으로 설계되었음을 알게 됨"
+    "relation": "하층민들의 증오와 절망 심화"
   },
   "owns": {
     "changes": [],
-    "setups": [
-      "EL_Librarian_Fate"
-    ],
+    "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [
-    "EL_Vessel_Circuit"
-  ],
-  "target_chars": 4600
+  "consumes_setups": [],
+  "target_chars": 3900
 }

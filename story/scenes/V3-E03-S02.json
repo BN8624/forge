@@ -2,21 +2,21 @@
   "id": "V3-E03-S02",
   "event_id": "V3-E03",
   "sequence": 2,
-  "objective": "엘라라가 금지된 구역의 기록을 읽어내며, 자신의 능력이 사실은 이 저장소의 관리자가 되기 위한 설계였음을 깨닫는다.",
+  "objective": "붕괴하는 의식 속에서 소라가 엘리안의 정신적 닻이 된다. 소라는 엘리안이 수집한 기억들 중 '사랑'과 '유대'의 파편들을 정밀하게 연결하여, 공허의 노래를 막아낼 임시 정신 보호막을 형성한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V3-E03-S01",
   "start_state": {
-    "rian": "방대한 기억의 양에 압도당함"
+    "status": "정신적 오염 노출"
   },
   "end_state": {
-    "elara": "자신의 운명이 정해져 있었다는 사실에 절망함"
+    "status": "정신적 안정 회복"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [
-    "EL_Librarian_Fate"
-  ],
-  "target_chars": 4000
+  "consumes_setups": [],
+  "target_chars": 4300
 }

@@ -2,14 +2,15 @@
   "id": "V2-E04-S05",
   "event_id": "V2-E04",
   "sequence": 5,
-  "objective": "상실의 고통을 딛고, 위원회에 대항하여 자신의 진짜 이름을 찾겠다는 의지를 다지며 마무리한다.",
+  "objective": "발레리우스의 제안—더 많은 기억을 효율적으로 수집해 도시를 안정시키라는 명령—을 받아들이는 척하며 그의 신임을 얻는다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V2-E04-S04",
   "start_state": {
-    "rian": "엘라라를 자신의 존재를 정의하는 유일한 구원으로 인식함"
+    "action": "전술적 굴복 결정"
   },
   "end_state": {
-    "rian": "중요한 기억을 얻기 위해 다른 소중한 감정을 희생함",
-    "elara": "기억의 등가교환이 가져오는 영혼의 마모를 목격함"
+    "status": "의회 소속 기록자로 위장"
   },
   "owns": {
     "changes": [],
@@ -17,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4300
+  "target_chars": 3500
 }

@@ -2,14 +2,15 @@
   "id": "V3-E03-S01",
   "event_id": "V3-E03",
   "sequence": 1,
-  "objective": "중앙 저장소 내부의 끝없는 서고와 액체 기억 탱크들이 만들어내는 기괴하고 탐미적인 풍경을 묘사한다.",
+  "objective": "심연의 추종자들이 도시 전체에 '공허의 노래'를 송출한다. 이 파동은 기억의 연결고리를 끊어내며, 기록자인 엘리안은 일반인보다 수십 배 강한 정신적 고통과 오염에 노출된다.",
+  "interaction_mode": "group",
+  "dialogue_policy": "required",
   "previous_scene_id": "V3-E02-S06",
   "start_state": {
-    "rian": "상아탑의 심장부인 중앙 저장소 입구에 도달함",
-    "elara": "지배층이 누리는 기억의 풍요가 하층민의 고통 위에 세워졌음을 확인함"
+    "status": "자아 붕괴의 임계점"
   },
   "end_state": {
-    "rian": "방대한 기억의 양에 압도당함"
+    "status": "정신적 오염 노출"
   },
   "owns": {
     "changes": [],
@@ -17,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 4500
 }

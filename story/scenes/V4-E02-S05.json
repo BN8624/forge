@@ -2,14 +2,15 @@
   "id": "V4-E02-S05",
   "event_id": "V4-E02",
   "sequence": 5,
-  "objective": "도시의 생존자들이 최후의 수단으로 '제물'의 필요성을 언급하며 절망하는 모습을 묘사한다.",
+  "objective": "보관소를 떠나기 전, 설계자가 남긴 마지막 암호문을 해독한다. 이 암호문이 훗날 코어를 무력화하거나 가속화할 수 있는 '기억의 열쇠'임을 깨닫고 이를 기록 장치에 각인한다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "optional",
   "previous_scene_id": "V4-E02-S04",
   "start_state": {
-    "world": "공허수들이 거대한 해일처럼 엔진 중심부를 향해 이동함"
+    "result": "코어 진입 보안 코드 획득"
   },
   "end_state": {
-    "rian": "도시 전체가 공허수의 바다에 잠기는 위기를 맞음",
-    "elara": "사태를 해결할 유일한 방법이 '제물'임을 알게 됨"
+    "result": "코어 무력화 단서 확보"
   },
   "owns": {
     "changes": [],
@@ -17,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4200
+  "target_chars": 4300
 }

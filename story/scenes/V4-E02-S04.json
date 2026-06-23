@@ -2,13 +2,15 @@
   "id": "V4-E02-S04",
   "event_id": "V4-E02",
   "sequence": 4,
-  "objective": "공허수들이 단순한 파괴가 아니라 특정 지점(엔진 심장부)으로 모여들고 있음을 발견한다.",
+  "objective": "의회의 첩자로서 발레리우스에게 거짓 정보를 보고한다. 그가 믿게 만든 가짜 정보의 틈을 이용해, 코어 중심부로 향하는 최단 경로의 보안 코드를 획득한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V4-E02-S03",
   "start_state": {
-    "rian": "신체 회로의 한계까지 기억을 흡수하여 주변을 보호함"
+    "result": "존재론적 의구심 증폭"
   },
   "end_state": {
-    "world": "공허수들이 거대한 해일처럼 엔진 중심부를 향해 이동함"
+    "result": "코어 진입 보안 코드 획득"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3900
+  "target_chars": 4700
 }

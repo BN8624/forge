@@ -2,13 +2,15 @@
   "id": "V4-E02-S02",
   "event_id": "V4-E02",
   "sequence": 2,
-  "objective": "리안과 엘라라가 공포에 질린 사람들을 구출하며 겪는 갈등을 묘사한다.",
+  "objective": "도시의 설계자가 남긴 '망각의 논리' 기록을 읽는다. 고통스러운 기억의 보존이 오히려 인류를 옥죄는 굴레가 된다는 주장에 대해 소라와 격렬하게 논쟁하며 자신의 가치관을 정립한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V4-E02-S01",
   "start_state": {
-    "world": "시민들이 공허수에게 기억을 강탈당하며 자아를 잃어감"
+    "truth": "도시의 정체 확인(C13)"
   },
   "end_state": {
-    "rian": "구출 과정에서 타인의 고통스러운 기억들에 노출되어 정신적 과부하를 느낌"
+    "result": "설계자의 철학 이해"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 4400
 }

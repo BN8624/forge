@@ -2,22 +2,21 @@
   "id": "V3-E04-S07",
   "event_id": "V3-E04",
   "sequence": 7,
-  "objective": "엘라라가 복원한 진실된 기록을 도시 전체의 기억 송신망에 강제로 방류하여 위원회의 정체성을 붕괴시킨다.",
+  "objective": "자아를 긍정한 순간, 무의식 깊은 곳에 억눌려 있던 '존재의 증명'에 대한 강렬한 의지를 발견한다. 그는 이제 타인의 도구가 아닌, 자신의 의지로 도시의 진실을 마주할 준비를 마치며 여정을 이어간다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "optional",
   "previous_scene_id": "V3-E04-S06",
   "start_state": {
-    "rian": "신이 될 기회를 완전히 거부함"
+    "elian": "불완전한 자아의 긍정"
   },
   "end_state": {
-    "rian": "위원회의 권위가 무너지는 것을 목격함",
-    "elara": "조작된 역사의 기록을 완전히 복원함"
+    "status": "진실 추적의 주체 확립"
   },
   "owns": {
-    "changes": [
-      "EL_Committee_Fall"
-    ],
+    "changes": [],
     "setups": [],
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 4300
 }

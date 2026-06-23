@@ -2,13 +2,16 @@
   "id": "V2-E04-S01",
   "event_id": "V2-E04",
   "sequence": 1,
-  "objective": "소중한 감정을 잃어버린 리안이 느끼는 정서적 공허함과 무감각 상태를 묘사한다.",
+  "objective": "코어 진입로에서 기다리고 있던 로드 발레리우스와 대면하고, 그의 압도적인 위압감 속에서 자신의 정체를 드러낸다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V2-E03-S05",
   "start_state": {
-    "rian": "동일한 가치의 다른 기억을 영구히 잃음"
+    "location": "코어 진입로",
+    "knowledge": "코어의 물리적 위치"
   },
   "end_state": {
-    "rian": "엘라라를 보아도 예전과 같은 따스함을 느끼지 못하는 상태가 됨"
+    "relation": "적대적 대치 상태"
   },
   "owns": {
     "changes": [],
@@ -16,5 +19,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 3800
 }

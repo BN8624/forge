@@ -2,21 +2,23 @@
   "id": "V1-E04-S03",
   "event_id": "V1-E04",
   "sequence": 3,
-  "objective": "기억 속에서 드러나는 '대말살 사건'의 참혹한 광경과 위원회의 냉혹한 통제 방식을 묘사한다.",
+  "objective": "제6층으로 향하는 유일한 통로인 '강철의 문'에서 의회 소속 경비대원과 대치하며, 기억 파편의 정보를 미끼로 통과 허가를 협상한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V1-E04-S02",
   "start_state": {
-    "rian": "자신이 본 것이 단순한 기억이 아니라 조작된 역사의 파편임을 깨달음"
+    "result": "핵심 파편 획득",
+    "status": "부상 입음"
   },
   "end_state": {
-    "rian": "도시의 평화가 수만 명의 정체성 말살 위에 세워졌음을 목격함"
+    "location": "제6층 진입로",
+    "status": "불안정한 통과"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [
-    "EL_Fuel_System"
-  ],
-  "target_chars": 4500
+  "consumes_setups": [],
+  "target_chars": 4000
 }

@@ -1,30 +1,13 @@
 {
-  "last_scene_id": "V5-E04-S05",
+  "last_scene_id": "V5-E04-S06",
   "state": {
-    "rian": "잊힌 기억들을 지키며 타인의 행복을 통해 안식을 얻음",
-    "elara": "이유 없는 그리움을 느끼며 새로운 내일을 기록함"
+    "result": "도시의 추락 및 기억의 정원 창조(C21)"
   },
   "applied_element_ids": [
-    "EL_Rian_Identity",
-    "EL_Symbiosis",
-    "EL_Rian_Emotion",
-    "EL_Fuel_System",
-    "EL_Silver_Ink",
-    "EL_Forbidden_Mem",
-    "EL_Vessel_Circuit",
-    "EL_Librarian_Fate",
-    "EL_Vessel_Awareness",
-    "EL_Emotion_Loss",
-    "EL_Elara_Salvation",
-    "EL_Eclipse_Join",
-    "EL_Committee_Fall",
-    "EL_City_Destruction",
-    "EL_Elara_Altar",
-    "EL_Global_Absorb",
-    "EL_Memory_Liberation",
-    "EL_Machine_End",
-    "EL_Humanity_Return",
-    "EL_Librarian_Ascension",
-    "EL_Blue_Sky"
+    "E_ARTIFICIAL_HINT",
+    "E_CORE_TRUTH",
+    "E_HOPE_FRAG",
+    "E_IDENTITY_AWAKENING",
+    "E_FINAL_CHOICE"
   ]
 }

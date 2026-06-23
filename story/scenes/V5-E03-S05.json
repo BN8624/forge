@@ -2,23 +2,23 @@
   "id": "V5-E03-S05",
   "event_id": "V5-E03",
   "sequence": 5,
-  "objective": "인위적인 영생과 통제가 사라지고, 인간이 다시 늙고 잊어가는 자연스러운 삶을 회복함을 묘사한다.",
+  "objective": "자신의 신체가 인공 유기체(C16)로서 붕괴하기 시작하는 임계점에 도달한다. 신체의 기계적 구조를 역이용해 코어의 단자와 자신을 완전히 동기화함으로써 최종 제어권을 장악한다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "optional",
   "previous_scene_id": "V5-E03-S04",
   "start_state": {
-    "rian": "도서관의 관리자 권한을 부여받음",
-    "elara": "상아탑의 벽이 무너지고 외부의 공기가 유입되는 것을 느낌"
+    "status": "제어권 80% 확보"
   },
   "end_state": {
-    "rian": "백색 도서관의 깊은 곳에 안착함",
-    "elara": "자신의 손끝에서 느껴지는 시간의 흐름과 생명력을 깨달음"
+    "status": "코어 제어권 장악 및 최종 보스 확정"
   },
   "owns": {
     "changes": [],
     "setups": [],
-    "payoffs": [
-      "EL_Humanity_Return"
-    ]
+    "payoffs": []
   },
-  "consumes_setups": [],
+  "consumes_setups": [
+    "E_ARTIFICIAL_HINT"
+  ],
   "target_chars": 4000
 }

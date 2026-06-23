@@ -2,23 +2,21 @@
   "id": "V3-E01-S01",
   "event_id": "V3-E01",
   "sequence": 1,
-  "objective": "V2의 여파로 인한 리안의 정서적 결핍과 엘라라의 죄책감을 묘사하여 두 사람의 유대를 강화한다.",
-  "previous_scene_id": "V2-E04-S05",
+  "objective": "심연의 추종자들이 점거한 '침묵의 거리'에 잠입한다. 의회의 센티넬 감시망을 피해 변형된 지형을 통과하여 추종자들의 접선 좌표에 도달해야 한다.",
+  "interaction_mode": "covert",
+  "dialogue_policy": "optional",
+  "previous_scene_id": "V2-E04-S07",
   "start_state": {
-    "rian": "중요한 기억을 얻기 위해 다른 소중한 감정을 희생함",
-    "elara": "기억의 등가교환이 가져오는 영혼의 마모를 목격함"
+    "status": "의회의 이중 첩자"
   },
   "end_state": {
-    "rian": "자신의 내면에 생긴 거대한 공허를 실감함",
-    "elara": "리안을 지키기 위해 더 큰 힘이나 진실이 필요함을 절감함"
+    "location": "추종자들의 접선지"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [
-    "EL_Symbiosis"
-  ],
-  "target_chars": 3500
+  "consumes_setups": [],
+  "target_chars": 4100
 }

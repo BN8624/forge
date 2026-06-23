@@ -2,13 +2,15 @@
   "id": "V3-E02-S02",
   "event_id": "V3-E02",
   "sequence": 2,
-  "objective": "하층 구역에서 상층 상아탑으로 이어지는 수직 통로의 압도적인 규모와 그곳을 지키는 경비 체계를 묘사한다.",
+  "objective": "강화된 장비의 중력 제어 능력을 처음 사용하여 붕괴하는 건물에서 시민을 구출한다. 하지만 능력을 과다 사용한 결과, 자신의 과거와 관련된 소중한 기억 조각 하나가 무작위로 소멸하는 것을 목격한다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "optional",
   "previous_scene_id": "V3-E02-S01",
   "start_state": {
-    "rian": "침투를 위한 최소한의 정체성을 확보함"
+    "result": "공명 강화 장비 완성"
   },
   "end_state": {
-    "rian": "상아탑의 첫 번째 관문을 통과함"
+    "result": "능력 획득 및 첫 기억 상실"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 4100
 }

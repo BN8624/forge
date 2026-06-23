@@ -1,9 +1,9 @@
 {
   "id": "SERIES",
-  "title": "은색의 기록자와 망각의 태엽",
-  "premise": "기억이 물리적인 액체 형태로 추출되어 도시의 동력원으로 사용되는 세계 '오볼루스'. 사람들은 생존과 권력을 위해 소중한 기억을 팔아치우고, 버려진 기억의 찌꺼기들은 '공허수(Hollows)'라는 괴물이 되어 도시를 위협한다. 24시간마다 모든 기억이 소멸하는 저주받은 '공백자' 리안은 타인의 기억을 저장할 수 있는 유일한 그릇으로 태어났으며, 기록자 엘라라와 함께 도시의 추악한 진실과 자신의 존재 이유를 추적하며 기억의 완전한 회복과 파멸 사이의 선택을 강요받는다.",
-  "theme": "망각의 고통을 통한 구원과 존재의 정의",
-  "ending": "리안이 세상의 모든 기억을 흡수하여 스스로 망각된 존재가 됨으로써 엘라라와 도시를 구하고, 백색 도서관의 영원한 관리자가 된다.",
+  "title": "심연의 잔향: 침몰하는 도시의 기록자",
+  "premise": "하늘 위에 떠 있던 최후의 낙원 '에테르가르드'는 알 수 없는 이유로 서서히 심연의 바다로 가라앉고 있다. 도시는 물리적인 추락뿐만 아니라, 사람들의 기억과 존재 자체가 지워지는 '심연의 부식'을 겪는다. 주인공 '엘리안'은 타인의 기억을 읽고 실체화할 수 있는 유일한 '기록자'로, 멸망해가는 도시의 파편을 수집하여 진실을 추적한다. 그는 기억을 복원함으로써 무너진 지형을 되돌리고 사람들의 마음을 바꿀 수 있지만, 그 과정에서 자신의 정체성이 소멸하는 위험을 감수해야 한다. 철권의 의회가 강요하는 거짓된 안녕과 심연의 추종자들이 주장하는 완전한 소멸 사이에서, 엘리안은 도시의 존속과 개인의 구원이라는 잔인한 선택지에 직면한다.",
+  "theme": "상실을 통한 정체성의 재구성 및 진정한 구원의 의미",
+  "ending": "엘리안이 자신의 존재와 모든 기억을 해방하여 도시를 심연으로 추락시키고, 육체적 소멸 대신 모든 기억이 공유되는 새로운 세계 '기억의 정원'을 창조함.",
   "volume_ids": [
     "V1",
     "V2",
@@ -13,111 +13,31 @@
   ],
   "elements": [
     {
-      "id": "EL_Rian_Identity",
-      "kind": "change",
-      "description": "리안이 매일 아침 엘라라로부터 오늘의 이름과 정체성을 부여받음"
-    },
-    {
-      "id": "EL_Rian_Emotion",
-      "kind": "change",
-      "description": "리안이 타인의 기억 조각을 통해 일시적으로 타인의 감정을 모방함"
-    },
-    {
-      "id": "EL_Silver_Ink",
-      "kind": "change",
-      "description": "리안의 피부에 은색 잉크로 정체성을 고정하는 문자가 새겨짐"
-    },
-    {
-      "id": "EL_Forbidden_Mem",
-      "kind": "change",
-      "description": "리안이 위원회가 은폐한 학살과 조작의 금지된 기억 조각을 확보함"
-    },
-    {
-      "id": "EL_Vessel_Awareness",
-      "kind": "change",
-      "description": "리안이 자신이 인간이 아니라 설계된 '살아있는 저장소'임을 깨달음"
-    },
-    {
-      "id": "EL_Emotion_Loss",
-      "kind": "change",
-      "description": "리안이 기억의 등가교환 법칙에 의해 자신의 소중한 정서를 영구히 희생함"
-    },
-    {
-      "id": "EL_Elara_Salvation",
-      "kind": "change",
-      "description": "리안이 엘라라를 자신의 존재를 정의하는 유일한 구원으로 인식함"
-    },
-    {
-      "id": "EL_Eclipse_Join",
-      "kind": "change",
-      "description": "리안이 기억 동력 체계를 파괴하려는 반정부 조직 이클립스에 합류함"
-    },
-    {
-      "id": "EL_Committee_Fall",
-      "kind": "change",
-      "description": "대말살 사건의 진실이 폭로되며 위원회에 대한 대중의 신뢰가 붕괴됨"
-    },
-    {
-      "id": "EL_City_Destruction",
-      "kind": "change",
-      "description": "기억 엔진의 과부하로 도시의 물리적 붕괴와 공허수의 침공이 가속화됨"
-    },
-    {
-      "id": "EL_Elara_Altar",
-      "kind": "change",
-      "description": "엘라라가 모든 슬픔을 짊어질 '영원한 사서'의 제물로서 제단으로 향함"
-    },
-    {
-      "id": "EL_Global_Absorb",
-      "kind": "change",
-      "description": "리안이 세상의 모든 기억과 고통을 자신의 공백 속으로 흡수함"
-    },
-    {
-      "id": "EL_Machine_End",
-      "kind": "change",
-      "description": "기억 동력 엔진이 파괴되어 모든 기계 문명이 정지하고 자연적 망각이 회복됨"
-    },
-    {
-      "id": "EL_Librarian_Ascension",
-      "kind": "change",
-      "description": "리안이 존재 자체가 지워진 채 백색 도서관의 관리자가 됨"
-    },
-    {
-      "id": "EL_Blue_Sky",
-      "kind": "change",
-      "description": "구리색 먼지가 사라지고 오볼루스의 하늘이 투명한 푸른색으로 변함"
-    },
-    {
-      "id": "EL_Symbiosis",
+      "id": "E_HOPE_FRAG",
       "kind": "setup",
-      "description": "공백자 리안과 기록자 엘라라의 생존을 위한 상호의존적 관계"
+      "description": "최초 설계자가 남긴 '희망'이라는 이름의 특수 기억 파편"
     },
     {
-      "id": "EL_Fuel_System",
+      "id": "E_CORE_TRUTH",
       "kind": "setup",
-      "description": "므네모시네 퓨얼을 기반으로 한 기억 추출 동력 체계의 비윤리성"
+      "description": "에테르 코어가 기억을 먹어치우고 있다는 단서"
     },
     {
-      "id": "EL_Vessel_Circuit",
+      "id": "E_ARTIFICIAL_HINT",
       "kind": "setup",
-      "description": "리안의 신체에 각인된 위원회의 기억 저장 회로"
+      "description": "엘리안의 신체 일부가 기계적 구조 혹은 데이터 집합체라는 위질감"
     },
     {
-      "id": "EL_Librarian_Fate",
-      "kind": "setup",
-      "description": "엘라라의 기록 능력이 사실은 제물이 되기 위한 준비 과정이었다는 운명"
-    },
-    {
-      "id": "EL_Memory_Liberation",
+      "id": "E_FINAL_CHOICE",
       "kind": "payoff",
-      "description": "리안의 희생으로 모든 인간이 기억의 상품화에서 벗어나 자유를 얻음",
-      "resolves": "EL_Symbiosis"
+      "description": "수집한 모든 기억과 자아를 환원하여 세계를 초기화하거나 해방함",
+      "resolves": "E_HOPE_FRAG"
     },
     {
-      "id": "EL_Humanity_Return",
+      "id": "E_IDENTITY_AWAKENING",
       "kind": "payoff",
-      "description": "기계적 영생과 통제가 사라지고 인간의 자연스러운 삶과 죽음이 회복됨",
-      "resolves": "EL_Fuel_System"
+      "description": "엘리안이 도구로서의 운명을 거부하고 스스로의 의지로 기억을 선택함",
+      "resolves": "E_ARTIFICIAL_HINT"
     }
   ]
 }

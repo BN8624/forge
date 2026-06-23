@@ -2,20 +2,18 @@
   "id": "V5-E02-S05",
   "event_id": "V5-E02",
   "sequence": 5,
-  "objective": "리안이 세상의 모든 기억과 고통을 완전히 흡수하여 특이점이 되는 정점을 묘사한다.",
+  "objective": "발레리우스와 설계자의 대리인들이 한자리에 모인 혼란 속에서, 엘리안이 '기억의 공유'라는 제3의 길을 선언한다. 망각도 독점도 아닌, 모두가 서로의 고통을 나누어 짊어지는 해방을 주장한다.",
+  "interaction_mode": "group",
+  "dialogue_policy": "required",
   "previous_scene_id": "V5-E02-S04",
   "start_state": {
-    "rian": "완전한 고독 속으로 침잠함",
-    "elara": "눈앞의 존재가 누구인지 잊었지만, 가슴 속의 따스함만은 남김"
+    "status": "시민들의 각성 및 지지"
   },
   "end_state": {
-    "rian": "모든 기억의 집합체이자 동시에 아무것도 아닌 존재가 됨",
-    "elara": "완전한 망각과 함께 구원받음"
+    "decision": "기억의 공유와 해방 결정"
   },
   "owns": {
-    "changes": [
-      "EL_Global_Absorb"
-    ],
+    "changes": [],
     "setups": [],
     "payoffs": []
   },

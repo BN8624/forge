@@ -2,19 +2,23 @@
   "id": "V2-E03-S02",
   "event_id": "V2-E03",
   "sequence": 2,
-  "objective": "기억의 복구를 가능케 하는 고대의 단말기를 찾아내고 작동시킨다.",
+  "objective": "구역을 순찰하는 '클락워크 센티넬'의 감시망을 피하기 위해 기억 파편을 이용해 자신의 존재감을 지우는 은신 작전을 수행한다.",
+  "interaction_mode": "covert",
+  "dialogue_policy": "none",
   "previous_scene_id": "V2-E03-S01",
   "start_state": {
-    "rian": "특정 기억을 복구해야만 다음 단계로 나아갈 수 있음을 깨달음"
+    "location": "기억 전송로 내부"
   },
   "end_state": {
-    "elara": "단말기가 요구하는 '등가교환'의 조건을 확인하고 경악함"
+    "result": "센티넬 감시망 돌파"
   },
   "owns": {
     "changes": [],
-    "setups": [],
+    "setups": [
+      "E_ARTIFICIAL_HINT"
+    ],
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4100
+  "target_chars": 3800
 }

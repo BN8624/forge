@@ -2,21 +2,21 @@
   "id": "V4-E02-S03",
   "event_id": "V4-E02",
   "sequence": 3,
-  "objective": "리안이 자신의 능력을 사용하여 공허수들의 공격을 일시적으로 막아내는 장면을 묘사한다.",
+  "objective": "기록보관소 내부에 숨겨진 '기억의 거울' 장치를 가동한다. 거울에 비친 자신의 모습이 데이터 스트림으로 일렁이는 것을 목격하고, 자신의 존재가 물리적 생명체와 다르다는 위기감을 느낀다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "none",
   "previous_scene_id": "V4-E02-S02",
   "start_state": {
-    "rian": "구출 과정에서 타인의 고통스러운 기억들에 노출되어 정신적 과부하를 느낌"
+    "result": "설계자의 철학 이해"
   },
   "end_state": {
-    "rian": "신체 회로의 한계까지 기억을 흡수하여 주변을 보호함"
+    "result": "존재론적 의구심 증폭"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [
-    "EL_Vessel_Circuit"
-  ],
-  "target_chars": 4400
+  "consumes_setups": [],
+  "target_chars": 4200
 }

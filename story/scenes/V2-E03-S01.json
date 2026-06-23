@@ -2,14 +2,16 @@
   "id": "V2-E03-S01",
   "event_id": "V2-E03",
   "sequence": 1,
-  "objective": "위원회의 다음 계획을 저지하기 위해 필요한 '열쇠 기억'의 존재를 알게 된다.",
-  "previous_scene_id": "V2-E02-S06",
+  "objective": "기억 추출 튜브의 흐름을 추적하기 위해 거대한 증기 파이프 숲으로 진입하고, 복잡한 기계 장치 사이에서 경로를 탐색한다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "optional",
+  "previous_scene_id": "V2-E02-S05",
   "start_state": {
-    "rian": "자신이 위원회가 설계한 '살아있는 저장소'임을 알게 됨",
-    "elara": "리안의 존재가 가진 비극적 목적을 이해함"
+    "result": "등가교환의 기록 법칙 확인(C8)",
+    "relation": "하층민들의 복합적인 증오와 의존"
   },
   "end_state": {
-    "rian": "특정 기억을 복구해야만 다음 단계로 나아갈 수 있음을 깨달음"
+    "location": "기억 전송로 내부"
   },
   "owns": {
     "changes": [],
@@ -17,5 +19,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3900
+  "target_chars": 3600
 }

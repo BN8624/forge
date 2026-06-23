@@ -2,23 +2,22 @@
   "id": "V2-E02-S05",
   "event_id": "V2-E02",
   "sequence": 5,
-  "objective": "리안이 자신이 인간이 아니라 위원회가 만든 도구였다는 사실을 완전히 깨닫고 무너진다.",
+  "objective": "소라와 함께 이번 사건의 의미를 분석하며, 도시를 유지하는 시스템 자체가 타인의 희생을 전제로 함을 확신한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V2-E02-S04",
   "start_state": {
-    "rian": "자신의 신체가 기억을 보존하기 위한 '그릇'으로 설계되었음을 알게 됨"
+    "relation": "하층민들의 증오와 절망 심화"
   },
   "end_state": {
-    "rian": "자아의 근간이 흔들리는 극심한 정체성 붕괴를 겪음"
+    "result": "등가교환의 기록 법칙 확인(C8)",
+    "relation": "하층민들의 복합적인 증오와 의존"
   },
   "owns": {
-    "changes": [
-      "EL_Vessel_Awareness"
-    ],
+    "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [
-    "EL_Librarian_Fate"
-  ],
-  "target_chars": 4800
+  "consumes_setups": [],
+  "target_chars": 3300
 }

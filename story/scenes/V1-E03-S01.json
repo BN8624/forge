@@ -2,14 +2,17 @@
   "id": "V1-E03-S01",
   "event_id": "V1-E03",
   "sequence": 1,
-  "objective": "버려진 기억들이 응집된 '공허수'가 출몰하는 폐기 구역으로의 위험한 여정을 시작한다.",
+  "objective": "거주구에 진입하여 '클락워크 센티넬'의 기계적인 감시망을 목격하고, 시민들이 기억의 유출을 극도로 두려워하는 경직된 분위기를 파악한다.",
+  "interaction_mode": "covert",
+  "dialogue_policy": "none",
   "previous_scene_id": "V1-E02-S05",
   "start_state": {
-    "rian": "기억 추출의 비인간적인 면모에 혐오감을 느낌",
-    "elara": "도시의 시스템에 대한 근본적인 의문을 품기 시작함"
+    "elian": "능력의 위험성 및 부작용 인지",
+    "location": "거주구 진입로"
   },
   "end_state": {
-    "rian": "공허수들이 뿜어내는 기억의 잔해들에 압도당함"
+    "location": "거주구 저층 거리",
+    "result": "감시 체계 인식(C10)"
   },
   "owns": {
     "changes": [],

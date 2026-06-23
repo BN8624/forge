@@ -2,14 +2,15 @@
   "id": "V3-E02-S06",
   "event_id": "V3-E02",
   "sequence": 6,
-  "objective": "엘라라의 헌신적인 기록 고정 작업으로 위기를 넘기고, 마침내 상아탑의 심장부인 중앙 저장소의 육중한 문 앞에 도달한다.",
+  "objective": "정신적 충격으로 인해 쓰러진 엘리안을 소라가 간신히 깨운다. 엘리안은 자신이 누구인지조차 기억나지 않는 공포 속에서, 타인의 기억으로만 채워진 자신의 존재론적 허무함에 직면한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V3-E02-S05",
   "start_state": {
-    "rian": "자신의 신체가 상아탑과 연결되어 있다는 공포를 느낌"
+    "result": "기억 상실과 정체성 혼란"
   },
   "end_state": {
-    "rian": "상아탑의 심장부인 중앙 저장소 입구에 도달함",
-    "elara": "지배층이 누리는 기억의 풍요가 하층민의 고통 위에 세워졌음을 확인함"
+    "status": "자아 붕괴의 임계점"
   },
   "owns": {
     "changes": [],
@@ -17,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3500
+  "target_chars": 4000
 }

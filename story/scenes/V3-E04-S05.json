@@ -2,13 +2,15 @@
   "id": "V3-E04-S05",
   "event_id": "V3-E04",
   "sequence": 5,
-  "objective": "위원장이 제시하는 '고통 없는 영생'의 환상과 리안이 갈구하는 '아픈 인간의 삶' 사이의 가치관 충돌을 다룬다.",
+  "objective": "자신의 내면에 남은 '빈 공간'을 응시한다. 그는 삭제된 기억을 타인의 것으로 채우려는 강박을 버리고, 그 공허함이야말로 타인의 고통을 편견 없이 담아낼 수 있는 그릇임을 깨닫는다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "none",
   "previous_scene_id": "V3-E04-S04",
   "start_state": {
-    "rian": "위원회의 통치 기반이 거대한 거짓말 위에 세워졌음을 확신함"
+    "status": "독자적 제3의 길 선택"
   },
   "end_state": {
-    "rian": "자신의 의지로 슬퍼할 권리를 선택함"
+    "result": "공허의 가치 발견"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3500
+  "target_chars": 4200
 }

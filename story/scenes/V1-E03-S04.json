@@ -2,18 +2,20 @@
   "id": "V1-E03-S04",
   "event_id": "V1-E03",
   "sequence": 4,
-  "objective": "엘라라가 은색 잉크를 사용하여 리안의 붕괴되는 의식을 강제로 고정하는 긴박한 상황을 묘사한다.",
+  "objective": "거래 도중 센티넬의 순찰대가 들이닥치자, 카엘을 보호하기 위해 기억 파편을 사용해 가짜 잔상을 만들어 센티넬의 시선을 돌리고 극적으로 탈출한다.",
+  "interaction_mode": "covert",
+  "dialogue_policy": "optional",
   "previous_scene_id": "V1-E03-S03",
   "start_state": {
-    "rian": "수많은 타인의 비명이 머릿속에서 소용돌이치는 혼란에 빠짐"
+    "elian": "의회의 기억 수탈 인지",
+    "result": "기억 파편 추가 획득"
   },
   "end_state": {
-    "rian": "은색 잉크의 구속력 덕분에 자아를 간신히 유지함"
+    "location": "거주구 중심가",
+    "status": "센티넬의 추적 대상 등극"
   },
   "owns": {
-    "changes": [
-      "EL_Silver_Ink"
-    ],
+    "changes": [],
     "setups": [],
     "payoffs": []
   },

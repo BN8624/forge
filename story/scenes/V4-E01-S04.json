@@ -2,13 +2,15 @@
   "id": "V4-E01-S04",
   "event_id": "V4-E01",
   "sequence": 4,
-  "objective": "엔진의 붕괴로 인해 억눌려 있던 트라우마들이 물리적 형태로 분출되는 과정을 묘사한다.",
+  "objective": "보관소의 보안 시스템이 엘리안의 정체성을 스캔하며 경보를 울린다. 추격해오는 센티넬들을 따돌리기 위해 주변의 기억 파편을 폭주시켜 환영 지형을 생성한다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "none",
   "previous_scene_id": "V4-E01-S03",
   "start_state": {
-    "world": "상아탑의 일부 구역이 무너져 내리며 하층 구역을 덮침"
+    "result": "단말기 제어권 획득"
   },
   "end_state": {
-    "world": "도시의 배수구와 환기구에서 검은 액체 형태의 기억 찌꺼기들이 솟구침"
+    "result": "추격대 따돌림 성공"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3800
+  "target_chars": 4300
 }

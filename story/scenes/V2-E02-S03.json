@@ -2,21 +2,21 @@
   "id": "V2-E02-S03",
   "event_id": "V2-E02",
   "sequence": 3,
-  "objective": "과거 기억 디지털화 실험의 실패 흔적과 버려진 기록 장치들을 발견한다.",
+  "objective": "복구된 다리의 대가로 인접한 주거 구역의 지반이 갑자기 무너져 내리는 현상을 목격하고, '등가교환의 기록' 법칙을 깨닫는다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "optional",
   "previous_scene_id": "V2-E02-S02",
   "start_state": {
-    "rian": "공허수들이 자신의 기억을 갈구하며 달려드는 공포를 경험함"
+    "relation": "하층민들의 일시적 신뢰 확보"
   },
   "end_state": {
-    "elara": "과거 문명이 추구했던 영생의 추악한 실패를 목격함"
+    "result": "등가교환의 기록 법칙 확인(C8)"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [
-    "EL_Fuel_System"
-  ],
-  "target_chars": 4400
+  "consumes_setups": [],
+  "target_chars": 4100
 }

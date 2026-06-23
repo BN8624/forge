@@ -2,21 +2,21 @@
   "id": "V4-E03-S04",
   "event_id": "V4-E03",
   "sequence": 4,
-  "objective": "엘라라가 자신의 기록 능력이 사실은 사서가 되기 위한 '동조 과정'이었음을 깨닫는 심리적 붕괴를 묘사한다.",
+  "objective": "코어의 에너지 흐름에 자신의 의식을 동조시킨다. 이 과정에서 자신의 사고 체계가 인간의 뇌가 아닌, 코어의 연산 방식과 동일한 패턴으로 작동하고 있음을 발견하고 경악한다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "none",
   "previous_scene_id": "V4-E03-S03",
   "start_state": {
-    "world": "사서가 모든 슬픔을 흡수하여 격리해야만 도시가 유지된다는 사실을 발견함"
+    "truth": "코어의 정체와 굶주림 확인(C14)"
   },
   "end_state": {
-    "elara": "자신의 존재 이유가 결국 거대한 쓰레기통이자 제물이었다는 사실에 절망함"
+    "result": "신체 구조의 이질성 인지"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [
-    "EL_Librarian_Fate"
-  ],
+  "consumes_setups": [],
   "target_chars": 4300
 }

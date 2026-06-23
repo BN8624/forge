@@ -2,13 +2,15 @@
   "id": "V3-E04-S04",
   "event_id": "V3-E04",
   "sequence": 4,
-  "objective": "대말살 사건이 단순한 사고가 아니라, 위원회가 권력을 공고히 하기 위해 의도적으로 설계한 인위적 재앙이었음을 폭로한다.",
+  "objective": "두 세력의 갈등이 격해지며 엘리안을 사이에 둔 물리적 충돌이 발생한다. 엘리안은 어느 한 쪽의 손을 잡는 대신, 유물의 능력을 이용해 양측의 공격을 무력화하며 자신의 독자적인 입지를 선언한다.",
+  "interaction_mode": "group",
+  "dialogue_policy": "required",
   "previous_scene_id": "V3-E04-S03",
   "start_state": {
-    "rian": "전능함과 정체성 사이에서 극심한 혼란을 느낌"
+    "result": "혼돈의 유혹 인지"
   },
   "end_state": {
-    "rian": "위원회의 통치 기반이 거대한 거짓말 위에 세워졌음을 확신함"
+    "status": "독자적 제3의 길 선택"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4500
+  "target_chars": 4800
 }

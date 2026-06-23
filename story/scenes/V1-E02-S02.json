@@ -2,21 +2,23 @@
   "id": "V1-E02-S02",
   "event_id": "V1-E02",
   "sequence": 2,
-  "objective": "므네모시네 퓨얼의 작동 원리와 그것이 인간의 기억을 소모한다는 비윤리적 진실을 드러낸다.",
+  "objective": "공허화된 자들의 추격을 피해 도망치며, 자신의 기록 장치가 뿜어내는 파동이 그들을 더욱 강하게 유인한다는 사실을 깨닫는다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "none",
   "previous_scene_id": "V1-E02-S01",
   "start_state": {
-    "rian": "의뢰인의 절박함과 기억의 가치에 대해 의문을 가짐"
+    "status": "적대적 조우",
+    "location": "광장 외곽"
   },
   "end_state": {
-    "rian": "도시의 동력이 타인의 상실 위에 세워졌음을 깨달음"
+    "status": "추격전 진행",
+    "location": "좁은 골목"
   },
   "owns": {
     "changes": [],
-    "setups": [
-      "EL_Fuel_System"
-    ],
+    "setups": [],
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4500
+  "target_chars": 4000
 }

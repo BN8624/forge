@@ -2,13 +2,15 @@
   "id": "V3-E04-S03",
   "event_id": "V3-E04",
   "sequence": 3,
-  "objective": "위원장이 리안의 '공백'을 이용해 그를 새로운 기억의 왕으로 만들려는 유혹과 심리적 압박을 묘사한다.",
+  "objective": "심연의 설계자가 제시하는 '망각의 해탈'을 검토한다. 그는 기억이야말로 인간을 옭아매는 저주이며, 모든 존재가 기억을 버리고 순수한 정보의 바다로 돌아가는 것이 진정한 자유라고 주장하며 엘리안을 유혹한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V3-E04-S02",
   "start_state": {
-    "rian": "개인의 자아가 사라진 거대 집합체의 허무함을 목격함"
+    "result": "질서의 유혹 인지"
   },
   "end_state": {
-    "rian": "전능함과 정체성 사이에서 극심한 혼란을 느낌"
+    "result": "혼돈의 유혹 인지"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 4700
 }

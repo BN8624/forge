@@ -2,13 +2,15 @@
   "id": "V3-E04-S06",
   "event_id": "V3-E04",
   "sequence": 6,
-  "objective": "리안이 위원장의 제안을 정면으로 거부하며, 그가 가진 모든 기억의 권위를 부정하는 결정적 순간을 묘사한다.",
+  "objective": "소라와 함께 자신의 불완전한 자아를 긍정하는 마지막 의식을 치른다. 그는 완벽한 인간이 되기를 포기하고, 파편들의 집합체로서의 자신을 받아들임으로써 정신적인 완전한 독립을 이룬다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V3-E04-S05",
   "start_state": {
-    "rian": "자신의 의지로 슬퍼할 권리를 선택함"
+    "result": "공허의 가치 발견"
   },
   "end_state": {
-    "rian": "신이 될 기회를 완전히 거부함"
+    "elian": "불완전한 자아의 긍정"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3000
+  "target_chars": 4500
 }

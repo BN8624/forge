@@ -2,15 +2,15 @@
   "id": "V5-E02-S03",
   "event_id": "V5-E02",
   "sequence": 3,
-  "objective": "리안이 자신의 존재 기록을 세상에서 지워내는 등가교환의 과정을 묘사한다.",
+  "objective": "소라의 존재가 기억 파편의 충돌로 인해 소멸 위기에 처한다. 엘리안은 자신의 자아 일부를 떼어 소라의 형상을 유지시키며, 도구로서의 관계를 넘어선 정서적 유대를 확인한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V5-E02-S02",
   "start_state": {
-    "rian": "자아의 경계가 무너지고 타인의 고통과 하나가 됨",
-    "elara": "리안의 고통을 나누려 하지만 접근할 수 없는 장벽을 느낌"
+    "status": "설계자의 망각론 반박"
   },
   "end_state": {
-    "rian": "세상 모든 이들의 기억 속에서 자신의 형상과 이름이 사라짐",
-    "elara": "리안의 얼굴이 희미해지며 그에 대한 기억이 조각나기 시작함"
+    "status": "소라와의 유대 강화"
   },
   "owns": {
     "changes": [],

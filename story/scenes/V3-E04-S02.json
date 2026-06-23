@@ -2,13 +2,15 @@
   "id": "V3-E04-S02",
   "event_id": "V3-E04",
   "sequence": 2,
-  "objective": "위원장이 단일 인격이 아니라 수백 년간 축적된 역대 위원장들의 기억 집합체라는 충격적인 진실을 드러낸다.",
+  "objective": "로드 발레리우스가 제시하는 '질서의 구원'을 검토한다. 그는 모든 기억을 체계적으로 통제하여 고통 없는 정지된 낙원을 만들겠다고 제안하며, 엘리안에게 그 시스템의 관리자가 되어 영생을 누릴 것을 요구한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V3-E04-S01",
   "start_state": {
-    "rian": "위원장과 대면함"
+    "status": "양극단의 선택지 직면"
   },
   "end_state": {
-    "rian": "개인의 자아가 사라진 거대 집합체의 허무함을 목격함"
+    "result": "질서의 유혹 인지"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 4600
 }

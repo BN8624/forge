@@ -1,0 +1,22 @@
+{
+  "id": "V2-E04-S06",
+  "event_id": "V2-E04",
+  "sequence": 6,
+  "objective": "의회 내부의 비밀 기록보관소에 접근할 수 있는 특수 권한(액세스 키)을 요구하고, 이를 통해 진실을 파헤칠 발판을 마련한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
+  "previous_scene_id": "V2-E04-S05",
+  "start_state": {
+    "status": "의회 소속 기록자로 위장"
+  },
+  "end_state": {
+    "knowledge": "비밀 기록보관소 접근 권한 획득"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 3600
+}

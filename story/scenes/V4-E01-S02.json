@@ -2,21 +2,21 @@
   "id": "V4-E01-S02",
   "event_id": "V4-E01",
   "sequence": 2,
-  "objective": "므네모시네 엔진의 과부하가 기억 추출 시스템에 미치는 영향을 입증한다.",
+  "objective": "가동률 조절 장치의 복잡한 톱니 구조를 파악한다. 장치를 조작해 도시의 부상 높이를 강제로 변동시켜, 폐쇄된 내부 문을 물리적으로 개방한다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "optional",
   "previous_scene_id": "V4-E01-S01",
   "start_state": {
-    "world": "도시 곳곳에서 원인을 알 수 없는 진동이 발생함"
+    "result": "보관소 1차 진입 성공"
   },
   "end_state": {
-    "world": "기억 연료의 역류 현상이 발생하여 시민들이 집단 환각에 빠짐"
+    "result": "가동률과 부상 높이의 상관관계 확인(C9)"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [
-    "EL_Fuel_System"
-  ],
-  "target_chars": 4200
+  "consumes_setups": [],
+  "target_chars": 4500
 }

@@ -2,13 +2,15 @@
   "id": "V4-E03-S05",
   "event_id": "V4-E03",
   "sequence": 5,
-  "objective": "리안이 절망하는 엘라라를 위로하며, 제단으로 가지 않고 다른 방법을 찾겠다고 다짐하는 장면을 묘사한다.",
+  "objective": "코어의 중심 핵에 접촉하는 순간, 피부 아래에서 기계적인 회로와 데이터 스트림이 명멸하는 것을 목격한다. 자신이 유기체가 아닌, 코어의 확장된 일부라는 위질감을 뼈저리게 느낀다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "none",
   "previous_scene_id": "V4-E03-S04",
   "start_state": {
-    "elara": "자신의 존재 이유가 결국 거대한 쓰레기통이자 제물이었다는 사실에 절망함"
+    "result": "신체 구조의 이질성 인지"
   },
   "end_state": {
-    "world": "모든 슬픔을 흡수해 격리할 사서의 필요성이 입증됨"
+    "result": "정체성 붕괴의 시작"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 4700
 }

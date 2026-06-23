@@ -2,19 +2,23 @@
   "id": "V4-E04-S03",
   "event_id": "V4-E04",
   "sequence": 3,
-  "objective": "엘라라가 자신의 운명을 받아들이며 리안에게 마지막 인사를 준비하는 애상적인 분위기를 묘사한다.",
+  "objective": "절망 속에서 소라가 건넨 '희망'의 기억 파편을 활성화한다. 설계자가 남긴 이 특수 파편을 통해, 도구로서의 운명을 넘어설 수 있는 '자유 의지'의 가능성을 발견한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V4-E04-S02",
   "start_state": {
-    "world": "리안과 엘라라가 위원회 잔당들의 추격을 피해 제단으로 향하는 길로 내몰림"
+    "result": "정서적 최저점 도달"
   },
   "end_state": {
-    "elara": "자신의 희생이 도시의 수많은 생명을 구할 수 있다는 사실에 체념 섞인 결심을 함"
+    "result": "자아 회복의 실마리 확보"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [],
-  "target_chars": 4100
+  "consumes_setups": [
+    "E_HOPE_FRAG"
+  ],
+  "target_chars": 4800
 }

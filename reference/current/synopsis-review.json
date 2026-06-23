@@ -1,0 +1,102 @@
+{
+  "status": "pass",
+  "selected_id": "S1",
+  "ranking": [
+    "S1",
+    "S3",
+    "S5",
+    "S4",
+    "S2"
+  ],
+  "evaluations": [
+    {
+      "id": "S1",
+      "scores": {
+        "novel": 9,
+        "core_loop": 9,
+        "player_agency": 8,
+        "content_scale": 9,
+        "differentiation": 8
+      },
+      "strengths": [
+        "서사와 성장 시스템(기록 복원)의 완벽한 결합",
+        "수직적 맵 구조를 통한 명확한 단계별 확장성"
+      ],
+      "risks": [
+        "다크 판타지/스팀펑크 장르의 전형적인 분위기로 흐를 위험"
+      ]
+    },
+    {
+      "id": "S3",
+      "scores": {
+        "novel": 8,
+        "core_loop": 10,
+        "player_agency": 8,
+        "content_scale": 10,
+        "differentiation": 8
+      },
+      "strengths": [
+        "수집-제작-전투로 이어지는 매우 강력한 게임 플레이 루프",
+        "빌드 다양성 확보 용이"
+      ],
+      "risks": [
+        "동양 판타지 퇴마물의 기시감",
+        "성장 밸런스 조절의 난이도"
+      ]
+    },
+    {
+      "id": "S5",
+      "scores": {
+        "novel": 8,
+        "core_loop": 7,
+        "player_agency": 9,
+        "content_scale": 7,
+        "differentiation": 10
+      },
+      "strengths": [
+        "'서사 수정'이라는 독보적인 기믹과 높은 예술적 차별성"
+      ],
+      "risks": [
+        "추상적인 설정으로 인한 플레이어의 진입장벽 및 레벨 디자인의 난해함"
+      ]
+    },
+    {
+      "id": "S4",
+      "scores": {
+        "novel": 7,
+        "core_loop": 9,
+        "player_agency": 8,
+        "content_scale": 8,
+        "differentiation": 7
+      },
+      "strengths": [
+        "생존 압박과 기지 건설이 주는 명확한 목적성과 몰입감"
+      ],
+      "risks": [
+        "반복적인 자원 수집으로 인한 중반부 루즈함 가능성"
+      ]
+    },
+    {
+      "id": "S2",
+      "scores": {
+        "novel": 8,
+        "core_loop": 7,
+        "player_agency": 8,
+        "content_scale": 7,
+        "differentiation": 7
+      },
+      "strengths": [
+        "정치적 긴장감과 정체성 혼란을 다룬 밀도 높은 서사"
+      ],
+      "risks": [
+        "잠입/해킹 위주의 루프가 액션 게임으로서의 확장성을 제한함"
+      ]
+    }
+  ],
+  "selection_reason": "S1은 5권 분량의 장편 소설이 가진 '멸망해가는 도시'라는 비극적 서사와 '기록자'라는 플레이어의 역할이 게임의 핵심 루프(수집→복원→성장)와 가장 유기적으로 결합되어 있음. 특히 층별 던전 구조는 콘텐츠 확장성이 뛰어나며, 기억의 전달 대상에 따라 세계 상태가 변하는 구조는 플레이어의 선택에 실질적인 무게감을 부여함.",
+  "development_directives": [
+    "기억 파편이 단순히 스탯 상승이 아닌, 맵의 지형이나 NPC의 태도를 바꾸는 '환경적 변화'로 이어지도록 설계할 것",
+    "스팀펑크 장비의 강화 체계가 심연의 유물 특성과 결합되어 독특한 시너지를 내는 빌드 시스템 구축",
+    "도시의 침몰 단계에 따른 시간 제한 요소(Ticking Clock)를 도입하여 서사적 긴장감 극대화"
+  ]
+}

@@ -2,15 +2,15 @@
   "id": "V5-E04-S01",
   "event_id": "V5-E04",
   "sequence": 1,
-  "objective": "리안이 눈을 뜬 백색 도서관의 무한한 공간과 정적을 묘사한다.",
+  "objective": "전달 대상 선택에 따라 결정된 최종 보스(질서의 화신 발레리우스 vs 혼돈의 심연 설계자)와 최후의 결전을 벌인다. 보스의 이념적 공격을 수집한 기억들의 공명으로 상쇄하며 물리적/정신적 타격을 입힌다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V5-E03-S05",
   "start_state": {
-    "rian": "백색 도서관의 깊은 곳에 안착함",
-    "elara": "자신의 손끝에서 느껴지는 시간의 흐름과 생명력을 깨달음"
+    "status": "코어 제어권 장악 및 최종 보스 확정"
   },
   "end_state": {
-    "rian": "자신이 세상의 모든 잊힌 것들의 보관소가 되었음을 인지함",
-    "elara": "폐허가 된 도시에서 새로운 공동체를 형성하기 시작함"
+    "status": "최종 보스 패배"
   },
   "owns": {
     "changes": [],

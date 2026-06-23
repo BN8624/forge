@@ -2,15 +2,15 @@
   "id": "V5-E01-S05",
   "event_id": "V5-E01",
   "sequence": 5,
-  "objective": "리안이 엘라라와의 마지막 작별 인사를 나누며 흡수 프로세스를 준비한다.",
+  "objective": "금고 내부에서 최초 설계자가 남긴 '희망'의 기억 파편을 회수한다. 파편을 접촉하는 순간 설계자의 마지막 메시지를 듣게 되며, 도시의 진정한 목적이 보존이 아닌 '전이'였음을 깨닫는다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "optional",
   "previous_scene_id": "V5-E01-S04",
   "start_state": {
-    "rian": "존재의 소멸이라는 대가를 받아들임",
-    "elara": "리안을 말리려 하지만 그의 확고한 의지를 확인함"
+    "location": "최초 설계자의 금고 앞"
   },
   "end_state": {
-    "rian": "자신의 '공백'을 극한으로 개방함",
-    "elara": "리안의 손을 잡고 마지막 기도를 올림"
+    "item": "E_HOPE_FRAG 획득"
   },
   "owns": {
     "changes": [],

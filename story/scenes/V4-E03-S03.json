@@ -2,19 +2,23 @@
   "id": "V4-E03-S03",
   "event_id": "V4-E03",
   "sequence": 3,
-  "objective": "보관소 내부에서 '영원한 사서'라는 개념과 그 설계 목적에 대한 문서를 발견한다.",
+  "objective": "코어의 맥동이 만들어내는 '공허의 노래'에 노출된다. 정신이 붕괴될 위기 속에서, 코어가 도시의 기억을 연료로 집어삼키고 있다는 끔찍한 진실을 직관적으로 깨닫는다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "optional",
   "previous_scene_id": "V4-E03-S02",
   "start_state": {
-    "world": "보관소의 문이 열리며 잊힌 고대 문명의 기록들이 드러남"
+    "result": "코어 내층 진입로 확보"
   },
   "end_state": {
-    "world": "사서가 모든 슬픔을 흡수하여 격리해야만 도시가 유지된다는 사실을 발견함"
+    "truth": "코어의 정체와 굶주림 확인(C14)"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [],
+  "consumes_setups": [
+    "E_CORE_TRUTH"
+  ],
   "target_chars": 4600
 }

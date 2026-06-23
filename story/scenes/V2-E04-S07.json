@@ -1,0 +1,22 @@
+{
+  "id": "V2-E04-S07",
+  "event_id": "V2-E04",
+  "sequence": 7,
+  "objective": "다시 제6층 은신처로 돌아와 소라에게 자신의 결정을 알리고, 의회의 첩자가 되어 내부에서 무너뜨리겠다는 위험한 도박을 시작한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
+  "previous_scene_id": "V2-E04-S06",
+  "start_state": {
+    "knowledge": "비밀 기록보관소 접근 권한 획득"
+  },
+  "end_state": {
+    "status": "의회의 이중 첩자"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4000
+}

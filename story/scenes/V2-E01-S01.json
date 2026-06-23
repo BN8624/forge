@@ -2,22 +2,22 @@
   "id": "V2-E01-S01",
   "event_id": "V2-E01",
   "sequence": 1,
-  "objective": "V1의 충격 이후 리안의 정신적 불안정과 엘라라의 보살핌을 묘사한다.",
+  "objective": "소라와 함께 하층 구역 진입 경로를 설계하고, 자신의 정체성 희석에 대한 공포를 극복하여 하강을 결정한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V1-E04-S05",
   "start_state": {
-    "rian": "위원회가 은폐한 잔혹한 기억의 조각을 발견함",
-    "elara": "도시의 시스템에 대한 강한 회의감을 느낌"
+    "elian": "파편 수집 성공",
+    "location": "제6층 은신처"
   },
   "end_state": {
-    "rian": "타인의 기억 잔재로 인해 심한 두통과 정체성 혼란을 겪음"
+    "action": "하강 경로 확정"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [
-    "EL_Symbiosis"
-  ],
-  "target_chars": 4000
+  "consumes_setups": [],
+  "target_chars": 3500
 }

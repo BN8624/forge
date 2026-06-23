@@ -2,13 +2,15 @@
   "id": "V2-E04-S03",
   "event_id": "V2-E04",
   "sequence": 3,
-  "objective": "감정이 결여된 리안이 효율성만을 추구하다가 위험한 상황에 처하는 갈등을 묘사한다.",
+  "objective": "발레리우스가 엘리안을 인간이 아닌, 코어를 유지하기 위한 '살아있는 부품'으로 설계했다는 충격적인 사실을 듣고 정체성의 혼란을 느낀다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V2-E04-S02",
   "start_state": {
-    "elara": "리안의 영혼이 깎여 나가는 것을 보며 깊은 슬픔과 책임감을 느낌"
+    "knowledge": "의회의 통제 목적 확인"
   },
   "end_state": {
-    "rian": "인간적인 유대감 없이는 생존할 수 없음을 역설적으로 깨달음"
+    "relation": "엘리안을 '살아있는 부품'으로 취급(C3)"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4100
+  "target_chars": 4300
 }

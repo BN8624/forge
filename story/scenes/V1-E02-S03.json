@@ -2,13 +2,17 @@
   "id": "V1-E02-S03",
   "event_id": "V1-E02",
   "sequence": 3,
-  "objective": "기억 추출 과정에서 발생하는 '유령 통증'의 고통을 묘사하여 기억 삭제의 잔혹성을 입증한다.",
+  "objective": "막다른 길에 몰린 상황에서 소라의 조언에 따라 수집한 기억 파편을 의도적으로 방출하여 공허화된 자들의 시선을 돌리는 도박을 감행한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V1-E02-S02",
   "start_state": {
-    "rian": "도시의 동력이 타인의 상실 위에 세워졌음을 깨달음"
+    "status": "추격전 진행",
+    "location": "좁은 골목"
   },
   "end_state": {
-    "rian": "신체에 남는 정서적 잔재의 고통에 공감하며 괴로워함"
+    "result": "일시적 탈출 성공",
+    "status": "기억 파편 소모"
   },
   "owns": {
     "changes": [],

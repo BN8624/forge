@@ -2,19 +2,23 @@
   "id": "V2-E03-S03",
   "event_id": "V2-E03",
   "sequence": 3,
-  "objective": "리안이 가치 없는 기억들로 교환을 시도하지만, 시스템에 의해 거부당하는 실패를 겪는다.",
+  "objective": "심연의 유물을 결합한 스팀펑크 장비를 사용해 잠긴 보안문을 강제로 개방하고, 그 대가로 자신의 소중한 기억 일부가 삭제되는 고통을 겪는다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "optional",
   "previous_scene_id": "V2-E03-S02",
   "start_state": {
-    "elara": "단말기가 요구하는 '등가교환'의 조건을 확인하고 경악함"
+    "result": "센티넬 감시망 돌파"
   },
   "end_state": {
-    "rian": "기억의 가치가 정서적 강도에 비례한다는 잔혹한 법칙을 체감함"
+    "result": "보안 구역 진입 성공"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [],
-  "target_chars": 4300
+  "consumes_setups": [
+    "E_ARTIFICIAL_HINT"
+  ],
+  "target_chars": 4200
 }

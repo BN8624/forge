@@ -2,13 +2,15 @@
   "id": "V3-E03-S05",
   "event_id": "V3-E03",
   "sequence": 5,
-  "objective": "이클립스가 저장소의 동력원을 파괴하려는 시도와 그로 인해 발생하는 기억 액체의 범람, 아수라장이 된 저장소를 묘사한다.",
+  "objective": "소라의 외침을 통해 내면의 혼돈을 잠재우고, 파편화된 기억들을 억지로 합치지 않고 있는 그대로 인정함으로써 평온을 되찾는다. 이는 '비어 있음' 자체를 자아의 일부로 받아들이는 인식의 전환이다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V3-E03-S04",
   "start_state": {
-    "rian": "자신의 존재 이유가 타인의 자아를 지우기 위함이었다는 사실에 경악함"
+    "result": "자아 붕괴의 임계점 도달"
   },
   "end_state": {
-    "rian": "범람하는 기억의 파편들 속에서 고군분투함"
+    "result": "정신적 오염 극복"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4500
+  "target_chars": 4400
 }

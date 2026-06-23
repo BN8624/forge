@@ -2,19 +2,23 @@
   "id": "V4-E04-S02",
   "event_id": "V4-E04",
   "sequence": 2,
-  "objective": "도시의 남은 지도층(위원회 잔당)이 엘라라를 강제로 제단에 바치려 하며 발생하는 충돌을 묘사한다.",
+  "objective": "코어의 의식과 직접적으로 연결되어, 자신이 수집한 모든 기억이 결국 코어의 '식사'를 돕기 위한 양념이었음을 깨닫고 극심한 배신감과 절망에 빠진다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "none",
   "previous_scene_id": "V4-E04-S01",
   "start_state": {
-    "rian": "어떤 대체 수단도 없으며, 오직 지정된 '그릇'만이 가능함을 확인하고 좌절함"
+    "identity": "코어가 만든 인공 유기체(C16)"
   },
   "end_state": {
-    "world": "리안과 엘라라가 위원회 잔당들의 추격을 피해 제단으로 향하는 길로 내몰림"
+    "result": "정서적 최저점 도달"
   },
   "owns": {
     "changes": [],
-    "setups": [],
+    "setups": [
+      "E_HOPE_FRAG"
+    ],
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4500
+  "target_chars": 4200
 }

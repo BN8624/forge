@@ -2,23 +2,21 @@
   "id": "V5-E03-S01",
   "event_id": "V5-E03",
   "sequence": 1,
-  "objective": "기억 공급이 중단된 므네모시네 엔진이 과부하로 인해 붕괴하기 시작하는 과정을 묘사한다.",
+  "objective": "코어의 중앙 제어실로 진입하기 위해 '기억의 전달' 의식을 수행한다. 누구에게 기억의 주도권을 넘기느냐에 따라 도시의 운명이 결정되는 분기점에서, 엘리안은 전략적으로 한쪽을 선택해 다른 쪽을 무너뜨리기로 한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V5-E02-S05",
   "start_state": {
-    "rian": "모든 기억의 집합체이자 동시에 아무것도 아닌 존재가 됨",
-    "elara": "완전한 망각과 함께 구원받음"
+    "decision": "기억의 공유와 해방 결정"
   },
   "end_state": {
-    "rian": "물리적 육체가 빛으로 분해됨",
-    "elara": "엔진의 굉음과 함께 도시가 진동하는 것을 느낌"
+    "status": "전달 대상 선택 및 갈등 촉발"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [
-    "EL_Fuel_System"
-  ],
+  "consumes_setups": [],
   "target_chars": 4000
 }

@@ -2,21 +2,21 @@
   "id": "V2-E04-S02",
   "event_id": "V2-E04",
   "sequence": 2,
-  "objective": "엘라라가 리안의 상실을 채워주기 위해 필사적으로 그의 존재를 은색 잉크로 기록하는 과정을 그린다.",
+  "objective": "발레리우스가 주장하는 '전체의 생존을 위한 소수의 희생'이라는 공리주의적 논리를 듣고, 이에 반박하며 가치관의 충돌을 겪는다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V2-E04-S01",
   "start_state": {
-    "rian": "엘라라를 보아도 예전과 같은 따스함을 느끼지 못하는 상태가 됨"
+    "relation": "적대적 대치 상태"
   },
   "end_state": {
-    "elara": "리안의 영혼이 깎여 나가는 것을 보며 깊은 슬픔과 책임감을 느낌"
+    "knowledge": "의회의 통제 목적 확인"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [
-    "EL_Symbiosis"
-  ],
-  "target_chars": 4200
+  "consumes_setups": [],
+  "target_chars": 4000
 }

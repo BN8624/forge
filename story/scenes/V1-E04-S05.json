@@ -2,14 +2,17 @@
   "id": "V1-E04-S05",
   "event_id": "V1-E04",
   "sequence": 5,
-  "objective": "위원회의 추적을 피해 도망치며, 이 부조리한 도시를 바꾸겠다는 막연하지만 강렬한 의지를 다지는 것으로 마무리한다.",
+  "objective": "제6층 은신처에 도착하여 수집한 파편들을 정리하고, 기록자로서 도시의 진실을 추적하겠다는 결의를 다지며 다음 여정을 준비한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V1-E04-S04",
   "start_state": {
-    "rian": "더 이상 이전의 무지한 상태로 돌아갈 수 없음을 깨달음"
+    "location": "제6층 은신처 근처",
+    "status": "정신적 피로 극심"
   },
   "end_state": {
-    "rian": "위원회가 은폐한 잔혹한 기억의 조각을 발견함",
-    "elara": "도시의 시스템에 대한 강한 회의감을 느낌"
+    "elian": "파편 수집 성공",
+    "location": "제6층 은신처"
   },
   "owns": {
     "changes": [],

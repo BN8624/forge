@@ -2,21 +2,22 @@
   "id": "V2-E03-S05",
   "event_id": "V2-E03",
   "sequence": 5,
-  "objective": "등가교환이 이루어지는 순간, 리안의 내면에서 감정이 뜯겨 나가는 고통과 그 결과로 얻은 기억을 묘사한다.",
+  "objective": "코어의 입구인 '침묵의 관문'에 도달하여 도시의 부력을 유지하는 동력원의 물리적 위치를 확정하고 진입을 시도한다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "optional",
   "previous_scene_id": "V2-E03-S04",
   "start_state": {
-    "rian": "엘라라와 처음 만났을 때 느꼈던 신뢰의 감정을 제물로 선택함"
+    "discovery": "에테르 코어가 기억을 먹어치우고 있다는 단서"
   },
   "end_state": {
-    "rian": "동일한 가치의 다른 기억을 영구히 잃음"
+    "location": "코어 진입로",
+    "knowledge": "코어의 물리적 위치"
   },
   "owns": {
-    "changes": [
-      "EL_Emotion_Loss"
-    ],
+    "changes": [],
     "setups": [],
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4500
+  "target_chars": 3400
 }

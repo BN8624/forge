@@ -2,23 +2,21 @@
   "id": "V5-E01-S02",
   "event_id": "V5-E01",
   "sequence": 2,
-  "objective": "리안과 엘라라의 마지막 대화를 통해 그들의 상호의존적 유대를 극대화한다.",
+  "objective": "클락워크 센티넬의 감시망을 피해 보관소 내부로 잠입한다. 기록 장치의 노이즈를 이용해 센티넬의 인식 체계를 교란하며 보안 구역의 잠금장치를 해제한다.",
+  "interaction_mode": "covert",
+  "dialogue_policy": "none",
   "previous_scene_id": "V5-E01-S01",
   "start_state": {
-    "rian": "제단의 메커니즘을 보며 절망함",
-    "elara": "자신의 운명을 수용하고 리안을 위로함"
+    "location": "기록보관소 외곽"
   },
   "end_state": {
-    "rian": "엘라라 없는 삶의 무의미함을 깨달음",
-    "elara": "리안이 자신을 잊고 행복해지기를 바람"
+    "location": "보안 구역 내부"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [
-    "EL_Symbiosis"
-  ],
-  "target_chars": 4500
+  "consumes_setups": [],
+  "target_chars": 4000
 }

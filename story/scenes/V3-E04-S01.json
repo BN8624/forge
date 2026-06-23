@@ -2,14 +2,15 @@
   "id": "V3-E04-S01",
   "event_id": "V3-E04",
   "sequence": 1,
-  "objective": "상아탑 최상층, 위원장의 집무실에 도달하여 그가 가진 기괴한 위압감과 정적을 묘사한다.",
-  "previous_scene_id": "V3-E03-S06",
+  "objective": "정신적 위기 이후, 의회와 추종자 양측으로부터 동시에 접근을 받는다. 양측은 엘리안의 유물과 능력이 도시의 운명을 결정할 열쇠임을 강조하며, 그를 포섭하기 위한 치열한 심리전을 시작한다.",
+  "interaction_mode": "group",
+  "dialogue_policy": "required",
+  "previous_scene_id": "V3-E03-S05",
   "start_state": {
-    "rian": "자신이 위원장의 대체품으로 설계되었음을 깨달음",
-    "elara": "조작되기 전의 '진실된 역사' 기록을 일부 복원함"
+    "result": "정신적 오염 극복"
   },
   "end_state": {
-    "rian": "위원장과 대면함"
+    "status": "양극단의 선택지 직면"
   },
   "owns": {
     "changes": [],
@@ -17,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3000
+  "target_chars": 4200
 }

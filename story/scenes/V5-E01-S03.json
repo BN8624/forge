@@ -2,23 +2,21 @@
   "id": "V5-E01-S03",
   "event_id": "V5-E01",
   "sequence": 3,
-  "objective": "리안이 자신의 신체 회로와 제단의 공명 현상을 통해 새로운 가능성을 발견한다.",
+  "objective": "과거 기록자의 잔류 사념이 변질된 '기억의 망령'과 대면한다. 망령이 투사하는 과거의 고통스러운 기억들을 역으로 분석하여 그들의 정체성을 복원함으로써 적대감을 상쇄시킨다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V5-E01-S02",
   "start_state": {
-    "rian": "엘라라 없는 삶의 무의미함을 깨달음",
-    "elara": "리안이 자신을 잊고 행복해지기를 바람"
+    "location": "보안 구역 내부"
   },
   "end_state": {
-    "rian": "자신이 기억을 '저장'하는 것을 넘어 '흡수'할 수 있음을 인지함",
-    "elara": "리안의 갑작스러운 변화에 당혹해함"
+    "item": "보관소 심층부 접근 키 획득"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [
-    "EL_Vessel_Circuit"
-  ],
+  "consumes_setups": [],
   "target_chars": 4000
 }

@@ -2,21 +2,23 @@
   "id": "V1-E03-S03",
   "event_id": "V1-E03",
   "sequence": 3,
-  "objective": "리안이 공허수의 파편화된 기억들을 흡수하며 겪는 정신적 과부하와 고통을 묘사한다.",
+  "objective": "카엘의 기억을 읽어내는 과정에서 의회가 강제로 기억을 추출해가는 '추출 장치'의 존재를 알게 되고, 이에 대한 카엘의 공포와 분노를 공유한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V1-E03-S02",
   "start_state": {
-    "rian": "자신이 공허수들에게는 거대한 먹잇감이자 빈 그릇임을 깨달음"
+    "status": "카엘과의 위험한 거래 성립",
+    "location": "뒷골목 은신처"
   },
   "end_state": {
-    "rian": "수많은 타인의 비명이 머릿속에서 소용돌이치는 혼란에 빠짐"
+    "elian": "의회의 기억 수탈 인지",
+    "result": "기억 파편 추가 획득"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [
-    "EL_Symbiosis"
-  ],
-  "target_chars": 4500
+  "consumes_setups": [],
+  "target_chars": 4000
 }

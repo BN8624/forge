@@ -2,13 +2,15 @@
   "id": "V4-E04-S04",
   "event_id": "V4-E04",
   "sequence": 4,
-  "objective": "제단으로 향하는 길목에서 공허수들의 최후 저항과 리안의 처절한 전투를 묘사한다.",
+  "objective": "최종 기억 전달의 방향성을 결정하는 '분기 장치'를 마주한다. 질서의 유지(발레리우스)와 완전한 망각(설계자) 중 어느 쪽의 기억을 우선시할 것인지 선택의 기로에 서며, 이것이 최종 보스를 결정하는 메커니즘임을 깨닫는다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "optional",
   "previous_scene_id": "V4-E04-S03",
   "start_state": {
-    "elara": "자신의 희생이 도시의 수많은 생명을 구할 수 있다는 사실에 체념 섞인 결심을 함"
+    "result": "자아 회복의 실마리 확보"
   },
   "end_state": {
-    "rian": "심각한 부상을 입었으나 엘라라를 무사히 제단 앞까지 인도함"
+    "result": "최종 분기 조건 설정(C19)"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4400
+  "target_chars": 4900
 }

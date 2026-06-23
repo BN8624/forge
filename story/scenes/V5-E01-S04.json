@@ -2,15 +2,15 @@
   "id": "V5-E01-S04",
   "event_id": "V5-E01",
   "sequence": 4,
-  "objective": "리안이 제3의 길(자신이 모든 기억을 짊어지는 것)의 대가와 위험성을 분석한다.",
+  "objective": "심층부로 내려가는 중 중력 제어 장치의 고장으로 인한 공간 왜곡을 돌파한다. 심연의 유물을 결합한 장비(C7)를 사용하여 시간을 지연시키며 물리적 붕괴 지점을 건너뛴다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "optional",
   "previous_scene_id": "V5-E01-S03",
   "start_state": {
-    "rian": "자신이 기억을 '저장'하는 것을 넘어 '흡수'할 수 있음을 인지함",
-    "elara": "리안의 갑작스러운 변화에 당혹해함"
+    "item": "보관소 심층부 접근 키 획득"
   },
   "end_state": {
-    "rian": "존재의 소멸이라는 대가를 받아들임",
-    "elara": "리안을 말리려 하지만 그의 확고한 의지를 확인함"
+    "location": "최초 설계자의 금고 앞"
   },
   "owns": {
     "changes": [],

@@ -2,13 +2,15 @@
   "id": "V4-E02-S01",
   "event_id": "V4-E02",
   "sequence": 1,
-  "objective": "공허수들의 대규모 습격으로 인한 녹슨 거리의 아비규환을 묘사한다.",
+  "objective": "금지된 서고의 붕괴된 기록들을 복구한다. 파편화된 데이터 사이에서 에테르가르드가 원래 지상의 멸종 후 기억을 보존하기 위해 만들어진 '저장 장치'였다는 기록을 찾아낸다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "optional",
   "previous_scene_id": "V4-E01-S05",
   "start_state": {
-    "world": "상아탑의 동력이 정지하고 도시 전체가 물리적 붕괴의 위기에 처함"
+    "result": "금지된 서고 진입 경로 확보"
   },
   "end_state": {
-    "world": "시민들이 공허수에게 기억을 강탈당하며 자아를 잃어감"
+    "truth": "도시의 정체 확인(C13)"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4300
+  "target_chars": 4600
 }

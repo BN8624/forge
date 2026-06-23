@@ -2,13 +2,15 @@
   "id": "V3-E01-S04",
   "event_id": "V3-E01",
   "sequence": 4,
-  "objective": "이클립스의 리더와 대면하여 기억 동력 체계의 완전한 파괴라는 극단적 이상과 그 정당성을 논쟁한다.",
+  "objective": "거래 도중 의회의 클락워크 센티넬 부대가 습격한다. 엘리안은 추종자들과 함께 싸우며, 의회 측에는 자신이 배신당해 공격받고 있다는 거짓 신호를 보내어 이중 첩자의 지위를 유지해야 한다.",
+  "interaction_mode": "group",
+  "dialogue_policy": "required",
   "previous_scene_id": "V3-E01-S03",
   "start_state": {
-    "rian": "이클립스의 본거지에 도착하여 그들의 규모와 체계성을 확인함"
+    "agreement": "유물 제공 대가로 정보 교환"
   },
   "end_state": {
-    "rian": "체제 유지의 대가가 너무나 가혹하다는 사실에 동조하기 시작함"
+    "status": "이중 첩자 지위 유지"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4500
+  "target_chars": 4200
 }

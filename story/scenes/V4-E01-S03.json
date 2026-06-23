@@ -2,13 +2,15 @@
   "id": "V4-E01-S03",
   "event_id": "V4-E01",
   "sequence": 3,
-  "objective": "상아탑의 기계 장치들이 하나둘씩 정지하며 발생하는 물리적 붕괴를 묘사한다.",
+  "objective": "보관소 내부의 기억 검색 단말기를 가동한다. 단말기가 요구하는 '관리자의 기억'을 대체하기 위해 소라의 잔류 사념을 과부하시켜 권한을 탈취한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V4-E01-S02",
   "start_state": {
-    "world": "기억 연료의 역류 현상이 발생하여 시민들이 집단 환각에 빠짐"
+    "result": "가동률과 부상 높이의 상관관계 확인(C9)"
   },
   "end_state": {
-    "world": "상아탑의 일부 구역이 무너져 내리며 하층 구역을 덮침"
+    "result": "단말기 제어권 획득"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4500
+  "target_chars": 4100
 }

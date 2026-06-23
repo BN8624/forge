@@ -2,13 +2,15 @@
   "id": "V3-E02-S04",
   "event_id": "V3-E02",
   "sequence": 4,
-  "objective": "도시 전체로 므네모시네 퓨얼을 운송하는 거대 파이프라인을 발견하고, 그 액체 속에 갇힌 비명 섞인 기억들을 목격한다.",
+  "objective": "의회의 눈을 피해 하층 구역의 금지된 데이터 뱅크에 잠입한다. 시간 지연 능력을 사용하여 보안망을 돌파하고, 에테르 코어가 기억을 포식하고 있다는 결정적인 증거를 확보한다.",
+  "interaction_mode": "covert",
+  "dialogue_policy": "optional",
   "previous_scene_id": "V3-E02-S03",
   "start_state": {
-    "rian": "상아탑의 내부 구조와 기억 유통 경로를 파악함"
+    "status": "의회의 감시 강화"
   },
   "end_state": {
-    "rian": "기억 동력 체계의 잔혹한 실체에 분노함"
+    "knowledge": "코어의 포식 사실 인지"
   },
   "owns": {
     "changes": [],
@@ -16,7 +18,7 @@
     "payoffs": []
   },
   "consumes_setups": [
-    "EL_Fuel_System"
+    "E_CORE_TRUTH"
   ],
-  "target_chars": 4000
+  "target_chars": 4300
 }

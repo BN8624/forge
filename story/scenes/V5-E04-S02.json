@@ -2,21 +2,23 @@
   "id": "V5-E04-S02",
   "event_id": "V5-E04",
   "sequence": 2,
-  "objective": "리안이 도서관의 책장들을 정리하며 타인의 소박한 행복의 기억들을 읽는 과정을 그린다.",
+  "objective": "패배한 보스가 최후의 수단으로 코어와 자신을 융합해 도시를 강제로 소멸시키려 한다. 엘리안은 '희망'의 파편을 매개체로 코어의 굶주림을 잠재우고 폭주하는 에너지를 안정화시킨다.",
+  "interaction_mode": "group",
+  "dialogue_policy": "optional",
   "previous_scene_id": "V5-E04-S01",
   "start_state": {
-    "rian": "자신이 세상의 모든 잊힌 것들의 보관소가 되었음을 인지함",
-    "elara": "폐허가 된 도시에서 새로운 공동체를 형성하기 시작함"
+    "status": "최종 보스 패배"
   },
   "end_state": {
-    "rian": "타인의 행복을 통해 자신의 고독을 치유함",
-    "elara": "더 이상 기록자가 아니지만, 일상의 소중함을 기록하기 시작함"
+    "status": "코어 안정화"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [],
-  "target_chars": 4500
+  "consumes_setups": [
+    "E_HOPE_FRAG"
+  ],
+  "target_chars": 4000
 }

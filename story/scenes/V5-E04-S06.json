@@ -1,0 +1,22 @@
+{
+  "id": "V5-E04-S06",
+  "event_id": "V5-E04",
+  "sequence": 6,
+  "objective": "심연의 바닥에서 기억의 정원이 피어나는 광경을 목격한다. 엘리안의 개별 자아는 사라지지만, 그의 의지가 정원의 토양이 되어 모든 이들을 품어주는 영원한 안식처가 되었음을 보여주며 마무리한다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "none",
+  "previous_scene_id": "V5-E04-S05",
+  "start_state": {
+    "status": "심연의 바다 도달"
+  },
+  "end_state": {
+    "result": "도시의 추락 및 기억의 정원 창조(C21)"
+  },
+  "owns": {
+    "changes": [],
+    "setups": [],
+    "payoffs": []
+  },
+  "consumes_setups": [],
+  "target_chars": 4000
+}

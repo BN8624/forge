@@ -2,14 +2,17 @@
   "id": "V1-E02-S01",
   "event_id": "V1-E02",
   "sequence": 1,
-  "objective": "기억 밀수업자로서의 첫 의뢰를 받는 과정을 통해 오볼루스의 기억 거래 시장을 소개한다.",
+  "objective": "광장을 이동하던 중, 복원된 기억의 잔향에 이끌려 나타난 '공허화된 자들'의 무리를 발견하고 그들의 굶주린 본능을 목격한다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "none",
   "previous_scene_id": "V1-E01-S05",
   "start_state": {
-    "rian": "임시 정체성을 부여받고 일상으로 복귀함",
-    "elara": "리안의 정신적 의존도를 확인하며 보호 본능을 느낌"
+    "elian": "기록자 능력의 기초 작동 원리 이해",
+    "location": "복구된 광장 외곽"
   },
   "end_state": {
-    "rian": "의뢰인의 절박함과 기억의 가치에 대해 의문을 가짐"
+    "status": "적대적 조우",
+    "location": "광장 외곽"
   },
   "owns": {
     "changes": [],

@@ -2,14 +2,17 @@
   "id": "V1-E04-S01",
   "event_id": "V1-E04",
   "sequence": 1,
-  "objective": "폐기 구역에서 회수한 정체불명의 기억 캡슐을 분석하며 위원회의 보안 체계를 추적한다.",
+  "objective": "갑작스러운 굉음과 함께 제7층 외곽 구역이 심연으로 완전히 추락하는 광경을 목격하며, 도시의 침몰이 단계적으로 진행됨을 절감한다.",
+  "interaction_mode": "group",
+  "dialogue_policy": "optional",
   "previous_scene_id": "V1-E03-S05",
   "start_state": {
-    "rian": "자신의 존재가 단순한 결함 이상의 무언가임을 직감함",
-    "elara": "리안을 잃을지도 모른다는 공포와 함께 그를 지키려는 의지를 다짐"
+    "elian": "의회의 기억 통제 방식 인식",
+    "location": "제7층 거주구 중심"
   },
   "end_state": {
-    "elara": "캡슐에 담긴 기억이 일반적인 추출물이 아닌 '강제 삭제'된 기록임을 발견함"
+    "location": "제7층 붕괴 경계선",
+    "city_stage": 2
   },
   "owns": {
     "changes": [],

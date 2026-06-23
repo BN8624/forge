@@ -2,21 +2,21 @@
   "id": "V2-E01-S04",
   "event_id": "V2-E01",
   "sequence": 4,
-  "objective": "은색 잉크를 이용해 회로의 패턴을 분석하며 그것이 '저장 장치'의 설계도임을 추론한다.",
+  "objective": "은신 중 우연히 시민들의 머리에서 기억을 강제로 추출하는 '추출 스테이션'의 작동 과정을 목격하고 경악한다.",
+  "interaction_mode": "covert",
+  "dialogue_policy": "none",
   "previous_scene_id": "V2-E01-S03",
   "start_state": {
-    "rian": "자신의 몸이 단순한 인간의 육체가 아님을 직감함"
+    "discovery": "공허화된 자들의 공격 본능 확인(C12)"
   },
   "end_state": {
-    "elara": "리안의 신체가 위원회에 의해 인위적으로 개조되었을 가능성을 확신함"
+    "discovery": "기억 추출 튜브 시스템 발견(C15)"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [
-    "EL_Vessel_Circuit"
-  ],
-  "target_chars": 3800
+  "consumes_setups": [],
+  "target_chars": 4000
 }

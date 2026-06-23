@@ -2,23 +2,21 @@
   "id": "V5-E01-S01",
   "event_id": "V5-E01",
   "sequence": 1,
-  "objective": "상아탑 최심부 제단의 압도적인 분위기와 엘라라의 체념을 묘사한다.",
-  "previous_scene_id": "V4-E04-S06",
+  "objective": "침몰 5단계로 진입하여 붕괴하는 제1구역을 돌파해 침묵의 기록보관소 입구에 도달한다. 공허화된 자들의 습격을 물리적인 지형 복구(C5)로 해결하며 전진한다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "optional",
+  "previous_scene_id": "V4-E04-S05",
   "start_state": {
-    "rian": "엘라라를 제단에 바쳐야 하는 잔혹한 선택지에 놓임",
-    "elara": "도시를 위해 자신을 희생하기로 결심함"
+    "identity": "코어가 만든 인공 유기체(C16)"
   },
   "end_state": {
-    "rian": "제단의 메커니즘을 보며 절망함",
-    "elara": "자신의 운명을 수용하고 리안을 위로함"
+    "location": "기록보관소 외곽"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [
-    "EL_Librarian_Fate"
-  ],
+  "consumes_setups": [],
   "target_chars": 4000
 }

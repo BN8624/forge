@@ -2,21 +2,23 @@
   "id": "V1-E01-S03",
   "event_id": "V1-E01",
   "sequence": 3,
-  "objective": "녹슨 거리의 풍경을 통해 도시의 계급 구조를 보여주고, 리안과 엘라라의 생존을 위한 상호의존성을 강조한다.",
+  "objective": "파편 삽입 직후 기록 장치가 과열되고 기억 역류가 시작된다. 엘리안은 팔의 상처 통증으로 자기 경계를 붙든 채 증기 배출핀을 열고 두 차례 동기화를 차단하려 하지만 실패한다. 파편을 뽑아 안전을 택할지, 자아 잠식 위험을 감수하고 수동 잠금 레버를 끝까지 밀지 선택한 뒤 후자를 택해 동기화를 완료하고 정신적 과부하로 쓰러진다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "none",
   "previous_scene_id": "V1-E01-S02",
   "start_state": {
-    "rian": "자신의 존재가 타인에 의해 정의된다는 사실에 허망함을 느낌"
+    "location": "파편 발견 지점",
+    "result": "기억 파편 획득"
   },
   "end_state": {
-    "rian": "엘라라 없이는 단 하루도 존재할 수 없음을 인정함"
+    "elian": "기록 장치 동기화 성공",
+    "status": "정신적 과부하"
   },
   "owns": {
     "changes": [],
-    "setups": [
-      "EL_Symbiosis"
-    ],
+    "setups": [],
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4500
+  "target_chars": 3600
 }

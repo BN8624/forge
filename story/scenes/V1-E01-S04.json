@@ -2,21 +2,23 @@
   "id": "V1-E01-S04",
   "event_id": "V1-E01",
   "sequence": 4,
-  "objective": "리안이 거리의 부랑자로부터 기억 조각을 임시 저장하며 타인의 감정을 모방하는 과정을 묘사한다.",
+  "objective": "동기화된 기억 속 '그리움'의 감정을 실체화하여 부식되어 사라진 다리를 일시적으로 복구하고, 막혀 있던 이동 경로를 확보한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V1-E01-S03",
   "start_state": {
-    "rian": "엘라라 없이는 단 하루도 존재할 수 없음을 인정함"
+    "elian": "기록 장치 동기화 성공",
+    "status": "정신적 과부하"
   },
   "end_state": {
-    "rian": "타인의 슬픔을 자신의 것처럼 느끼며 정체성의 혼란을 겪음"
+    "location": "복구된 다리 건너편",
+    "result": "기억의 닻을 통한 지형 복구(C5)"
   },
   "owns": {
-    "changes": [
-      "EL_Rian_Emotion"
-    ],
+    "changes": [],
     "setups": [],
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 4400
 }

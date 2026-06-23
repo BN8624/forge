@@ -2,21 +2,21 @@
   "id": "V2-E01-S02",
   "event_id": "V2-E01",
   "sequence": 2,
-  "objective": "리안이 므네모시네 퓨얼에 비정상적으로 반응하는 신체적 징후를 발견한다.",
+  "objective": "폐기된 환기구를 통해 '녹슨 심장'으로 잠입하며, 물리적으로 붕괴 중인 지형의 위험을 돌파한다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "optional",
   "previous_scene_id": "V2-E01-S01",
   "start_state": {
-    "rian": "타인의 기억 잔재로 인해 심한 두통과 정체성 혼란을 겪음"
+    "action": "하강 경로 확정"
   },
   "end_state": {
-    "rian": "연료 액체에 닿았을 때 피부 아래에서 빛이 일어나는 것을 목격함"
+    "location": "녹슨 심장 외곽"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [
-    "EL_Fuel_System"
-  ],
-  "target_chars": 4200
+  "consumes_setups": [],
+  "target_chars": 3200
 }

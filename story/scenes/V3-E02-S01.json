@@ -2,20 +2,23 @@
   "id": "V3-E02-S01",
   "event_id": "V3-E02",
   "sequence": 1,
-  "objective": "상아탑 침투를 위한 정교한 작전 계획 수립과 리안의 신체적 제약을 극복하기 위한 임시 기억 주입 과정을 묘사한다.",
-  "previous_scene_id": "V3-E01-S06",
+  "objective": "심연의 유물을 기록 장치에 물리적으로 결합한다. 이 과정에서 엘리안은 자신의 신체가 유기물과 데이터의 기묘한 혼합체라는 위질감을 느끼며 신경계가 재구성되는 극심한 고통을 겪는다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "none",
+  "previous_scene_id": "V3-E01-S05",
   "start_state": {
-    "rian": "이클립스의 일원으로서 상아탑 침투 계획에 참여함",
-    "elara": "이클립스의 극단적 목적과 자신의 기록자로서의 사명 사이에서 갈등함"
+    "decision": "유물 결합 강행"
   },
   "end_state": {
-    "rian": "침투를 위한 최소한의 정체성을 확보함"
+    "result": "공명 강화 장비 완성"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [],
-  "target_chars": 3500
+  "consumes_setups": [
+    "E_ARTIFICIAL_HINT"
+  ],
+  "target_chars": 4400
 }

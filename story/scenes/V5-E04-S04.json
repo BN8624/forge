@@ -2,22 +2,22 @@
   "id": "V5-E04-S04",
   "event_id": "V5-E04",
   "sequence": 4,
-  "objective": "오볼루스 시의 풍경이 구리색 먼지에서 투명한 푸른 하늘로 변해가는 과정을 묘사한다.",
+  "objective": "수집한 모든 기억 파편과 자신의 자아를 코어에 환원하는 최종 시퀀스를 가동한다. '우리 이곳에 존재했었다'는 문장을 각인하며 세계를 초기화하는 대신 해방하는 선택을 실행한다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "optional",
   "previous_scene_id": "V5-E04-S03",
   "start_state": {
-    "rian": "망각이 파괴가 아니라 보존의 다른 형태임을 깨달음",
-    "elara": "가슴 속의 정체 모를 그리움을 따뜻하게 받아들임"
+    "status": "모든 기억의 준비 완료"
   },
   "end_state": {
-    "rian": "도서관의 창 너머로 푸른 하늘을 바라봄",
-    "elara": "처음으로 보는 맑은 하늘 아래에서 깊은 숨을 들이마심"
+    "status": "환원 프로세스 시작"
   },
   "owns": {
-    "changes": [
-      "EL_Blue_Sky"
-    ],
+    "changes": [],
     "setups": [],
-    "payoffs": []
+    "payoffs": [
+      "E_FINAL_CHOICE"
+    ]
   },
   "consumes_setups": [],
   "target_chars": 4000

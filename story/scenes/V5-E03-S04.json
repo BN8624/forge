@@ -2,20 +2,18 @@
   "id": "V5-E03-S04",
   "event_id": "V5-E03",
   "sequence": 4,
-  "objective": "기억 엔진의 완전한 파괴와 함께 오볼루스의 물리적 구조가 재편되는 과정을 그린다.",
+  "objective": "코어의 정제 시스템을 장악하기 위해 내부의 데이터 흐름을 재구성한다. 자신의 정체성이 희석되는 고통 속에서도 수집한 기억들을 연결망으로 사용하여 시스템의 권한을 강제로 뺏어온다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "none",
   "previous_scene_id": "V5-E03-S03",
   "start_state": {
-    "rian": "백색 도서관의 입구에 도달함",
-    "elara": "사람들이 거리에서 서로를 멍하니 바라보며 눈물 흘리는 모습을 목격함"
+    "status": "코어 내부 진입"
   },
   "end_state": {
-    "rian": "도서관의 관리자 권한을 부여받음",
-    "elara": "상아탑의 벽이 무너지고 외부의 공기가 유입되는 것을 느낌"
+    "status": "제어권 80% 확보"
   },
   "owns": {
-    "changes": [
-      "EL_Machine_End"
-    ],
+    "changes": [],
     "setups": [],
     "payoffs": []
   },

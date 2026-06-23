@@ -2,19 +2,23 @@
   "id": "V2-E03-S04",
   "event_id": "V2-E03",
   "sequence": 4,
-  "objective": "리안이 자신이 가진 가장 소중한 정서적 기억 중 하나를 희생하기로 결심하는 갈등을 묘사한다.",
+  "objective": "전송로의 중심 Junction에서 수만 명의 기억이 압착되어 코어로 흘러 들어가는 거대한 소용돌이를 목격하고 진실의 단서를 확보한다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "none",
   "previous_scene_id": "V2-E03-S03",
   "start_state": {
-    "rian": "기억의 가치가 정서적 강도에 비례한다는 잔혹한 법칙을 체감함"
+    "result": "보안 구역 진입 성공"
   },
   "end_state": {
-    "rian": "엘라라와 처음 만났을 때 느꼈던 신뢰의 감정을 제물로 선택함"
+    "discovery": "에테르 코어가 기억을 먹어치우고 있다는 단서"
   },
   "owns": {
     "changes": [],
-    "setups": [],
+    "setups": [
+      "E_CORE_TRUTH"
+    ],
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4700
+  "target_chars": 4500
 }

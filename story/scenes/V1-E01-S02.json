@@ -2,13 +2,17 @@
   "id": "V1-E01-S02",
   "event_id": "V1-E01",
   "sequence": 2,
-  "objective": "리안이 느끼는 자아의 부재와 엘라라의 은색 잉크가 주는 일시적인 안도감을 묘사한다.",
+  "objective": "소라의 안내에 따라 부식된 도시의 풍경을 탐색하며, 물리적으로 소멸한 지형의 위질감을 관찰하고 첫 번째 기억 파편을 발견한다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "optional",
   "previous_scene_id": "V1-E01-S01",
   "start_state": {
-    "rian": "이름과 기본 정체성을 부여받음"
+    "elian": "자신의 기억 저장 불가 인지(C1)",
+    "sora": "안내자로서 활성화(C2)"
   },
   "end_state": {
-    "rian": "자신의 존재가 타인에 의해 정의된다는 사실에 허망함을 느낌"
+    "location": "파편 발견 지점",
+    "result": "기억 파편 획득"
   },
   "owns": {
     "changes": [],

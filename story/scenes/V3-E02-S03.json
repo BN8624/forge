@@ -2,13 +2,15 @@
   "id": "V3-E02-S03",
   "event_id": "V3-E02",
   "sequence": 3,
-  "objective": "상아탑 내부의 화려함 뒤에 숨겨진 기억 추출 장치들과 그 과정에서 발생하는 비인간적인 소음들을 추적한다.",
+  "objective": "로드 발레리우스가 엘리안을 호출하여 수집한 정보의 진위를 추궁한다. 발레리우스는 엘리안의 정신적 불안정을 이용해 그를 더 완벽한 '도구'로 만들기 위한 자아 억제 장치 이식을 강요한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V3-E02-S02",
   "start_state": {
-    "rian": "상아탑의 첫 번째 관문을 통과함"
+    "result": "능력 획득 및 첫 기억 상실"
   },
   "end_state": {
-    "rian": "상아탑의 내부 구조와 기억 유통 경로를 파악함"
+    "status": "의회의 감시 강화"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3500
+  "target_chars": 4600
 }

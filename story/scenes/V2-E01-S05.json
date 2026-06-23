@@ -2,13 +2,16 @@
   "id": "V2-E01-S05",
   "event_id": "V2-E01",
   "sequence": 5,
-  "objective": "회로가 활성화되며 리안이 감당할 수 없는 방대한 정보의 파편에 휩쓸리는 고통을 묘사한다.",
+  "objective": "추출 스테이션에서 도망치던 하층민과 접촉하여 그들의 비참한 삶의 실상을 듣고, 의회의 거짓된 안녕의 실체를 인식한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V2-E01-S04",
   "start_state": {
-    "elara": "리안의 신체가 위원회에 의해 인위적으로 개조되었을 가능성을 확신함"
+    "discovery": "기억 추출 튜브 시스템 발견(C15)"
   },
   "end_state": {
-    "rian": "자신의 피부 아래에 정체불명의 회로가 각인되어 있음을 인지함"
+    "location": "녹슨 심장 거주구",
+    "knowledge": "기억 추출 장치의 존재"
   },
   "owns": {
     "changes": [],
@@ -16,5 +19,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4100
+  "target_chars": 3700
 }

@@ -2,21 +2,23 @@
   "id": "V5-E02-S01",
   "event_id": "V5-E02",
   "sequence": 1,
-  "objective": "도시 전역의 기억들이 리안의 공백으로 빨려 들어오는 초현실적인 광경을 묘사한다.",
+  "objective": "로드 발레리우스가 파견한 의회 집행관들과 대치한다. 발레리우스는 '희망'의 파편을 넘기면 하층민들의 생존을 보장하겠다고 제안하며, 기억의 독점이 가져오는 질서를 강요한다.",
+  "interaction_mode": "group",
+  "dialogue_policy": "required",
   "previous_scene_id": "V5-E01-S05",
   "start_state": {
-    "rian": "자신의 '공백'을 극한으로 개방함",
-    "elara": "리안의 손을 잡고 마지막 기도를 올림"
+    "item": "E_HOPE_FRAG 획득"
   },
   "end_state": {
-    "rian": "수만 명의 기억이 동시에 밀려드는 정신적 충격을 겪음",
-    "elara": "도시의 기억들이 빛의 줄기가 되어 리안에게 모이는 것을 목격함"
+    "status": "발레리우스의 제안 거절"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [],
-  "target_chars": 4500
+  "consumes_setups": [
+    "E_CORE_TRUTH"
+  ],
+  "target_chars": 4000
 }

@@ -2,13 +2,17 @@
   "id": "V1-E04-S02",
   "event_id": "V1-E04",
   "sequence": 2,
-  "objective": "리안이 캡슐의 기억을 자신의 몸에 받아들이며 겪는 강렬한 환상과 고통을 묘사한다.",
+  "objective": "추락하는 건물 파편 사이에서 희귀한 기억 파편을 발견하고, 자신의 안전을 포기하고 파편을 회수할 것인지에 대한 갈등 끝에 이를 획득한다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "none",
   "previous_scene_id": "V1-E04-S01",
   "start_state": {
-    "elara": "캡슐에 담긴 기억이 일반적인 추출물이 아닌 '강제 삭제'된 기록임을 발견함"
+    "location": "제7층 붕괴 경계선",
+    "city_stage": 2
   },
   "end_state": {
-    "rian": "자신이 본 것이 단순한 기억이 아니라 조작된 역사의 파편임을 깨달음"
+    "result": "핵심 파편 획득",
+    "status": "부상 입음"
   },
   "owns": {
     "changes": [],

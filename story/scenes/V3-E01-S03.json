@@ -2,13 +2,15 @@
   "id": "V3-E01-S03",
   "event_id": "V3-E01",
   "sequence": 3,
-  "objective": "녹슨 거리의 가장 깊은 곳, 폐기된 기억 저장소에 숨겨진 이클립스의 은신처로 향하는 여정을 그린다.",
+  "objective": "심연의 설계자가 보낸 투영체와 거래한다. 설계자는 도시의 추락을 가속할 의회의 기밀 정보를 요구하고, 엘리안은 그 대가로 기억의 한계를 넘게 해줄 '심연의 유물'을 요구하며 협상한다.",
+  "interaction_mode": "group",
+  "dialogue_policy": "required",
   "previous_scene_id": "V3-E01-S02",
   "start_state": {
-    "rian": "이클립스의 정체에 대해 호기심과 경계심을 동시에 가짐"
+    "trust": "부분적 신뢰 획득"
   },
   "end_state": {
-    "rian": "이클립스의 본거지에 도착하여 그들의 규모와 체계성을 확인함"
+    "agreement": "유물 제공 대가로 정보 교환"
   },
   "owns": {
     "changes": [],
@@ -16,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 4500
 }

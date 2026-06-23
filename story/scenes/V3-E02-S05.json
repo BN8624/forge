@@ -2,21 +2,21 @@
   "id": "V3-E02-S05",
   "event_id": "V3-E02",
   "sequence": 5,
-  "objective": "상아탑의 고주파 보안 망이 리안의 신체 내 회로와 공명하며 발생하는 극심한 고통과 일시적인 자아 붕괴를 묘사한다.",
+  "objective": "데이터 뱅크 조사 중 유물이 과부하되어 주변의 잔류 기억들이 강제로 유입된다. 수십 명의 절망적인 죽음의 기억이 쏟아져 들어오며 엘리안의 의식은 조각나고 정체성 혼란에 빠진다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "none",
   "previous_scene_id": "V3-E02-S04",
   "start_state": {
-    "rian": "기억 동력 체계의 잔혹한 실체에 분노함"
+    "knowledge": "코어의 포식 사실 인지"
   },
   "end_state": {
-    "rian": "자신의 신체가 상아탑과 연결되어 있다는 공포를 느낌"
+    "result": "기억 상실과 정체성 혼란"
   },
   "owns": {
     "changes": [],
     "setups": [],
     "payoffs": []
   },
-  "consumes_setups": [
-    "EL_Vessel_Circuit"
-  ],
-  "target_chars": 4500
+  "consumes_setups": [],
+  "target_chars": 4200
 }

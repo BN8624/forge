@@ -2,14 +2,15 @@
   "id": "V3-E01-S02",
   "event_id": "V3-E01",
   "sequence": 2,
-  "objective": "이클립스로부터 온 은밀한 초대와 그들이 제시한 '완전한 망각'이라는 파격적인 제안을 다룬다.",
+  "objective": "추종자의 고위 사제와 대면하여 '완전한 망각'의 정당성을 논한다. 사제는 엘리안의 기록 능력을 시험하려 하며, 엘리안은 첩자임을 숨기고 그들의 신념에 동조하는 척하며 신뢰를 얻어야 한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V3-E01-S01",
   "start_state": {
-    "rian": "자신의 내면에 생긴 거대한 공허를 실감함",
-    "elara": "리안을 지키기 위해 더 큰 힘이나 진실이 필요함을 절감함"
+    "location": "추종자들의 접선지"
   },
   "end_state": {
-    "rian": "이클립스의 정체에 대해 호기심과 경계심을 동시에 가짐"
+    "trust": "부분적 신뢰 획득"
   },
   "owns": {
     "changes": [],
@@ -17,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 3000
+  "target_chars": 4300
 }

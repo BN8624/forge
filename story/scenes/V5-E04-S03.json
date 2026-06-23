@@ -2,20 +2,18 @@
   "id": "V5-E04-S03",
   "event_id": "V5-E04",
   "sequence": 3,
-  "objective": "리안이 '영원한 사서'로서 가지는 책임감과 그 속에서 찾는 기묘한 평온을 묘사한다.",
+  "objective": "사라져가는 보스와의 마지막 대화를 통해 기억과 고통, 그리고 존재의 의미에 대한 결론을 내린다. 보스의 패배를 인정하게 만들고, 그가 가졌던 일말의 진심(도시를 향한 애정 혹은 연민)을 마지막 기억으로 수집한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V5-E04-S02",
   "start_state": {
-    "rian": "타인의 행복을 통해 자신의 고독을 치유함",
-    "elara": "더 이상 기록자가 아니지만, 일상의 소중함을 기록하기 시작함"
+    "status": "코어 안정화"
   },
   "end_state": {
-    "rian": "망각이 파괴가 아니라 보존의 다른 형태임을 깨달음",
-    "elara": "가슴 속의 정체 모를 그리움을 따뜻하게 받아들임"
+    "status": "모든 기억의 준비 완료"
   },
   "owns": {
-    "changes": [
-      "EL_Librarian_Ascension"
-    ],
+    "changes": [],
     "setups": [],
     "payoffs": []
   },

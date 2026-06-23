@@ -2,15 +2,15 @@
   "id": "V5-E02-S04",
   "event_id": "V5-E02",
   "sequence": 4,
-  "objective": "엘라라가 리안을 기억하려 애쓰지만 결국 망각의 파도에 휩쓸리는 애절한 순간을 그린다.",
+  "objective": "의회가 하층 구역의 기억을 강제 추출하여 코어를 가동하려는 '대청소'를 시작한다. 엘리안은 기억의 닻(C5)을 이용해 추출 장치를 과부하시켜 시민들의 기억을 일시적으로 되돌려준다.",
+  "interaction_mode": "group",
+  "dialogue_policy": "optional",
   "previous_scene_id": "V5-E02-S03",
   "start_state": {
-    "rian": "세상 모든 이들의 기억 속에서 자신의 형상과 이름이 사라짐",
-    "elara": "리안의 얼굴이 희미해지며 그에 대한 기억이 조각나기 시작함"
+    "status": "소라와의 유대 강화"
   },
   "end_state": {
-    "rian": "완전한 고독 속으로 침잠함",
-    "elara": "눈앞의 존재가 누구인지 잊었지만, 가슴 속의 따스함만은 남김"
+    "status": "시민들의 각성 및 지지"
   },
   "owns": {
     "changes": [],
@@ -18,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4500
+  "target_chars": 4000
 }

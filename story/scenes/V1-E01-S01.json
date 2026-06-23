@@ -2,19 +2,20 @@
   "id": "V1-E01-S01",
   "event_id": "V1-E01",
   "sequence": 1,
-  "objective": "리안의 기억 소멸 상태와 엘라라의 정체성 부여 과정을 통해 두 사람의 관계를 정의한다.",
+  "objective": "엘리안이 무의식에서 깨어나 자신의 이름과 과거가 없는 '공허의 그릇' 상태임을 깨닫고, 기록 장치를 통해 소라를 강제 활성화한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": null,
   "start_state": {
-    "rian": "기억 소멸 상태",
-    "elara": "기록 준비 상태"
+    "elian": "무의식 상태",
+    "sora": "비활성"
   },
   "end_state": {
-    "rian": "이름과 기본 정체성을 부여받음"
+    "elian": "자신의 기억 저장 불가 인지(C1)",
+    "sora": "안내자로서 활성화(C2)"
   },
   "owns": {
-    "changes": [
-      "EL_Rian_Identity"
-    ],
+    "changes": [],
     "setups": [],
     "payoffs": []
   },

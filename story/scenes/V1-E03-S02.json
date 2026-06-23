@@ -2,13 +2,17 @@
   "id": "V1-E03-S02",
   "event_id": "V1-E03",
   "sequence": 2,
-  "objective": "공허수가 리안의 '공백' 상태를 인식하고 강렬하게 반응하는 모습을 통해 리안의 특이성을 드러낸다.",
+  "objective": "기억 파편을 소지한 하층민 '카엘'과 접촉하여, 그가 가진 파편을 얻기 위해 자신의 능력을 이용해 카엘이 잊어버린 가족의 기억 일부를 보여주겠다고 제안한다.",
+  "interaction_mode": "interpersonal",
+  "dialogue_policy": "required",
   "previous_scene_id": "V1-E03-S01",
   "start_state": {
-    "rian": "공허수들이 뿜어내는 기억의 잔해들에 압도당함"
+    "location": "거주구 저층 거리",
+    "result": "감시 체계 인식(C10)"
   },
   "end_state": {
-    "rian": "자신이 공허수들에게는 거대한 먹잇감이자 빈 그릇임을 깨달음"
+    "status": "카엘과의 위험한 거래 성립",
+    "location": "뒷골목 은신처"
   },
   "owns": {
     "changes": [],

@@ -2,14 +2,15 @@
   "id": "V4-E01-S01",
   "event_id": "V4-E01",
   "sequence": 1,
-  "objective": "V3의 승리 이후 찾아온 짧은 평화와 엔진의 불길한 전조를 묘사한다.",
-  "previous_scene_id": "V3-E04-S08",
+  "objective": "보관소 외곽의 클락워크 센티넬 감시망을 뚫고 진입로를 확보한다. 센티넬의 패턴을 분석해 기억 파편으로 가짜 신호를 생성하여 통과한다.",
+  "interaction_mode": "covert",
+  "dialogue_policy": "none",
+  "previous_scene_id": "V3-E04-S07",
   "start_state": {
-    "rian": "신이 될 기회를 거부하고 인간으로서의 슬픔을 선택함",
-    "elara": "조작된 역사의 기록을 완전히 복원함"
+    "status": "진실 추적의 주체 확립"
   },
   "end_state": {
-    "world": "도시 곳곳에서 원인을 알 수 없는 진동이 발생함"
+    "result": "보관소 1차 진입 성공"
   },
   "owns": {
     "changes": [],
@@ -17,5 +18,5 @@
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4000
+  "target_chars": 4200
 }

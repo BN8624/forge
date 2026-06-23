@@ -2,13 +2,17 @@
   "id": "V1-E02-S04",
   "event_id": "V1-E02",
   "sequence": 4,
-  "objective": "상아탑의 기억 수집가들과의 갈등을 통해 기억을 독점하려는 권력층의 오만함을 보여준다.",
+  "objective": "탈출 후 안정을 되찾는 과정에서, 파편을 방출한 뒤 자신의 자아가 더욱 묽어지고 타인의 감정 찌꺼기가 내면에 남는 불쾌한 경험을 한다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "optional",
   "previous_scene_id": "V1-E02-S03",
   "start_state": {
-    "rian": "신체에 남는 정서적 잔재의 고통에 공감하며 괴로워함"
+    "result": "일시적 탈출 성공",
+    "status": "기억 파편 소모"
   },
   "end_state": {
-    "elara": "상층부의 탐욕이 하층민의 삶을 어떻게 파괴하는지 목격함"
+    "elian": "자아 붕괴의 전조 인지(C4)",
+    "location": "거주구 진입로"
   },
   "owns": {
     "changes": [],

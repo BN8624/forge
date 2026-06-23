@@ -2,23 +2,21 @@
   "id": "V5-E03-S03",
   "event_id": "V5-E03",
   "sequence": 3,
-  "objective": "시민들이 기억의 상품화에서 벗어나 '유령 통증'이 사라지는 해방감을 묘사한다.",
+  "objective": "코어의 외벽을 구성하는 '기억의 벽'을 해체한다. 타인의 기억을 덮어쓰는 도덕적 딜레마(C4) 상황에서, 소중한 기억을 희생시켜 길을 열어야 하는 선택을 강요받으며 전진한다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "optional",
   "previous_scene_id": "V5-E03-S02",
   "start_state": {
-    "rian": "공간의 틈새로 빨려 들어감",
-    "elara": "도시의 모든 소음이 한순간에 사라진 정적을 경험함"
+    "status": "방어 성공 및 코어 진입로 확보"
   },
   "end_state": {
-    "rian": "백색 도서관의 입구에 도달함",
-    "elara": "사람들이 거리에서 서로를 멍하니 바라보며 눈물 흘리는 모습을 목격함"
+    "status": "코어 내부 진입"
   },
   "owns": {
     "changes": [],
     "setups": [],
-    "payoffs": [
-      "EL_Memory_Liberation"
-    ]
+    "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4500
+  "target_chars": 4000
 }

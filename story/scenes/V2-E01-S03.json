@@ -2,21 +2,21 @@
   "id": "V2-E01-S03",
   "event_id": "V2-E01",
   "sequence": 3,
-  "objective": "엘라라가 리안의 피부에 새겨진 기하학적 회로의 실체를 확인한다.",
+  "objective": "하층 구역의 첫 거주지에서 '공허화된 자들'의 습격을 방어하고, 그들이 갈구하는 것이 기록자의 기억 파편임을 깨닫는다.",
+  "interaction_mode": "solo",
+  "dialogue_policy": "none",
   "previous_scene_id": "V2-E01-S02",
   "start_state": {
-    "rian": "연료 액체에 닿았을 때 피부 아래에서 빛이 일어나는 것을 목격함"
+    "location": "녹슨 심장 외곽"
   },
   "end_state": {
-    "rian": "자신의 몸이 단순한 인간의 육체가 아님을 직감함"
+    "discovery": "공허화된 자들의 공격 본능 확인(C12)"
   },
   "owns": {
     "changes": [],
-    "setups": [
-      "EL_Vessel_Circuit"
-    ],
+    "setups": [],
     "payoffs": []
   },
   "consumes_setups": [],
-  "target_chars": 4500
+  "target_chars": 3800
 }
