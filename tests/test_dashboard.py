@@ -271,6 +271,48 @@ class DashboardTests(unittest.TestCase):
             self.assertEqual(4, progress["recommended_volume_count"])
             self.assertEqual(4, progress["approved_volume_count"])
 
+    def test_new_series_preparation_uses_selected_candidate_not_old_active(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            concept = root / "runs" / "new-world" / "concept"
+            concept.mkdir(parents=True)
+            (concept / "synopsis-candidates.json").write_text(
+                json.dumps(candidates_response(), ensure_ascii=False),
+                encoding="utf-8",
+            )
+            active = root / "runs" / "new-world" / "active.json"
+            active.write_text(
+                json.dumps(
+                    {"status": "active", "title": "이전 작품"},
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            status = root / "runs" / "complete-series" / "status.json"
+            status.parent.mkdir(parents=True)
+            status.write_text(
+                json.dumps(
+                    {
+                        "stage": "world_generation",
+                        "selected_synopsis_id": "S2",
+                        "approved_volume_count": 4,
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            job = {
+                "kind": "series",
+                "status": "running",
+                "command": ["python", "--selected-synopsis", "S2"],
+            }
+
+            progress = DashboardController(root, FakePopen())._progress(job)
+
+            self.assertTrue(progress["preparing_new_series"])
+            self.assertEqual("S2", progress["selected_synopsis_id"])
+            self.assertEqual("서로 다른 게임 원작 2", progress["target_title"])
+
     def test_progress_supports_legacy_five_volume_arc(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
