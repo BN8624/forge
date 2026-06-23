@@ -28,6 +28,7 @@ MAX_REVIEW_ATTEMPTS = 3
 MIN_LENGTH_RATIO = 0.7
 SOLO_MIN_LENGTH_RATIO = 0.65
 MAX_LENGTH_RATIO = 1.5
+LENGTH_REWRITE_BUFFER = 800
 PROSE_CONTRACT_VERSION = 2
 DIALOGUE_PATTERN = re.compile(
     r'“[^”\n]+”|"[^"\n]+"|^—[^\n]+$',
@@ -773,12 +774,21 @@ def generate_prose_scene(
     for attempt in range(1, MAX_PROSE_ATTEMPTS + 1):
         minimum = int(scene["target_chars"] * min_length_ratio)
         if previous_candidate and len(previous_candidate) < minimum:
+            rewrite_target = minimum + LENGTH_REWRITE_BUFFER
+            feedback = [
+                error
+                for error in feedback or []
+                if not error.startswith(
+                    ("산문 길이 범위 위반:", "산문 길이 부족:")
+                )
+            ]
             feedback = merge_feedback(
                 feedback,
                 [
                 (
                     f"산문 길이 부족: {len(previous_candidate)}자. "
-                    f"최소 {minimum}자를 충족하도록 전체 장면을 다시 구성하라. "
+                    f"검사 경계 오차를 피하도록 최소 {rewrite_target}자를 목표로 "
+                    "전체 장면을 다시 구성하라. "
                     "기존 끝에 묘사나 독백을 덧붙이지 않는다."
                 ),
                 ],

@@ -251,8 +251,16 @@ def owned_element_ids(scenes: list[dict[str, Any]]) -> list[str]:
     result: list[str] = []
     for scene in scenes:
         owns = scene.get("owns", {})
+        if not isinstance(owns, dict):
+            continue
         for owner_key in OWNER_KEYS:
-            result.extend(owns.get(owner_key, []))
+            values = owns.get(owner_key, [])
+            if isinstance(values, list):
+                result.extend(
+                    value
+                    for value in values
+                    if isinstance(value, str)
+                )
     return result
 
 

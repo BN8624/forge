@@ -156,7 +156,8 @@ class GenerateProseTests(unittest.TestCase):
             )
 
             self.assertIn("장면 목표가 충분히", second_llm.calls[0][1])
-            self.assertIn("산문 길이 범위 위반", second_llm.calls[0][1])
+            self.assertIn("최소 2100자를 목표", second_llm.calls[0][1])
+            self.assertNotIn("산문 길이 범위 위반", second_llm.calls[0][1])
 
     def test_second_scene_requires_previous_approved_prose(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -295,6 +296,8 @@ class GenerateProseTests(unittest.TestCase):
             prose = (result / "prose.md").read_text(encoding="utf-8")
             self.assertFalse(prose.startswith(short_prose.strip()))
             self.assertIn("전체 장면을 다시 구성", llm.calls[1][1])
+            self.assertIn("최소 2100자를 목표", llm.calls[1][1])
+            self.assertNotIn("허용 1300-3000자", llm.calls[1][1])
             self.assertNotIn("추가 산문만", llm.calls[1][1])
             self.assertIn("현재 미래 요소 충돌 특별 경계", llm.calls[1][1])
             self.assertIn(short_prose.strip(), llm.calls[1][1])

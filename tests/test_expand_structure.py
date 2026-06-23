@@ -135,6 +135,31 @@ class ExpandStructureTests(unittest.TestCase):
             self.assertIn("권별 확장 오류", llm.calls[1][1])
             self.assertIn("목표 분량", llm.calls[1][1])
 
+    def test_non_object_owns_is_retried_as_validation_error(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            workspace = Path(directory)
+            root = workspace / "project"
+            output = workspace / "expanded"
+            build_project(root)
+            invalid = json.loads(expanded_volume_response(1))
+            invalid["scenes"][0]["owns"] = []
+            llm = FakeLLM(
+                [
+                    json.dumps(invalid, ensure_ascii=False),
+                    expanded_volume_response(1),
+                    *[
+                        expanded_volume_response(index)
+                        for index in range(2, 6)
+                    ],
+                ]
+            )
+
+            expand_structure(root, output, llm)
+
+            self.assertEqual(6, len(llm.calls))
+            self.assertIn("권별 확장 오류", llm.calls[1][1])
+            self.assertIn("owns", llm.calls[1][1])
+
     def test_matching_owned_element_summary_is_allowed(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             workspace = Path(directory)
