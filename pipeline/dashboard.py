@@ -228,12 +228,14 @@ class DashboardController:
         instruction: str,
         volume_count: int | None = None,
     ) -> dict[str, Any]:
-        (self.root / "STOP_AFTER_RUN").unlink(missing_ok=True)
+        if volume_count is not None and not 1 <= volume_count <= 10:
+            raise DashboardError("권수는 1-10 사이여야 합니다.")
         command = [
             sys.executable,
-            "pipeline/complete_series.py",
-            "--game-scenario",
-            "--replace-active",
+            "pipeline/generate_synopses.py",
+            "--candidates-only",
+            "--output",
+            str(self.root / "runs" / "new-world" / "concept"),
         ]
         instruction = instruction.strip()
         if instruction:
@@ -241,11 +243,7 @@ class DashboardController:
             instruction_path.parent.mkdir(parents=True, exist_ok=True)
             instruction_path.write_text(instruction + "\n", encoding="utf-8")
             command.extend(["--instruction-file", str(instruction_path)])
-        if volume_count is not None:
-            if not 1 <= volume_count <= 10:
-                raise DashboardError("권수는 1-10 사이여야 합니다.")
-            command.extend(["--volume-count", str(volume_count)])
-        return self._start("series", command)
+        return self._start("concepts", command)
 
     def start_series(
         self,
@@ -523,10 +521,10 @@ details{{border-top:1px solid var(--line);padding-top:12px}} summary{{font-weigh
 <header><div class="eyebrow">Forge Control Room</div><h1>게임이 될 소설을 고른다.</h1><p class="lead">Forge가 적정 권수를 판단합니다. 3권 이상은 자동 진행하고 1~2권만 승인을 기다리며, 한 번에 한 권씩 완성합니다.</p><nav><a class="link" href="/">현재 전권 서재</a></nav></header>
 <section class="panel">
   <h2>1. 시놉시스 후보 만들기</h2>
-  <p class="muted">비워 두면 장르와 게임 형식까지 Forge가 결정합니다. 현재 작품이 있어도 새 후보를 만들 수 있고, 새 작품 확정 시 기존 작품은 백업됩니다.</p>
+  <p class="muted">비워 두면 장르와 게임 형식까지 Forge가 결정합니다. 마음에 들 때까지 후보 5개를 다시 만들 수 있으며 현재 작품은 그대로 유지됩니다.</p>
   <textarea id="instruction" placeholder="예. 전투보다 탐험과 관계 선택이 중심인 한국적 SF"></textarea>
   <input id="volume-count" type="number" min="1" max="10" placeholder="선택 사항. 직접 지정할 권수 1-10">
-  <div class="actions"><button class="primary" id="generate">후보 5개 만들기</button><button class="secondary" id="refresh">상태 새로고침</button></div>
+  <div class="actions"><button class="primary" id="generate">새 후보 5개 다시 만들기</button><button class="secondary" id="refresh">상태 새로고침</button></div>
 </section>
 <section class="panel" id="job"></section>
 <section><h2>2. 후보 샘플 확인</h2><div class="cards" id="cards"><div class="panel empty">아직 생성된 후보가 없습니다.</div></div></section>

@@ -7,6 +7,7 @@ from pathlib import Path
 from pipeline.generate_synopses import (
     SynopsisGenerationError,
     choose_game_concept,
+    generate_concept_candidates,
     generate_game_concept,
     validate_candidates,
     validate_review,
@@ -67,6 +68,60 @@ def review_response(selected_id: str = "S3") -> dict:
 
 
 class GenerateSynopsesTests(unittest.TestCase):
+    def test_candidates_only_does_not_approve_or_start_selection(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "concept"
+            selected = generate_concept_candidates(
+                "",
+                output,
+                FakeLLM(
+                    [
+                        json.dumps(candidates_response(), ensure_ascii=False),
+                        json.dumps(review_response(), ensure_ascii=False),
+                    ]
+                ),
+            )
+
+            self.assertEqual("S3", selected["id"])
+            self.assertNotIn("approved_volume_count", selected)
+            self.assertFalse((output / "concept-selection.json").exists())
+
+    def test_candidates_only_can_replace_previous_candidate_set(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "concept"
+            first = candidates_response()
+            second = candidates_response()
+            second["candidates"][0]["title"] = "새로 뽑은 첫 후보"
+
+            generate_concept_candidates(
+                "",
+                output,
+                FakeLLM(
+                    [
+                        json.dumps(first, ensure_ascii=False),
+                        json.dumps(review_response(), ensure_ascii=False),
+                    ]
+                ),
+            )
+            generate_concept_candidates(
+                "",
+                output,
+                FakeLLM(
+                    [
+                        json.dumps(second, ensure_ascii=False),
+                        json.dumps(review_response(), ensure_ascii=False),
+                    ]
+                ),
+            )
+
+            published = json.loads(
+                (output / "synopsis-candidates.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(
+                "새로 뽑은 첫 후보",
+                published["candidates"][0]["title"],
+            )
+
     def test_candidates_and_critic_selection_are_published(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "concept"

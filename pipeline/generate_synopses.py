@@ -516,13 +516,11 @@ def publish_result(staged: Path, output: Path) -> None:
     shutil.rmtree(backup, ignore_errors=True)
 
 
-def generate_game_concept(
+def generate_concept_candidates(
     instruction: str,
     output: Path,
     llm: LLM,
-    volume_count: int | None = None,
-    approve_short: bool = False,
-) -> str:
+) -> dict[str, Any]:
     candidates = generate_validated_json(
         llm,
         "generator",
@@ -560,6 +558,17 @@ def generate_game_concept(
         publish_result(staged, output)
     finally:
         shutil.rmtree(staging_root, ignore_errors=True)
+    return selected
+
+
+def generate_game_concept(
+    instruction: str,
+    output: Path,
+    llm: LLM,
+    volume_count: int | None = None,
+    approve_short: bool = False,
+) -> str:
+    generate_concept_candidates(instruction, output, llm)
     return choose_game_concept(
         output,
         volume_count=volume_count,
@@ -578,13 +587,18 @@ def create_llm_client() -> LLM:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="게임 시나리오용 소설 시놉시스 5개를 만들고 하나를 선택한다."
+        description="게임 시나리오용 소설 시놉시스 5개를 만들고 critic 평가한다."
     )
     parser.add_argument("--instruction-file", type=Path)
     parser.add_argument(
         "--output",
         type=Path,
         default=PROJECT_ROOT / "runs" / "new-world" / "concept",
+    )
+    parser.add_argument(
+        "--candidates-only",
+        action="store_true",
+        help="후보와 critic 평가만 만들고 작품 제작은 시작하지 않는다.",
     )
     args = parser.parse_args()
     try:
@@ -593,11 +607,19 @@ def main() -> int:
             if args.instruction_file
             else ""
         )
-        generate_game_concept(instruction, args.output, create_llm_client())
+        if args.candidates_only:
+            generate_concept_candidates(
+                instruction,
+                args.output,
+                create_llm_client(),
+            )
+        else:
+            generate_game_concept(instruction, args.output, create_llm_client())
     except (OSError, RuntimeError, SynopsisGenerationError) as exc:
         print(f"[FAIL] {exc}")
         return 1
-    print(f"[OK] 게임 시나리오 시놉시스 선택 완료: {args.output.resolve()}")
+    action = "후보 생성" if args.candidates_only else "선택"
+    print(f"[OK] 게임 시나리오 시놉시스 {action} 완료: {args.output.resolve()}")
     return 0
 
 

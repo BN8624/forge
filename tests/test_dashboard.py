@@ -31,7 +31,7 @@ class DashboardTests(unittest.TestCase):
         page = render_dashboard("secret-token").decode("utf-8")
 
         self.assertIn('name="viewport"', page)
-        self.assertIn("후보 5개 만들기", page)
+        self.assertIn("새 후보 5개 다시 만들기", page)
         self.assertIn("선택 기획·권수 승인", page)
         self.assertIn("3권 이상은 자동 진행", page)
         self.assertIn('id="volume-count"', page)
@@ -39,7 +39,7 @@ class DashboardTests(unittest.TestCase):
         self.assertIn("권별 진행", page)
         self.assertIn("중단됨 · 재개 시", page)
         self.assertIn("마지막 실행 시간", page)
-        self.assertIn("현재 작품이 있어도 새 후보", page)
+        self.assertIn("마음에 들 때까지 후보 5개를 다시", page)
         self.assertIn("다음 권 이어서 만들기", page)
         self.assertIn('data-token="secret-token"', page)
 
@@ -53,14 +53,12 @@ class DashboardTests(unittest.TestCase):
             job = controller.generate_concepts("탐험 중심", 4)
 
             command = fake.calls[0][0]
-            self.assertEqual("series", job["kind"])
-            self.assertIn("pipeline/complete_series.py", command)
-            self.assertIn("--game-scenario", command)
-            self.assertIn("--replace-active", command)
+            self.assertEqual("concepts", job["kind"])
+            self.assertIn("pipeline/generate_synopses.py", command)
+            self.assertIn("--candidates-only", command)
+            self.assertIn("--output", command)
             self.assertIn("--instruction-file", command)
-            self.assertEqual("4", command[-1])
-            self.assertIn("--volume-count", command)
-            self.assertFalse((root / "STOP_AFTER_RUN").exists())
+            self.assertTrue((root / "STOP_AFTER_RUN").exists())
             self.assertEqual("running", controller.status()["job"]["status"])
 
     def test_finished_external_process_unlocks_dashboard(self) -> None:
@@ -383,7 +381,7 @@ class DashboardTests(unittest.TestCase):
 
             controller.generate_concepts("")
 
-            self.assertIn("--replace-active", fake.calls[0][0])
+            self.assertIn("--candidates-only", fake.calls[0][0])
 
 
 if __name__ == "__main__":
