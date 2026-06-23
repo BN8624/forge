@@ -340,12 +340,26 @@ def make_library_handler(
                 if not isinstance(payload, dict):
                     raise ValueError("JSON 객체가 필요합니다.")
                 if path == "/api/dashboard/concepts":
+                    raw_volume_count = payload.get("volume_count")
+                    volume_count = (
+                        int(raw_volume_count)
+                        if raw_volume_count not in (None, "")
+                        else None
+                    )
                     result = dashboard.generate_concepts(
-                        str(payload.get("instruction", ""))
+                        str(payload.get("instruction", "")),
+                        volume_count,
                     )
                 elif path == "/api/dashboard/start":
+                    raw_volume_count = payload.get("volume_count")
+                    volume_count = (
+                        int(raw_volume_count)
+                        if raw_volume_count not in (None, "")
+                        else None
+                    )
                     result = dashboard.start_series(
-                        str(payload.get("selected_id", ""))
+                        str(payload.get("selected_id", "")),
+                        volume_count,
                     )
                 else:
                     result = dashboard.resume_series()

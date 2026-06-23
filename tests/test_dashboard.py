@@ -32,21 +32,31 @@ class DashboardTests(unittest.TestCase):
 
         self.assertIn('name="viewport"', page)
         self.assertIn("후보 5개 만들기", page)
-        self.assertIn("선택한 기획으로 5권 시작", page)
-        self.assertIn("중단 작업 재개", page)
+        self.assertIn("선택 기획·권수 승인", page)
+        self.assertIn("3권 이상은 자동 진행", page)
+        self.assertIn('id="volume-count"', page)
+        self.assertIn("권수 계약", page)
+        self.assertIn("권별 진행", page)
+        self.assertIn("다음 권 이어서 만들기", page)
         self.assertIn('data-token="secret-token"', page)
 
     def test_generate_concepts_starts_background_command(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "STOP_AFTER_RUN").write_text("", encoding="utf-8")
             fake = FakePopen()
-            controller = DashboardController(Path(directory), fake)
+            controller = DashboardController(root, fake)
 
-            job = controller.generate_concepts("탐험 중심")
+            job = controller.generate_concepts("탐험 중심", 4)
 
             command = fake.calls[0][0]
-            self.assertEqual("concepts", job["kind"])
-            self.assertIn("pipeline/generate_synopses.py", command)
+            self.assertEqual("series", job["kind"])
+            self.assertIn("pipeline/complete_series.py", command)
+            self.assertIn("--game-scenario", command)
             self.assertIn("--instruction-file", command)
+            self.assertEqual("4", command[-1])
+            self.assertIn("--volume-count", command)
+            self.assertFalse((root / "STOP_AFTER_RUN").exists())
             self.assertEqual("running", controller.status()["job"]["status"])
 
     def test_finished_external_process_unlocks_dashboard(self) -> None:
@@ -212,6 +222,52 @@ class DashboardTests(unittest.TestCase):
             self.assertEqual("V1-E01-S02", progress["current_scene_id"])
             self.assertEqual(2, progress["attempt"])
 
+    def test_progress_reports_recommended_and_approved_volume_counts(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            concept = root / "runs" / "new-world" / "concept"
+            concept.mkdir(parents=True)
+            (concept / "selected-synopsis.json").write_text(
+                json.dumps(
+                    {
+                        "title": "권수 시험",
+                        "recommended_volume_count": 4,
+                        "approved_volume_count": 4,
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            (concept / "concept-selection.json").write_text(
+                json.dumps({"volume_approval": "auto"}, ensure_ascii=False),
+                encoding="utf-8",
+            )
+
+            progress = DashboardController(root, FakePopen()).status()["progress"]
+
+            self.assertEqual(4, progress["recommended_volume_count"])
+            self.assertEqual(4, progress["approved_volume_count"])
+
+    def test_progress_supports_legacy_five_volume_arc(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            concept = root / "runs" / "new-world" / "concept"
+            concept.mkdir(parents=True)
+            (concept / "selected-synopsis.json").write_text(
+                json.dumps(
+                    {
+                        "title": "기존 기획",
+                        "five_volume_arc": ["1권", "2권", "3권", "4권", "5권"],
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+
+            progress = DashboardController(root, FakePopen()).status()["progress"]
+
+            self.assertEqual(5, progress["recommended_volume_count"])
+
     def test_stopped_progress_keeps_prose_phase_percentage(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -273,12 +329,14 @@ class DashboardTests(unittest.TestCase):
             fake = FakePopen()
             controller = DashboardController(root, fake)
 
-            controller.start_series("S4")
+            controller.start_series("S4", 4)
 
             command = fake.calls[0][0]
             self.assertIn("pipeline/complete_series.py", command)
             self.assertIn("--reuse-concept", command)
-            self.assertEqual("S4", command[-1])
+            self.assertIn("S4", command)
+            self.assertIn("--approve-short", command)
+            self.assertEqual(["--volume-count", "4"], command[-2:])
 
     def test_unknown_candidate_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

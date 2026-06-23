@@ -1,4 +1,4 @@
-# Forge가 정본 5권을 권별 장편 사건·장면 구조로 확장하는 도구
+# Forge가 승인된 정본을 권별 장편 사건·장면 구조로 확장하는 도구
 from __future__ import annotations
 
 import argparse
@@ -147,7 +147,7 @@ def build_expansion_prompt(
         for volume in bundle["volumes"]
     ]
     return f"""너는 Forge의 장편 구조 확장 generator다.
-현재 5권 정본 중 {volume_id} 한 권만 장편 규모로 확장하라.
+현재 {len(bundle["series"]["volume_ids"])}권 정본 중 {volume_id} 한 권만 장편 규모로 확장하라.
 이야기의 사실과 결말을 바꾸지 말고 기존 권의 핵심 사건을 세분화하라.
 
 정본 설정과 확정 사건:
@@ -156,7 +156,7 @@ def build_expansion_prompt(
 기존 압축 원고:
 {manuscript}
 
-전체 5권 아크:
+전체 권별 아크:
 {json.dumps(volume_summaries, ensure_ascii=False, indent=2)}
 
 확장할 현재 권 계약과 기존 앵커 장면:
@@ -638,7 +638,7 @@ def create_llm_client() -> LLM:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Forge 정본 5권을 권별 장편 구조 후보로 확장한다."
+        description="Forge 정본을 권별 장편 구조 후보로 확장한다."
     )
     parser.add_argument(
         "--root",

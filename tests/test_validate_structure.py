@@ -17,10 +17,14 @@ def write_json(path: Path, value: dict) -> None:
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
-def build_project(root: Path, duplicate_owner: bool = False) -> None:
+def build_project(
+    root: Path,
+    duplicate_owner: bool = False,
+    volume_count: int = 5,
+) -> None:
     elements = [
         {"id": f"CHG-{index}", "kind": "change", "description": f"{index}권 상태 변화"}
-        for index in range(1, 6)
+        for index in range(1, volume_count + 1)
     ]
     write_json(
         root / "story" / "series.json",
@@ -30,13 +34,16 @@ def build_project(root: Path, duplicate_owner: bool = False) -> None:
             "premise": "다섯 단계로 변하는 인물의 이야기",
             "theme": "선택과 책임",
             "ending": "마지막 선택의 대가를 받아들인다.",
-            "volume_ids": [f"V{index}" for index in range(1, 6)],
+            "volume_ids": [
+                f"V{index}"
+                for index in range(1, volume_count + 1)
+            ],
             "elements": elements,
         },
     )
 
     previous_scene_id = None
-    for index in range(1, 6):
+    for index in range(1, volume_count + 1):
         volume_id = f"V{index}"
         event_id = f"{volume_id}-E01"
         scene_id = f"{event_id}-S01"
@@ -95,6 +102,12 @@ class ValidateStructureTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             build_project(root)
+            self.assertEqual([], validate_project(root))
+
+    def test_valid_three_volume_project_passes(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            build_project(root, volume_count=3)
             self.assertEqual([], validate_project(root))
 
     def test_duplicate_owner_fails(self) -> None:

@@ -1,4 +1,4 @@
-# 5권 완주 오케스트레이터의 재실행, 재개, 산문 백업 복구를 검증하는 테스트
+# 가변 권수 오케스트레이터의 재실행, 권별 재개, 산문 백업 복구를 검증하는 테스트
 import hashlib
 import json
 import tempfile
@@ -14,6 +14,7 @@ from pipeline.complete_series import (
     promote_with_prose_backup,
     validate_all_prose,
 )
+from pipeline.generate_synopses import SynopsisApprovalRequired
 from pipeline.validate_canon import CanonReviewError
 from pipeline.generate_prose import contract_sha256, ordered_scene_ids
 from tests.test_generate_candidate import FakeLLM
@@ -124,6 +125,38 @@ class CompleteSeriesTests(unittest.TestCase):
             self.assertEqual(1, result["generated"])
             self.assertEqual(["generator", "critic"], [call[0] for call in llm.calls])
             self.assertEqual([], validate_all_prose(root))
+
+    def test_first_run_completes_only_first_volume(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            build_project(root, volume_count=3)
+            approve_story(root)
+            first_scene = "V1-E01-S01"
+            llm = FakeLLM(
+                [
+                    prose_response(first_scene),
+                    review_response(first_scene),
+                ]
+            )
+
+            with patch(
+                "pipeline.complete_series.validate_story_scale",
+                return_value=[],
+            ):
+                result = complete_series(root, llm)
+
+            self.assertFalse(result["complete"])
+            self.assertTrue(result["volume_complete"])
+            self.assertEqual("V1", result["completed_volume"])
+            self.assertEqual("V2", result["next_volume"])
+            self.assertTrue((root / "exports" / "V1.epub").is_file())
+            self.assertFalse((root / "exports" / "V2.epub").exists())
+            status = json.loads(
+                (
+                    root / "runs" / "complete-series" / "status.json"
+                ).read_text(encoding="utf-8")
+            )
+            self.assertEqual("volume_complete", status["stage"])
 
     def test_failed_structure_promotion_restores_prose_directory(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -276,12 +309,25 @@ class CompleteSeriesTests(unittest.TestCase):
                 "canon": [],
             }
 
-            def create_concept(_instruction, output, _llm):
+            def create_concept(
+                _instruction,
+                output,
+                _llm,
+                _volume_count,
+                _approve_short,
+            ):
                 output.mkdir(parents=True)
                 for name, value in (
                     ("synopsis-candidates.json", {"candidates": []}),
                     ("synopsis-review.json", {"selected_id": "S4"}),
-                    ("selected-synopsis.json", {"id": "S4", "title": "선택 기획"}),
+                    (
+                        "selected-synopsis.json",
+                        {
+                            "id": "S4",
+                            "title": "선택 기획",
+                            "approved_volume_count": 4,
+                        },
+                    ),
                     (
                         "concept-selection.json",
                         {
@@ -342,6 +388,34 @@ class CompleteSeriesTests(unittest.TestCase):
             )
             self.assertEqual("game-scenario", active["mode"])
             self.assertEqual("S4", active["selected_synopsis_id"])
+
+    def test_short_volume_approval_wait_does_not_archive_current_world(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.make_project(root)
+
+            with (
+                patch(
+                    "pipeline.complete_series.generate_game_concept",
+                    side_effect=SynopsisApprovalRequired(
+                        "S2의 추천 권수는 2권이다. 사용자 승인이 필요하다."
+                    ),
+                ),
+                patch("pipeline.complete_series.archive_current_world") as archive,
+            ):
+                with self.assertRaises(SynopsisApprovalRequired):
+                    prepare_new_world(
+                        root,
+                        FakeLLM([]),
+                        "",
+                        game_scenario=True,
+                    )
+
+            archive.assert_not_called()
+            self.assertTrue((root / "story" / "series.json").is_file())
+            self.assertFalse(
+                (root / "runs" / "new-world" / "active.json").exists()
+            )
 
 
 if __name__ == "__main__":

@@ -154,6 +154,41 @@ class GenerateCandidateTests(unittest.TestCase):
             self.assertIn("카엘은 왼쪽 팔이 없다.", llm.calls[0][1])
             self.assertIn("# 에테르노의 그림자", llm.calls[0][1])
 
+    def test_approved_volume_count_controls_generated_structure(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            workspace = Path(directory)
+            current = workspace / "current"
+            fixture = workspace / "fixture"
+            output = workspace / "candidate"
+            current.mkdir()
+            legacy_canon, legacy_manuscript = load_source_material()
+            (current / "canon_bible.json").write_text(
+                json.dumps(legacy_canon, ensure_ascii=False),
+                encoding="utf-8",
+            )
+            (current / "compressed_manuscript.md").write_text(
+                legacy_manuscript,
+                encoding="utf-8",
+            )
+            (current / "selected-synopsis.json").write_text(
+                json.dumps({"approved_volume_count": 3}),
+                encoding="utf-8",
+            )
+            build_project(fixture, volume_count=3)
+            llm = FakeLLM(json.dumps(project_bundle(fixture), ensure_ascii=False))
+
+            with patch(
+                "pipeline.generate_candidate.CURRENT_REFERENCE_ROOT",
+                current,
+            ):
+                generate_candidate("", output, llm)
+
+            series = json.loads(
+                (output / "story" / "series.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(["V1", "V2", "V3"], series["volume_ids"])
+            self.assertIn("정확히 3권", llm.calls[0][1])
+
     def test_empty_instruction_still_uses_existing_world(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             workspace = Path(directory)

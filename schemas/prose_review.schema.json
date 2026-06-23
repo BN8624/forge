@@ -15,7 +15,7 @@
   "properties": {
     "scene_id": {
       "type": "string",
-      "pattern": "^V[1-5]-E[0-9]{2}-S[0-9]{2}$"
+      "pattern": "^V([1-9]|[1-9][0-9])-E[0-9]{2}-S[0-9]{2}$"
     },
     "status": {
       "enum": ["pass", "fail", "uncertain"]

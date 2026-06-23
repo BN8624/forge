@@ -1,4 +1,4 @@
-# 기존 세계관 입력부터 5권 산문과 EPUB 완성까지 전 단계를 재개 가능한 방식으로 실행하는 오케스트레이터
+# 기존 세계관 입력부터 승인 권수의 산문과 EPUB 완성까지 재개 가능하게 실행하는 오케스트레이터
 from __future__ import annotations
 
 import argparse
@@ -21,7 +21,11 @@ from pipeline.expand_structure import expand_structure
 from pipeline.export_epub import export_epub
 from pipeline.generate_candidate import generate_candidate
 from pipeline.generate_candidate import load_source_material
-from pipeline.generate_synopses import choose_game_concept, generate_game_concept
+from pipeline.generate_synopses import (
+    SynopsisApprovalRequired,
+    choose_game_concept,
+    generate_game_concept,
+)
 from pipeline.generate_world import generate_world
 from pipeline.generate_prose import (
     ProseGenerationError,
@@ -170,6 +174,8 @@ def prepare_new_world(
     game_scenario: bool = False,
     reuse_concept: bool = False,
     selected_synopsis: str | None = None,
+    volume_count: int | None = None,
+    approve_short: bool = False,
 ) -> tuple[Path, bool]:
     active_path = root / "runs" / "new-world" / "active.json"
     active = read_json_if_exists(active_path)
@@ -177,7 +183,6 @@ def prepare_new_world(
     if active and active.get("status") == "active" and current_source.is_dir():
         return Path(active["backup"]), not structure_matches_source(root)
 
-    backup = archive_current_world(root)
     world_instruction = instruction
     concept_path = root / "runs" / "new-world" / "concept"
     selected: dict[str, Any] | None = None
@@ -188,9 +193,18 @@ def prepare_new_world(
                 concept_path,
                 selected_synopsis,
                 "user" if selected_synopsis else "critic",
+                volume_count,
+                approve_short,
+                llm,
             )
         else:
-            world_instruction = generate_game_concept(instruction, concept_path, llm)
+            world_instruction = generate_game_concept(
+                instruction,
+                concept_path,
+                llm,
+                volume_count,
+                approve_short,
+            )
         selected = read_json_if_exists(concept_path / "selected-synopsis.json")
         if selected is None:
             raise SeriesCompletionError("선택 시놉시스 결과를 읽을 수 없음")
@@ -199,7 +213,9 @@ def prepare_new_world(
             "world_generation",
             selected_synopsis_id=selected.get("id"),
             selected_title=selected.get("title"),
+            approved_volume_count=selected.get("approved_volume_count"),
         )
+    backup = archive_current_world(root)
     if selected is None:
         generate_world(world_instruction, current_source, llm)
     else:
@@ -222,6 +238,9 @@ def prepare_new_world(
             "created_at": datetime.now(timezone.utc).isoformat(),
             "mode": "game-scenario" if game_scenario else "new-world",
             "selected_synopsis_id": selected.get("id") if selected else None,
+            "approved_volume_count": (
+                selected.get("approved_volume_count") if selected else None
+            ),
         },
     )
     return backup, True
@@ -416,10 +435,13 @@ def ensure_structure(
     return backups
 
 
-def validate_all_prose(root: Path) -> list[str]:
+def validate_all_prose(
+    root: Path,
+    scene_ids: list[str] | None = None,
+) -> list[str]:
     errors: list[str] = []
     try:
-        scene_ids = ordered_scene_ids(root)
+        scene_ids = scene_ids or ordered_scene_ids(root)
     except (OSError, json.JSONDecodeError) as exc:
         return [f"장면 순서 로드 실패: {exc}"]
     for scene_id in scene_ids:
@@ -456,6 +478,7 @@ def generate_remaining_prose(
     root: Path,
     llm: LLM,
     scene_retries: int,
+    volume_id: str | None = None,
 ) -> int:
     generated = 0
     stop_file = root / "STOP_AFTER_RUN"
@@ -466,6 +489,8 @@ def generate_remaining_prose(
             if "모든 장면" in str(exc):
                 return generated
             raise
+        if volume_id is not None and not scene_id.startswith(f"{volume_id}-"):
+            return generated
         if stop_file.exists():
             write_status(
                 root,
@@ -513,6 +538,34 @@ def export_all_epubs(root: Path) -> list[Path]:
     return outputs
 
 
+def volume_scene_ids(root: Path, volume_id: str) -> list[str]:
+    story = root / "story"
+    volume = json.loads(
+        (story / "volumes" / f"{volume_id}.json").read_text(encoding="utf-8")
+    )
+    result: list[str] = []
+    for event_id in volume["event_ids"]:
+        event = json.loads(
+            (story / "events" / f"{event_id}.json").read_text(encoding="utf-8")
+        )
+        result.extend(event["scene_ids"])
+    return result
+
+
+def next_incomplete_volume(root: Path) -> str | None:
+    series = json.loads(
+        (root / "story" / "series.json").read_text(encoding="utf-8")
+    )
+    for volume_id in series["volume_ids"]:
+        if any(
+            not (root / "prose" / "scenes" / scene_id / "prose.md").is_file()
+            or not (root / "prose" / "scenes" / scene_id / "review.json").is_file()
+            for scene_id in volume_scene_ids(root, volume_id)
+        ):
+            return volume_id
+    return None
+
+
 def complete_series(
     root: Path,
     llm: LLM,
@@ -532,7 +585,16 @@ def complete_series(
     prose_backup = backup_invalid_prose_suffix(root)
     if prose_backup is not None:
         backups.append(prose_backup)
-    generated = generate_remaining_prose(root, llm, scene_retries)
+    target_volume = next_incomplete_volume(root)
+    if target_volume is None:
+        generated = 0
+    else:
+        generated = generate_remaining_prose(
+            root,
+            llm,
+            scene_retries,
+            target_volume,
+        )
     if (root / "STOP_AFTER_RUN").exists():
         return {
             "complete": False,
@@ -540,6 +602,36 @@ def complete_series(
             "backups": backups,
             "epubs": [],
         }
+
+    if target_volume is not None:
+        target_scene_ids = volume_scene_ids(root, target_volume)
+        volume_errors = validate_all_prose(root, target_scene_ids)
+        if volume_errors:
+            raise SeriesCompletionError("\n".join(volume_errors))
+        epub = export_epub(
+            root,
+            target_volume,
+            root / "exports" / f"{target_volume}.epub",
+        )
+        remaining_volume = next_incomplete_volume(root)
+        if remaining_volume is not None:
+            write_status(
+                root,
+                "volume_complete",
+                completed_volume=target_volume,
+                next_volume=remaining_volume,
+                generated_this_run=generated,
+                epub=str(epub),
+            )
+            return {
+                "complete": False,
+                "volume_complete": True,
+                "completed_volume": target_volume,
+                "next_volume": remaining_volume,
+                "generated": generated,
+                "backups": backups,
+                "epubs": [epub],
+            }
 
     write_status(root, "final_validation")
     errors = validate_project(root)
@@ -576,7 +668,7 @@ def create_llm_client() -> LLM:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="선택한 세계관에서 5권 구조·산문·EPUB 완성까지 자동 실행한다."
+        description="선택한 세계관에서 승인 권수의 구조·산문·EPUB을 자동 생성한다."
     )
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--instruction-file", type=Path)
@@ -584,12 +676,12 @@ def main() -> int:
     mode.add_argument(
         "--new-world",
         action="store_true",
-        help="기존 세계관과 무관한 새 세계관을 생성한 뒤 5권 완주한다.",
+        help="기존 세계관과 무관한 새 세계관을 생성한 뒤 권별로 완성한다.",
     )
     mode.add_argument(
         "--game-scenario",
         action="store_true",
-        help="시놉시스 5개를 생성·평가·선택한 뒤 게임 원작 소설 5권을 완주한다.",
+        help="시놉시스 5개를 평가하고 적정 권수의 게임 원작 소설을 권별로 만든다.",
     )
     parser.add_argument(
         "--reuse-concept",
@@ -600,6 +692,16 @@ def main() -> int:
         "--selected-synopsis",
         choices=[f"S{index}" for index in range(1, 6)],
         help="저장된 후보 중 사용할 ID다. --game-scenario --reuse-concept와 함께 쓴다.",
+    )
+    parser.add_argument(
+        "--volume-count",
+        type=int,
+        help="사용자가 직접 지정한 전체 권수다.",
+    )
+    parser.add_argument(
+        "--approve-short",
+        action="store_true",
+        help="Forge가 추천한 1~2권 구성을 사용자 승인으로 확정한다.",
     )
     parser.add_argument(
         "--regenerate-structure",
@@ -624,6 +726,9 @@ def main() -> int:
     if args.selected_synopsis and not args.reuse_concept:
         print("[FAIL] --selected-synopsis는 --reuse-concept와 함께 사용해야 함")
         return 1
+    if args.volume_count is not None and not 1 <= args.volume_count <= 10:
+        print("[FAIL] --volume-count는 1-10 사이여야 함")
+        return 1
     try:
         instruction = (
             args.instruction_file.read_text(encoding="utf-8")
@@ -641,6 +746,8 @@ def main() -> int:
                 args.game_scenario,
                 args.reuse_concept,
                 args.selected_synopsis,
+                args.volume_count,
+                args.approve_short,
             )
             regenerate_structure = regenerate_structure or new_world_regenerate
         scene_retries = (
@@ -655,6 +762,14 @@ def main() -> int:
             regenerate_structure,
             scene_retries,
         )
+    except SynopsisApprovalRequired as exc:
+        write_status(
+            args.root.resolve(),
+            "volume_approval",
+            reason=str(exc),
+        )
+        print(f"[WAIT] {exc}")
+        return 0
     except Exception as exc:
         try:
             write_status(args.root.resolve(), "failed", error=str(exc))
@@ -663,12 +778,22 @@ def main() -> int:
         print(f"[FAIL] {exc}")
         return 1
     if not result["complete"]:
-        print(f"[STOP] 현재 장면 완료 뒤 중단. 이번 실행 {result['generated']}개 승인")
+        if result.get("volume_complete"):
+            print(
+                f"[STOP] {result['completed_volume']} 완성. "
+                f"다음 권은 {result['next_volume']}이며 이번 실행 "
+                f"{result['generated']}개 장면 승인"
+            )
+        else:
+            print(
+                f"[STOP] 현재 장면 완료 뒤 중단. "
+                f"이번 실행 {result['generated']}개 승인"
+            )
         return 0
     if args.new_world or args.game_scenario:
         finish_new_world(args.root.resolve(), result)
     print(
-        f"[OK] 5권 자동 완주 완료. {result['scene_count']}개 장면, "
+        f"[OK] 전체 권 자동 완주 완료. {result['scene_count']}개 장면, "
         f"이번 실행 {result['generated']}개 승인, EPUB {len(result['epubs'])}개"
     )
     return 0

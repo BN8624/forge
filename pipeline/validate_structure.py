@@ -13,9 +13,9 @@ from typing import Any
 from jsonschema import Draft202012Validator
 
 
-VOLUME_ID = re.compile(r"^V([1-5])$")
-EVENT_ID = re.compile(r"^(V[1-5])-E(\d{2})$")
-SCENE_ID = re.compile(r"^(V[1-5]-E\d{2})-S(\d{2})$")
+VOLUME_ID = re.compile(r"^V([1-9]|[1-9][0-9])$")
+EVENT_ID = re.compile(r"^(V(?:[1-9]|[1-9][0-9]))-E(\d{2})$")
+SCENE_ID = re.compile(r"^(V(?:[1-9]|[1-9][0-9])-E\d{2})-S(\d{2})$")
 OWNER_KEYS = {"changes": "change", "setups": "setup", "payoffs": "payoff"}
 SCHEMA_ROOT = Path(__file__).resolve().parent.parent / "schemas"
 
@@ -111,9 +111,16 @@ def validate_project(root: Path, check_ledger: bool = True) -> list[str]:
 
     if series["id"] != "SERIES":
         errors.append("series.id는 SERIES여야 함")
-    expected_volumes = [f"V{index}" for index in range(1, 6)]
-    if series["volume_ids"] != expected_volumes:
-        errors.append("series.volume_ids는 V1부터 V5까지 정확히 한 번씩 순서대로 있어야 함")
+    volume_ids = series["volume_ids"]
+    expected_volumes = [
+        f"V{index}"
+        for index in range(1, len(volume_ids) + 1)
+    ]
+    if volume_ids != expected_volumes:
+        errors.append(
+            "series.volume_ids는 V1부터 승인된 권수까지 "
+            "정확히 한 번씩 순서대로 있어야 함"
+        )
 
     elements: dict[str, dict[str, Any]] = {}
     for index, element in enumerate(series["elements"]):

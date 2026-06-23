@@ -27,9 +27,12 @@ def candidates_response() -> dict:
                 "progression": f"관계와 능력을 함께 해금하는 성장 {index}",
                 "factions": [f"세력 {index}-A", f"세력 {index}-B"],
                 "choice_structure": f"선택이 지역과 결말을 바꾸는 구조 {index}",
-                "five_volume_arc": [
-                    f"{volume}권 전환 {index}" for volume in range(1, 6)
+                "recommended_volume_count": 3 + (index % 3),
+                "volume_arc": [
+                    f"{volume}권 전환 {index}"
+                    for volume in range(1, 3 + (index % 3) + 1)
                 ],
+                "volume_count_reason": f"사건 밀도에 적합한 권수 {index}",
                 "game_fit": f"게임 콘텐츠로 확장 가능한 이유 {index}",
             }
             for index in range(1, 6)
@@ -82,6 +85,7 @@ class GenerateSynopsesTests(unittest.TestCase):
                 (output / "selected-synopsis.json").read_text(encoding="utf-8")
             )
             self.assertEqual("S3", selected["id"])
+            self.assertEqual(3, selected["approved_volume_count"])
             self.assertIn(selected["title"], instruction)
             self.assertIn("선택 대가", instruction)
             self.assertEqual(["generator", "critic"], [call[0] for call in llm.calls])
@@ -169,6 +173,64 @@ class GenerateSynopsesTests(unittest.TestCase):
             self.assertEqual("user", selection["selected_by"])
             self.assertEqual("S3", selection["critic_recommendation"])
             self.assertIn("S5 후보를 선택", instruction)
+
+    def test_short_recommendation_requires_user_approval(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory)
+            candidates = candidates_response()
+            candidates["candidates"][2]["recommended_volume_count"] = 2
+            candidates["candidates"][2]["volume_arc"] = ["1권", "2권"]
+            (output / "synopsis-candidates.json").write_text(
+                json.dumps(candidates, ensure_ascii=False),
+                encoding="utf-8",
+            )
+            (output / "synopsis-review.json").write_text(
+                json.dumps(review_response("S3"), ensure_ascii=False),
+                encoding="utf-8",
+            )
+
+            with self.assertRaisesRegex(SynopsisGenerationError, "사용자 승인"):
+                choose_game_concept(output)
+
+            selection = json.loads(
+                (output / "concept-selection.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual("required", selection["volume_approval"])
+            self.assertIsNone(selection["approved_volume_count"])
+            selected = json.loads(
+                (output / "selected-synopsis.json").read_text(encoding="utf-8")
+            )
+            self.assertNotIn("approved_volume_count", selected)
+
+    def test_user_volume_override_revises_arc(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory)
+            (output / "synopsis-candidates.json").write_text(
+                json.dumps(candidates_response(), ensure_ascii=False),
+                encoding="utf-8",
+            )
+            (output / "synopsis-review.json").write_text(
+                json.dumps(review_response(), ensure_ascii=False),
+                encoding="utf-8",
+            )
+            revision = {
+                "logline": "4권에 맞춰 보강한 시놉시스",
+                "recommended_volume_count": 4,
+                "volume_arc": ["1권", "2권", "3권", "4권"],
+                "volume_count_reason": "4단계 변화가 필요함",
+            }
+
+            choose_game_concept(
+                output,
+                volume_count=4,
+                llm=FakeLLM(json.dumps(revision, ensure_ascii=False)),
+            )
+
+            selected = json.loads(
+                (output / "selected-synopsis.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(4, selected["approved_volume_count"])
+            self.assertEqual(4, len(selected["volume_arc"]))
 
 
 if __name__ == "__main__":

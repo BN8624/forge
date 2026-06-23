@@ -12,16 +12,10 @@
     "ending": {"type": "string", "minLength": 1},
     "volume_ids": {
       "type": "array",
-      "prefixItems": [
-        {"const": "V1"},
-        {"const": "V2"},
-        {"const": "V3"},
-        {"const": "V4"},
-        {"const": "V5"}
-      ],
-      "items": false,
-      "minItems": 5,
-      "maxItems": 5
+      "items": {"pattern": "^V([1-9]|[1-9][0-9])$", "type": "string"},
+      "minItems": 1,
+      "maxItems": 99,
+      "uniqueItems": true
     },
     "elements": {
       "type": "array",

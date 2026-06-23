@@ -20,6 +20,9 @@ from lib.jsonutil import extract_json
 
 CANDIDATE_COUNT = 5
 MAX_ATTEMPTS = 3
+MIN_VOLUME_COUNT = 1
+MAX_VOLUME_COUNT = 10
+AUTO_APPROVE_MIN_VOLUMES = 3
 CANDIDATE_KEYS = {
     "id",
     "title",
@@ -30,7 +33,9 @@ CANDIDATE_KEYS = {
     "progression",
     "factions",
     "choice_structure",
-    "five_volume_arc",
+    "recommended_volume_count",
+    "volume_arc",
+    "volume_count_reason",
     "game_fit",
 }
 SCORE_KEYS = {
@@ -55,6 +60,10 @@ class SynopsisGenerationError(Exception):
     def __init__(self, errors: list[str] | str):
         self.errors = [errors] if isinstance(errors, str) else errors
         super().__init__("\n".join(self.errors))
+
+
+class SynopsisApprovalRequired(SynopsisGenerationError):
+    pass
 
 
 def candidate_ids() -> set[str]:
@@ -91,7 +100,9 @@ def build_candidate_prompt(instruction: str = "") -> str:
       "progression": "서사와 결합된 성장 및 해금 방식",
       "factions": ["서로 다른 목표를 가진 세력 설명"],
       "choice_structure": "선택이 지역·동료·결말에 미치는 영향",
-      "five_volume_arc": ["1권", "2권", "3권", "4권", "5권"],
+      "recommended_volume_count": 3,
+      "volume_arc": ["1권", "2권", "3권"],
+      "volume_count_reason": "사건 밀도와 인물 변화 단계에 3권이 적합한 이유",
       "game_fit": "게임 시나리오로 강한 구체적 이유"
     }}
   ]
@@ -118,7 +129,11 @@ def validate_candidates(value: Any) -> list[str]:
         titles.append(
             candidate["title"] if isinstance(candidate["title"], str) else ""
         )
-        for key in CANDIDATE_KEYS - {"factions", "five_volume_arc"}:
+        for key in CANDIDATE_KEYS - {
+            "factions",
+            "recommended_volume_count",
+            "volume_arc",
+        }:
             if not isinstance(candidate[key], str) or not candidate[key].strip():
                 errors.append(f"{label}.{key}는 비어 있지 않은 문자열이어야 함")
         factions = candidate["factions"]
@@ -128,13 +143,25 @@ def validate_candidates(value: Any) -> list[str]:
             or not all(isinstance(item, str) and item.strip() for item in factions)
         ):
             errors.append(f"{label}.factions는 두 개 이상의 문자열이어야 함")
-        arc = candidate["five_volume_arc"]
+        volume_count = candidate["recommended_volume_count"]
+        if (
+            type(volume_count) is not int
+            or not MIN_VOLUME_COUNT <= volume_count <= MAX_VOLUME_COUNT
+        ):
+            errors.append(
+                f"{label}.recommended_volume_count는 "
+                f"{MIN_VOLUME_COUNT}-{MAX_VOLUME_COUNT} 정수여야 함"
+            )
+            volume_count = 0
+        arc = candidate["volume_arc"]
         if (
             not isinstance(arc, list)
-            or len(arc) != 5
+            or len(arc) != volume_count
             or not all(isinstance(item, str) and item.strip() for item in arc)
         ):
-            errors.append(f"{label}.five_volume_arc는 정확히 5개 문자열이어야 함")
+            errors.append(
+                f"{label}.volume_arc는 추천 권수와 같은 수의 문자열이어야 함"
+            )
     if set(ids) != candidate_ids() or len(ids) != len(set(ids)):
         errors.append("시놉시스 ID는 S1-S5를 정확히 한 번씩 포함해야 함")
     normalized_titles = [title.strip() for title in titles]
@@ -148,7 +175,7 @@ def build_review_prompt(candidates: dict[str, Any]) -> str:
 아래 후보 5개를 모두 비교해 가장 강한 장편소설 원작 하나를 선택한다.
 
 평가 기준:
-- novel: 5권 장편의 인물 변화와 완결성.
+- novel: 후보가 제안한 권수에서의 인물 변화와 완결성.
 - core_loop: 반복 플레이가 서사와 자연스럽게 결합되는 정도.
 - player_agency: 선택과 실패가 세계 상태를 바꾸는 정도.
 - content_scale: 지역, 임무, 적, 동료, 보스로 확장 가능한 정도.
@@ -307,7 +334,7 @@ def selected_instruction(
     )
     return f"""Forge가 게임 시나리오 원작 후보 평가를 통해 아래 기획을 선택했다.
 이 선택의 제목, 장르, 핵심 역할, 플레이 반복, 성장, 세력, 선택 구조,
-5권 방향을 유지하면서 완전한 세계관과 정본을 작성하라.
+승인된 권수와 권별 방향을 유지하면서 완전한 세계관과 정본을 작성하라.
 
 선택 시놉시스:
 {json.dumps(selected, ensure_ascii=False, indent=2)}
@@ -320,10 +347,67 @@ critic 보완 지시:
 """
 
 
+def revise_volume_plan(
+    candidate: dict[str, Any],
+    volume_count: int,
+    llm: LLM,
+) -> dict[str, Any]:
+    response = llm.generate(
+        "generator",
+        f"""너는 Forge의 장편 시놉시스 편집자다.
+아래 선택된 시놉시스를 정확히 {volume_count}권에 맞게 재설계하라.
+기존 제목, 장르, 주인공 역할, 핵심 플레이 반복, 결말 방향은 유지한다.
+단순 압축·분할이 아니라 사건 밀도, 인물 성장, 복선 설치와 회수를
+{volume_count}개의 독립적인 권별 갈등과 결말로 다시 배치한다.
+
+선택 시놉시스:
+{json.dumps(candidate, ensure_ascii=False, indent=2)}
+
+설명이나 코드펜스 없이 다음 키만 가진 JSON 객체를 반환한다.
+{{
+  "logline": "보강된 전체 시놉시스",
+  "recommended_volume_count": {volume_count},
+  "volume_arc": ["권별 핵심 갈등과 결말"],
+  "volume_count_reason": "지정 권수에서 과밀·필러 없이 성립하는 이유"
+}}
+volume_arc는 정확히 {volume_count}개 문자열이어야 한다.
+""",
+        temperature=0.7,
+    )
+    value = extract_json(response)
+    if not isinstance(value, dict) or set(value) != {
+        "logline",
+        "recommended_volume_count",
+        "volume_arc",
+        "volume_count_reason",
+    }:
+        raise SynopsisGenerationError("지정 권수 시놉시스 보강 응답 형식 오류")
+    revised = dict(candidate)
+    revised.update(value)
+    if (
+        value["recommended_volume_count"] != volume_count
+        or not isinstance(value["volume_arc"], list)
+        or len(value["volume_arc"]) != volume_count
+        or not all(
+            isinstance(item, str) and item.strip()
+            for item in value["volume_arc"]
+        )
+        or not isinstance(value["logline"], str)
+        or not value["logline"].strip()
+        or not isinstance(value["volume_count_reason"], str)
+        or not value["volume_count_reason"].strip()
+    ):
+        raise SynopsisGenerationError("지정 권수 시놉시스 보강 내용 오류")
+    return revised
+
+
 def choose_game_concept(
     output: Path,
     selected_id: str | None = None,
     selected_by: str = "critic",
+    volume_count: int | None = None,
+    approve_short: bool = False,
+    llm: LLM | None = None,
 ) -> str:
     try:
         candidates = json.loads(
@@ -346,6 +430,26 @@ def choose_game_concept(
         for candidate in candidates["candidates"]
         if candidate["id"] == choice
     )
+    recommended_count = selected["recommended_volume_count"]
+    approved_count = (
+        volume_count if volume_count is not None else recommended_count
+    )
+    if not MIN_VOLUME_COUNT <= approved_count <= MAX_VOLUME_COUNT:
+        raise SynopsisGenerationError(
+            f"권수는 {MIN_VOLUME_COUNT}-{MAX_VOLUME_COUNT} 사이여야 함"
+        )
+    if approved_count != recommended_count:
+        if llm is None:
+            raise SynopsisGenerationError("지정 권수 시놉시스 보강에 모델이 필요함")
+        selected = revise_volume_plan(selected, approved_count, llm)
+    approval_required = (
+        volume_count is None
+        and recommended_count < AUTO_APPROVE_MIN_VOLUMES
+        and not approve_short
+    )
+    selected = dict(selected)
+    if not approval_required:
+        selected["approved_volume_count"] = approved_count
     (output / "selected-synopsis.json").write_text(
         json.dumps(selected, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
@@ -356,6 +460,17 @@ def choose_game_concept(
                 "selected_id": choice,
                 "selected_by": selected_by,
                 "critic_recommendation": review["selected_id"],
+                "recommended_volume_count": recommended_count,
+                "approved_volume_count": (
+                    None if approval_required else approved_count
+                ),
+                "volume_approval": (
+                    "required"
+                    if approval_required
+                    else "user"
+                    if volume_count is not None or approve_short
+                    else "auto"
+                ),
             },
             ensure_ascii=False,
             indent=2,
@@ -363,6 +478,11 @@ def choose_game_concept(
         + "\n",
         encoding="utf-8",
     )
+    if approval_required:
+        raise SynopsisApprovalRequired(
+            f"{choice}의 추천 권수는 {recommended_count}권이다. "
+            "1~2권 기획은 사용자 승인이 필요하다."
+        )
     return selected_instruction(
         candidates,
         {
@@ -400,6 +520,8 @@ def generate_game_concept(
     instruction: str,
     output: Path,
     llm: LLM,
+    volume_count: int | None = None,
+    approve_short: bool = False,
 ) -> str:
     candidates = generate_validated_json(
         llm,
@@ -438,7 +560,12 @@ def generate_game_concept(
         publish_result(staged, output)
     finally:
         shutil.rmtree(staging_root, ignore_errors=True)
-    return choose_game_concept(output)
+    return choose_game_concept(
+        output,
+        volume_count=volume_count,
+        approve_short=approve_short,
+        llm=llm,
+    )
 
 
 def create_llm_client() -> LLM:

@@ -112,6 +112,24 @@ class ExpandStructureTests(unittest.TestCase):
             self.assertEqual([], second_llm.calls)
             self.assertEqual([], validate_story_scale(second_output))
 
+    def test_three_volume_structure_expands_only_three_volumes(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            workspace = Path(directory)
+            root = workspace / "project"
+            output = workspace / "expanded"
+            build_project(root, volume_count=3)
+            llm = FakeLLM(
+                [expanded_volume_response(index) for index in range(1, 4)]
+            )
+
+            expand_structure(root, output, llm)
+
+            series = json.loads(
+                (output / "story" / "series.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(["V1", "V2", "V3"], series["volume_ids"])
+            self.assertEqual(3, len(llm.calls))
+
     def test_invalid_volume_is_retried_with_errors(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             workspace = Path(directory)

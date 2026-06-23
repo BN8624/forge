@@ -38,7 +38,10 @@ class WorldGenerationError(Exception):
         super().__init__("\n".join(self.errors))
 
 
-def build_world_prompt(instruction: str = "") -> str:
+def build_world_prompt(
+    instruction: str = "",
+    volume_count: int = 5,
+) -> str:
     optional_instruction = instruction.strip() or "추가 지시 없음. 장르와 소재도 스스로 결정한다."
     schema = json.loads(
         (PROJECT_ROOT / "schemas" / "world_source.schema.json").read_text(
@@ -52,7 +55,7 @@ def build_world_prompt(instruction: str = "") -> str:
 사용자 선택 지시:
 {optional_instruction}
 
-이 세계관은 정확히 5권의 장편 구조와 완결된 산문으로 확장될 원천 정본이다.
+이 세계관은 정확히 {volume_count}권의 장편 구조와 완결된 산문으로 확장될 원천 정본이다.
 인물 이름, 장소, 사회 체제, 초자연 규칙, 갈등, 반전, 결말을 독창적으로 만든다.
 핵심 규칙은 모호한 분위기가 아니라 이후 critic이 판정할 수 있는 사실 문장으로 쓴다.
 
@@ -65,7 +68,7 @@ canon 21개는 다음 역할을 고르게 담당한다.
 - C20-C21: 최종 결말에서 반드시 성립할 사실.
 
 manuscript는 최소 3,000자의 압축 참고 원고다.
-도입, 5권에 걸친 상승과 전환, 최종 결말을 모두 포함하며 출판 산문의 문체,
+도입, {volume_count}권에 걸친 상승과 전환, 최종 결말을 모두 포함하며 출판 산문의 문체,
 대화, 감각 묘사를 보여준다. 구조 문서나 항목 설명처럼 쓰지 않는다.
 
 설명이나 코드펜스 없이 JSON 객체 하나만 반환한다.
@@ -213,7 +216,12 @@ def generate_world(
     output.parent.mkdir(parents=True, exist_ok=True)
     staging_root = Path(tempfile.mkdtemp(prefix=".world-", dir=output.parent))
     staged = staging_root / "world"
-    original_prompt = build_world_prompt(instruction)
+    volume_count = (
+        expected_identity.get("approved_volume_count", 5)
+        if expected_identity
+        else 5
+    )
+    original_prompt = build_world_prompt(instruction, volume_count)
     prompt = original_prompt
     last_errors: list[str] = []
     try:
@@ -257,7 +265,7 @@ def create_llm_client() -> LLM:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="기존 작품과 무관한 신규 5권 장편 세계관 원천을 생성한다."
+        description="기존 작품과 무관한 신규 장편 세계관 원천을 생성한다."
     )
     parser.add_argument("--instruction-file", type=Path)
     parser.add_argument(
