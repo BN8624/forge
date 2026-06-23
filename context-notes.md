@@ -341,7 +341,7 @@
 - 신규 세계관의 series.title과 series.premise는 원천 세계관 값과 정확히 일치해야 구조 후보가 통과한다.
 - 첫 신규 실행 전에 현재 story, prose, state, exports, reference/current를 `runs/world-backups`에 복사한다.
 - `runs/new-world/active.json`이 active이면 같은 `--new-world` 명령은 새 세계를 만들지 않고 진행 중 세계에서 재개한다. complete 뒤 다시 실행하면 새 세계를 시작한다.
-- 신규 세계관 모드는 장면 전체 생성 실행 재시도 기본값을 무제한으로 사용한다.
+- 당시 신규 세계관 모드는 장면 전체 생성 실행 재시도 기본값을 무제한으로 사용했다. 이후 기본 5회로 변경됐다.
 - 생성 세계관의 21개 정본 ID는 기존 review 스키마와 추적성을 유지하기 위해 C1-C21 형식을 쓰지만 내용은 모두 새로 생성한다.
 - 전체 테스트 70개, 구문 검사, 의존성 검사, 구조·규모 검증을 통과했다.
 - 현재 완성본에서 일반 `python pipeline\complete_series.py` 재실행도 모델 호출 없이 통과해 기존 모드 회귀가 없음을 확인했다.
@@ -470,3 +470,12 @@
 - 세 번째 재생성은 골격 후보를 통과해 권별 확장에 진입했으나 Forge가 owns 배열에 문자열 대신 객체를 넣어 정규화기가 예외를 냈다. 정규화는 문자열 ID만 처리하고 잘못된 타입은 제거해 스키마 검증 또는 재시도가 정상적으로 작동하게 한다.
 - 권별 장편 확장은 5권 모두 생성됐지만 독립 정본 critic이 C19의 최종 보스 결정 순서 위반을 발견했다. 기존 오케스트레이터는 critic 거부를 구조 generator에 돌려주지 않고 즉시 종료하므로, 최대 3회까지 critic 오류를 추가 지시로 전달해 전체 구조를 다시 생성하는 피드백 루프를 추가한다.
 - 첫 피드백 재시도는 확장 캐시 키가 원본 story 해시만 사용하고 사용자 지시와 critic 피드백을 포함하지 않아 이전 실패 구조를 그대로 재사용했다. 확장 계약 해시에 정규화된 지시문을 포함해 피드백이 달라지면 5권을 실제로 다시 생성하게 한다.
+
+## 2026-06-23 작업 중지와 다음 세션 인수인계
+
+- 사용자의 중지 요청에 따라 `STOP_AFTER_RUN`을 유지한다. 실행 중인 `complete_series.py` 프로세스는 없다.
+- 현재 작품은 `심연의 잔향: 침몰하는 도시의 기록자`이며 현재 정본은 장편 확장 전 5권 골격 24장면이다.
+- 모든 현재 장면은 `interaction_mode`와 `dialogue_policy`를 가진다. 산문은 현재 정본에 없으며 이전 산문은 `runs/prose-backups/20260622T152439.798912Z` 등에 보존한다.
+- 마지막 자동 실행은 구조 확장 중 `'list' object has no attribute 'get'` 오류로 2026-06-23 01:41 KST에 실패했다. `runs/complete-series/status.json`에는 스택 위치 없이 오류 문자열만 남아 있어 다음 세션은 먼저 실제 스택 트레이스를 확보해야 한다.
+- 마지막 전체 검증은 `python -m unittest discover -s tests -v` 101개 통과, `python -m compileall -q -f lib pipeline tests` 통과, `python -m pip check` 통과다.
+- 생성된 story, reference, state, prose 삭제 상태는 새 세계관과 구조 재생성 과정의 작업 산출물이며 문서 정리 커밋에 포함하지 않는다.
