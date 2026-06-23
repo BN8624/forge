@@ -46,6 +46,9 @@ class DashboardTests(unittest.TestCase):
         self.assertIn("완료되면 이 영역이 새 후보로 교체", page)
         self.assertIn("후보 생성 취소", page)
         self.assertIn("권 지정", page)
+        self.assertIn("selectedConceptId", page)
+        self.assertIn("conceptSignature", page)
+        self.assertIn("chosenTitle", page)
         self.assertIn("다음 권 이어서 만들기", page)
         self.assertIn('data-token="secret-token"', page)
 
