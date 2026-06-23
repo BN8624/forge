@@ -393,6 +393,19 @@ class CompleteSeriesTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             self.make_project(root)
+            active_path = root / "runs" / "new-world" / "active.json"
+            active_path.parent.mkdir(parents=True)
+            active_path.write_text(
+                json.dumps(
+                    {
+                        "status": "active",
+                        "backup": str(root / "runs" / "old-backup"),
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            (root / "reference" / "current").mkdir(parents=True)
 
             with (
                 patch(
@@ -409,12 +422,77 @@ class CompleteSeriesTests(unittest.TestCase):
                         FakeLLM([]),
                         "",
                         game_scenario=True,
+                        replace_active=True,
                     )
 
             archive.assert_not_called()
             self.assertTrue((root / "story" / "series.json").is_file())
-            self.assertFalse(
-                (root / "runs" / "new-world" / "active.json").exists()
+            active = json.loads(active_path.read_text(encoding="utf-8"))
+            self.assertEqual("active", active["status"])
+            self.assertEqual(
+                str(root / "runs" / "old-backup"),
+                active["backup"],
+            )
+
+    def test_replace_active_generates_new_world_instead_of_resuming(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.make_project(root)
+            active_path = root / "runs" / "new-world" / "active.json"
+            active_path.parent.mkdir(parents=True)
+            active_path.write_text(
+                json.dumps(
+                    {
+                        "status": "active",
+                        "backup": str(root / "runs" / "old-backup"),
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            (root / "reference" / "current").mkdir(parents=True)
+            source = {
+                "title": "교체된 세계",
+                "premise": "새 시놉시스로 교체된 세계",
+                "canon": [],
+            }
+
+            def create_world(_instruction, output, _llm):
+                output.mkdir(parents=True, exist_ok=True)
+                (output / "canon_bible.json").write_text(
+                    json.dumps(source, ensure_ascii=False),
+                    encoding="utf-8",
+                )
+                (output / "compressed_manuscript.md").write_text(
+                    "교체 원고",
+                    encoding="utf-8",
+                )
+
+            with (
+                patch(
+                    "pipeline.complete_series.generate_world",
+                    side_effect=create_world,
+                ) as generator,
+                patch(
+                    "pipeline.complete_series.load_source_material",
+                    return_value=(source, "교체 원고"),
+                ),
+            ):
+                backup, regenerate = prepare_new_world(
+                    root,
+                    FakeLLM([]),
+                    "",
+                    replace_active=True,
+                )
+
+            self.assertTrue(regenerate)
+            self.assertEqual(1, generator.call_count)
+            self.assertTrue((backup / "story" / "series.json").is_file())
+            active = json.loads(active_path.read_text(encoding="utf-8"))
+            self.assertEqual("교체된 세계", active["title"])
+            self.assertNotEqual(
+                str(root / "runs" / "old-backup"),
+                active["backup"],
             )
 
 

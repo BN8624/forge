@@ -176,11 +176,17 @@ def prepare_new_world(
     selected_synopsis: str | None = None,
     volume_count: int | None = None,
     approve_short: bool = False,
+    replace_active: bool = False,
 ) -> tuple[Path, bool]:
     active_path = root / "runs" / "new-world" / "active.json"
     active = read_json_if_exists(active_path)
     current_source = root / "reference" / "current"
-    if active and active.get("status") == "active" and current_source.is_dir():
+    if (
+        active
+        and active.get("status") == "active"
+        and current_source.is_dir()
+        and not replace_active
+    ):
         return Path(active["backup"]), not structure_matches_source(root)
 
     world_instruction = instruction
@@ -704,6 +710,11 @@ def main() -> int:
         help="Forge가 추천한 1~2권 구성을 사용자 승인으로 확정한다.",
     )
     parser.add_argument(
+        "--replace-active",
+        action="store_true",
+        help="진행 중인 작품을 백업하고 새 세계관 또는 시놉시스로 교체한다.",
+    )
+    parser.add_argument(
         "--regenerate-structure",
         action="store_true",
         help="현재 유효한 정본 구조도 새로 생성한다. 기존 산문은 작업 백업한다.",
@@ -748,6 +759,7 @@ def main() -> int:
                 args.selected_synopsis,
                 args.volume_count,
                 args.approve_short,
+                args.replace_active,
             )
             regenerate_structure = regenerate_structure or new_world_regenerate
         scene_retries = (

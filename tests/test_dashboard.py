@@ -39,6 +39,7 @@ class DashboardTests(unittest.TestCase):
         self.assertIn("권별 진행", page)
         self.assertIn("중단됨 · 재개 시", page)
         self.assertIn("마지막 실행 시간", page)
+        self.assertIn("현재 작품이 있어도 새 후보", page)
         self.assertIn("다음 권 이어서 만들기", page)
         self.assertIn('data-token="secret-token"', page)
 
@@ -55,6 +56,7 @@ class DashboardTests(unittest.TestCase):
             self.assertEqual("series", job["kind"])
             self.assertIn("pipeline/complete_series.py", command)
             self.assertIn("--game-scenario", command)
+            self.assertIn("--replace-active", command)
             self.assertIn("--instruction-file", command)
             self.assertEqual("4", command[-1])
             self.assertIn("--volume-count", command)
@@ -338,6 +340,7 @@ class DashboardTests(unittest.TestCase):
             self.assertIn("--reuse-concept", command)
             self.assertIn("S4", command)
             self.assertIn("--approve-short", command)
+            self.assertIn("--replace-active", command)
             self.assertEqual(["--volume-count", "4"], command[-2:])
 
     def test_unknown_candidate_is_rejected(self) -> None:
@@ -366,7 +369,7 @@ class DashboardTests(unittest.TestCase):
                 fake.calls[0][0][-2:],
             )
 
-    def test_active_world_blocks_new_concept_generation(self) -> None:
+    def test_active_world_allows_new_concept_generation_with_replacement(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             active_path = root / "runs" / "new-world" / "active.json"
@@ -375,10 +378,12 @@ class DashboardTests(unittest.TestCase):
                 json.dumps({"status": "active"}, ensure_ascii=False),
                 encoding="utf-8",
             )
-            controller = DashboardController(root, FakePopen())
+            fake = FakePopen()
+            controller = DashboardController(root, fake)
 
-            with self.assertRaises(DashboardError):
-                controller.generate_concepts("")
+            controller.generate_concepts("")
+
+            self.assertIn("--replace-active", fake.calls[0][0])
 
 
 if __name__ == "__main__":
