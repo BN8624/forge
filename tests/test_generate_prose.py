@@ -159,6 +159,45 @@ class GenerateProseTests(unittest.TestCase):
             self.assertIn("최소 2100자를 목표", second_llm.calls[0][1])
             self.assertNotIn("산문 길이 범위 위반", second_llm.calls[0][1])
 
+    def test_persistent_identical_candidates_stop_before_new_model_call(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            build_project(root)
+            approve_story(root)
+            scene = json.loads(
+                (
+                    root
+                    / "story"
+                    / "scenes"
+                    / "V1-E01-S01.json"
+                ).read_text(encoding="utf-8")
+            )
+            work = (
+                root
+                / "runs"
+                / "prose-work"
+                / "V1-E01-S01"
+                / contract_sha256(scene)
+            )
+            work.mkdir(parents=True)
+            repeated = prose_response("V1-E01-S01", 1200)
+            for index in range(1, 4):
+                (work / f"generator-attempt-{index}.txt").write_text(
+                    repeated,
+                    encoding="utf-8",
+                )
+            llm = FakeLLM([])
+
+            with self.assertRaisesRegex(ProseGenerationError, "동일 산문 후보"):
+                generate_prose_scene(
+                    root,
+                    "V1-E01-S01",
+                    llm,
+                    check_scale=False,
+                )
+
+            self.assertEqual([], llm.calls)
+
     def test_second_scene_requires_previous_approved_prose(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

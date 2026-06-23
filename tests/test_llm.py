@@ -8,10 +8,15 @@ LIB_ROOT = Path(__file__).resolve().parent.parent / "lib"
 if str(LIB_ROOT) not in sys.path:
     sys.path.insert(0, str(LIB_ROOT))
 
-from llm import GENERATOR_MAX_OUTPUT_TOKENS, LLMClient
+from llm import GENERATOR_MAX_OUTPUT_TOKENS, LLMClient, _is_transient
 
 
 class LLMClientTests(unittest.TestCase):
+    def test_httpx_read_timeout_is_transient(self) -> None:
+        read_timeout = type("ReadTimeout", (Exception,), {"__module__": "httpx"})
+
+        self.assertTrue(_is_transient(read_timeout("응답을 기다리다 연결이 끊김")))
+
     def test_generator_requests_explicit_output_budget(self) -> None:
         client = LLMClient.__new__(LLMClient)
         client.max_calls = None

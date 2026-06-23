@@ -106,6 +106,46 @@ class DashboardTests(unittest.TestCase):
 
             self.assertEqual("complete", job["status"])
 
+    def test_newer_stopped_completion_supersedes_stale_failed_job(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            controller = DashboardController(root, FakePopen())
+            controller.state_path.parent.mkdir(parents=True, exist_ok=True)
+            controller.state_path.write_text(
+                json.dumps(
+                    {
+                        "kind": "series",
+                        "status": "failed",
+                        "started_at": "2026-06-22T01:00:00+00:00",
+                        "finished_at": "2026-06-22T02:00:00+00:00",
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            completion = root / "runs" / "complete-series" / "status.json"
+            completion.parent.mkdir(parents=True)
+            completion.write_text(
+                json.dumps(
+                    {
+                        "stage": "stopped",
+                        "updated_at": "2026-06-23T01:00:00+00:00",
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+
+            job = controller.status()["job"]
+
+            self.assertEqual("stopped", job["status"])
+            self.assertEqual("stopped", job["superseded_by_stage"])
+            self.assertNotIn("return_code", job)
+            self.assertEqual(
+                "2026-06-23T01:00:00+00:00",
+                job["finished_at"],
+            )
+
     def test_dashboard_token_survives_controller_restart(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -171,6 +211,51 @@ class DashboardTests(unittest.TestCase):
             self.assertEqual(2, progress["current_scene_number"])
             self.assertEqual("V1-E01-S02", progress["current_scene_id"])
             self.assertEqual(2, progress["attempt"])
+
+    def test_stopped_progress_keeps_prose_phase_percentage(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "story" / "volumes").mkdir(parents=True)
+            (root / "story" / "events").mkdir(parents=True)
+            (root / "prose" / "scenes" / "V1-E01-S01").mkdir(parents=True)
+            (root / "story" / "series.json").write_text(
+                json.dumps(
+                    {"title": "중단 시험", "volume_ids": ["V1"]},
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            (root / "story" / "volumes" / "V1.json").write_text(
+                json.dumps({"event_ids": ["V1-E01"]}, ensure_ascii=False),
+                encoding="utf-8",
+            )
+            (root / "story" / "events" / "V1-E01.json").write_text(
+                json.dumps(
+                    {"scene_ids": ["V1-E01-S01", "V1-E01-S02"]},
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            scene = root / "prose" / "scenes" / "V1-E01-S01"
+            (scene / "prose.md").write_text("승인 산문", encoding="utf-8")
+            (scene / "review.json").write_text(
+                json.dumps({"status": "pass"}, ensure_ascii=False),
+                encoding="utf-8",
+            )
+            status_path = root / "runs" / "complete-series" / "status.json"
+            status_path.parent.mkdir(parents=True)
+            status_path.write_text(
+                json.dumps(
+                    {"stage": "stopped", "scene_id": "V1-E01-S02"},
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+
+            progress = DashboardController(root, FakePopen()).status()["progress"]
+
+            self.assertEqual(5, progress["phase"])
+            self.assertEqual(65.0, progress["percent"])
 
     def test_selected_candidate_starts_reused_concept_pipeline(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

@@ -29,6 +29,7 @@ MIN_LENGTH_RATIO = 0.7
 SOLO_MIN_LENGTH_RATIO = 0.65
 MAX_LENGTH_RATIO = 1.5
 LENGTH_REWRITE_BUFFER = 800
+MAX_IDENTICAL_CANDIDATES = 3
 PROSE_CONTRACT_VERSION = 2
 DIALOGUE_PATTERN = re.compile(
     r'“[^”\n]+”|"[^"\n]+"|^—[^\n]+$',
@@ -169,6 +170,35 @@ def write_failure_feedback(work_dir: Path, errors: list[str]) -> None:
 
 def next_artifact_index(work_dir: Path, pattern: str) -> int:
     return len(list(work_dir.glob(pattern))) + 1
+
+
+def repeated_candidate_error(
+    work_dir: Path,
+    scene_id: str,
+    target_chars: int,
+    min_length_ratio: float,
+) -> str | None:
+    counts: dict[str, int] = {}
+    for path in work_dir.glob("generator-attempt-*.txt"):
+        try:
+            prose = parse_prose_response(
+                path.read_text(encoding="utf-8"),
+                scene_id,
+                target_chars,
+                enforce_length=False,
+                min_length_ratio=min_length_ratio,
+            )
+        except (OSError, ProseGenerationError):
+            continue
+        digest = hashlib.sha256(prose.encode("utf-8")).hexdigest()
+        counts[digest] = counts.get(digest, 0) + 1
+    repeated = max(counts.values(), default=0)
+    if repeated < MAX_IDENTICAL_CANDIDATES:
+        return None
+    return (
+        f"동일 산문 후보가 {repeated}회 반복됨: {scene_id}. "
+        "추가 모델 호출보다 장면 계약 또는 생성 지시 수정이 필요함"
+    )
 
 
 def approved_prose(root: Path, scene_id: str) -> str:
@@ -708,6 +738,14 @@ def generate_prose_scene(
         / scene_id
         / contract_sha256(scene)
     )
+    duplicate_error = repeated_candidate_error(
+        work_dir,
+        scene_id,
+        scene["target_chars"],
+        min_length_ratio,
+    )
+    if duplicate_error:
+        raise ProseGenerationError(duplicate_error)
     feedback = read_failure_feedback(work_dir)
     if work_dir.exists():
         recovery_paths = sorted(

@@ -97,6 +97,31 @@ class DashboardController:
         if not job:
             return None
         if job.get("status") != "running":
+            if job.get("kind") == "series" and job.get("status") == "failed":
+                completion = read_json_if_exists(
+                    self.root / "runs" / "complete-series" / "status.json"
+                ) or {}
+                completion_updated = str(completion.get("updated_at", ""))
+                job_finished = str(
+                    job.get("finished_at") or job.get("started_at") or ""
+                )
+                stage = completion.get("stage")
+                if (
+                    completion_updated
+                    and completion_updated > job_finished
+                    and stage in {"stopped", "prose", "final_validation", "complete"}
+                ):
+                    job.pop("return_code", None)
+                    job.update(
+                        {
+                            "status": (
+                                "complete" if stage == "complete" else "stopped"
+                            ),
+                            "superseded_by_stage": stage,
+                            "finished_at": completion_updated,
+                        }
+                    )
+                    write_json(self.state_path, job)
             return job
         return_code: int | None = None
         if self.process is not None and self.process.pid == job.get("pid"):
@@ -306,10 +331,11 @@ class DashboardController:
             "structure_candidate": 3,
             "structure_expansion": 4,
             "prose": 5,
+            "stopped": 5,
             "final_validation": 6,
             "complete": 7,
         }
-        if stage == "prose" and total_scenes:
+        if stage in {"prose", "stopped"} and total_scenes:
             percent = round(40 + (approved_scenes / total_scenes) * 50, 1)
         else:
             percent_by_stage = {
@@ -332,10 +358,16 @@ class DashboardController:
         elapsed_seconds = None
         if started_at:
             try:
+                finished_at = str((job or {}).get("finished_at", ""))
+                end_timestamp = (
+                    datetime.fromisoformat(finished_at).timestamp()
+                    if finished_at and (job or {}).get("status") != "running"
+                    else time()
+                )
                 elapsed_seconds = max(
                     0,
                     int(
-                        time()
+                        end_timestamp
                         - datetime.fromisoformat(started_at).timestamp()
                     ),
                 )

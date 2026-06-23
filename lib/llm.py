@@ -196,6 +196,16 @@ def _is_transient(err: Exception) -> bool:
                               "connection aborted", "connection refused",
                               "timed out", "deadline exceeded")):
         return True
+    exception_name = type(err).__name__.lower()
+    exception_module = type(err).__module__.lower()
+    if (
+        exception_module.startswith(("httpx", "httpcore"))
+        and any(
+            marker in exception_name
+            for marker in ("timeout", "connecterror", "networkerror")
+        )
+    ):
+        return True
     return isinstance(err, (ConnectionError, TimeoutError, socket.error,
                             OSError))
 
