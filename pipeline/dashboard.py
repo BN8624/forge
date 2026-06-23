@@ -61,6 +61,29 @@ def process_alive(pid: int) -> bool:
     return True
 
 
+def terminate_process(pid: int) -> bool:
+    if pid <= 0:
+        return False
+    if os.name == "nt":
+        process_terminate = 0x0001
+        handle = ctypes.windll.kernel32.OpenProcess(
+            process_terminate,
+            False,
+            pid,
+        )
+        if not handle:
+            return False
+        try:
+            return bool(ctypes.windll.kernel32.TerminateProcess(handle, 1))
+        finally:
+            ctypes.windll.kernel32.CloseHandle(handle)
+    try:
+        os.kill(pid, 15)
+    except OSError:
+        return False
+    return True
+
+
 class DashboardError(Exception):
     pass
 
@@ -244,6 +267,28 @@ class DashboardController:
             instruction_path.write_text(instruction + "\n", encoding="utf-8")
             command.extend(["--instruction-file", str(instruction_path)])
         return self._start("concepts", command)
+
+    def cancel_concepts(self) -> dict[str, Any]:
+        with self.lock:
+            job = self._current_job()
+            if not job or job.get("status") != "running":
+                raise DashboardError("취소할 후보 생성 작업이 없습니다.")
+            if job.get("kind") != "concepts":
+                raise DashboardError("작품 제작 작업은 후보 생성 취소로 중단할 수 없습니다.")
+            pid = int(job.get("pid", 0))
+            if self.process is not None and self.process.pid == pid:
+                self.process.terminate()
+            elif process_alive(pid) and not terminate_process(pid):
+                raise DashboardError("후보 생성 프로세스를 종료하지 못했습니다.")
+            job.update(
+                {
+                    "status": "cancelled",
+                    "finished_at": datetime.now(timezone.utc).isoformat(),
+                }
+            )
+            write_json(self.state_path, job)
+            self.process = None
+            return job
 
     def start_series(
         self,
@@ -543,10 +588,10 @@ function duration(sec){{if(sec==null)return'-';const h=Math.floor(sec/3600),m=Ma
 function jobView(s){{const j=s.job||{{status:'idle'}};const p=s.progress||{{}};const label=j.status==='running'?(j.kind==='concepts'?'후보 5개를 생성하고 critic 평가하는 중':p.stage_label):j.status==='failed'?'작업 실패':j.status==='complete'?'최근 작업 완료':p.stage_label;const scene=p.current_scene_id?`${{p.current_scene_number||'?'}} / ${{p.total_scenes||'?'}} · ${{p.current_scene_id}}`:`${{p.approved_scenes||0}} / ${{p.total_scenes||0}} 승인`;const volumes=`${{p.recommended_volume_count?`${{p.recommended_volume_count}}권 추천`:'추천 전'}} · ${{p.approved_volume_count?`${{p.approved_volume_count}}권 확정`:'승인 대기'}}`;const nextVolume=p.current_volume||p.next_volume||'-';const volumeStep=p.stage==='stopped'?`중단됨 · 재개 시 ${{nextVolume}}`:p.completed_volume?`${{p.completed_volume}} 완료 · 다음 ${{p.next_volume||'없음'}}`:`${{nextVolume}} 진행`;const timeLabel=j.status==='running'?'실행 시간':'마지막 실행 시간';document.querySelector('#job').innerHTML=`<div class="status"><i class="dot ${{esc(j.status)}}"></i><strong>${{esc(label||'대기 중')}}</strong></div><h3>${{esc(p.target_title||s.current_series?.title||'대상 작품 없음')}}</h3><div class="progress"><i style="width:${{Number(p.percent||0)}}%"></i></div><div class="metrics"><div class="metric"><b>예상 전체 진행률</b><span>${{esc(p.percent??0)}}% · 단계 ${{esc(p.phase||'-')}}/${{esc(p.phase_total||7)}}</span></div><div class="metric"><b>권수 계약</b><span>${{esc(volumes)}}</span></div><div class="metric"><b>산문 승인</b><span>${{esc(p.approved_scenes||0)}} / ${{esc(p.total_scenes||0)}}</span></div><div class="metric"><b>권별 진행</b><span>${{esc(volumeStep)}}</span></div><div class="metric"><b>현재 장면</b><span>${{esc(scene)}}</span></div><div class="metric"><b>현재 권·시도</b><span>${{esc(p.current_volume||'-')}} · ${{esc(p.attempt||1)}}회</span></div><div class="metric"><b>${{esc(timeLabel)}}</b><span>${{esc(duration(p.elapsed_seconds))}}</span></div><div class="metric"><b>마지막 상태 갱신</b><span>${{esc(p.updated_at?new Date(p.updated_at).toLocaleTimeString('ko-KR'): '-')}}</span></div></div>`;document.querySelector('#error').textContent=s.log_tail||''}}
 function cardsView(s){{const holder=document.querySelector('#cards');if(s.job?.status==='running'&&s.job?.kind==='concepts'){{holder.innerHTML='<div class="panel empty">기존 후보를 보존한 채 새 후보 5개와 critic 평가를 생성 중입니다. 완료되면 이 영역이 새 후보로 교체됩니다.</div>';return}}const list=s.concept?.candidates||[];const review=s.concept?.review||{{}};const recommended=review.selected_id;const scores=Object.fromEntries((review.evaluations||[]).map(x=>[x.id,x]));if(!list.length){{holder.innerHTML='<div class="panel empty">아직 생성된 후보가 없습니다.</div>';return}}holder.innerHTML=list.map(c=>{{const e=scores[c.id]||{{}};const arc=c.volume_arc||c.five_volume_arc||[];const count=c.recommended_volume_count||arc.length||s.current_series?.volume_count||5;const reason=c.volume_count_reason||'기존 기획의 권수 계약을 유지합니다.';return `<article class="card" data-id="${{esc(c.id)}}"><div class="topline"><div><div class="genre">${{esc(c.genre)}} · ${{esc(c.id)}} · ${{esc(count)}}권 추천</div><h3>${{esc(c.title)}}</h3></div>${{c.id===recommended?'<span class="badge">FORGE 추천</span>':''}}</div><p>${{esc(c.logline)}}</p><div class="facts"><div><b>플레이어 역할</b>${{esc(c.player_role)}}</div><div><b>핵심 루프</b>${{esc(c.core_loop)}}</div><div><b>권수 근거</b>${{esc(reason)}}</div><div><b>선택 구조</b>${{esc(c.choice_structure)}}</div></div><details><summary>${{esc(count)}}권 전개와 critic 평가</summary><ol>${{arc.map(x=>`<li>${{esc(x)}}</li>`).join('')}}</ol><p><b>강점.</b> ${{esc((e.strengths||[]).join(' · '))}}</p><p><b>위험.</b> ${{esc((e.risks||[]).join(' · '))}}</p></details><label class="choice"><input type="radio" name="concept" value="${{esc(c.id)}}" ${{c.id===recommended?'checked':''}}>이 기획 선택</label></article>`}}).join('');markSelection()}}
 function markSelection(){{const chosen=document.querySelector('input[name=concept]:checked');const busy=state?.job?.status==='running';const hasActive=state?.active_world?.status==='active';document.querySelectorAll('.card').forEach(x=>x.classList.toggle('selected',chosen&&x.dataset.id===chosen.value));document.querySelector('#start').disabled=!chosen||busy;document.querySelector('#resume').disabled=busy||!hasActive}}
-function render(s){{state=s;jobView(s);cardsView(s);const busy=s.job?.status==='running';document.querySelector('#generate').disabled=busy;markSelection()}}
+function render(s){{state=s;jobView(s);cardsView(s);const conceptBusy=s.job?.status==='running'&&s.job?.kind==='concepts';const otherBusy=s.job?.status==='running'&&!conceptBusy;const generate=document.querySelector('#generate');generate.disabled=otherBusy;generate.textContent=conceptBusy?'후보 생성 취소':'새 후보 5개 다시 만들기';markSelection()}}
 async function refresh(){{try{{render(await api('/api/dashboard'))}}catch(e){{document.querySelector('#error').textContent=e.message}}}}
 document.querySelector('#refresh').onclick=refresh;document.querySelector('#cards').onchange=markSelection;
-document.querySelector('#generate').onclick=async()=>{{const raw=document.querySelector('#volume-count').value;try{{await api('/api/dashboard/concepts',{{instruction:document.querySelector('#instruction').value,volume_count:raw||null}});await refresh()}}catch(e){{alert(e.message)}}}};
+document.querySelector('#generate').onclick=async()=>{{const raw=document.querySelector('#volume-count').value;try{{if(state?.job?.status==='running'&&state?.job?.kind==='concepts'){{await api('/api/dashboard/concepts/cancel',{{}})}}else{{await api('/api/dashboard/concepts',{{instruction:document.querySelector('#instruction').value,volume_count:raw||null}})}}await refresh()}}catch(e){{alert(e.message)}}}};
 document.querySelector('#start').onclick=async()=>{{const chosen=document.querySelector('input[name=concept]:checked');if(!chosen)return;const raw=document.querySelector('#volume-count').value;if(!confirm(`${{chosen.value}} 기획과 ${{raw||'Forge 추천'}} 권수를 승인할까요? 현재 작품은 백업됩니다.`))return;try{{await api('/api/dashboard/start',{{selected_id:chosen.value,volume_count:raw||null}});await refresh()}}catch(e){{alert(e.message)}}}};
 document.querySelector('#resume').onclick=async()=>{{if(!confirm('중단된 신규 작품 생성을 이어서 실행할까요?'))return;try{{await api('/api/dashboard/resume',{{}});await refresh()}}catch(e){{alert(e.message)}}}};
 refresh();setInterval(refresh,3000);

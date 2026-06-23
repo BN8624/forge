@@ -324,6 +324,7 @@ def make_library_handler(
             path = urlparse(self.path).path
             if dashboard is None or path not in (
                 "/api/dashboard/concepts",
+                "/api/dashboard/concepts/cancel",
                 "/api/dashboard/start",
                 "/api/dashboard/resume",
             ):
@@ -339,7 +340,9 @@ def make_library_handler(
                 payload = json.loads(self.rfile.read(length) or b"{}")
                 if not isinstance(payload, dict):
                     raise ValueError("JSON 객체가 필요합니다.")
-                if path == "/api/dashboard/concepts":
+                if path == "/api/dashboard/concepts/cancel":
+                    result = dashboard.cancel_concepts()
+                elif path == "/api/dashboard/concepts":
                     raw_volume_count = payload.get("volume_count")
                     volume_count = (
                         int(raw_volume_count)

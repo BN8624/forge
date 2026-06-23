@@ -16,6 +16,9 @@ class FakeProcess:
     def poll(self):
         return None
 
+    def terminate(self):
+        return None
+
 
 class FakePopen:
     def __init__(self) -> None:
@@ -41,6 +44,7 @@ class DashboardTests(unittest.TestCase):
         self.assertIn("마지막 실행 시간", page)
         self.assertIn("마음에 들 때까지 후보 5개를 다시", page)
         self.assertIn("완료되면 이 영역이 새 후보로 교체", page)
+        self.assertIn("후보 생성 취소", page)
         self.assertIn("다음 권 이어서 만들기", page)
         self.assertIn('data-token="secret-token"', page)
 
@@ -61,6 +65,17 @@ class DashboardTests(unittest.TestCase):
             self.assertIn("--instruction-file", command)
             self.assertTrue((root / "STOP_AFTER_RUN").exists())
             self.assertEqual("running", controller.status()["job"]["status"])
+
+    def test_running_concept_generation_can_be_cancelled(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            fake = FakePopen()
+            controller = DashboardController(Path(directory), fake)
+            controller.generate_concepts("")
+
+            job = controller.cancel_concepts()
+
+            self.assertEqual("cancelled", job["status"])
+            self.assertEqual("cancelled", controller.status()["job"]["status"])
 
     def test_finished_external_process_unlocks_dashboard(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
