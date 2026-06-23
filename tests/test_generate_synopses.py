@@ -122,6 +122,39 @@ class GenerateSynopsesTests(unittest.TestCase):
                 published["candidates"][0]["title"],
             )
 
+    def test_user_volume_count_applies_to_all_candidates(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "concept"
+            candidates = candidates_response()
+            for candidate in candidates["candidates"]:
+                candidate["recommended_volume_count"] = 10
+                candidate["volume_arc"] = [
+                    f"{index}권" for index in range(1, 11)
+                ]
+
+            generate_concept_candidates(
+                "",
+                output,
+                FakeLLM(
+                    [
+                        json.dumps(candidates, ensure_ascii=False),
+                        json.dumps(review_response(), ensure_ascii=False),
+                    ]
+                ),
+                10,
+            )
+
+            published = json.loads(
+                (output / "synopsis-candidates.json").read_text(encoding="utf-8")
+            )
+            self.assertTrue(
+                all(
+                    candidate["recommended_volume_count"] == 10
+                    and len(candidate["volume_arc"]) == 10
+                    for candidate in published["candidates"]
+                )
+            )
+
     def test_candidates_and_critic_selection_are_published(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "concept"

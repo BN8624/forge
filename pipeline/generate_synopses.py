@@ -70,17 +70,34 @@ def candidate_ids() -> set[str]:
     return {f"S{index}" for index in range(1, CANDIDATE_COUNT + 1)}
 
 
-def build_candidate_prompt(instruction: str = "") -> str:
+def build_candidate_prompt(
+    instruction: str = "",
+    volume_count: int | None = None,
+) -> str:
     optional_instruction = (
         instruction.strip()
         or "추가 지시 없음. 장르, 소재, 게임 형식도 Forge가 스스로 결정한다."
     )
+    volume_instruction = (
+        f"""사용자가 전체 분량을 정확히 {volume_count}권으로 지정했다.
+후보 5개 모두 recommended_volume_count를 {volume_count}으로 쓰고,
+volume_arc를 정확히 {volume_count}개 권별 갈등과 결말로 작성한다.
+volume_count_reason에는 지정 권수에서 필러 없이 성립하도록 설계한 근거를 쓴다."""
+        if volume_count is not None
+        else """각 후보의 사건 밀도, 인물 성장 단계, 복선 설치와 회수량을 근거로
+1~10권 사이의 적정 권수를 독립적으로 추천한다."""
+    )
+    example_count = volume_count or 3
+    example_arc = [f"{index}권" for index in range(1, example_count + 1)]
     return f"""너는 Forge의 게임 시나리오 원작 소설 기획 generator다.
 완결된 장편소설로 읽히면서도 실제 게임의 지역, 임무, 성장, 세력 선택,
 보스, 반복 플레이로 변환하기 좋은 신규 시놉시스 후보를 정확히 5개 만든다.
 
 사용자 지시:
 {optional_instruction}
+
+권수 계약:
+{volume_instruction}
 
 후보끼리는 장르, 주인공 역할, 핵심 플레이 반복, 성장 방식, 갈등 구조가
 명확히 달라야 한다. 기존 Forge 작품이나 유명 게임의 이름과 설정을 재사용하지 않는다.
@@ -100,9 +117,9 @@ def build_candidate_prompt(instruction: str = "") -> str:
       "progression": "서사와 결합된 성장 및 해금 방식",
       "factions": ["서로 다른 목표를 가진 세력 설명"],
       "choice_structure": "선택이 지역·동료·결말에 미치는 영향",
-      "recommended_volume_count": 3,
-      "volume_arc": ["1권", "2권", "3권"],
-      "volume_count_reason": "사건 밀도와 인물 변화 단계에 3권이 적합한 이유",
+      "recommended_volume_count": {example_count},
+      "volume_arc": {json.dumps(example_arc, ensure_ascii=False)},
+      "volume_count_reason": "사건 밀도와 인물 변화 단계에 권수가 적합한 이유",
       "game_fit": "게임 시나리오로 강한 구체적 이유"
     }}
   ]
@@ -111,7 +128,10 @@ ID는 S1-S5를 정확히 한 번씩 사용한다.
 """
 
 
-def validate_candidates(value: Any) -> list[str]:
+def validate_candidates(
+    value: Any,
+    expected_volume_count: int | None = None,
+) -> list[str]:
     errors: list[str] = []
     if not isinstance(value, dict) or set(value) != {"candidates"}:
         return ["시놉시스 응답은 candidates 키만 가진 객체여야 함"]
@@ -153,6 +173,14 @@ def validate_candidates(value: Any) -> list[str]:
                 f"{MIN_VOLUME_COUNT}-{MAX_VOLUME_COUNT} 정수여야 함"
             )
             volume_count = 0
+        elif (
+            expected_volume_count is not None
+            and volume_count != expected_volume_count
+        ):
+            errors.append(
+                f"{label}.recommended_volume_count는 사용자 지정 "
+                f"{expected_volume_count}이어야 함"
+            )
         arc = candidate["volume_arc"]
         if (
             not isinstance(arc, list)
@@ -520,12 +548,13 @@ def generate_concept_candidates(
     instruction: str,
     output: Path,
     llm: LLM,
+    volume_count: int | None = None,
 ) -> dict[str, Any]:
     candidates = generate_validated_json(
         llm,
         "generator",
-        build_candidate_prompt(instruction),
-        validate_candidates,
+        build_candidate_prompt(instruction, volume_count),
+        lambda value: validate_candidates(value, volume_count),
         0.9,
     )
     review = generate_validated_json(
@@ -568,7 +597,7 @@ def generate_game_concept(
     volume_count: int | None = None,
     approve_short: bool = False,
 ) -> str:
-    generate_concept_candidates(instruction, output, llm)
+    generate_concept_candidates(instruction, output, llm, volume_count)
     return choose_game_concept(
         output,
         volume_count=volume_count,
@@ -600,7 +629,15 @@ def main() -> int:
         action="store_true",
         help="후보와 critic 평가만 만들고 작품 제작은 시작하지 않는다.",
     )
+    parser.add_argument(
+        "--volume-count",
+        type=int,
+        help="후보 5개 모두에 적용할 사용자 지정 전체 권수다.",
+    )
     args = parser.parse_args()
+    if args.volume_count is not None and not 1 <= args.volume_count <= 10:
+        print("[FAIL] --volume-count는 1-10 사이여야 함")
+        return 1
     try:
         instruction = (
             args.instruction_file.read_text(encoding="utf-8")
@@ -612,9 +649,15 @@ def main() -> int:
                 instruction,
                 args.output,
                 create_llm_client(),
+                args.volume_count,
             )
         else:
-            generate_game_concept(instruction, args.output, create_llm_client())
+            generate_game_concept(
+                instruction,
+                args.output,
+                create_llm_client(),
+                args.volume_count,
+            )
     except (OSError, RuntimeError, SynopsisGenerationError) as exc:
         print(f"[FAIL] {exc}")
         return 1

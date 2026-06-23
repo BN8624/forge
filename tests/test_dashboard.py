@@ -45,6 +45,7 @@ class DashboardTests(unittest.TestCase):
         self.assertIn("마음에 들 때까지 후보 5개를 다시", page)
         self.assertIn("완료되면 이 영역이 새 후보로 교체", page)
         self.assertIn("후보 생성 취소", page)
+        self.assertIn("권 지정", page)
         self.assertIn("다음 권 이어서 만들기", page)
         self.assertIn('data-token="secret-token"', page)
 
@@ -63,6 +64,7 @@ class DashboardTests(unittest.TestCase):
             self.assertIn("--candidates-only", command)
             self.assertIn("--output", command)
             self.assertIn("--instruction-file", command)
+            self.assertEqual(["--volume-count", "4"], command[-2:])
             self.assertTrue((root / "STOP_AFTER_RUN").exists())
             self.assertEqual("running", controller.status()["job"]["status"])
 
