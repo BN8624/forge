@@ -40,6 +40,7 @@ class DashboardTests(unittest.TestCase):
         self.assertIn("중단됨 · 재개 시", page)
         self.assertIn("마지막 실행 시간", page)
         self.assertIn("마음에 들 때까지 후보 5개를 다시", page)
+        self.assertIn("완료되면 이 영역이 새 후보로 교체", page)
         self.assertIn("다음 권 이어서 만들기", page)
         self.assertIn('data-token="secret-token"', page)
 
