@@ -37,6 +37,8 @@ class DashboardTests(unittest.TestCase):
         self.assertIn('id="volume-count"', page)
         self.assertIn("권수 계약", page)
         self.assertIn("권별 진행", page)
+        self.assertIn("중단됨 · 재개 시", page)
+        self.assertIn("마지막 실행 시간", page)
         self.assertIn("다음 권 이어서 만들기", page)
         self.assertIn('data-token="secret-token"', page)
 
