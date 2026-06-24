@@ -636,3 +636,9 @@
 - 생성된 게임 시나리오 산출물은 `exports/game-scenario.md`와 `exports/game-scenario.json`에 있다.
 - 현재 `serve_prose.py`는 권별 산문과 EPUB, 대시보드만 라우팅하고 있어 아이폰에서 결과물을 바로 읽을 `/game-scenario` 페이지가 없다.
 - Markdown 파일을 모바일 HTML로 변환해 `/game-scenario`에서 제공하고, 서재와 준비 화면에서 이 링크를 노출한다.
+
+## 2026-06-24 푸시 전 문서 정리
+
+- `HANDOFF.md`가 여전히 `STOP_AFTER_RUN` 존재, `stopped`, V1 산문 재개 중심으로 설명하고 있어 현재 게임 시나리오 완료 상태와 맞지 않는다.
+- 현재 상태는 `scenario_complete`, 선택 후보 S3, 결과물 `exports/game-scenario.*`, 아이폰 URL `/game-scenario`다.
+- 문서 정리 커밋에는 인수인계 문서와 작업 기록만 포함하고, 이전 생성 실패에서 남은 `story`, `prose`, `reference/current` 변경은 커밋하지 않는다.

@@ -167,4 +167,8 @@
   - [x] `exports/game-scenario.md`를 모바일 HTML로 렌더링하는 `/game-scenario` 라우트를 추가한다.
   - [x] 서재와 준비 화면에 게임 시나리오 보기 링크를 추가한다.
   - [x] 서버 테스트와 브라우저 확인을 통과시킨다.
+- [x] 푸시 전 인수인계 문서를 현재 상태로 정리한다.
+  - [x] `HANDOFF.md`의 중단 상태, 결과물, URL, 검증 정보를 최신화한다.
+  - [x] 문서 정리 커밋을 생성한다.
+  - [x] `origin/main`으로 푸시한다.
 - 마지막 전체 검증은 `python -m unittest discover -s tests -v` 123개 통과, `python -m compileall -q -f lib pipeline tests` 통과, `python -m pip check` 통과다.

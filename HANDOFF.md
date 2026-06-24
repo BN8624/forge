@@ -2,63 +2,53 @@
 
 ## 현재 상태
 
-- 작업은 사용자 요청으로 중지됐다.
-- `STOP_AFTER_RUN`이 존재한다.
-- 실행 중인 `complete_series.py` 프로세스는 없다.
-- 구조 확장 런타임 오류는 수정됐다.
-- 현재 자동 완주는 `stopped` 상태이며 다음 장면은 `V1-E01-S04`다.
-- 사용자 승인 전에는 자동 완주를 재개하지 않는다.
-- 신규 게임 시나리오는 Forge 추천 분량이 3단계 이상이면 자동 승인하고, 1~2단계만 승인 대기한다.
-- `--game-scenario`는 세계관 원고와 `exports/game-scenario.json`, `exports/game-scenario.md`를 생성한 뒤 `scenario_complete`로 끝난다.
+- 게임 시나리오 생성은 완료됐다.
+- 완료 상태 파일은 `runs/complete-series/status.json`이며 현재 stage는 `scenario_complete`다.
+- 선택 후보는 `S3`, 제목은 `금기 유물의 큐레이터`다.
+- 결과물은 `exports/game-scenario.json`과 `exports/game-scenario.md`다.
+- 아이폰에서 바로 읽는 URL은 `http://node.tail3e9e21.ts.net:8765/game-scenario`다.
+- 대시보드 URL은 `http://node.tail3e9e21.ts.net:8765/dashboard`다.
+- Forge 대시보드 서버는 `100.89.73.83:8765`에서 `pipeline/serve_prose.py`로 실행 중이다.
+- 실행 중인 `complete_series.py` 생성 프로세스는 없다.
+- `STOP_AFTER_RUN` 파일은 없다.
+
+## 최근 방향 전환
+
+- 5권 또는 10권 장편 산문 자동 완주는 현재 목적에 비해 비용과 실패 가능성이 컸다.
+- `--game-scenario`는 더 이상 장편 구조, 산문, EPUB 생성으로 이어지지 않는다.
+- `--game-scenario`는 시놉시스 선택, 세계관 원고 생성, 게임 시나리오 패키지 작성 뒤 `scenario_complete`로 종료한다.
 - 장편 산문 자동 생성은 기본 `complete_series.py` 또는 `--new-world` 경로에만 남아 있다.
+- 대시보드는 게임 시나리오 모드에서 산문 승인, 권별 진행 대신 시나리오 진행 단계, 분량 참고, 산출물 수를 표시한다.
 
-## 현재 작품과 정본
+## 결과물 보기
 
-- 작품은 `심연의 잔향: 침몰하는 도시의 기록자`다.
-- `reference/current`에 선택된 S1 세계관과 게임 시나리오 기획이 있다.
-- `story`는 독립 critic 승인을 받은 장편 5권 구조이며 현재 106장면이다.
-- 모든 장면은 `interaction_mode`와 `dialogue_policy`를 명시한다.
-- 현재 정본 산문은 `V1-E01-S01`부터 `V1-E01-S03`까지 3장면이다.
-- 직전 산문 백업은 `runs/prose-backups/20260622T152439.798912Z`다.
+- 모바일 HTML 보기 페이지는 `/game-scenario`다.
+- 원본 Markdown 다운로드는 `/game-scenario.md`다.
+- HTML은 `exports/game-scenario.md`를 읽어 모바일 화면에 맞게 렌더링한다.
+- 서재(`/`)와 준비 화면에도 `게임 시나리오 보기` 링크가 노출된다.
 
-## 이번 세션에서 바뀐 하네스
+## 현재 작업 트리 주의
 
-- 정적 장면 목표 대신 행동, 방해, 선택, 결과를 요구한다.
-- 대화 필요 여부를 objective 키워드로 추측하지 않는다.
-- `interaction_mode`는 `solo`, `covert`, `interpersonal`, `group` 중 하나다.
-- `dialogue_policy`는 `none`, `optional`, `required` 중 하나다.
-- 대화 최소량은 `required` 장면에만 적용한다.
-- 장면 전체 생성 재시도는 기본 5회다.
-- 산문 실패 피드백과 실패 산출물을 실행 사이에 누적 보존한다.
-- 구조 critic 거부 사유는 구조 generator에 최대 3회 되돌려 보낸다.
-- 구조 확장 캐시는 story 해시와 사용자·critic 지시를 함께 해시한다.
-- generator 출력 한도는 32,768토큰이다.
-- `owns`에는 `series.elements`에 선언된 문자열 ID만 허용한다.
+- 작업 트리에는 이전 생성 실패와 실험 실행에서 생긴 `story`, `prose`, `reference/current` 변경과 새 장면 파일이 많이 남아 있다.
+- 이 변경들은 이번 코드·문서 커밋에 포함하지 않았다.
+- 사용자가 명시적으로 정리하라고 하기 전까지 임의로 되돌리거나 삭제하지 않는다.
+- 문서와 코드 커밋은 이미 생성 산출물 변경을 제외하고 진행했다.
 
-## 아직 해결하지 못한 문제
+## 주요 커밋
 
-- 현재 구조와 표본 3장면은 새 상호작용 계약을 통과했다.
-- 다음 작업은 사용자가 테스트를 시작할 때 대시보드에서 실행해 `V1-E01-S04`부터 V1 완성까지 진행하는 것이다.
-- 동일 산문 후보가 3회 이상 반복되면 새 API 호출 없이 계약 결함으로 중단한다.
-- 네트워크 timeout과 연결 오류는 transient 오류로 재시도한다.
+- `c004c9c 아이폰용 게임 시나리오 보기 추가`.
+- `0f31e37 게임 시나리오 패키지 생성으로 전환`.
+- `e294486 새 작품 초기 진행 정보 분리`.
+- `b4eb129 자동 새로고침에서 사용자 후보 선택 보존`.
+- `d760fdb 후보 생성에 사용자 지정 권수 적용`.
 
-## 가변 분량과 게임 시나리오 생성
+## 검증 결과
 
-- 시놉시스 후보는 `recommended_volume_count`, `volume_arc`, `volume_count_reason`을 가진다.
-- 게임 시나리오 모드에서는 이 값을 권수보다 시나리오 단계 수 참고값으로 사용한다.
-- 3단계 이상 추천은 자동 승인되고 1~2단계 추천은 `volume_approval` 상태에서 기다린다.
-- 사용자가 분량을 지정하면 Forge가 시놉시스를 해당 단계 수에 맞게 보강한다.
-- 승인 분량은 `selected-synopsis.json`의 `approved_volume_count`가 정본이다.
-- 구조 스키마와 검증기는 V1부터 V99까지 연속된 권 ID를 허용한다.
-- 한 권씩 완성하는 `volume_complete` 흐름은 장편 산문 경로에만 적용된다.
-
-## 검증과 커밋
-
-마지막 확인 결과는 다음과 같다.
+최근 전체 검증 결과는 다음과 같다.
 
 ```text
 python -m unittest discover -s tests -v
-115 tests passed
+123 tests passed
 
 python -m compileall -q -f lib pipeline tests
 passed
@@ -67,15 +57,24 @@ python -m pip check
 No broken requirements found.
 ```
 
-가변 권수와 권별 완성 기능은 이번 세션 커밋에 포함된다.
+아이폰용 보기 추가 후 별도 확인 결과는 다음과 같다.
 
-작업 트리는 생성 구조 교체와 산문 백업 때문에 크게 변경돼 있다. 생성된 `story`, `reference`, `state`, `prose` 변경을 임의로 되돌리거나 하네스 문서 커밋에 섞지 않는다.
+```text
+python -m unittest tests.test_serve_prose -v
+7 tests passed
+
+python -m compileall -q -f pipeline tests
+passed
+
+http://node.tail3e9e21.ts.net:8765/game-scenario
+HTTP 200, 금기 유물의 큐레이터 표시 확인
+```
 
 ## 참고 경로
 
 - 현재 상태는 `runs/complete-series/status.json`이다.
-- 구조 확장 후보는 `runs/expanded-candidate`다.
-- 확장 작업 캐시는 `runs/expansion-work`다.
-- 과거 산문은 `runs/prose-backups`다.
+- 게임 시나리오 결과물은 `exports/game-scenario.md`와 `exports/game-scenario.json`이다.
+- 대시보드 작업 상태는 `runs/dashboard/job.json`이다.
+- 대시보드 로그는 `runs/dashboard/job.log`다.
 - 상세 결정 기록은 `context-notes.md`다.
 - 남은 작업은 `checklist.md`다.
