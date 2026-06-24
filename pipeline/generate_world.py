@@ -41,6 +41,7 @@ class WorldGenerationError(Exception):
 def build_world_prompt(
     instruction: str = "",
     volume_count: int = 5,
+    game_scenario: bool = False,
 ) -> str:
     optional_instruction = instruction.strip() or "추가 지시 없음. 장르와 소재도 스스로 결정한다."
     schema = json.loads(
@@ -48,16 +49,31 @@ def build_world_prompt(
             encoding="utf-8"
         )
     )
+    if game_scenario:
+        target_guidance = f"""이 세계관은 정확히 {volume_count}단계의 게임 시나리오로 확장될 원천 정본이다.
+플레이어 역할, 핵심 플레이 반복, 선택 구조, 세력 반응, 성장 보상, 실패 비용,
+중반 전환과 최종 결말을 모두 검증 가능한 사실 문장으로 만든다.
+모호한 분위기나 소설 문체보다 게임 제작자가 바로 사용할 수 있는 규칙, 임무,
+분기, NPC 관계, 장소, 시스템 제약을 우선한다."""
+        manuscript_guidance = f"""manuscript는 최소 3,000자의 게임 시나리오 참고 원고다.
+도입, {volume_count}단계에 걸친 목표 변화, 플레이어 선택지, 반복 플레이 루프,
+주요 NPC와 세력 반응, 실패와 보상, 최종 결말을 모두 포함한다.
+출판 산문처럼 장면을 길게 묘사하지 말고 기획서와 시나리오 바이블 사이의 밀도로 쓴다."""
+    else:
+        target_guidance = f"""이 세계관은 정확히 {volume_count}권의 장편 구조와 완결된 산문으로 확장될 원천 정본이다.
+인물 이름, 장소, 사회 체제, 초자연 규칙, 갈등, 반전, 결말을 독창적으로 만든다.
+핵심 규칙은 모호한 분위기가 아니라 이후 critic이 판정할 수 있는 사실 문장으로 쓴다."""
+        manuscript_guidance = f"""manuscript는 최소 3,000자의 압축 참고 원고다.
+도입, {volume_count}권에 걸친 상승과 전환, 최종 결말을 모두 포함하며 출판 산문의 문체,
+대화, 감각 묘사를 보여준다. 구조 문서나 항목 설명처럼 쓰지 않는다."""
     return f"""너는 Forge의 신규 세계관 창작자다.
 기존 작품, 에테르노, 카엘, 리아, 발타자르, 영혼의 조각을 사용하지 말고
-완전히 새로운 한국어 장편소설 세계관을 창작하라.
+완전히 새로운 한국어 창작 세계관을 창작하라.
 
 사용자 선택 지시:
 {optional_instruction}
 
-이 세계관은 정확히 {volume_count}권의 장편 구조와 완결된 산문으로 확장될 원천 정본이다.
-인물 이름, 장소, 사회 체제, 초자연 규칙, 갈등, 반전, 결말을 독창적으로 만든다.
-핵심 규칙은 모호한 분위기가 아니라 이후 critic이 판정할 수 있는 사실 문장으로 쓴다.
+{target_guidance}
 
 canon 21개는 다음 역할을 고르게 담당한다.
 - C1-C4: 주인공과 핵심 관계, 결핍.
@@ -67,9 +83,7 @@ canon 21개는 다음 역할을 고르게 담당한다.
 - C17-C19: 후반 반전과 대가.
 - C20-C21: 최종 결말에서 반드시 성립할 사실.
 
-manuscript는 최소 3,000자의 압축 참고 원고다.
-도입, {volume_count}권에 걸친 상승과 전환, 최종 결말을 모두 포함하며 출판 산문의 문체,
-대화, 감각 묘사를 보여준다. 구조 문서나 항목 설명처럼 쓰지 않는다.
+{manuscript_guidance}
 
 설명이나 코드펜스 없이 JSON 객체 하나만 반환한다.
 스키마:
@@ -121,16 +135,25 @@ def validate_world_source(
 def extend_short_manuscript(
     value: dict[str, Any],
     llm: LLM,
+    game_scenario: bool = False,
 ) -> dict[str, Any]:
     manuscript = value.get("manuscript")
     if not isinstance(manuscript, str) or not 1000 <= len(manuscript) < 3000:
         return value
+    addition_instruction = (
+        """추가 원고는 기존 결말 이후의 장기적 여파, 인물 관계의 잔향, 새 사회의
+변화를 구체적 장면과 감각으로 확장하되 새로운 핵심 설정이나 반전을 만들지 않는다."""
+        if not game_scenario
+        else """추가 원고는 플레이어 목표, 선택지, 실패 비용, 보상, NPC와 세력 반응을
+구체적으로 보강하되 새로운 핵심 설정이나 반전을 만들지 않는다."""
+    )
+    manuscript_type = "게임 시나리오 참고 원고" if game_scenario else "세계관 참고 원고"
     response = llm.generate(
         "generator",
-        f"""너는 Forge의 신규 세계관 참고 원고 generator다.
+        f"""너는 Forge의 신규 {manuscript_type} generator다.
 아래 원고는 세계관과 결말은 완성됐지만 최소 분량보다 짧다.
 기존 문장을 수정하거나 반복하지 말고 마지막 문장 뒤에 자연스럽게 이어질
-출판 가능한 한국어 산문만 추가하라.
+한국어 원고만 추가하라.
 
 세계관 제목: {value.get("title", "")}
 장르: {value.get("genre", "")}
@@ -140,8 +163,7 @@ def extend_short_manuscript(
 현재 원고:
 {manuscript}
 
-추가 산문은 기존 결말 이후의 장기적 여파, 인물 관계의 잔향, 새 사회의
-변화를 구체적 장면과 감각으로 확장하되 새로운 핵심 설정이나 반전을 만들지 않는다.
+{addition_instruction}
 설명이나 코드펜스 없이 manuscript_addition 키만 가진 JSON 객체를 반환한다.
 """,
         temperature=0.8,
@@ -221,7 +243,14 @@ def generate_world(
         if expected_identity
         else 5
     )
-    original_prompt = build_world_prompt(instruction, volume_count)
+    game_scenario = bool(
+        expected_identity
+        and any(
+            key in expected_identity
+            for key in ("player_role", "core_loop", "choice_structure")
+        )
+    )
+    original_prompt = build_world_prompt(instruction, volume_count, game_scenario)
     prompt = original_prompt
     last_errors: list[str] = []
     try:
@@ -229,7 +258,7 @@ def generate_world(
             response = llm.generate("generator", prompt, temperature=0.9)
             value = extract_json(response)
             if isinstance(value, dict):
-                value = extend_short_manuscript(value, llm)
+                value = extend_short_manuscript(value, llm, game_scenario)
             last_errors = validate_world_source(value, expected_identity)
             if not last_errors:
                 materialize_world(value, staged)

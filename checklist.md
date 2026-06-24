@@ -158,4 +158,9 @@
   - [x] 실행 명령의 선택 ID로 새 후보 제목과 권수를 찾는다.
   - [x] 세계관·구조 생성 중에는 이전 작품의 장면 진행 정보를 숨긴다.
   - [x] 현재 실행 중인 S2 정보가 실제 대시보드에 표시되는지 검증한다.
-- 마지막 전체 검증은 `python -m unittest discover -s tests -v` 115개 통과, `python -m compileall -q -f lib pipeline tests` 통과, `python -m pip check` 통과다.
+- [x] 게임 시나리오 생성은 장편 산문 완주 없이 끝나게 한다.
+  - [x] `--game-scenario` 실행을 시놉시스 선택과 세계관 기반 시나리오 패키지 생성에서 종료한다.
+  - [x] 대시보드 시작·재개 문구와 진행률을 게임 시나리오 기준으로 바꾼다.
+  - [x] 산문·EPUB 단계가 실행되지 않는 회귀 테스트를 추가한다.
+  - [x] 관련 테스트와 구문 검사를 통과시킨다.
+- 마지막 전체 검증은 `python -m unittest discover -s tests -v` 123개 통과, `python -m compileall -q -f lib pipeline tests` 통과, `python -m pip check` 통과다.

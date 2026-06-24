@@ -261,9 +261,132 @@ def finish_new_world(root: Path, result: dict[str, Any]) -> None:
             "completed_at": datetime.now(timezone.utc).isoformat(),
             "scene_count": result.get("scene_count"),
             "epubs": [str(path) for path in result.get("epubs", [])],
+            "scenario_outputs": [
+                str(path) for path in result.get("scenario_outputs", [])
+            ],
         }
     )
     write_json_atomic(active_path, active)
+
+
+def write_game_scenario_package(root: Path) -> list[Path]:
+    current = root / "reference" / "current"
+    selected = read_json_if_exists(current / "selected-synopsis.json")
+    world = read_json_if_exists(current / "world.json")
+    canon = read_json_if_exists(current / "canon_bible.json")
+    if selected is None or world is None or canon is None:
+        raise SeriesCompletionError("게임 시나리오 원천 파일을 읽을 수 없음")
+    try:
+        manuscript = (current / "compressed_manuscript.md").read_text(
+            encoding="utf-8"
+        ).strip()
+    except OSError as exc:
+        raise SeriesCompletionError("게임 시나리오 원고를 읽을 수 없음") from exc
+
+    output_root = root / "exports"
+    output_root.mkdir(parents=True, exist_ok=True)
+    package = {
+        "title": world.get("title") or selected.get("title"),
+        "genre": world.get("genre") or selected.get("genre"),
+        "tone": world.get("tone"),
+        "premise": world.get("premise") or selected.get("logline"),
+        "selected_synopsis": selected,
+        "world": world,
+        "canon": canon.get("canon", []),
+        "scenario_manuscript": manuscript,
+    }
+    json_path = output_root / "game-scenario.json"
+    markdown_path = output_root / "game-scenario.md"
+    write_json_atomic(json_path, package)
+
+    arc = selected.get("volume_arc") or selected.get("five_volume_arc") or []
+    if not isinstance(arc, list):
+        arc = []
+    lines = [
+        f"# {package['title']}",
+        "",
+        f"- 장르: {package.get('genre') or '-'}",
+        f"- 톤: {package.get('tone') or '-'}",
+        f"- 선택 후보: {selected.get('id') or '-'}",
+        (
+            "- 권수 참고: "
+            f"{selected.get('approved_volume_count') or selected.get('recommended_volume_count') or '-'}"
+        ),
+        "",
+        "## 로그라인",
+        "",
+        str(selected.get("logline") or package.get("premise") or "").strip(),
+        "",
+        "## 플레이어 역할",
+        "",
+        str(selected.get("player_role") or "").strip(),
+        "",
+        "## 핵심 루프",
+        "",
+        str(selected.get("core_loop") or "").strip(),
+        "",
+        "## 선택 구조",
+        "",
+        str(selected.get("choice_structure") or "").strip(),
+        "",
+        "## 전개 참고",
+        "",
+        *[f"{index}. {item}" for index, item in enumerate(arc, start=1)],
+        "",
+        "## 세계관 원고",
+        "",
+        manuscript,
+        "",
+    ]
+    markdown_path.write_text("\n".join(lines), encoding="utf-8")
+    return [json_path, markdown_path]
+
+
+def complete_game_scenario(
+    root: Path,
+    llm: LLM,
+    instruction: str = "",
+    reuse_concept: bool = False,
+    selected_synopsis: str | None = None,
+    volume_count: int | None = None,
+    approve_short: bool = False,
+    replace_active: bool = False,
+) -> dict[str, Any]:
+    root = root.resolve()
+    root.mkdir(parents=True, exist_ok=True)
+    write_status(root, "starting")
+    backup, _ = prepare_new_world(
+        root,
+        llm,
+        instruction,
+        game_scenario=True,
+        reuse_concept=reuse_concept,
+        selected_synopsis=selected_synopsis,
+        volume_count=volume_count,
+        approve_short=approve_short,
+        replace_active=replace_active,
+    )
+    outputs = write_game_scenario_package(root)
+    selected = read_json_if_exists(
+        root / "reference" / "current" / "selected-synopsis.json"
+    ) or {}
+    write_status(
+        root,
+        "scenario_complete",
+        selected_synopsis_id=selected.get("id"),
+        selected_title=selected.get("title"),
+        approved_volume_count=selected.get("approved_volume_count"),
+        outputs=[str(path) for path in outputs],
+    )
+    return {
+        "complete": True,
+        "scenario": True,
+        "scene_count": 0,
+        "generated": 0,
+        "backups": [backup],
+        "epubs": [],
+        "scenario_outputs": outputs,
+    }
 
 
 def approved_candidate(candidate: Path) -> bool:
@@ -747,14 +870,31 @@ def main() -> int:
             else ""
         )
         llm = LazyLLM()
+        if args.game_scenario:
+            result = complete_game_scenario(
+                args.root,
+                llm,
+                instruction,
+                args.reuse_concept,
+                args.selected_synopsis,
+                args.volume_count,
+                args.approve_short,
+                args.replace_active,
+            )
+            finish_new_world(args.root.resolve(), result)
+            print(
+                "[OK] 게임 시나리오 패키지 생성 완료. "
+                f"산출물 {len(result['scenario_outputs'])}개"
+            )
+            return 0
+
         regenerate_structure = args.regenerate_structure
-        new_world_mode = args.new_world or args.game_scenario
-        if new_world_mode:
+        if args.new_world:
             _, new_world_regenerate = prepare_new_world(
                 args.root.resolve(),
                 llm,
                 instruction,
-                args.game_scenario,
+                False,
                 args.reuse_concept,
                 args.selected_synopsis,
                 args.volume_count,
@@ -802,7 +942,7 @@ def main() -> int:
                 f"이번 실행 {result['generated']}개 승인"
             )
         return 0
-    if args.new_world or args.game_scenario:
+    if args.new_world:
         finish_new_world(args.root.resolve(), result)
     print(
         f"[OK] 전체 권 자동 완주 완료. {result['scene_count']}개 장면, "

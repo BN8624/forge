@@ -8,6 +8,7 @@ from unittest.mock import patch
 
 from pipeline.complete_series import (
     backup_invalid_prose_suffix,
+    complete_game_scenario,
     complete_series,
     ensure_reviewed_candidate,
     prepare_new_world,
@@ -388,6 +389,109 @@ class CompleteSeriesTests(unittest.TestCase):
             )
             self.assertEqual("game-scenario", active["mode"])
             self.assertEqual("S4", active["selected_synopsis_id"])
+
+    def test_game_scenario_stops_after_package_without_prose(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.make_project(root)
+            source = {
+                "title": "선택형 잠입 게임",
+                "genre": "스텔스 RPG",
+                "tone": "건조한 첩보 스릴러",
+                "premise": "도시 기업망을 침투하는 선택형 게임 시나리오",
+                "canon": [{"id": f"C{index}", "text": f"정본 {index}"} for index in range(1, 22)],
+            }
+
+            def create_concept(
+                _instruction,
+                output,
+                _llm,
+                _volume_count,
+                _approve_short,
+            ):
+                output.mkdir(parents=True)
+                selected = {
+                    "id": "S2",
+                    "title": "선택형 잠입 게임",
+                    "genre": "스텔스 RPG",
+                    "logline": "플레이어가 기업망 침투 루트를 고른다.",
+                    "player_role": "계약 해커",
+                    "core_loop": "정찰, 침투, 선택, 후폭풍",
+                    "choice_structure": "임무별 분기와 장기 평판",
+                    "recommended_volume_count": 3,
+                    "approved_volume_count": 3,
+                    "volume_arc": ["도입", "확장", "결말"],
+                }
+                for name, value in (
+                    ("synopsis-candidates.json", {"candidates": [selected]}),
+                    ("synopsis-review.json", {"selected_id": "S2"}),
+                    ("selected-synopsis.json", selected),
+                    (
+                        "concept-selection.json",
+                        {
+                            "selected_id": "S2",
+                            "selected_by": "critic",
+                            "critic_recommendation": "S2",
+                        },
+                    ),
+                ):
+                    (output / name).write_text(
+                        json.dumps(value, ensure_ascii=False),
+                        encoding="utf-8",
+                    )
+                return "선택형 잠입 게임 지시"
+
+            def create_world(_instruction, output, _llm, _selected):
+                output.mkdir(parents=True)
+                (output / "canon_bible.json").write_text(
+                    json.dumps(source, ensure_ascii=False),
+                    encoding="utf-8",
+                )
+                (output / "world.json").write_text(
+                    json.dumps(
+                        {
+                            "title": source["title"],
+                            "genre": source["genre"],
+                            "tone": source["tone"],
+                            "premise": source["premise"],
+                        },
+                        ensure_ascii=False,
+                    ),
+                    encoding="utf-8",
+                )
+                (output / "compressed_manuscript.md").write_text(
+                    "게임 시나리오 원고",
+                    encoding="utf-8",
+                )
+
+            with (
+                patch(
+                    "pipeline.complete_series.generate_game_concept",
+                    side_effect=create_concept,
+                ),
+                patch(
+                    "pipeline.complete_series.generate_world",
+                    side_effect=create_world,
+                ),
+                patch(
+                    "pipeline.complete_series.load_source_material",
+                    return_value=(source, "게임 시나리오 원고"),
+                ),
+                patch("pipeline.complete_series.generate_remaining_prose") as prose,
+            ):
+                result = complete_game_scenario(root, FakeLLM([]))
+
+            prose.assert_not_called()
+            self.assertTrue(result["scenario"])
+            self.assertEqual([], result["epubs"])
+            self.assertTrue((root / "exports" / "game-scenario.json").is_file())
+            self.assertTrue((root / "exports" / "game-scenario.md").is_file())
+            status = json.loads(
+                (root / "runs" / "complete-series" / "status.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+            self.assertEqual("scenario_complete", status["stage"])
 
     def test_short_volume_approval_wait_does_not_archive_current_world(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

@@ -6,6 +6,7 @@ from pathlib import Path
 
 from pipeline.generate_world import (
     WorldGenerationError,
+    build_world_prompt,
     generate_world,
     validate_world_source,
 )
@@ -37,6 +38,13 @@ def world_source(title: str = "유리바다의 항해자") -> dict:
 
 
 class GenerateWorldTests(unittest.TestCase):
+    def test_game_scenario_prompt_uses_game_scenario_contract(self) -> None:
+        prompt = build_world_prompt("잠입 게임", 4, game_scenario=True)
+
+        self.assertIn("4단계의 게임 시나리오", prompt)
+        self.assertIn("플레이어 선택지", prompt)
+        self.assertIn("장편 구조와 완결된 산문", build_world_prompt("", 4))
+
     def test_valid_world_is_materialized(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "current"

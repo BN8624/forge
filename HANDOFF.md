@@ -8,8 +8,9 @@
 - 구조 확장 런타임 오류는 수정됐다.
 - 현재 자동 완주는 `stopped` 상태이며 다음 장면은 `V1-E01-S04`다.
 - 사용자 승인 전에는 자동 완주를 재개하지 않는다.
-- 신규 작품은 Forge 추천 권수가 3권 이상이면 자동 승인하고, 1~2권만 승인 대기한다.
-- 산문 자동 생성은 한 실행에 한 권만 완성하고 해당 권 EPUB 생성 뒤 멈춘다.
+- 신규 게임 시나리오는 Forge 추천 분량이 3단계 이상이면 자동 승인하고, 1~2단계만 승인 대기한다.
+- `--game-scenario`는 세계관 원고와 `exports/game-scenario.json`, `exports/game-scenario.md`를 생성한 뒤 `scenario_complete`로 끝난다.
+- 장편 산문 자동 생성은 기본 `complete_series.py` 또는 `--new-world` 경로에만 남아 있다.
 
 ## 현재 작품과 정본
 
@@ -41,14 +42,15 @@
 - 동일 산문 후보가 3회 이상 반복되면 새 API 호출 없이 계약 결함으로 중단한다.
 - 네트워크 timeout과 연결 오류는 transient 오류로 재시도한다.
 
-## 가변 권수와 권별 완성
+## 가변 분량과 게임 시나리오 생성
 
 - 시놉시스 후보는 `recommended_volume_count`, `volume_arc`, `volume_count_reason`을 가진다.
-- 3권 이상 추천은 자동 승인되고 1~2권 추천은 `volume_approval` 상태에서 기다린다.
-- 사용자가 권수를 지정하면 Forge가 시놉시스를 해당 권수에 맞게 보강한다.
-- 승인 권수는 `selected-synopsis.json`의 `approved_volume_count`가 정본이다.
+- 게임 시나리오 모드에서는 이 값을 권수보다 시나리오 단계 수 참고값으로 사용한다.
+- 3단계 이상 추천은 자동 승인되고 1~2단계 추천은 `volume_approval` 상태에서 기다린다.
+- 사용자가 분량을 지정하면 Forge가 시놉시스를 해당 단계 수에 맞게 보강한다.
+- 승인 분량은 `selected-synopsis.json`의 `approved_volume_count`가 정본이다.
 - 구조 스키마와 검증기는 V1부터 V99까지 연속된 권 ID를 허용한다.
-- 한 권 완성 뒤 상태는 `volume_complete`가 되며 재개하면 다음 미완성 권을 만든다.
+- 한 권씩 완성하는 `volume_complete` 흐름은 장편 산문 경로에만 적용된다.
 
 ## 검증과 커밋
 

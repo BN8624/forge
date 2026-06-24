@@ -35,12 +35,12 @@ class DashboardTests(unittest.TestCase):
 
         self.assertIn('name="viewport"', page)
         self.assertIn("새 후보 5개 다시 만들기", page)
-        self.assertIn("선택 기획·권수 승인", page)
-        self.assertIn("3권 이상은 자동 진행", page)
+        self.assertIn("선택 기획으로 게임 시나리오 만들기", page)
+        self.assertIn("장편 산문과 EPUB은 만들지 않습니다", page)
         self.assertIn('id="volume-count"', page)
-        self.assertIn("권수 계약", page)
-        self.assertIn("권별 진행", page)
-        self.assertIn("중단됨 · 재개 시", page)
+        self.assertIn("분량 참고", page)
+        self.assertIn("시나리오 진행 단계", page)
+        self.assertIn("산출물", page)
         self.assertIn("마지막 실행 시간", page)
         self.assertIn("마음에 들 때까지 후보 5개를 다시", page)
         self.assertIn("완료되면 이 영역이 새 후보로 교체", page)
@@ -49,7 +49,7 @@ class DashboardTests(unittest.TestCase):
         self.assertIn("selectedConceptId", page)
         self.assertIn("conceptSignature", page)
         self.assertIn("chosenTitle", page)
-        self.assertIn("다음 권 이어서 만들기", page)
+        self.assertIn("중단된 시나리오 생성 이어서 만들기", page)
         self.assertIn('data-token="secret-token"', page)
 
     def test_generate_concepts_starts_background_command(self) -> None:
@@ -426,8 +426,13 @@ class DashboardTests(unittest.TestCase):
             controller.resume_series()
 
             self.assertEqual(
-                ["pipeline/complete_series.py", "--game-scenario"],
-                fake.calls[0][0][-2:],
+                [
+                    "pipeline/complete_series.py",
+                    "--game-scenario",
+                    "--reuse-concept",
+                    "--approve-short",
+                ],
+                fake.calls[0][0][-4:],
             )
 
     def test_active_world_allows_new_concept_generation_with_replacement(self) -> None:

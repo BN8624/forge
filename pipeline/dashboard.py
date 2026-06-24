@@ -135,6 +135,7 @@ class DashboardController:
                     and stage in {
                         "volume_approval",
                         "volume_complete",
+                        "scenario_complete",
                         "stopped",
                         "prose",
                         "final_validation",
@@ -145,7 +146,9 @@ class DashboardController:
                     job.update(
                         {
                             "status": (
-                                "complete" if stage == "complete" else "stopped"
+                                "complete"
+                                if stage in {"complete", "scenario_complete"}
+                                else "stopped"
                             ),
                             "superseded_by_stage": stage,
                             "finished_at": completion_updated,
@@ -207,7 +210,13 @@ class DashboardController:
             ) or {}
             if (
                 completion.get("stage")
-                in {"volume_approval", "volume_complete", "stopped", "complete"}
+                in {
+                    "volume_approval",
+                    "volume_complete",
+                    "scenario_complete",
+                    "stopped",
+                    "complete",
+                }
                 and str(completion.get("updated_at", "")) >= started_at
             ):
                 return True
@@ -328,7 +337,13 @@ class DashboardController:
         (self.root / "STOP_AFTER_RUN").unlink(missing_ok=True)
         return self._start(
             "series",
-            [sys.executable, "pipeline/complete_series.py", "--game-scenario"],
+            [
+                sys.executable,
+                "pipeline/complete_series.py",
+                "--game-scenario",
+                "--reuse-concept",
+                "--approve-short",
+            ],
         )
 
     def _load_concept(self) -> dict[str, Any]:
@@ -398,7 +413,7 @@ class DashboardController:
             current_scene_number = scene_ids.index(current_scene_id) + 1
         stage_labels = {
             "idle": "대기 중",
-            "starting": "자동 완주를 준비하는 중",
+            "starting": "게임 시나리오 생성을 준비하는 중",
             "synopsis_selection": "선택한 기획을 확정하는 중",
             "world_generation": "세계관과 정본을 생성하는 중",
             "structure_candidate": "승인 권수의 기본 구조를 생성·검증하는 중",
@@ -407,6 +422,7 @@ class DashboardController:
             "volume_approval": "1~2권 추천을 사용자 승인 대기 중",
             "volume_complete": "한 권 완성 후 검토 대기 중",
             "final_validation": "전권 구조·산문·EPUB을 최종 검증하는 중",
+            "scenario_complete": "게임 시나리오 패키지 생성 완료",
             "complete": "전체 권 자동 완주 완료",
             "failed": "자동 완주 실패",
             "stopped": "현재 장면 뒤 중단됨",
@@ -421,6 +437,7 @@ class DashboardController:
             "stopped": 5,
             "volume_complete": 5,
             "final_validation": 6,
+            "scenario_complete": 4,
             "complete": 7,
         }
         if stage in {"prose", "stopped", "volume_complete"} and total_scenes:
@@ -433,6 +450,7 @@ class DashboardController:
                 "world_generation": 8,
                 "structure_candidate": 18,
                 "structure_expansion": 30,
+                "scenario_complete": 100,
                 "final_validation": 95,
                 "complete": 100,
             }
@@ -444,6 +462,14 @@ class DashboardController:
         )
         selected_synopsis_id = completion.get("selected_synopsis_id")
         command = (job or {}).get("command", [])
+        scenario_mode = bool(
+            active.get("mode") == "game-scenario"
+            or (
+                isinstance(command, list)
+                and "pipeline/complete_series.py" in command
+                and "--game-scenario" in command
+            )
+        )
         if not selected_synopsis_id and isinstance(command, list):
             try:
                 selected_index = command.index("--selected-synopsis")
@@ -465,8 +491,6 @@ class DashboardController:
             in {
                 "synopsis_selection",
                 "world_generation",
-                "structure_candidate",
-                "structure_expansion",
             }
             and selected_candidate
         )
@@ -524,8 +548,9 @@ class DashboardController:
             "stage": stage,
             "stage_label": stage_labels.get(stage, stage),
             "phase": phase_by_stage.get(stage),
-            "phase_total": 7,
+            "phase_total": 4 if scenario_mode else 7,
             "percent": percent,
+            "game_scenario_mode": scenario_mode,
             "total_scenes": total_scenes,
             "approved_scenes": approved_scenes,
             "current_scene_id": current_scene_id,
@@ -605,20 +630,20 @@ details{{border-top:1px solid var(--line);padding-top:12px}} summary{{font-weigh
 </head>
 <body data-token="{safe_token}">
 <main>
-<header><div class="eyebrow">Forge Control Room</div><h1>게임이 될 소설을 고른다.</h1><p class="lead">Forge가 적정 권수를 판단합니다. 3권 이상은 자동 진행하고 1~2권만 승인을 기다리며, 한 번에 한 권씩 완성합니다.</p><nav><a class="link" href="/">현재 전권 서재</a></nav></header>
+<header><div class="eyebrow">Forge Control Room</div><h1>게임 시나리오를 고른다.</h1><p class="lead">Forge가 후보를 만들고 선택한 기획의 세계관·플레이 구조·시나리오 원고 패키지를 생성합니다. 장편 산문과 EPUB은 만들지 않습니다.</p><nav><a class="link" href="/">현재 전권 서재</a></nav></header>
 <section class="panel">
   <h2>1. 시놉시스 후보 만들기</h2>
   <p class="muted">비워 두면 장르와 게임 형식까지 Forge가 결정합니다. 마음에 들 때까지 후보 5개를 다시 만들 수 있으며 현재 작품은 그대로 유지됩니다.</p>
   <textarea id="instruction" placeholder="예. 전투보다 탐험과 관계 선택이 중심인 한국적 SF"></textarea>
-  <input id="volume-count" type="number" min="1" max="10" placeholder="선택 사항. 직접 지정할 권수 1-10">
+  <input id="volume-count" type="number" min="1" max="10" placeholder="선택 사항. 직접 지정할 시나리오 분량 1-10">
   <div class="actions"><button class="primary" id="generate">새 후보 5개 다시 만들기</button><button class="secondary" id="refresh">상태 새로고침</button></div>
 </section>
 <section class="panel" id="job"></section>
 <section><h2>2. 후보 샘플 확인</h2><div class="cards" id="cards"><div class="panel empty">아직 생성된 후보가 없습니다.</div></div></section>
 <section class="panel">
-  <h2>3. 선택한 기획으로 시작</h2>
-  <p class="muted">1~2권 추천을 승인하거나 후보를 바꿀 때 사용합니다. 첫 실행은 1권 EPUB 완성 뒤 멈춥니다.</p>
-  <div class="actions"><button class="primary" id="start" disabled>선택 기획·권수 승인</button><button class="secondary" id="resume" disabled>다음 권 이어서 만들기</button></div>
+  <h2>3. 선택한 기획으로 게임 시나리오 만들기</h2>
+  <p class="muted">선택한 후보를 현재 게임 시나리오로 확정하고 세계관 원고와 JSON·Markdown 패키지를 생성합니다. 기존 작품은 백업되지만 산문·EPUB 단계는 실행하지 않습니다.</p>
+  <div class="actions"><button class="primary" id="start" disabled>선택 기획으로 게임 시나리오 만들기</button><button class="secondary" id="resume" disabled>중단된 시나리오 생성 이어서 만들기</button></div>
 </section>
 <pre id="error"></pre>
 </main>
@@ -627,15 +652,28 @@ const token=document.body.dataset.token; let state=null; let selectedConceptId=n
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}}[c]));
 async function api(path,body){{const r=await fetch(path,{{method:body?'POST':'GET',headers:body?{{'Content-Type':'application/json','X-Forge-Token':token}}:{{}},body:body?JSON.stringify(body):undefined}});const data=await r.json();if(!r.ok)throw new Error(data.error||'요청 실패');return data}}
 function duration(sec){{if(sec==null)return'-';const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60);return h?`${{h}}시간 ${{m}}분`:`${{m}}분`}}
-function jobView(s){{const j=s.job||{{status:'idle'}};const p=s.progress||{{}};const label=j.status==='running'?(j.kind==='concepts'?'후보 5개를 생성하고 critic 평가하는 중':p.stage_label):j.status==='failed'?'작업 실패':j.status==='complete'?'최근 작업 완료':p.stage_label;const volumes=`${{p.recommended_volume_count?`${{p.recommended_volume_count}}권 추천`:'추천 전'}} · ${{p.approved_volume_count?`${{p.approved_volume_count}}권 확정`:'승인 대기'}}`;if(p.preparing_new_series){{document.querySelector('#job').innerHTML=`<div class="status"><i class="dot ${{esc(j.status)}}"></i><strong>${{esc(label)}}</strong></div><h3>${{esc(p.selected_synopsis_id)}} · ${{esc(p.target_title)}}</h3><div class="progress"><i style="width:${{Number(p.percent||0)}}%"></i></div><div class="metrics"><div class="metric"><b>새 작품 진행 단계</b><span>${{esc(p.stage_label)}}</span></div><div class="metric"><b>권수 계약</b><span>${{esc(volumes)}}</span></div><div class="metric"><b>실행 시간</b><span>${{esc(duration(p.elapsed_seconds))}}</span></div><div class="metric"><b>기존 작품</b><span>백업 전 · 현재 상태 유지</span></div></div>`;document.querySelector('#error').textContent=s.log_tail||'';return}}const scene=p.current_scene_id?`${{p.current_scene_number||'?'}} / ${{p.total_scenes||'?'}} · ${{p.current_scene_id}}`:`${{p.approved_scenes||0}} / ${{p.total_scenes||0}} 승인`;const nextVolume=p.current_volume||p.next_volume||'-';const volumeStep=p.stage==='stopped'?`중단됨 · 재개 시 ${{nextVolume}}`:p.completed_volume?`${{p.completed_volume}} 완료 · 다음 ${{p.next_volume||'없음'}}`:`${{nextVolume}} 진행`;const timeLabel=j.status==='running'?'실행 시간':'마지막 실행 시간';document.querySelector('#job').innerHTML=`<div class="status"><i class="dot ${{esc(j.status)}}"></i><strong>${{esc(label||'대기 중')}}</strong></div><h3>${{esc(p.target_title||s.current_series?.title||'대상 작품 없음')}}</h3><div class="progress"><i style="width:${{Number(p.percent||0)}}%"></i></div><div class="metrics"><div class="metric"><b>예상 전체 진행률</b><span>${{esc(p.percent??0)}}% · 단계 ${{esc(p.phase||'-')}}/${{esc(p.phase_total||7)}}</span></div><div class="metric"><b>권수 계약</b><span>${{esc(volumes)}}</span></div><div class="metric"><b>산문 승인</b><span>${{esc(p.approved_scenes||0)}} / ${{esc(p.total_scenes||0)}}</span></div><div class="metric"><b>권별 진행</b><span>${{esc(volumeStep)}}</span></div><div class="metric"><b>현재 장면</b><span>${{esc(scene)}}</span></div><div class="metric"><b>현재 권·시도</b><span>${{esc(p.current_volume||'-')}} · ${{esc(p.attempt||1)}}회</span></div><div class="metric"><b>${{esc(timeLabel)}}</b><span>${{esc(duration(p.elapsed_seconds))}}</span></div><div class="metric"><b>마지막 상태 갱신</b><span>${{esc(p.updated_at?new Date(p.updated_at).toLocaleTimeString('ko-KR'): '-')}}</span></div></div>`;document.querySelector('#error').textContent=s.log_tail||''}}
+function jobView(s){{
+const j=s.job||{{status:'idle'}};
+const p=s.progress||{{}};
+const label=j.status==='running'?(j.kind==='concepts'?'후보 5개를 생성하고 critic 평가하는 중':p.stage_label):j.status==='failed'?'작업 실패':j.status==='complete'?'최근 작업 완료':p.stage_label;
+const volumes=`${{p.recommended_volume_count?`${{p.recommended_volume_count}}권 추천`:'추천 전'}} · ${{p.approved_volume_count?`${{p.approved_volume_count}}권 확정`:'승인 대기'}}`;
+if(p.preparing_new_series){{document.querySelector('#job').innerHTML=`<div class="status"><i class="dot ${{esc(j.status)}}"></i><strong>${{esc(label)}}</strong></div><h3>${{esc(p.selected_synopsis_id)}} · ${{esc(p.target_title)}}</h3><div class="progress"><i style="width:${{Number(p.percent||0)}}%"></i></div><div class="metrics"><div class="metric"><b>시나리오 진행 단계</b><span>${{esc(p.stage_label)}}</span></div><div class="metric"><b>분량 참고</b><span>${{esc(volumes)}}</span></div><div class="metric"><b>실행 시간</b><span>${{esc(duration(p.elapsed_seconds))}}</span></div><div class="metric"><b>기존 작품</b><span>백업 전 · 현재 상태 유지</span></div></div>`;document.querySelector('#error').textContent=s.log_tail||'';return}}
+if(p.game_scenario_mode){{const outputs=(s.active_world?.scenario_outputs||[]).length;const timeLabel=j.status==='running'?'실행 시간':'마지막 실행 시간';document.querySelector('#job').innerHTML=`<div class="status"><i class="dot ${{esc(j.status)}}"></i><strong>${{esc(label||'대기 중')}}</strong></div><h3>${{esc(p.target_title||s.current_series?.title||'대상 시나리오 없음')}}</h3><div class="progress"><i style="width:${{Number(p.percent||0)}}%"></i></div><div class="metrics"><div class="metric"><b>예상 전체 진행률</b><span>${{esc(p.percent??0)}}% · 단계 ${{esc(p.phase||'-')}}/${{esc(p.phase_total||4)}}</span></div><div class="metric"><b>분량 참고</b><span>${{esc(volumes)}}</span></div><div class="metric"><b>산출물</b><span>${{outputs?`${{outputs}}개`:'생성 대기'}}</span></div><div class="metric"><b>${{esc(timeLabel)}}</b><span>${{esc(duration(p.elapsed_seconds))}}</span></div><div class="metric"><b>마지막 상태 갱신</b><span>${{esc(p.updated_at?new Date(p.updated_at).toLocaleTimeString('ko-KR'): '-')}}</span></div></div>`;document.querySelector('#error').textContent=s.log_tail||'';return}}
+const scene=p.current_scene_id?`${{p.current_scene_number||'?'}} / ${{p.total_scenes||'?'}} · ${{p.current_scene_id}}`:`${{p.approved_scenes||0}} / ${{p.total_scenes||0}} 승인`;
+const nextVolume=p.current_volume||p.next_volume||'-';
+const volumeStep=p.stage==='stopped'?`중단됨 · 재개 시 ${{nextVolume}}`:p.completed_volume?`${{p.completed_volume}} 완료 · 다음 ${{p.next_volume||'없음'}}`:`${{nextVolume}} 진행`;
+const timeLabel=j.status==='running'?'실행 시간':'마지막 실행 시간';
+document.querySelector('#job').innerHTML=`<div class="status"><i class="dot ${{esc(j.status)}}"></i><strong>${{esc(label||'대기 중')}}</strong></div><h3>${{esc(p.target_title||s.current_series?.title||'대상 작품 없음')}}</h3><div class="progress"><i style="width:${{Number(p.percent||0)}}%"></i></div><div class="metrics"><div class="metric"><b>예상 전체 진행률</b><span>${{esc(p.percent??0)}}% · 단계 ${{esc(p.phase||'-')}}/${{esc(p.phase_total||7)}}</span></div><div class="metric"><b>권수 계약</b><span>${{esc(volumes)}}</span></div><div class="metric"><b>산문 승인</b><span>${{esc(p.approved_scenes||0)}} / ${{esc(p.total_scenes||0)}}</span></div><div class="metric"><b>권별 진행</b><span>${{esc(volumeStep)}}</span></div><div class="metric"><b>현재 장면</b><span>${{esc(scene)}}</span></div><div class="metric"><b>현재 권·시도</b><span>${{esc(p.current_volume||'-')}} · ${{esc(p.attempt||1)}}회</span></div><div class="metric"><b>${{esc(timeLabel)}}</b><span>${{esc(duration(p.elapsed_seconds))}}</span></div><div class="metric"><b>마지막 상태 갱신</b><span>${{esc(p.updated_at?new Date(p.updated_at).toLocaleTimeString('ko-KR'): '-')}}</span></div></div>`;
+document.querySelector('#error').textContent=s.log_tail||''
+}}
 function cardsView(s){{const holder=document.querySelector('#cards');if(s.job?.status==='running'&&s.job?.kind==='concepts'){{holder.innerHTML='<div class="panel empty">기존 후보를 보존한 채 새 후보 5개와 critic 평가를 생성 중입니다. 완료되면 이 영역이 새 후보로 교체됩니다.</div>';return}}const list=s.concept?.candidates||[];const review=s.concept?.review||{{}};const recommended=review.selected_id;const signature=JSON.stringify(list.map(c=>[c.id,c.title]));if(signature!==conceptSignature){{conceptSignature=signature;selectedConceptId=null}}const selectedId=list.some(c=>c.id===selectedConceptId)?selectedConceptId:recommended;const scores=Object.fromEntries((review.evaluations||[]).map(x=>[x.id,x]));const countIndex=(s.job?.command||[]).indexOf('--volume-count');const fixedCount=countIndex>=0?Number(s.job.command[countIndex+1]):null;if(!list.length){{holder.innerHTML='<div class="panel empty">아직 생성된 후보가 없습니다.</div>';return}}holder.innerHTML=list.map(c=>{{const e=scores[c.id]||{{}};const arc=c.volume_arc||c.five_volume_arc||[];const count=c.recommended_volume_count||arc.length||s.current_series?.volume_count||5;const countLabel=fixedCount===count?`${{count}}권 지정`:`${{count}}권 추천`;const reason=c.volume_count_reason||'기존 기획의 권수 계약을 유지합니다.';return `<article class="card" data-id="${{esc(c.id)}}"><div class="topline"><div><div class="genre">${{esc(c.genre)}} · ${{esc(c.id)}} · ${{esc(countLabel)}}</div><h3>${{esc(c.title)}}</h3></div>${{c.id===recommended?'<span class="badge">FORGE 추천</span>':''}}</div><p>${{esc(c.logline)}}</p><div class="facts"><div><b>플레이어 역할</b>${{esc(c.player_role)}}</div><div><b>핵심 루프</b>${{esc(c.core_loop)}}</div><div><b>권수 근거</b>${{esc(reason)}}</div><div><b>선택 구조</b>${{esc(c.choice_structure)}}</div></div><details><summary>${{esc(count)}}권 전개와 critic 평가</summary><ol>${{arc.map(x=>`<li>${{esc(x)}}</li>`).join('')}}</ol><p><b>강점.</b> ${{esc((e.strengths||[]).join(' · '))}}</p><p><b>위험.</b> ${{esc((e.risks||[]).join(' · '))}}</p></details><label class="choice"><input type="radio" name="concept" value="${{esc(c.id)}}" ${{c.id===selectedId?'checked':''}}>이 기획 선택</label></article>`}}).join('');markSelection(false)}}
-function markSelection(remember=true){{const chosen=document.querySelector('input[name=concept]:checked');if(remember&&chosen)selectedConceptId=chosen.value;const busy=state?.job?.status==='running';const hasActive=state?.active_world?.status==='active';document.querySelectorAll('.card').forEach(x=>x.classList.toggle('selected',chosen&&x.dataset.id===chosen.value));const start=document.querySelector('#start');const chosenTitle=chosen?.closest('.card')?.querySelector('h3')?.textContent;start.textContent=chosen?`${{chosen.value}} · ${{chosenTitle}} 시작`:'선택 기획·권수 승인';start.disabled=!chosen||busy;document.querySelector('#resume').disabled=busy||!hasActive}}
+function markSelection(remember=true){{const chosen=document.querySelector('input[name=concept]:checked');if(remember&&chosen)selectedConceptId=chosen.value;const busy=state?.job?.status==='running';const hasActive=state?.active_world?.status==='active';document.querySelectorAll('.card').forEach(x=>x.classList.toggle('selected',chosen&&x.dataset.id===chosen.value));const start=document.querySelector('#start');const chosenTitle=chosen?.closest('.card')?.querySelector('h3')?.textContent;start.textContent=chosen?`${{chosen.value}} · ${{chosenTitle}} 시나리오 만들기`:'선택 기획으로 게임 시나리오 만들기';start.disabled=!chosen||busy;document.querySelector('#resume').disabled=busy||!hasActive}}
 function render(s){{state=s;jobView(s);cardsView(s);const conceptBusy=s.job?.status==='running'&&s.job?.kind==='concepts';const otherBusy=s.job?.status==='running'&&!conceptBusy;const generate=document.querySelector('#generate');generate.disabled=otherBusy;generate.textContent=conceptBusy?'후보 생성 취소':'새 후보 5개 다시 만들기';markSelection()}}
 async function refresh(){{try{{render(await api('/api/dashboard'))}}catch(e){{document.querySelector('#error').textContent=e.message}}}}
 document.querySelector('#refresh').onclick=refresh;document.querySelector('#cards').onchange=()=>markSelection(true);
 document.querySelector('#generate').onclick=async()=>{{const raw=document.querySelector('#volume-count').value;try{{if(state?.job?.status==='running'&&state?.job?.kind==='concepts'){{await api('/api/dashboard/concepts/cancel',{{}})}}else{{await api('/api/dashboard/concepts',{{instruction:document.querySelector('#instruction').value,volume_count:raw||null}})}}await refresh()}}catch(e){{alert(e.message)}}}};
-document.querySelector('#start').onclick=async()=>{{const chosen=document.querySelector('input[name=concept]:checked');if(!chosen)return;const chosenTitle=chosen.closest('.card')?.querySelector('h3')?.textContent||'';const raw=document.querySelector('#volume-count').value;if(!confirm(`${{chosen.value}} · ${{chosenTitle}} 기획과 ${{raw||'Forge 추천'}} 권수를 승인할까요? 현재 작품은 백업됩니다.`))return;try{{await api('/api/dashboard/start',{{selected_id:chosen.value,volume_count:raw||null}});await refresh()}}catch(e){{alert(e.message)}}}};
-document.querySelector('#resume').onclick=async()=>{{if(!confirm('중단된 신규 작품 생성을 이어서 실행할까요?'))return;try{{await api('/api/dashboard/resume',{{}});await refresh()}}catch(e){{alert(e.message)}}}};
+document.querySelector('#start').onclick=async()=>{{const chosen=document.querySelector('input[name=concept]:checked');if(!chosen)return;const chosenTitle=chosen.closest('.card')?.querySelector('h3')?.textContent||'';const raw=document.querySelector('#volume-count').value;if(!confirm(`${{chosen.value}} · ${{chosenTitle}} 기획으로 게임 시나리오를 만들까요? 현재 작품은 백업됩니다.`))return;try{{await api('/api/dashboard/start',{{selected_id:chosen.value,volume_count:raw||null}});await refresh()}}catch(e){{alert(e.message)}}}};
+document.querySelector('#resume').onclick=async()=>{{if(!confirm('중단된 게임 시나리오 생성을 이어서 실행할까요?'))return;try{{await api('/api/dashboard/resume',{{}});await refresh()}}catch(e){{alert(e.message)}}}};
 refresh();setInterval(refresh,3000);
 </script>
 </body></html>"""
