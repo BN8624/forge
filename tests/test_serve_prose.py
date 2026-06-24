@@ -8,9 +8,11 @@ from pipeline.serve_prose import (
     load_volume,
     make_handler,
     make_library_handler,
+    render_game_scenario,
     render_library,
     render_library_pending,
     render_volume,
+    scenario_markdown_html,
 )
 
 
@@ -82,6 +84,7 @@ class ServeProseTests(unittest.TestCase):
         self.assertIn('href="/V1/"', page)
         self.assertIn('href="/V1.epub"', page)
         self.assertIn('href="/dashboard"', page)
+        self.assertIn('href="/game-scenario"', page)
         self.assertIn("2개 장면", page)
         self.assertTrue(hasattr(handler, "do_GET"))
 
@@ -90,7 +93,34 @@ class ServeProseTests(unittest.TestCase):
 
         self.assertIn("시험 시리즈", page)
         self.assertIn('href="/dashboard"', page)
+        self.assertIn('href="/game-scenario"', page)
         self.assertIn("critic 검증하는 중", page)
+
+    def test_game_scenario_markdown_is_rendered_for_mobile(self) -> None:
+        markdown = "# 금기 유물\n\n- 장르: 오컬트\n\n## 핵심 루프\n\n탐사 → 회수\n\n1. 도입"
+
+        page = scenario_markdown_html(markdown)
+
+        self.assertIn("<h1>금기 유물</h1>", page)
+        self.assertIn("<li>장르: 오컬트</li>", page)
+        self.assertIn("<h2>핵심 루프</h2>", page)
+        self.assertIn('<p class="step">1. 도입</p>', page)
+
+    def test_render_game_scenario_reads_exported_markdown(self) -> None:
+        output = self.root / "exports"
+        output.mkdir()
+        (output / "game-scenario.md").write_text(
+            "# 금기 유물\n\n## 핵심 루프\n\n탐사와 회수",
+            encoding="utf-8",
+        )
+
+        page = render_game_scenario(self.root)
+
+        self.assertIsNotNone(page)
+        text = page.decode("utf-8")
+        self.assertIn('name="viewport"', text)
+        self.assertIn("금기 유물", text)
+        self.assertIn('href="/game-scenario.md"', text)
 
 
 if __name__ == "__main__":

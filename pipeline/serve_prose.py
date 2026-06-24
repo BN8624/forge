@@ -51,6 +51,95 @@ def prose_html(prose: str) -> str:
     return "".join(f"<p>{html.escape(part)}</p>" for part in paragraphs)
 
 
+def scenario_markdown_html(markdown: str) -> str:
+    parts: list[str] = []
+    paragraph: list[str] = []
+    list_open = False
+
+    def flush_paragraph() -> None:
+        nonlocal paragraph
+        if paragraph:
+            parts.append(f"<p>{html.escape(' '.join(paragraph))}</p>")
+            paragraph = []
+
+    def close_list() -> None:
+        nonlocal list_open
+        if list_open:
+            parts.append("</ul>")
+            list_open = False
+
+    for raw_line in markdown.splitlines():
+        line = raw_line.strip()
+        if not line:
+            flush_paragraph()
+            close_list()
+            continue
+        if line.startswith("# "):
+            flush_paragraph()
+            close_list()
+            parts.append(f"<h1>{html.escape(line[2:].strip())}</h1>")
+        elif line.startswith("## "):
+            flush_paragraph()
+            close_list()
+            parts.append(f"<h2>{html.escape(line[3:].strip())}</h2>")
+        elif line.startswith("- "):
+            flush_paragraph()
+            if not list_open:
+                parts.append("<ul>")
+                list_open = True
+            parts.append(f"<li>{html.escape(line[2:].strip())}</li>")
+        elif len(line) > 3 and line[0].isdigit() and ". " in line[:4]:
+            flush_paragraph()
+            close_list()
+            parts.append(f'<p class="step">{html.escape(line)}</p>')
+        else:
+            close_list()
+            paragraph.append(line)
+    flush_paragraph()
+    close_list()
+    return "\n".join(parts)
+
+
+def render_game_scenario(root: Path) -> bytes | None:
+    scenario_path = root / "exports" / "game-scenario.md"
+    if not scenario_path.is_file():
+        return None
+    content = scenario_markdown_html(scenario_path.read_text(encoding="utf-8"))
+    page = f"""<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>게임 시나리오</title>
+<style>
+:root {{ color-scheme:light dark; --paper:#f7f2e8; --ink:#28241e; --line:#d8cdbd; --accent:#9a6a20; }}
+* {{ box-sizing:border-box; }}
+body {{ margin:0; background:var(--paper); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif; line-height:1.75; word-break:keep-all; }}
+main {{ width:min(100% - 32px,760px); margin:auto; padding:max(34px,env(safe-area-inset-top)) 0 max(80px,env(safe-area-inset-bottom)); }}
+nav {{ margin-bottom:24px; display:flex; gap:10px; flex-wrap:wrap; }}
+a {{ color:var(--accent); text-underline-offset:4px; }}
+h1 {{ font-size:clamp(2.1rem,10vw,4rem); line-height:1.05; letter-spacing:-.04em; margin:0 0 20px; }}
+h2 {{ font-size:1.35rem; margin:40px 0 12px; padding-top:20px; border-top:1px solid var(--line); }}
+p,li {{ font-size:clamp(1rem,4.5vw,1.12rem); }}
+p {{ margin:0 0 1.05em; }}
+ul {{ padding-left:20px; margin:0 0 22px; }}
+li {{ margin:.35em 0; }}
+.step {{ padding:12px 14px; border:1px solid var(--line); border-radius:12px; }}
+.download {{ display:inline-block; padding:9px 12px; border:1px solid var(--line); border-radius:10px; text-decoration:none; }}
+@media (prefers-color-scheme:dark) {{ :root {{--paper:#181714;--ink:#e9e2d5;--line:#403b34;--accent:#f1b24a;}} }}
+</style>
+</head>
+<body>
+<main>
+<nav><a href="/dashboard">대시보드</a><a href="/">서재</a><a class="download" href="/game-scenario.md" download>Markdown 저장</a></nav>
+{content}
+</main>
+</body>
+</html>"""
+    return page.encode("utf-8")
+
+
 def render_volume(volume: dict, epub_filename: str | None = None) -> bytes:
     toc = []
     content = []
@@ -194,7 +283,7 @@ a {{ display:inline-block; margin-right:8px; color:inherit; text-underline-offse
 @media (prefers-color-scheme:dark) {{ :root {{--paper:#181714;--ink:#e9e2d5;--line:#403b34;}} }}
 </style>
 </head>
-<body><main><p><a href="/dashboard">새 작품 대시보드</a></p><h1>{html.escape(series_title)}</h1>{"".join(cards)}</main></body>
+<body><main><p><a href="/dashboard">새 작품 대시보드</a> <a href="/game-scenario">게임 시나리오 보기</a></p><h1>{html.escape(series_title)}</h1>{"".join(cards)}</main></body>
 </html>"""
     return page.encode("utf-8")
 
@@ -226,7 +315,7 @@ main{{width:min(100% - 40px,720px);margin:auto;padding:max(48px,env(safe-area-in
 a{{color:#f1b24a}} h1{{line-height:1.15}} p{{line-height:1.7;color:#aaa094}}
 </style>
 </head>
-<body><main><p><a href="/dashboard">진행 대시보드 열기</a></p>
+<body><main><p><a href="/dashboard">진행 대시보드 열기</a> <a href="/game-scenario">게임 시나리오 보기</a></p>
 <h1>{html.escape(series["title"])}</h1>
 <p>Forge가 장면 산문을 생성하고 critic 검증하는 중입니다. 승인된 전권이 준비되면 이 서재가 자동으로 열립니다.</p>
 </main></body></html>"""
@@ -289,6 +378,24 @@ def make_library_handler(
                 return
             if path == "/api/dashboard" and dashboard is not None:
                 self.send_json(dashboard.status())
+                return
+            if root is not None and path == "/game-scenario":
+                body = render_game_scenario(root)
+                if body is None:
+                    self.send_json({"error": "게임 시나리오 결과물이 없습니다."}, 404)
+                    return
+                self.send_body(body, "text/html; charset=utf-8")
+                return
+            if root is not None and path == "/game-scenario.md":
+                scenario_path = root / "exports" / "game-scenario.md"
+                if not scenario_path.is_file():
+                    self.send_json({"error": "게임 시나리오 결과물이 없습니다."}, 404)
+                    return
+                self.send_body(
+                    scenario_path.read_bytes(),
+                    "text/markdown; charset=utf-8",
+                    filename="game-scenario.md",
+                )
                 return
             try:
                 current_index, current_pages, current_epubs = self.dynamic_payload()

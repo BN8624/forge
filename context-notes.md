@@ -630,3 +630,9 @@
 - `complete_game_scenario()`는 `prepare_new_world()` 이후 `exports/game-scenario.json`과 `exports/game-scenario.md`를 쓰고 `scenario_complete` 상태로 종료한다.
 - 게임 시나리오 세계관 프롬프트는 장편 산문이 아니라 플레이어 역할, 핵심 루프, 선택지, 실패 비용, NPC와 세력 반응을 요구한다.
 - 대시보드는 게임 시나리오 모드에서 산문 승인·권별 진행 대신 시나리오 진행 단계, 분량 참고, 산출물 수를 표시한다.
+
+## 2026-06-24 아이폰 결과물 보기
+
+- 생성된 게임 시나리오 산출물은 `exports/game-scenario.md`와 `exports/game-scenario.json`에 있다.
+- 현재 `serve_prose.py`는 권별 산문과 EPUB, 대시보드만 라우팅하고 있어 아이폰에서 결과물을 바로 읽을 `/game-scenario` 페이지가 없다.
+- Markdown 파일을 모바일 HTML로 변환해 `/game-scenario`에서 제공하고, 서재와 준비 화면에서 이 링크를 노출한다.

@@ -163,4 +163,8 @@
   - [x] 대시보드 시작·재개 문구와 진행률을 게임 시나리오 기준으로 바꾼다.
   - [x] 산문·EPUB 단계가 실행되지 않는 회귀 테스트를 추가한다.
   - [x] 관련 테스트와 구문 검사를 통과시킨다.
+- [x] 아이폰에서 게임 시나리오 결과물을 바로 읽을 수 있게 한다.
+  - [x] `exports/game-scenario.md`를 모바일 HTML로 렌더링하는 `/game-scenario` 라우트를 추가한다.
+  - [x] 서재와 준비 화면에 게임 시나리오 보기 링크를 추가한다.
+  - [x] 서버 테스트와 브라우저 확인을 통과시킨다.
 - 마지막 전체 검증은 `python -m unittest discover -s tests -v` 123개 통과, `python -m compileall -q -f lib pipeline tests` 통과, `python -m pip check` 통과다.
